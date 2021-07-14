@@ -230,7 +230,7 @@ obs_1.default.on('currentSceneChanged', (current, last) => {
     }
     else if (last === obs_1.default.findScene(obsConfig.names.scenes.videoPlayer)
         && obs_1.default.isCurrentScene(obsConfig.names.scenes.intermission)) {
-        // Tell the video player to stop. Th will only trigger if we didn't trigger
+        // Tell the video player to stop. This will only trigger if we didn't trigger
         // the change in the last 2 seconds.
         if (sceneChangeCodeTriggered < (Date.now() - 2000)) {
             nodecg_1.get().sendMessage('endVideoPlayer');
@@ -261,8 +261,10 @@ async function changeScene(scene) {
 }
 exports.changeScene = changeScene;
 nodecg_1.get().listenFor('obsChangeScene', async ({ scene, force = false }) => {
-    // Don't change scene if identical, we're currently transitioning, or transitioning is disabled.
-    if (replicants_1.obsData.value.scene === scene
+    // Don't change scene if identical, we're currently transitioning, transitioning is disabled,
+    // or if we triggered a scene change here in the last 2 seconds.
+    if (sceneChangeCodeTriggered > (Date.now() - 2000)
+        || replicants_1.obsData.value.scene === scene
         || (!force && (replicants_1.obsData.value.transitioning
             || replicants_1.obsData.value.disableTransitioning))) {
         return;
@@ -283,6 +285,7 @@ nodecg_1.get().listenFor('obsChangeScene', async ({ scene, force = false }) => {
             setTimeout(async () => {
                 try {
                     await obs_1.default.changeScene(scene);
+                    sceneChangeCodeTriggered = Date.now();
                 }
                 catch (err) {
                     helpers_1.logError('[Layouts] Could not change scene (on delay) [name: %s]', err, scene);
