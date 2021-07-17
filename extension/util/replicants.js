@@ -1,7 +1,7 @@
 "use strict";
 /* eslint-disable max-len */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.twitchAPIData = exports.videoPlayer = exports.upcomingRunID = exports.twitchSubscribers = exports.ttsVoices = exports.streamDeckData = exports.prizes = exports.otherStreamData = exports.obsData = exports.notableDonations = exports.nameCycle = exports.musicData = exports.mediaBox = exports.gameLayouts = exports.donationTotal = exports.donationsToRead = exports.donationReader = exports.delayedTimer = exports.currentRunDelay = exports.countdown = exports.commentators = exports.capturePositions = exports.bids = exports.assetsVideos = exports.assetsMusic = exports.assetsMediaBoxImages = exports.assetsIntermissionSlides = void 0;
+exports.twitchAPIData = exports.videoPlayer = exports.upcomingRunID = exports.twitchSubscribers = exports.ttsVoices = exports.streamDeckData = exports.prizes = exports.otherStreamData = exports.obsData = exports.notableDonations = exports.nameCycle = exports.musicData = exports.mediaBox = exports.gameLayouts = exports.donationTotalMilestones = exports.donationTotal = exports.donationsToRead = exports.donationReader = exports.delayedTimer = exports.currentRunDelay = exports.countdown = exports.commentators = exports.capturePositions = exports.bids = exports.assetsVideos = exports.assetsMusic = exports.assetsMediaBoxImages = exports.assetsIntermissionSlides = void 0;
 const nodecg_1 = require("./nodecg");
 /**
  * This is where you can declare all your replicant to import easily into other files,
@@ -20,6 +20,7 @@ exports.delayedTimer = nodecg_1.get().Replicant('delayedTimer');
 exports.donationReader = nodecg_1.get().Replicant('donationReader');
 exports.donationsToRead = nodecg_1.get().Replicant('donationsToRead', { persistent: false });
 exports.donationTotal = nodecg_1.get().Replicant('donationTotal');
+exports.donationTotalMilestones = nodecg_1.get().Replicant('donationTotalMilestones');
 exports.gameLayouts = nodecg_1.get().Replicant('gameLayouts');
 exports.mediaBox = nodecg_1.get().Replicant('mediaBox'); // try to remove and use esa-layout-shared only
 exports.musicData = nodecg_1.get().Replicant('musicData');

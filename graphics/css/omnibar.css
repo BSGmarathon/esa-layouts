@@ -356,14 +356,21 @@ Stuff not in this file (yet):
 }
 
 
-#Ticker[data-v-95d891c8] {
+.BarText[data-v-68301b74] {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 7px 10px;
+  border-radius: 15px;
+}
+
+
+#Ticker[data-v-af8b2fb4] {
   height: 100%;
   flex: 1;
 }
-.fade-enter-active[data-v-95d891c8], .fade-leave-active[data-v-95d891c8] {
+.fade-enter-active[data-v-af8b2fb4], .fade-leave-active[data-v-af8b2fb4] {
   transition: opacity .5s;
 }
-.fade-enter[data-v-95d891c8], .fade-leave-to[data-v-95d891c8] /* .fade-leave-active below version 2.1.8 */ {
+.fade-enter[data-v-af8b2fb4], .fade-leave-to[data-v-af8b2fb4] /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
 
