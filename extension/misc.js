@@ -158,11 +158,13 @@ sc.on('timerStopped', () => {
                 i += 1;
             }
         }
-        replicants_1.videoPlayer.value.playlist = formattedList
-            .map(({ name, commercial }) => {
+        // This filters out any items that have no asset *and* no commercial, which are useless.
+        replicants_1.videoPlayer.value.playlist = formattedList.reduce((prev, { name, commercial }) => {
             const asset = replicants_1.assetsVideos.value.find((v) => v.name === (name === null || name === void 0 ? void 0 : name.trim()));
-            return { sum: asset === null || asset === void 0 ? void 0 : asset.sum, commercial };
-        });
+            if (asset || commercial)
+                prev.push({ sum: asset === null || asset === void 0 ? void 0 : asset.sum, commercial });
+            return prev;
+        }, []);
         nodecg_1.get().log.info('[Misc] Automatically set video player playlist from run data');
     }
 });

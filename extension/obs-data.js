@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const clone_1 = __importDefault(require("clone"));
+const sharp_1 = __importDefault(require("sharp"));
 const logging_1 = require("./util/logging");
 const nodecg_1 = require("./util/nodecg");
 const obs_1 = __importDefault(require("./util/obs"));
@@ -18,7 +19,9 @@ async function takeGameLayoutScreenshot() {
             embedPictureFormat: 'png',
             height: 360,
         });
-        replicants_1.obsData.value.gameLayoutScreenshot = gameLayoutScreenshot.img;
+        const compressed = await sharp_1.default(Buffer.from(gameLayoutScreenshot.img.split(',')[1], 'base64'))
+            .jpeg({ mozjpeg: true }).toBuffer();
+        replicants_1.obsData.value.gameLayoutScreenshot = `data:image/jpeg;base64,${compressed.toString('base64')}`;
     }
     catch (err) {
         nodecg_1.get().log.debug('[OBS Data] Cannot take screenshot of game layout:', err);

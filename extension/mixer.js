@@ -69,8 +69,16 @@ function toggleLiveMics(scene) {
     }
 }
 exports.toggleLiveMics = toggleLiveMics;
-if (config.x32.enable && config.event.online !== 'partial') {
-    obs_1.default.conn.on('TransitionBegin', async (data) => {
+obs_1.default.conn.on('TransitionBegin', async (data) => {
+    // Auto-fading for HEK's fullscreen intermission.
+    const hekIntrmssn = config.obs.names.scenes.hekIntermission;
+    if (data['to-scene'].startsWith(hekIntrmssn) && !data['from-scene'].startsWith(hekIntrmssn)) {
+        x32_1.default.fade('/ch/21/fader', 0, 0.75, 1000);
+    }
+    if (data['from-scene'].startsWith(hekIntrmssn) && !data['to-scene'].startsWith(hekIntrmssn)) {
+        x32_1.default.fade('/ch/21/fader', 0.75, 0, 1000);
+    }
+    if (config.x32.enable && config.event.online !== 'partial') {
         const nonGameScenes = getNonGameScenes(); // These scenes will *not* have "LIVE" DCAs audible.
         const intermissionScenes = [
             obs_1.default.findScene(config.obs.names.scenes.commercials),
@@ -86,5 +94,5 @@ if (config.x32.enable && config.event.online !== 'partial') {
             toggleFadeHelper('/dca/2/fader', nonGameScenes, data);
         }
         toggleFadeHelper('/dca/3/fader', intermissionScenes, data, false);
-    });
-}
+    }
+});

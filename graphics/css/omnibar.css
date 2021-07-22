@@ -260,17 +260,17 @@ Stuff not in this file (yet):
 }
 
 
-#UpcomingRun[data-v-7116019d] {
+#UpcomingRun[data-v-0cd8f3c2] {
   padding: 0 17px;
   height: 100%;
   font-weight: 500;
   flex-direction: column;
   align-items: flex-start;
 }
-.Line1[data-v-7116019d] {
+.Line1[data-v-0cd8f3c2] {
   font-size: 25px;
 }
-.Line2[data-v-7116019d] {
+.Line2[data-v-0cd8f3c2] {
   font-size: 22px;
 }
 
@@ -305,21 +305,39 @@ Stuff not in this file (yet):
 }
 
 
-.BarText[data-v-1266fff5] {
+.BarText[data-v-5bf5a67b] {
   background-color: rgba(0, 0, 0, 0.4);
   padding: 7px 10px;
   border-radius: 15px;
 }
+.BarTextFull[data-v-5bf5a67b] {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 100%;
+  height: 100%
+}
 
 
-.BarText[data-v-0b540ef1] {
+.BarText[data-v-56cb19ee] {
   background-color: rgba(0, 0, 0, 0.4);
   padding: 7px 10px;
   border-radius: 15px;
 }
+.BarTextFull[data-v-56cb19ee] {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 100%;
+  height: 100%
+}
 
 
-.Option[data-v-a6fcb538] {
+.Option[data-v-21bf96f6] {
   display: flex;
   align-items: center;
   height: 100%;
