@@ -42,6 +42,7 @@ export interface Configschema {
 				intermission: string;
 				videoPlayer: string;
 				countdown: string;
+				hekIntermission: string;
 			};
 			sources: {
 				gameCapture1: string;
@@ -71,6 +72,11 @@ export interface Configschema {
 		address: string;
 		username: string;
 		password: string;
+		commentaryBias: {
+			bidId: number;
+			option1Id: number;
+			option2Id: number;
+		};
 	};
 	tts: {
 		enable: boolean;
