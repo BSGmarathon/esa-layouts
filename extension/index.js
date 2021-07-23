@@ -32,6 +32,7 @@ module.exports = (nodecg) => {
     require('./text-to-speech');
     require('./twitch-ext');
     require('./music');
+    require('./video-player');
     // require('./twitch-subs');
     return {
         obs: require('./util/obs').default,

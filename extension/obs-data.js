@@ -11,6 +11,8 @@ const obs_1 = __importDefault(require("./util/obs"));
 const replicants_1 = require("./util/replicants");
 const evtConfig = nodecg_1.get().bundleConfig.event;
 const config = nodecg_1.get().bundleConfig.obs;
+replicants_1.serverTimestamp.value = Date.now();
+setInterval(() => { replicants_1.serverTimestamp.value = Date.now(); }, 100);
 let gameLayoutScreenshotInterval;
 async function takeGameLayoutScreenshot() {
     try {
@@ -57,13 +59,12 @@ obs_1.default.on('sceneListChanged', (list) => {
     const stopIndex = list.findIndex((s) => s.startsWith('---'));
     replicants_1.obsData.value.sceneList = clone_1.default(list).slice(0, stopIndex >= 0 ? stopIndex : undefined);
 });
-// This logic assumes the duration supplied is correct, which isn't always the case.
-// Not too important for now; a "TransitionEnd" event will be added in a later version.
-let transitioningTimeout;
 obs_1.default.conn.on('TransitionBegin', (data) => {
+    // obsData.value.disableTransitioning = true; // Always disable transitioning when one begins.
     replicants_1.obsData.value.transitioning = true;
-    clearTimeout(transitioningTimeout);
-    transitioningTimeout = setTimeout(() => { replicants_1.obsData.value.transitioning = false; }, data.duration);
     if (data.name === 'Stinger')
         nodecg_1.get().sendMessage('showTransition');
+});
+obs_1.default.conn.on('TransitionEnd', (data) => {
+    replicants_1.obsData.value.transitioning = false;
 });

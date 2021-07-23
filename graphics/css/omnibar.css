@@ -252,7 +252,7 @@ Stuff not in this file (yet):
 }
 
 
-#GenericMessage[data-v-2174e565] {
+#GenericMessage[data-v-2a1208d0] {
   height: 100%;
   font-weight: 500;
   font-size: var(--font-size);
@@ -260,47 +260,47 @@ Stuff not in this file (yet):
 }
 
 
-#UpcomingRun[data-v-0cd8f3c2] {
+#UpcomingRun[data-v-6f1e1dff] {
   padding: 0 17px;
   height: 100%;
   font-weight: 500;
   flex-direction: column;
   align-items: flex-start;
 }
-.Line1[data-v-0cd8f3c2] {
+.Line1[data-v-6f1e1dff] {
   font-size: 25px;
 }
-.Line2[data-v-0cd8f3c2] {
+.Line2[data-v-6f1e1dff] {
   font-size: 22px;
 }
 
 
-#OtherStreamInfo[data-v-488922c4] {
+#OtherStreamInfo[data-v-e4544e74] {
   padding: 0 17px;
   height: 100%;
   font-weight: 500;
   flex-direction: column;
   align-items: flex-start;
 }
-.Line1[data-v-488922c4] {
+.Line1[data-v-e4544e74] {
   font-size: 25px;
 }
-.Line2[data-v-488922c4] {
+.Line2[data-v-e4544e74] {
   font-size: 22px;
 }
 
 
-#Prize[data-v-667fa886] {
+#Prize[data-v-01c3f0fa] {
   padding: 0 17px;
   height: 100%;
   font-weight: 500;
   flex-direction: column;
   align-items: flex-start;
 }
-.Line1[data-v-667fa886] {
+.Line1[data-v-01c3f0fa] {
   font-size: 26px;
 }
-.Line2[data-v-667fa886] {
+.Line2[data-v-01c3f0fa] {
   font-size: 20px;
 }
 
@@ -346,14 +346,14 @@ Stuff not in this file (yet):
 }
 
 
-.BarText[data-v-343e6722] {
+.BarText[data-v-6989239a] {
   background-color: rgba(0, 0, 0, 0.4);
   padding: 7px 10px;
   border-radius: 15px;
 }
 
 
-#Alert[data-v-40e8f1a1] {
+#Alert[data-v-fc9a3f44] {
   padding: 0 17px;
   height: 100%;
   font-weight: 500;
@@ -361,22 +361,22 @@ Stuff not in this file (yet):
   align-items: flex-start;
   background-color: #ffffff38;
 }
-.Line1[data-v-40e8f1a1] {
+.Line1[data-v-fc9a3f44] {
   font-size: 25px;
 }
-.Line2[data-v-40e8f1a1] {
+.Line2[data-v-fc9a3f44] {
   font-size: 23px;
   white-space: nowrap;
   overflow: hidden;
 }
-.Line1 > .TwitterLogo[data-v-40e8f1a1], .Line1 > .CrowdControlLogo[data-v-40e8f1a1] {
+.Line1 > .TwitterLogo[data-v-fc9a3f44], .Line1 > .CrowdControlLogo[data-v-fc9a3f44] {
   height: 1.2em;
   margin: 0 .05em 0 .1em;
   vertical-align: -0.25em;
 }
 
 
-#GenericMessage[data-v-074b95bc] {
+#GenericMessage[data-v-60acc0ac] {
   height: 100%;
   font-weight: 500;
   font-size: var(--font-size);
@@ -384,22 +384,22 @@ Stuff not in this file (yet):
 }
 
 
-.BarText[data-v-764c264d] {
+.BarText[data-v-1700905c] {
   background-color: rgba(0, 0, 0, 0.4);
   padding: 7px 10px;
   border-radius: 15px;
 }
 
 
-#Ticker[data-v-647f5bf4] {
+#Ticker[data-v-47b74718] {
   height: 100%;
   min-width: 0;
   flex: 1;
 }
-.fade-enter-active[data-v-647f5bf4], .fade-leave-active[data-v-647f5bf4] {
+.fade-enter-active[data-v-47b74718], .fade-leave-active[data-v-47b74718] {
   transition: opacity .5s;
 }
-.fade-enter[data-v-647f5bf4], .fade-leave-to[data-v-647f5bf4] /* .fade-leave-active below version 2.1.8 */ {
+.fade-enter[data-v-47b74718], .fade-leave-to[data-v-47b74718] /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
 

@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const speedcontrol_util_1 = __importDefault(require("speedcontrol-util"));
-const layouts_1 = require("./layouts");
 const helpers_1 = require("./util/helpers");
 const logging_1 = require("./util/logging");
 const nodecg_1 = require("./util/nodecg");
@@ -13,28 +12,6 @@ const rabbitmq_1 = require("./util/rabbitmq");
 const replicants_1 = require("./util/replicants");
 const config = nodecg_1.get().bundleConfig;
 const sc = new speedcontrol_util_1.default(nodecg_1.get());
-let ranAdLastTime = false;
-setInterval(async () => {
-    if (ranAdLastTime) {
-        ranAdLastTime = false;
-        return;
-    }
-    const today = new Date();
-    const currentMinute = today.getMinutes();
-    const run = sc.getCurrentRun();
-    if (run && run.externalID && run.externalID === 'BTRLDOOM'
-        && [15, 30, 45, 0].includes(currentMinute)) {
-        try {
-            await sc.sendMessage('twitchStartCommercial', { duration: 60 });
-            ranAdLastTime = true;
-            nodecg_1.get().log.info('[Misc] Triggered commercial for BTRLDOOM');
-        }
-        catch (err) {
-            nodecg_1.get().log.warn('[Misc] Could not successfully trigger commercial for BTRLDOOM');
-            nodecg_1.get().log.debug('[Misc] Could not successfully trigger commercial for BTRLDOOM:', err);
-        }
-    }
-}, 60 * 1000);
 // Screened data from our moderation tool.
 rabbitmq_1.mq.evt.on('newScreenedSub', (data) => {
     nodecg_1.get().log.debug('[Misc] Received new subscription');
@@ -127,71 +104,5 @@ nodecg_1.get().listenFor('readerModify', async (val, ack) => {
     }
     if (ack && !ack.handled) {
         ack(null);
-    }
-});
-// Set the upcoming intermission video.
-sc.on('timerStopped', () => {
-    const run = sc.getCurrentRun();
-    if (run === null || run === void 0 ? void 0 : run.customData.intermission) {
-        // Creates a compiled list of what videos should be played and
-        // where commercials should be played if needed.
-        const splitList = run.customData.intermission.split(',');
-        const formattedList = [];
-        for (let i = 0; i < splitList.length;) {
-            if (splitList[i].startsWith('ad')) {
-                const replaceStr = splitList[i].startsWith('adwait') ? 'adwait' : 'ad';
-                const commercial = Number(splitList[i].replace(replaceStr, ''));
-                if (commercial) {
-                    let name;
-                    if (!splitList[i].startsWith('adwait')) {
-                        name = splitList[i + 1];
-                        i += 2;
-                    }
-                    else {
-                        i += 1;
-                    }
-                    formattedList.push({ name, commercial });
-                }
-            }
-            else {
-                formattedList.push({ name: splitList[i], commercial: 0 });
-                i += 1;
-            }
-        }
-        // This filters out any items that have no asset *and* no commercial, which are useless.
-        replicants_1.videoPlayer.value.playlist = formattedList.reduce((prev, { name, commercial }) => {
-            const asset = replicants_1.assetsVideos.value.find((v) => v.name === (name === null || name === void 0 ? void 0 : name.trim()));
-            if (asset || commercial)
-                prev.push({ sum: asset === null || asset === void 0 ? void 0 : asset.sum, commercial });
-            return prev;
-        }, []);
-        nodecg_1.get().log.info('[Misc] Automatically set video player playlist from run data');
-    }
-});
-nodecg_1.get().listenFor('videoPlayerStartCommercial', async (duration) => {
-    try {
-        await sc.sendMessage('twitchStartCommercial', { duration });
-    }
-    catch (err) {
-        nodecg_1.get().log.warn('[Misc] Could not successfully trigger video player commercials');
-        nodecg_1.get().log.debug('[Misc] Could not successfully trigger video player commercials:', err);
-    }
-});
-// Switch back to the last scene when the video player finishes.
-nodecg_1.get().listenFor('videoPlayerFinished', async () => {
-    try {
-        await layouts_1.changeScene(config.obs.names.scenes.intermission);
-    }
-    catch (err) {
-        nodecg_1.get().log.warn('[Misc] Could not return to intermission after videos finished');
-        nodecg_1.get().log.debug('[Misc] Could not return to intermission after videos finished:', err);
-    }
-});
-replicants_1.videoPlayer.on('change', (newVal, oldVal) => {
-    if (newVal.current && newVal.current !== (oldVal === null || oldVal === void 0 ? void 0 : oldVal.current)) {
-        logging_1.logVideoPlay(newVal.current);
-    }
-    if (!newVal.playing && (oldVal === null || oldVal === void 0 ? void 0 : oldVal.playing)) {
-        replicants_1.obsData.value.disableTransitioning = false;
     }
 });
