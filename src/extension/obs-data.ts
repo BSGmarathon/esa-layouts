@@ -4,10 +4,13 @@ import sharp from 'sharp';
 import { logSceneSwitch, logStreamingStatusChange } from './util/logging';
 import { get as nodecg } from './util/nodecg';
 import obs from './util/obs';
-import { obsData } from './util/replicants';
+import { obsData, serverTimestamp } from './util/replicants';
 
 const evtConfig = (nodecg().bundleConfig as Configschema).event;
 const config = (nodecg().bundleConfig as Configschema).obs;
+
+serverTimestamp.value = Date.now();
+setInterval(() => { serverTimestamp.value = Date.now(); }, 100);
 
 let gameLayoutScreenshotInterval: NodeJS.Timeout;
 async function takeGameLayoutScreenshot(): Promise<void> {
@@ -58,12 +61,11 @@ obs.on('sceneListChanged', (list) => {
   obsData.value.sceneList = clone(list).slice(0, stopIndex >= 0 ? stopIndex : undefined);
 });
 
-// This logic assumes the duration supplied is correct, which isn't always the case.
-// Not too important for now; a "TransitionEnd" event will be added in a later version.
-let transitioningTimeout: NodeJS.Timeout;
 obs.conn.on('TransitionBegin', (data) => {
+  // obsData.value.disableTransitioning = true; // Always disable transitioning when one begins.
   obsData.value.transitioning = true;
-  clearTimeout(transitioningTimeout);
-  transitioningTimeout = setTimeout(() => { obsData.value.transitioning = false; }, data.duration);
   if (data.name === 'Stinger') nodecg().sendMessage('showTransition');
+});
+obs.conn.on('TransitionEnd', (data) => {
+  obsData.value.transitioning = false;
 });
