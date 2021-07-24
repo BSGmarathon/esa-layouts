@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.stopEarly = exports.startPlaylist = void 0;
 const clone_1 = __importDefault(require("clone"));
+const process_1 = require("process");
 const speedcontrol_util_1 = __importDefault(require("speedcontrol-util"));
 const layouts_1 = require("./layouts"); // eslint-disable-line import/no-cycle
 const logging_1 = require("./util/logging");
@@ -88,6 +89,27 @@ async function waitForCommercialEnd() {
         }
     });
 }
+async function playVideo(video) {
+    await obs_1.default.conn.send('SetSourceSettings', {
+        sourceName: config.obs.names.sources.videoPlayer,
+        sourceSettings: {
+            loop: false,
+            shuffle: false,
+            playback_behavior: 'always_play',
+            playlist: [
+                {
+                    hidden: false,
+                    selected: false,
+                    value: `${process_1.cwd()}/assets/${video.namespace}/${video.category}/${video.base}`,
+                },
+            ],
+        },
+    });
+    /* await obs.conn.send('PlayPauseMedia', {
+      sourceName: config.obs.names.sources.videoPlayer,
+      playPause: false, // Yes, false actually means play.
+    }); */
+}
 async function playNext() {
     try {
         const commercialLength = playlist[index].commercial;
@@ -102,7 +124,8 @@ async function playNext() {
             if (!obs_1.default.isCurrentScene(config.obs.names.scenes.videoPlayer)) {
                 await layouts_1.obsChangeScene({ scene: config.obs.names.scenes.videoPlayer, force: true });
             }
-            nodecg_1.get().sendMessage('playVideo', { url: video.url, ext: video.ext });
+            // nodecg().sendMessage('playVideo', { url: video.url, ext: video.ext });
+            playVideo(video);
         }
         else {
             // This else block happens for both "commercial w/o video" and non-found assets.
@@ -157,9 +180,10 @@ async function videoEnded() {
         }
     }
 }
-function stopEarly() {
+async function stopEarly() {
     if (replicants_1.videoPlayer.value.playing) {
         stopPlaylist();
+        await obs_1.default.conn.send('StopMedia', { sourceName: config.obs.names.sources.videoPlayer });
     }
 }
 exports.stopEarly = stopEarly;
@@ -176,8 +200,13 @@ nodecg_1.get().listenFor('startVideoPlayer', async () => {
         startPlaylist();
     }
 });
+obs_1.default.conn.on('MediaEnded', (data) => {
+    if (data.sourceName === config.obs.names.sources.videoPlayer) {
+        videoEnded();
+    }
+});
 // Triggered when a video ends playback in the browser.
-nodecg_1.get().listenFor('videoEnded', videoEnded);
+// nodecg().listenFor('videoEnded', videoEnded);
 // Triggered from the video player control to stop early.
 nodecg_1.get().listenFor('stopVideoPlayerEarly', () => {
     stopEarly();
