@@ -199,7 +199,8 @@ async function videoEnded() {
     else {
         // End of playlist.
         stopPlaylist();
-        replicants_1.videoPlayer.value.playlist.length = 0; // TEMP DISABLE FOR DEV
+        replicants_1.videoPlayer.value.playlist.length = 0;
+        nodecg_1.get().sendMessage('videoPlayerFinished'); // Simple server-to-server message we need.
         if (!obs_1.default.isCurrentScene(config.obs.names.scenes.intermission)) {
             await layouts_1.obsChangeScene({ scene: config.obs.names.scenes.intermission, force: true });
         }
