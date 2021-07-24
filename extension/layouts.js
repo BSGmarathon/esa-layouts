@@ -273,12 +273,13 @@ async function obsChangeScene({ scene, force = false }) {
         }
         else {
             const delay = replicants_1.currentRunDelay.value.audio;
-            // obsData.value.disableTransitioning = true;
+            replicants_1.obsData.value.disableTransitioning = true;
             replicants_1.obsData.value.transitionTimestamp = Date.now() + delay;
             // Simple server-to-server message we need.
             nodecg_1.get().sendMessage('obsTransitionQueued', scene);
             try {
                 await new Promise((res) => setTimeout(res, delay));
+                replicants_1.obsData.value.disableTransitioning = false;
                 await obs_1.default.changeScene(scene);
                 sceneChangeCodeTriggered = Date.now();
             }
