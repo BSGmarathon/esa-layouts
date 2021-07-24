@@ -115,7 +115,10 @@ async function playNext() {
         const commercialLength = playlist[index].commercial;
         if (commercialLength > 0) {
             await waitForCommercialEnd();
-            sc.sendMessage('twitchStartCommercial', { duration: commercialLength });
+            try {
+                await sc.sendMessage('twitchStartCommercial', { duration: commercialLength });
+            }
+            catch (err) { /* err */ }
         }
         const video = replicants_1.assetsVideos.value.find((v) => v.sum === playlist[index].sum);
         replicants_1.videoPlayer.value.current = (video === null || video === void 0 ? void 0 : video.sum) || null;
