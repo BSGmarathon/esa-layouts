@@ -17,6 +17,7 @@ function getNonGameScenes() {
         obs_1.default.findScene(config.obs.names.scenes.intermission),
         obs_1.default.findScene(config.obs.names.scenes.videoPlayer),
         obs_1.default.findScene(config.obs.names.scenes.countdown),
+        obs_1.default.findScene(config.obs.names.scenes.hekIntermission),
     ].filter(Boolean);
 }
 function setFaderName(fader, name) {
@@ -73,10 +74,10 @@ obs_1.default.conn.on('TransitionBegin', async (data) => {
     // Auto-fading for HEK's fullscreen intermission.
     const hekIntrmssn = config.obs.names.scenes.hekIntermission;
     if (data['to-scene'].startsWith(hekIntrmssn) && !data['from-scene'].startsWith(hekIntrmssn)) {
-        x32_1.default.fade('/ch/21/fader', 0, 0.75, 1000);
+        x32_1.default.fade('/ch/21/mix/fader', 0, 0.75, 1000);
     }
     if (data['from-scene'].startsWith(hekIntrmssn) && !data['to-scene'].startsWith(hekIntrmssn)) {
-        x32_1.default.fade('/ch/21/fader', 0.75, 0, 1000);
+        x32_1.default.fade('/ch/21/mix/fader', 0.75, 0, 1000);
     }
     if (config.x32.enable && config.event.online !== 'partial') {
         const nonGameScenes = getNonGameScenes(); // These scenes will *not* have "LIVE" DCAs audible.
