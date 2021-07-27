@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { DonationTotal, DonationTotalMilestones } from '@esa-layouts/types/schemas';
+import { DonationTotal, DonationTotalMilestones, OmnibarPin } from '@esa-layouts/types/schemas';
 import { Vue, Component } from 'vue-property-decorator';
 import { sortBy } from 'lodash';
 import { formatUSD } from '@esa-layouts/graphics/_misc/helpers';
@@ -71,6 +71,7 @@ import gsap from 'gsap';
 
 const total = nodecg.Replicant<DonationTotal>('donationTotal');
 const milestones = nodecg.Replicant<DonationTotalMilestones>('donationTotalMilestones');
+const pin = nodecg.Replicant<OmnibarPin>('omnibarPin');
 
 @Component
 export default class extends Vue {
@@ -90,7 +91,7 @@ export default class extends Vue {
     return formatUSD(this.totalTweened);
   }
 
-  get progress(): number {
+  getProgress(): number {
     if (!this.milestone?.amount || !total.value) return 0;
     const lower = this.milestone.addition ? this.milestone.amount - this.milestone.addition : 0;
     return Math.min((total.value - lower) / (this.milestone.amount - lower), 1) * 100;
@@ -100,23 +101,53 @@ export default class extends Vue {
     return !!(this.milestone?.amount && total.value && total.value >= this.milestone.amount);
   }
 
+  tweenValues(): void {
+    gsap.to(this, {
+      progressTweened: this.getProgress(),
+      totalTweened: total.value || 0,
+      duration: 2.5,
+    });
+  }
+
+  end(): void {
+    total.removeListener('change', this.tweenValues);
+    this.$emit('end');
+  }
+
   async created(): Promise<void> {
     console.log('Milestone: created');
     await NodeCG.waitForReplicants(total, milestones);
     if (milestones.value) {
-      const availableMilestones = milestones.value.filter((m) => m.enabled && m.amount);
-      const topMilestone = sortBy(availableMilestones, ['amount'])[0];
-      if (topMilestone) {
-        this.milestone = clone(topMilestone);
-        gsap.to(this, {
-          progressTweened: this.progress,
-          totalTweened: total.value || 0,
-          duration: 2.5,
-        });
-        window.setTimeout(() => { this.$emit('end'); console.log('Milestone: ended'); }, 25 * 1000);
+      let chosenMilestone: DonationTotalMilestones[0] | undefined;
+      if (pin.value?.type === 'milestone') {
+        chosenMilestone = milestones.value.find(({ id }) => pin.value?.id === id);
+      } else {
+        const availableMilestones = milestones.value.filter((m) => m.enabled && m.amount);
+        [chosenMilestone] = sortBy(availableMilestones, ['amount']);
+      }
+      if (chosenMilestone) {
+        this.milestone = clone(chosenMilestone);
+        total.on('change', this.tweenValues);
+        this.tweenValues();
+        if (pin.value?.type === 'milestone' && pin.value.id === this.milestone.id) {
+          console.log('Milestone: is pinned, will not auto-remove');
+          const func = (val: OmnibarPin) => {
+            if (val?.type !== 'milestone' || val.id !== this.milestone?.id) {
+              pin.removeListener('change', func);
+              this.end();
+              console.log('Milestone: ended due to unpinning');
+            }
+          };
+          pin.on('change', func);
+        } else {
+          window.setTimeout(() => {
+            this.end();
+            console.log('Milestone: ended');
+          }, 25 * 1000);
+        }
       } else {
         console.log('Milestone: skipping');
-        this.$emit('end');
+        this.end();
       }
     }
   }

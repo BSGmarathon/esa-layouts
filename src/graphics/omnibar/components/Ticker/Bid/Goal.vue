@@ -71,9 +71,10 @@
 
 <script lang="ts">
 import { Bids } from '@esa-layouts/types/schemas';
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import gsap from 'gsap';
 import { formatUSD } from '@esa-layouts/graphics/_misc/helpers';
+import { isPinned, waitForPinFinish } from '../Bid.vue';
 
 @Component
 export default class extends Vue {
@@ -81,13 +82,26 @@ export default class extends Vue {
   formatUSD = formatUSD;
   tweened = { progress: 0, total: 0 };
 
-  async created(): Promise<void> {
+  tweenValues(): void {
     gsap.to(this.tweened, {
       progress: (this.bid.total / (this.bid.goal ?? 0)) * 100,
       total: this.bid.total,
       duration: 2.5,
     });
-    await new Promise((res) => window.setTimeout(res, 25 * 1000));
+  }
+
+  @Watch('bid')
+  onBidChange(): void {
+    this.tweenValues();
+  }
+
+  async created(): Promise<void> {
+    this.tweenValues();
+    if (isPinned(this.bid)) {
+      await waitForPinFinish(this.bid);
+    } else {
+      await new Promise((res) => window.setTimeout(res, 25 * 1000));
+    }
     this.$emit('end');
   }
 }
