@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.stopEarly = exports.startPlaylist = void 0;
 const clone_1 = __importDefault(require("clone"));
+const get_video_duration_1 = require("get-video-duration");
 const process_1 = require("process");
 const speedcontrol_util_1 = __importDefault(require("speedcontrol-util"));
 const layouts_1 = require("./layouts"); // eslint-disable-line import/no-cycle
@@ -166,12 +167,34 @@ async function playNext() {
         // catch
     }
 }
-function startPlaylist() {
+async function startPlaylist() {
     replicants_1.obsData.value.disableTransitioning = true;
     replicants_1.videoPlayer.value.playing = true;
     index = 0;
     playlist = clone_1.default(replicants_1.videoPlayer.value.playlist);
     playNext();
+    // Calculating how long the playlist will actually take (estimated).
+    let totalLength = 0;
+    let leftOverCommercialLength = 0;
+    for (const item of playlist) {
+        const asset = replicants_1.assetsVideos.value.find((a) => a.sum === item.sum);
+        if (asset) {
+            let length = 0;
+            try {
+                length = await get_video_duration_1.getVideoDurationInSeconds(`${process_1.cwd()}/assets/${asset.namespace}/${asset.category}/${asset.base}`);
+            }
+            catch (err) { /* err */ }
+            totalLength += length;
+            leftOverCommercialLength += item.commercial;
+            leftOverCommercialLength = Math.max(leftOverCommercialLength - length, 0);
+        }
+        else if (item.commercial > 0) {
+            totalLength += leftOverCommercialLength + item.commercial;
+            leftOverCommercialLength = 0;
+        }
+    }
+    totalLength += leftOverCommercialLength;
+    replicants_1.videoPlayer.value.estimatedFinishTimestamp = Date.now() + (totalLength * 1000);
 }
 exports.startPlaylist = startPlaylist;
 function stopPlaylist() {
