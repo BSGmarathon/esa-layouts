@@ -246,14 +246,17 @@ body {
 }
 
 
-.Pronouns[data-v-cbba6ac6] {
+.Pronouns[data-v-2932d6ab] {
+  position: relative;
   display: inline-block;
   font-weight: 400;
   font-size: 0.75em;
+  top: -0.1em;
   line-height: 1.5em;
   background: #2d1d3c;
   text-transform: uppercase;
   padding: 0 3px;
+  margin-left: 3px;
 }
 
 
