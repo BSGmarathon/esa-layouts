@@ -90,6 +90,11 @@ const routes = [
     component: List.L_GBA_1p,
   },
   {
+    name: 'GBA 2 Player',
+    path: '/GBA-2p',
+    component: List.L_GBA_2p,
+  },
+  {
     name: '3DS 1 Player',
     path: '/3DS-1p',
     component: List.L_3DS_1p,
@@ -103,6 +108,11 @@ const routes = [
     name: '5:2 1 Player',
     path: '/5x2-1p',
     component: List.L_5x2_1p,
+  },
+  {
+    name: 'SM64 (Power Star Pathway 2P)',
+    path: '/sm64-psp-2p',
+    component: List.L_SM64_PSP_2p,
   },
   {
     path: '*',

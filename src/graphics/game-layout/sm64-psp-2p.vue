@@ -5,107 +5,104 @@
     <game-capture
       id="GameCapture1"
       class="BorderRight"
+      :slot-no="0"
       :style="{
         left: '0px',
         top: '0px',
-        width: '240px',
-        height: '540px',
+        width: '678px',
+        height: '508px',
       }"
     />
     <game-capture
       id="GameCapture2"
       class="BorderRight"
-      :slot-no="0"
       :style="{
-        left: '240px',
-        top: '0px',
-        width: '720px',
-        height: '540px',
+        left: '0px',
+        top: '558px',
+        width: '419px',
+        height: '382px',
       }"
     />
     <!-- Player 2 -->
     <game-capture
       id="GameCapture3"
-      class="BorderRight"
+      class="BorderLeft"
       :slot-no="1"
       finish-time-pos="bottomright"
       :style="{
-        left: '960px',
+        left: '1242px',
         top: '0px',
-        width: '720px',
-        height: '540px',
+        width: '678px',
+        height: '508px',
       }"
     />
     <game-capture
       id="GameCapture4"
+      class="BorderLeft"
       :style="{
-        left: '1680px',
-        top: '0px',
-        width: '240px',
-        height: '540px',
+        left: '1501px',
+        top: '558px',
+        width: '419px',
+        height: '382px',
       }"
     />
 
     <!-- Camera Captures -->
-    <!-- Online has 2 camera spots -->
     <div
-      v-if="!online"
       id="CameraCapture1"
-      class="Capture BorderTop BorderRight BorderLeft"
+      class="Capture BorderRight"
       :style="{
-        left: '660px',
-        top: '540px',
-        width: '600px',
-        height: '400px',
+        left: '419px',
+        top: '558px',
+        width: '541px',
+        height: '382px',
       }"
     />
-    <template v-else>
-      <div
-        id="CameraCapture1"
-        class="Capture BorderTop BorderRight BorderLeft"
-        :style="{
-          left: '660px',
-          top: '540px',
-          width: '300px',
-          height: '400px',
-        }"
-      />
-      <div
-        id="CameraCapture2"
-        class="Capture BorderTop BorderRight"
-        :style="{
-          left: '960px',
-          top: '540px',
-          width: '300px',
-          height: '400px',
-        }"
-      />
-    </template>
-
-    <!-- Player 1/Commentator -->
     <div
+      id="CameraCapture2"
+      class="Capture"
+      :style="{
+        left: '960px',
+        top: '558px',
+        width: '541px',
+        height: '382px',
+      }"
+    />
+
+    <!-- Player 1 -->
+    <player
       class="Fixed"
       :style="{
         left: '0px',
-        top: '540px',
-        width: '660px',
+        top: '508px',
+        width: '960px',
       }"
-    >
-      <player :slot-no="0" />
-      <comm-and-reader />
-    </div>
+      :slot-no="0"
+    />
 
-    <!-- Player 2/General Run Info -->
+    <!-- Player 2 -->
+    <player
+      class="Fixed"
+      :style="{
+        left: '960px',
+        top: '508px',
+        width: '960px',
+      }"
+      :slot-no="1"
+    />
+
+    <!-- General Run Info -->
     <div
       class="Fixed FlexColumn"
       :style="{
-        left: '1260px',
-        top: '540px',
-        width: '660px',
-        height: '400px',
+        left: '678px',
+        top: '-2px',
+        width: '564px',
+        height: '258px',
       }"
     >
-      <player :slot-no="1" />
+      <commentators-reader />
+      <commentators-reader show-reader />
 
       <!-- Run Game Info/Timer -->
       <div
@@ -113,25 +110,24 @@
         :style="{
           flex: '1',
           width: '100%',
-          overflow: 'hidden',
         }"
       >
-        <run-info
-          :style="{ 'font-size': '45px' }"
-          no-wrap
+        <run-info />
+        <timer
+          top-margin="-0.09em"
+          font-size="75px"
         />
-        <timer font-size="120px" />
       </div>
     </div>
 
     <!-- Media Box -->
     <media-box
-      :font-size="45"
+      class="BorderTop"
       :style="{
-        left: '0px',
-        top: '630px',
-        width: '660px',
-        height: '310px',
+        left: '678px',
+        top: '256px',
+        width: '564px',
+        height: '252px',
       }"
     />
 
@@ -153,7 +149,7 @@ import { Configschema } from '@esa-layouts/types/schemas/configschema';
 import MediaBox from '@esamarathon/esa-layouts-shared/mediabox/graphics';
 import GameCapture from './components/GameCapture.vue';
 import Player from './components/Player.vue';
-import CommAndReader from './components/CommAndReader.vue';
+import CommentatorsReader from './components/CommentatorsReader.vue';
 import RunInfo from './components/RunInfo.vue';
 import Timer from './components/Timer.vue';
 import DonationBar from './components/DonationBar.vue';
@@ -162,7 +158,7 @@ import DonationBar from './components/DonationBar.vue';
   components: {
     GameCapture,
     Player,
-    CommAndReader,
+    CommentatorsReader,
     RunInfo,
     Timer,
     MediaBox,

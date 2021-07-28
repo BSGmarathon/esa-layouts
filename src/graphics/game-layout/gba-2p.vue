@@ -1,48 +1,26 @@
 <template>
   <div>
     <!-- Game Captures -->
-    <!-- Player 1 -->
     <game-capture
       id="GameCapture1"
       class="BorderRight"
+      :slot-no="0"
       :style="{
         left: '0px',
         top: '0px',
-        width: '240px',
-        height: '540px',
+        width: '960px',
+        height: '640px',
       }"
     />
     <game-capture
       id="GameCapture2"
-      class="BorderRight"
-      :slot-no="0"
-      :style="{
-        left: '240px',
-        top: '0px',
-        width: '720px',
-        height: '540px',
-      }"
-    />
-    <!-- Player 2 -->
-    <game-capture
-      id="GameCapture3"
-      class="BorderRight"
       :slot-no="1"
       finish-time-pos="bottomright"
       :style="{
         left: '960px',
         top: '0px',
-        width: '720px',
-        height: '540px',
-      }"
-    />
-    <game-capture
-      id="GameCapture4"
-      :style="{
-        left: '1680px',
-        top: '0px',
-        width: '240px',
-        height: '540px',
+        width: '960px',
+        height: '640px',
       }"
     />
 
@@ -53,10 +31,10 @@
       id="CameraCapture1"
       class="Capture BorderTop BorderRight BorderLeft"
       :style="{
-        left: '660px',
-        top: '540px',
-        width: '600px',
-        height: '400px',
+        left: '695px',
+        top: '640px',
+        width: '530px',
+        height: '300px',
       }"
     />
     <template v-else>
@@ -64,10 +42,10 @@
         id="CameraCapture1"
         class="Capture BorderTop BorderRight BorderLeft"
         :style="{
-          left: '660px',
-          top: '540px',
-          width: '300px',
-          height: '400px',
+          left: '695px',
+          top: '640px',
+          width: '265px',
+          height: '300px',
         }"
       />
       <div
@@ -75,9 +53,9 @@
         class="Capture BorderTop BorderRight"
         :style="{
           left: '960px',
-          top: '540px',
-          width: '300px',
-          height: '400px',
+          top: '640px',
+          width: '265px',
+          height: '300px',
         }"
       />
     </template>
@@ -87,22 +65,23 @@
       class="Fixed"
       :style="{
         left: '0px',
-        top: '540px',
-        width: '660px',
+        top: '640px',
+        width: '695px',
       }"
     >
       <player :slot-no="0" />
-      <comm-and-reader />
+      <commentators-reader />
+      <commentators-reader show-reader />
     </div>
 
     <!-- Player 2/General Run Info -->
     <div
       class="Fixed FlexColumn"
       :style="{
-        left: '1260px',
-        top: '540px',
-        width: '660px',
-        height: '400px',
+        left: '1225px',
+        top: '640px',
+        width: '695px',
+        height: '300px',
       }"
     >
       <player :slot-no="1" />
@@ -113,32 +92,28 @@
         :style="{
           flex: '1',
           width: '100%',
-          overflow: 'hidden',
         }"
       >
-        <run-info
-          :style="{ 'font-size': '45px' }"
-          no-wrap
-        />
-        <timer font-size="120px" />
+        <run-info />
+        <timer />
       </div>
     </div>
 
     <!-- Media Box -->
     <media-box
-      :font-size="45"
+      :font-size="36"
       :style="{
         left: '0px',
-        top: '630px',
-        width: '660px',
-        height: '310px',
+        top: '774px',
+        width: '695px',
+        height: '226px',
       }"
     />
 
     <!-- Donation Bar -->
     <donation-bar
       :style="{
-        left: '0px',
+        left: '695px',
         top: '940px',
         width: '1920px',
         height: '60px',
@@ -153,7 +128,7 @@ import { Configschema } from '@esa-layouts/types/schemas/configschema';
 import MediaBox from '@esamarathon/esa-layouts-shared/mediabox/graphics';
 import GameCapture from './components/GameCapture.vue';
 import Player from './components/Player.vue';
-import CommAndReader from './components/CommAndReader.vue';
+import CommentatorsReader from './components/CommentatorsReader.vue';
 import RunInfo from './components/RunInfo.vue';
 import Timer from './components/Timer.vue';
 import DonationBar from './components/DonationBar.vue';
@@ -162,7 +137,7 @@ import DonationBar from './components/DonationBar.vue';
   components: {
     GameCapture,
     Player,
-    CommAndReader,
+    CommentatorsReader,
     RunInfo,
     Timer,
     MediaBox,
