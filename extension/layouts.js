@@ -105,7 +105,8 @@ sc.runDataActiveRun.on('change', (newVal, oldVal) => {
     if (newVal && init) {
         // If there's no old run or we changed to a different run, try to automatically set the layout.
         if (!oldVal || newVal.id !== oldVal.id) {
-            const layout = replicants_1.gameLayouts.value.available.find((l) => l.code === newVal.customData.layout);
+            const layout = replicants_1.gameLayouts.value.available
+                .find((l) => l.code.toLowerCase() === newVal.customData.layout.toLowerCase());
             replicants_1.gameLayouts.value.selected = layout === null || layout === void 0 ? void 0 : layout.code;
             if (newVal.customData.layout && !layout) {
                 nodecg_1.get().log.warn('[Layouts] Run specified game layout with code '
@@ -166,9 +167,20 @@ replicants_1.capturePositions.on('change', async (val) => {
             }
         }
         try {
+            if (['GameCapture1', 'GameCapture2'].includes(key)
+                && replicants_1.gameLayouts.value.selected === 'sm64-psp-2p') {
+                crop.right = key === 'GameCapture1' ? 1920 / 2 : 0; // Hardcoded for 1080p source!
+                crop.left = key === 'GameCapture2' ? 1920 / 2 : 0; // Hardcoded for 1080p source!
+            }
             await obs_1.default.configureSceneItem(obsConfig.names.scenes.gameLayout, obsSourceKeys[key], (() => {
                 if (key.startsWith('GameCapture')
-                    && ['DS-1p', '3DS-1p'].includes(replicants_1.gameLayouts.value.selected || '')) {
+                    && ['DS-1p', '3DS-1p', 'sm64-psp-2p'].includes(replicants_1.gameLayouts.value.selected || '')) {
+                    if (replicants_1.gameLayouts.value.selected === 'sm64-psp-2p'
+                        && ['GameCapture1', 'GameCapture2'].includes(key)) {
+                        return {
+                            x: key === 'GameCapture2' ? 1920 / 2 : 0, y: 0, width: 1920 / 2, height: 1080,
+                        };
+                    }
                     if (key === 'GameCapture1') {
                         return {
                             x: 0, y: 0, width: 1920, height: 1080,
@@ -179,8 +191,11 @@ replicants_1.capturePositions.on('change', async (val) => {
                 return val['game-layout'][key];
             })(), crop, (() => {
                 if (key.startsWith('GameCapture')
-                    && ['DS-1p', '3DS-1p'].includes(replicants_1.gameLayouts.value.selected || '')) {
+                    && ['DS-1p', '3DS-1p', 'sm64-psp-2p'].includes(replicants_1.gameLayouts.value.selected || '')) {
                     if (key === 'GameCapture1') {
+                        return true;
+                    }
+                    if (key === 'GameCapture2' && replicants_1.gameLayouts.value.selected === 'sm64-psp-2p') {
                         return true;
                     }
                     return false;
