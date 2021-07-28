@@ -246,6 +246,17 @@ body {
 }
 
 
+.Pronouns[data-v-cbba6ac6] {
+  display: inline-block;
+  font-weight: 400;
+  font-size: 0.75em;
+  line-height: 1.5em;
+  background: #2d1d3c;
+  text-transform: uppercase;
+  padding: 0 3px;
+}
+
+
 .BiasBarText[data-v-052a8c56] {
   background-color: rgba(0, 0, 0, 0.4);
   padding: 3px 7px;
