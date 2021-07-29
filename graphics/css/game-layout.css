@@ -246,7 +246,7 @@ body {
 }
 
 
-.Pronouns[data-v-74ae798b] {
+.Pronouns[data-v-18e84394] {
   position: relative;
   display: inline-block;
   font-weight: 400;
@@ -254,6 +254,7 @@ body {
   top: -0.1em;
   line-height: 1.5em;
   background: #2d1d3c;
+  color: #cccccc;
   text-transform: uppercase;
   padding: 0 3px;
   margin-left: 3px;

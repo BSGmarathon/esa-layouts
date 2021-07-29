@@ -224,7 +224,7 @@ Stuff not in this file (yet):
 }
 
 
-#Total[data-v-3fbded43] {
+#Total[data-v-5a02968c] {
   padding: 0 20px 0 0;
   font-size: 40px;
   font-weight: 500;
@@ -233,20 +233,20 @@ Stuff not in this file (yet):
 }
 
 /* Each character in the total is in a span; setting width so the numbers appear monospaced. */
-#Total > span[data-v-3fbded43] {
+#Total > span[data-v-5a02968c] {
   display: inline-block;
   width: 0.45em;
   text-align: center;
 }
-#Total > .Comma[data-v-3fbded43] {
+#Total > .Comma[data-v-5a02968c] {
   display: inline-block;
   width: 0.22em;
   text-align: center;
 }
-.fade-enter-active[data-v-3fbded43], .fade-leave-active[data-v-3fbded43] {
+.fade-enter-active[data-v-5a02968c], .fade-leave-active[data-v-5a02968c] {
   transition: opacity 0.5s ease;
 }
-.fade-enter[data-v-3fbded43], .fade-leave-to[data-v-3fbded43]
+.fade-enter[data-v-5a02968c], .fade-leave-to[data-v-5a02968c]
 /* .component-fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
