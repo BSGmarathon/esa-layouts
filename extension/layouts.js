@@ -106,7 +106,7 @@ sc.runDataActiveRun.on('change', (newVal, oldVal) => {
         // If there's no old run or we changed to a different run, try to automatically set the layout.
         if (!oldVal || newVal.id !== oldVal.id) {
             const layout = replicants_1.gameLayouts.value.available
-                .find((l) => l.code.toLowerCase() === newVal.customData.layout.toLowerCase());
+                .find((l) => { var _a; return l.code.toLowerCase() === ((_a = newVal.customData.layout) === null || _a === void 0 ? void 0 : _a.toLowerCase()); });
             replicants_1.gameLayouts.value.selected = layout === null || layout === void 0 ? void 0 : layout.code;
             if (newVal.customData.layout && !layout) {
                 nodecg_1.get().log.warn('[Layouts] Run specified game layout with code '
