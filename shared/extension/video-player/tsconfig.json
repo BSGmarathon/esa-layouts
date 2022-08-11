@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.extension.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": [
+    "src/**/*.ts",
+    "../../types/**/*.d.ts"
+  ],
+  "references": [
+    { "path": "../obs" },
+  ]
+}

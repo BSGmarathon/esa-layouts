@@ -1,0 +1,8 @@
+postinstall.js
+.eslintrc.*.js
+.eslintrc.js
+types/schemas/**/*
+flags/**/*
+node_modules/**/*
+schemas/**/*
+dist

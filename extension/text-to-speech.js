@@ -7,18 +7,19 @@ exports.speak = void 0;
 const needle_1 = __importDefault(require("needle"));
 const nodecg_1 = require("./util/nodecg");
 const replicants_1 = require("./util/replicants");
-const config = nodecg_1.get().bundleConfig.tts;
+const config = (0, nodecg_1.get)().bundleConfig.tts;
 /**
  * Will attempt to trigger speech for the supplied donation.
  * @param donation Donation object
  */
+// eslint-disable-next-line import/prefer-default-export
 async function speak(donation) {
     const text = `${donation.name} donated $${donation.amount.toFixed(2)}`
         + `${donation.comment ? `: ${donation.comment}` : ''}`;
     const url = `${config.voiceAPI}?voice=${replicants_1.ttsVoices.value.selected}`
-        + `&text=${encodeURIComponent(text)}`;
-    nodecg_1.get().sendMessage('ttsToRead', url);
-    nodecg_1.get().log.debug('[TTS] URL sent to overlay:', url);
+        + `&text=${encodeURIComponent(text)}&key=${config.key}`;
+    (0, nodecg_1.get)().sendMessage('ttsToRead', url);
+    (0, nodecg_1.get)().log.debug('[TTS] URL sent to overlay:', url);
 }
 exports.speak = speak;
 /**
@@ -26,7 +27,7 @@ exports.speak = speak;
  */
 async function ttsExample() {
     try {
-        const resp = await needle_1.default('get', 'https://taskinoz.com/gdq/api/');
+        const resp = await (0, needle_1.default)('get', 'https://taskinoz.com/gdq/api/');
         speak({
             amount: 100 * Math.random(),
             name: 'Anonymous',
@@ -41,8 +42,8 @@ async function ttsExample() {
 }
 async function init() {
     try {
-        nodecg_1.get().log.info('[TTS] Setting up');
-        const resp = await needle_1.default('get', `${config.voiceAPI}/voices`);
+        (0, nodecg_1.get)().log.info('[TTS] Setting up');
+        const resp = await (0, needle_1.default)('get', `${config.voiceAPI}/voices`);
         const list = resp.body.voices;
         replicants_1.ttsVoices.value.available = Object.keys(list).reduce((prev, code) => {
             // Only use voices using the Wavenet tech and that are English based.
@@ -58,14 +59,14 @@ async function init() {
         if (!replicants_1.ttsVoices.value.selected) {
             replicants_1.ttsVoices.value.selected = 'en-US-Wavenet-A';
         }
-        nodecg_1.get().listenFor('ttsExample', ttsExample);
-        nodecg_1.get().log.info('[TTS] Successfully set up');
+        (0, nodecg_1.get)().listenFor('ttsExample', ttsExample);
+        (0, nodecg_1.get)().log.info('[TTS] Successfully set up');
     }
     catch (err) {
-        nodecg_1.get().log.warn('[TTS] Error setting up');
-        nodecg_1.get().log.debug('[TTS] Error setting up:', err);
+        (0, nodecg_1.get)().log.warn('[TTS] Error setting up');
+        (0, nodecg_1.get)().log.debug('[TTS] Error setting up:', err);
     }
 }
-if (config.enable && config.voiceAPI) {
+if (config.enabled && config.voiceAPI) {
     init();
 }

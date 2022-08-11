@@ -4,14 +4,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mq = void 0;
-const extension_1 = __importDefault(require("@esamarathon/esa-layouts-shared/rabbitmq/extension"));
+const rabbitmq_1 = __importDefault(require("@shared/extension/rabbitmq"));
 const helpers_1 = require("./helpers");
 const nodecg_1 = require("./nodecg");
-const { useTestData } = nodecg_1.get().bundleConfig;
+const { useTestData } = (0, nodecg_1.get)().bundleConfig;
 const exchange = 'cg';
-const event = helpers_1.getCurrentEventShort();
-exports.mq = new extension_1.default(nodecg_1.get(), useTestData, {
-    config: nodecg_1.get().bundleConfig.rabbitmq,
+const event = (0, helpers_1.getCurrentEventShort)();
+// eslint-disable-next-line import/prefer-default-export
+exports.mq = new rabbitmq_1.default((0, nodecg_1.get)(), useTestData, {
+    config: (0, nodecg_1.get)().bundleConfig.rabbitmq,
     exchange,
     event,
     listenTopics: [

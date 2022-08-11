@@ -1,13 +1,12 @@
 "use strict";
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable global-require */
+/* eslint-disable global-require, @typescript-eslint/no-var-requires */
 // This must go first so we can use module aliases!
 /* eslint-disable import/first */
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('module-alias').addAlias('@esa-layouts', require('path').join(__dirname, '.'));
+require('module-alias').addAlias('@shared', require('path').join(__dirname, '../shared'));
 const nodecg_1 = require("./util/nodecg");
 module.exports = (nodecg) => {
-    nodecg_1.set(nodecg);
+    (0, nodecg_1.set)(nodecg);
     // If `thisEvent` is 2, checks if we actually have 2 event shorts to
     // pick from before mounting the extension.
     const config = nodecg.bundleConfig;
@@ -20,6 +19,10 @@ module.exports = (nodecg) => {
     if (useTestData) {
         nodecg.log.warn('USING TEST DATA, MAKE SURE TO DISABLE THIS IN PRODUCTION!');
     }
+    /**
+     * Because of how `import`s work, it helps to use `require`s to force
+     * things to be loaded *after* the NodeCG context is set.
+     */
     require('./obs-data');
     require('./layouts');
     require('./tracker');
@@ -27,13 +30,16 @@ module.exports = (nodecg) => {
     require('./mixer');
     require('./streamdeck-buttons');
     require('./timer');
-    require('./restream');
     require('./media-box');
     require('./text-to-speech');
-    require('./twitch-ext');
     require('./music');
-    require('./video-player');
-    // require('./twitch-subs');
+    require('./intermission-player');
+    require('./flagcarrier');
+    require('./omnibar');
+    require('./reader-introduction');
+    require('./commercials');
+    require('./player-hud');
+    require('./server');
     return {
         obs: require('./util/obs').default,
         mixer: require('./mixer'),
