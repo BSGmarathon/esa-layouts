@@ -1,5 +1,5 @@
 import type { Configschema } from '@esa-layouts/types/schemas/configschema';
-import { logError } from './util/helpers';
+import { logError, wait } from './util/helpers';
 import { get as nodecg } from './util/nodecg';
 import obs from './util/obs';
 import { currentRunDelay, obsData } from './util/replicants';
@@ -12,14 +12,13 @@ function getNonGameScenes(): string[] {
   return [
     obs.findScene(config.obs.names.scenes.commercials),
     obs.findScene(config.obs.names.scenes.intermission),
-    obs.findScene(config.obs.names.scenes.videoPlayer),
+    obs.findScene(config.obs.names.scenes.intermissionPlayer),
     obs.findScene(config.obs.names.scenes.countdown),
-    obs.findScene(config.obs.names.scenes.hekIntermission),
   ].filter(Boolean) as string[];
 }
 
 export function setFaderName(fader: string, name: string): void {
-  if (config.x32.enable) {
+  if (config.x32.enabled) {
     x32.conn?.send({
       address: `${fader}/config/name`,
       args: [{ type: 's', value: name }],
@@ -30,7 +29,7 @@ export function setFaderName(fader: string, name: string): void {
 function toggleFadeHelper(
   address: string,
   scenes: (string | undefined)[],
-  data: { 'from-scene': string, 'to-scene': string },
+  data: { 'from-scene'?: string, 'to-scene': string },
   mute = true,
   nofade = false,
 ): void {
@@ -57,7 +56,10 @@ function toggleFadeHelper(
   } catch (err) {
     logError(
       '[Mixer] Error toggling fader [address: %s, scenes: %s, data: %s]',
-      err, address, scenes, data,
+      err,
+      address,
+      scenes,
+      data,
     );
   }
 }
@@ -73,30 +75,80 @@ export function toggleLiveMics(scene: string): void {
   }
 }
 
-obs.conn.on('TransitionBegin', async (data) => {
-  // Auto-fading for HEK's fullscreen intermission.
-  const hekIntrmssn = config.obs.names.scenes.hekIntermission;
-  if (data['to-scene'].startsWith(hekIntrmssn) && !data['from-scene'].startsWith(hekIntrmssn)) {
-    x32.fade('/ch/21/mix/fader', 0, 0.75, 1000);
-  }
-  if (data['from-scene'].startsWith(hekIntrmssn) && !data['to-scene'].startsWith(hekIntrmssn)) {
-    x32.fade('/ch/21/mix/fader', 0.75, 0, 1000);
-  }
-
-  if (config.x32.enable && config.event.online !== 'partial') {
-    const nonGameScenes = getNonGameScenes(); // These scenes will *not* have "LIVE" DCAs audible.
-    const intermissionScenes = [ // These scenes *will* have "Intrmsn Mics" DCA audible.
-      obs.findScene(config.obs.names.scenes.commercials),
-      obs.findScene(config.obs.names.scenes.intermission),
-    ];
-    toggleFadeHelper('/dca/1/fader', nonGameScenes, data);
-    if (currentRunDelay.value.audio > 0) {
-      setTimeout(() => { // Delayed hard cut as backup!
-        toggleFadeHelper('/dca/2/fader', nonGameScenes, data, true, true);
-      }, 1500);
-    } else {
-      toggleFadeHelper('/dca/2/fader', nonGameScenes, data);
+let init = false;
+async function setInitialFaders(): Promise<void> {
+  await wait(1000); // Waiting 1s as a workaround to make sure the OBS helper has all info.
+  if (!init && obs.connected && x32.ready) {
+    init = true;
+    // On-Site
+    if (!config.event.online) {
+      const readerScenes = [
+        obs.findScene(config.obs.names.scenes.commercials),
+        obs.findScene(config.obs.names.scenes.gameLayout),
+        obs.findScene(config.obs.names.scenes.intermission),
+        obs.findScene(config.obs.names.scenes.readerIntroduction),
+      ].filter(Boolean) as string[];
+      // These scenes will have the game and players audible.
+      const gameScenes = [
+        obs.findScene(config.obs.names.scenes.gameLayout),
+      ].filter(Boolean) as string[];
+      if (readerScenes.includes(obs.currentScene || '')) {
+        x32.setFader('/dca/2/fader', 0.75); // LIVE Readers
+      } else {
+        x32.setFader('/dca/2/fader', 0); // LIVE Readers
+      }
+      if (gameScenes.includes(obs.currentScene || '')) {
+        x32.setFader('/dca/1/fader', 0.75); // LIVE Runners
+        x32.setFader('/dca/3/fader', 0.75); // LIVE Games
+      } else {
+        x32.setFader('/dca/1/fader', 0); // LIVE Runners
+        x32.setFader('/dca/3/fader', 0); // LIVE Games
+      }
     }
-    toggleFadeHelper('/dca/3/fader', intermissionScenes, data, false);
+  }
+}
+
+x32.on('ready', async () => {
+  await setInitialFaders();
+});
+obs.conn.on('AuthenticationSuccess', async () => {
+  await setInitialFaders();
+});
+
+obs.conn.on('TransitionBegin', async (data) => {
+  if (config.x32.enabled) {
+    // On-Site
+    if (!config.event.online) {
+      // These scenes will have the reader audible.
+      const readerScenes = [
+        obs.findScene(config.obs.names.scenes.commercials),
+        obs.findScene(config.obs.names.scenes.gameLayout),
+        obs.findScene(config.obs.names.scenes.intermission),
+        obs.findScene(config.obs.names.scenes.readerIntroduction),
+      ].filter(Boolean) as string[];
+      // These scenes will have the game and players audible.
+      const gameScenes = [
+        obs.findScene(config.obs.names.scenes.gameLayout),
+      ].filter(Boolean) as string[];
+      toggleFadeHelper('/dca/1/fader', gameScenes, data, false); // LIVE Runners
+      toggleFadeHelper('/dca/2/fader', readerScenes, data, false); // LIVE Readers
+      toggleFadeHelper('/dca/3/fader', gameScenes, data, false); // LIVE Games
+    // Online
+    } if (config.event.online === true || config.event.online === 'full') {
+      const nonGameScenes = getNonGameScenes(); // These scenes will *not* have "LIVE" DCAs audible.
+      const intermissionScenes = [ // These scenes *will* have "Intrmsn Mics" DCA audible.
+        obs.findScene(config.obs.names.scenes.commercials),
+        obs.findScene(config.obs.names.scenes.intermission),
+      ];
+      toggleFadeHelper('/dca/1/fader', nonGameScenes, data);
+      if (currentRunDelay.value.audio > 0) {
+        setTimeout(() => { // Delayed hard cut as backup!
+          toggleFadeHelper('/dca/2/fader', nonGameScenes, data, true, true);
+        }, 1500);
+      } else {
+        toggleFadeHelper('/dca/2/fader', nonGameScenes, data);
+      }
+      toggleFadeHelper('/dca/3/fader', intermissionScenes, data, false);
+    }
   }
 });

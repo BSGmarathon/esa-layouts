@@ -1,8 +1,0 @@
-#Intermission .Logo > img {
-  content: url('./coronarelief/IntermissionLogo.png');
-}
-
-#Omnibar #Logo {
-  content: url('./coronarelief/OmnibarLogo.png');
-  padding: 0 10px;
-}

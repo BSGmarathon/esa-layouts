@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <div
-      v-if="!config.enable"
+      v-if="!config.enabled"
       :style="{ 'font-style': 'italic' }"
     >
       This feature is not enabled.
@@ -40,22 +40,27 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator';
-import { State } from 'vuex-class';
-import { State2Way } from 'vuex-class-state2way';
-import goTo from 'vuetify/es5/services/goto';
 import { TtsVoices } from '@esa-layouts/types/schemas';
 import { Configschema } from '@esa-layouts/types/schemas/configschema';
+import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
+import { storeModule } from './store';
 
 @Component
 export default class extends Vue {
-  @State voices!: TtsVoices;
-  @State2Way('updateSelectedVoice', 'voices.selected') selected!: TtsVoices['selected'];
+  @replicantNS.State((s) => s.reps.ttsVoices) readonly voices!: TtsVoices;
   config = (nodecg.bundleConfig as Configschema).tts;
+
+  get selected(): TtsVoices['selected'] {
+    return this.voices.selected;
+  }
+  set selected(val: string | undefined) {
+    storeModule.updateSelectedVoice(val);
+  }
 
   @Watch('voices')
   scrollToSelectedVoice(): void {
-    if (this.config.enable) {
-      goTo(`#${this.voices.selected}`, { container: '#VoiceList', offset: 25 });
+    if (this.config.enabled) {
+      this.$vuetify.goTo(`#${this.voices.selected}`, { container: '#VoiceList', offset: 25 });
     }
   }
 

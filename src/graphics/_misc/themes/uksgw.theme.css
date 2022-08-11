@@ -1,8 +1,0 @@
-#Intermission .Logo > img {
-  content: url('./uksgw/IntermissionLogo.png');
-}
-
-#Omnibar #Logo {
-  content: url('./uksgw/OmnibarLogo.png');
-  padding: 0 10px;
-}

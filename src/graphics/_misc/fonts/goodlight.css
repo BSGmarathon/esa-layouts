@@ -1,0 +1,13 @@
+@font-face {
+	font-family: 'Goodlight';
+    src: url('Goodlight.otf') format('otf');
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Goodlight-light';
+    src: url('Goodlight-Light.otf') format('otf');
+	font-weight: 300;
+	font-style: normal;
+}

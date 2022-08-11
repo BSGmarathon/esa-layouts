@@ -6,7 +6,7 @@
     :style="{
       width: '100%',
       height: '40px',
-      'font-size': '25px',
+      'font-size': '16px',
       'font-weight': 400,
       'justify-content': showBoth ? 'space-between' : undefined,
       'white-space': 'nowrap',
@@ -15,7 +15,7 @@
     <div
       v-show="comms && comms.length"
       :style="{
-        width: showBoth ? 'calc(65% - 1px)' : '100%',
+        width: showBoth ? 'calc(45% - 1px)' : '100%',
         overflow: 'hidden',
         padding: '0 10px',
         'box-sizing': 'border-box',
@@ -26,7 +26,7 @@
         :style="{ width: '100%' }"
       >
         <div class="CommentatorText">
-          <span :style="{ 'font-weight': 500 }">
+          <span :style="{ 'font-weight': 500, 'font-family': 'Goodlight-light'}">
             <template v-if="comms.length === 1">Commentator:</template>
             <template v-else>Commentators:</template>
           </span>

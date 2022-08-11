@@ -1,155 +1,161 @@
 <template>
-  <div>
+<div :style="{ 'backgroundImage': `url(bsgbacks/standard_3_bg.png)`,
+'background-repeat': 'no-repeat'}
+">
     <!-- Game Captures -->
     <game-capture
       id="GameCapture1"
-      class="BorderRight"
+      class=" BlockRed"
       :slot-no="0"
       :style="{
         left: '0px',
         top: '0px',
-        width: '640px',
-        height: '480px',
+        width: '656px',
+        height: '496px',
       }"
     />
     <game-capture
       id="GameCapture2"
-      class="BorderRight"
+      class=" BlockRed"
       :slot-no="1"
       :style="{
-        left: '640px',
+        left: '1258px',
         top: '0px',
-        width: '640px',
-        height: '480px',
+        width: '658px',
+        height: '496px',
       }"
     />
     <game-capture
       id="GameCapture3"
+      class="BlockRed"
       :slot-no="2"
       :style="{
-        left: '1280px',
-        top: '0px',
-        width: '640px',
-        height: '480px',
+        left: '0px',
+        top: '502px',
+        width: '656px',
+        height: '496px',
       }"
     />
 
     <!-- Camera Captures -->
     <div
       id="CameraCapture1"
-      class="Capture BorderRight BorderLeft"
+      class="Capture BlockBlue Relative"
       :style="{
-        left: '600px',
-        top: '530px',
-        width: '721px',
-        height: '410px',
-      }"
-    />
-
-    <!-- Players -->
-    <player
-      class="Fixed"
-      :slot-no="0"
-      :style="{
-        left: '0px',
-        top: '480px',
-        width: '640px',
-        height: '50px',
-      }"
-    />
-    <player
-      class="Fixed"
-      :slot-no="1"
-      :style="{
-        left: '640px',
-        top: '480px',
-        width: '640px',
-        height: '50px',
-      }"
-    />
-    <player
-      class="Fixed"
-      :slot-no="2"
-      :style="{
-        left: '1280px',
-        top: '480px',
-        width: '640px',
-        height: '50px',
-      }"
-    />
-
-    <!-- General Run Info -->
-    <div
-      class="Fixed FlexColumn"
-      :style="{
-        left: '1321px',
-        top: '530px',
-        width: '600px',
-        height: '410px',
+        left: '1258px',
+        top: '502px',
+        width: '662px',
+        height: '496px',
       }"
     >
-      <comm-and-reader />
+      <flashing-lights-warning/>
+    </div>
+
+    <!-- General Run Info -->
+
+    <!-- Players -->
+    <div
+      class="Fixed FlexColumn BlockGreen"
+      :style="{
+      left: '672px',
+      top: '288px',
+      width: '505px',
+      height: '84px',
+      }"
+    >
+    <player :slot-no="0"  />
+    </div>
+
+    <div
+      class="Fixed FlexColumn BlockGreen"
+      :style="{
+      left: '730px',
+      top: '410px',
+      width: '520px',
+      height: '84px',
+      }"
+    >
+    <player :slot-no="1" />
+    </div>
+
+    <div
+      class="Fixed FlexColumn BlockGreen"
+      :style="{
+      left: '672px',
+      top: '532px',
+      width: '505px',
+      height: '84px',
+      }"
+    >
+    <player :slot-no="2" />
+    </div>
+      <!--<comm-and-reader />-->
+
+      <div
+        class="Fixed FlexColumn BlockYellow"
+        :style="{
+          flex: '1',
+          left: '680px',
+          top: '4px',
+          width: '470px',
+          height: '270px',
+        }"
+      >
+        <run-info />
+        <div class="sub_div">
+        <commentators-reader />
+        <commentators-reader show-reader />
+      </div>
+        </div>
 
       <!-- Run Game Info/Timer -->
       <div
-        class="FlexColumn"
+        class="Fixed FlexColumn BlockBlack"
         :style="{
           flex: '1',
           width: '100%',
-          overflow: 'hidden',
+          left: '810px',
+          top: '675px',
+          width: '535px',
+          height: '103px',
         }"
       >
-        <run-info
-          :style="{ 'font-size': '45px' }"
-          no-wrap
-        />
-        <timer />
-      </div>
-    </div>
+              <timer />
+            </div>
 
     <!-- Media Box -->
     <media-box
       vertical
-      :font-size="40"
+      :font-size="20"
       :style="{
-        left: '0px',
-        top: '535px',
-        width: '600px',
-        height: '405px',
+        left: '699px',
+        top: '783px',
+        width: '525px',
+        height: '205px',
       }"
     />
-
-    <!-- Donation Bar -->
-    <donation-bar
-      :style="{
-        left: '0px',
-        top: '940px',
-        width: '1920px',
-        height: '60px',
-      }"
-    />
-  </div>
+        </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
-import MediaBox from '@esamarathon/esa-layouts-shared/mediabox/graphics';
+import MediaBox from '@shared/graphics/mediabox';
+import { Component, Vue } from 'vue-property-decorator';
+import CommentatorsReader from './components/CommentatorsReader.vue';
 import GameCapture from './components/GameCapture.vue';
 import Player from './components/Player.vue';
-import CommAndReader from './components/CommAndReader.vue';
 import RunInfo from './components/RunInfo.vue';
 import Timer from './components/Timer.vue';
-import DonationBar from './components/DonationBar.vue';
+import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
 
 @Component({
   components: {
     GameCapture,
     Player,
-    CommAndReader,
+    CommentatorsReader,
     RunInfo,
     Timer,
     MediaBox,
-    DonationBar,
+    FlashingLightsWarning,
   },
 })
 export default class extends Vue {}

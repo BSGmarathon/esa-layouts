@@ -2,7 +2,7 @@
   <div
     class="FlexColumn"
     :style="{
-      'font-size': '41px',
+      'font-size': '22px',
       'text-align': 'center',
     }"
   >

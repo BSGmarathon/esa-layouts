@@ -1,4 +1,4 @@
-import type OBS from '@esamarathon/esa-layouts-shared/obs/extension';
+import type OBS from '../../shared/extension/obs'; // eslint-disable-line import/no-relative-packages
 import { Configschema } from './schemas';
 
 export interface ExtensionReturn {

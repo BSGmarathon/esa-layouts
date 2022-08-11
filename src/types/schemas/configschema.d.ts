@@ -13,82 +13,110 @@ export interface Configschema {
 		thisEvent: number;
 		online: boolean | ('partial' | 'full');
 	};
+	omnibar: {
+		miniCredits: {
+			header: string;
+			screeners?: string;
+			tech?: string;
+		};
+	};
 	streamdeck: {
-		enable: boolean;
+		enabled: boolean;
 		port: number;
 		key: string;
 		debug: boolean;
 	};
 	rabbitmq: {
-		enable: boolean;
+		enabled: boolean;
 		protocol: string;
 		hostname: string;
 		username: string;
 		password: string;
 		vhost: string;
-	};
-	restream: {
-		enable: boolean;
-		instances: RestreamItem | [RestreamItem] | [RestreamItem, RestreamItem];
+		queuePrepend?: string;
 	};
 	obs: {
-		enable: boolean;
+		enabled: boolean;
 		address: string;
 		password: string;
+		canvasResolution: {
+			width: number;
+			height: number;
+		};
 		names: {
 			scenes: {
 				commercials: string;
 				gameLayout: string;
+				readerIntroduction: string;
 				intermission: string;
-				videoPlayer: string;
+				intermissionPlayer: string;
 				countdown: string;
-				hekIntermission: string;
 			};
 			sources: {
-				gameCapture1: string;
-				gameCapture2: string;
-				gameCapture3: string;
-				gameCapture4: string;
-				cameraCapture1: string;
-				cameraCapture2: string;
-				cameraCapture3: string;
-				restreamSources: string | [string] | [string, string];
+				gameSources: string | [string, ...string[]];
+				cameraSources: string | [string, ...string[]];
+				cameraSourceCrowd?: string | null;
+				twitchSources: string | [string] | [string, string];
 				videoPlayer: string;
+				donationSound: string;
+			};
+			groups: {
+				gameCaptures: string | [string, ...string[]];
+				cameraCaptures: string | [string, ...string[]];
 			};
 		};
 	};
 	music: {
-		enable: boolean;
+		enabled: boolean;
 		address: string;
 		username: string;
 		password: string;
 	};
 	x32: {
-		enable: boolean;
+		enabled: boolean;
 		ip: string;
 		localPort: number;
 	};
+	xkeys: {
+		enabled: boolean;
+	};
 	tracker: {
-		enable: boolean;
+		enabled: boolean;
 		address: string;
 		username: string;
 		password: string;
-		commentaryBias: {
-			bidId: number;
-			option1Id: number;
-			option2Id: number;
-		};
+		commentaryBias: BidwarBias;
+		otherBidwarBias: BidwarBias;
 	};
 	tts: {
-		enable: boolean;
+		enabled: boolean;
 		voiceAPI: string;
+		key: string;
 	};
-	twitchExt: {
-		enable: boolean;
+	flagcarrier: {
+		enabled: boolean;
+		allowedDevices?: string | [string, ...string[]] | null;
+		group: string;
+	};
+	offsite: {
+		enabled: boolean;
+		address: string;
+		key: string;
+	};
+	server: {
+		enabled: boolean;
+		address: string;
+		key: string;
+	};
+	discord: {
+		enabled: boolean;
 		token: string;
+		textChannelId: string;
 	};
 }
-export interface RestreamItem {
-	address: string;
-	key: string;
+export interface BidwarBias {
+	bidId: number;
+	option1Id: number;
+	option2Id: number;
+	optionTitle: string;
 }

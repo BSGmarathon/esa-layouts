@@ -1,27 +1,28 @@
 <template>
   <div
+    class="WarOther"
     :style="{
       height: '100%',
       display: 'flex',
       'align-items': 'center',
     }"
   >
-    <div
+<!--    <div
       :style="{
-        'font-size': '30px',
+        'font-size': '20px',
         'text-align': 'right',
         'margin-left': '15px',
-        'line-height': '100%',
+        'line-height': '150%',
       }"
     >
       Upcoming<br>Bid War
-    </div>
+    </div>-->
     <div
       :style="{
         'flex-grow': 1,
         display: 'flex',
-        margin: '10px',
-        height: '60px',
+        // margin: '10px',
+        height: '70px',
         'background-color': 'rgba(0, 0, 0, 0.3)',
         overflow: 'hidden',
       }"
@@ -31,11 +32,12 @@
           display: 'flex',
           'justify-content': 'center',
           'flex-direction': 'column',
-          'font-size': '23px',
+          'font-size': '20px',
           'text-align': 'center',
+          'background-color': 'rgba(0, 0, 0, 0.3)',
           padding: '0 10px',
           'white-space': 'nowrap',
-          'line-height': '100%',
+          'line-height': '150%',
         }"
       >
         {{ bid.game }}
@@ -53,18 +55,19 @@
           position: 'relative',
           'flex-grow': 1,
           'white-space': 'nowrap',
-          'font-size': '30px',
+          'font-size': '20px',
           overflow: 'hidden',
           display: 'flex',
           'align-items': 'center',
-          'font-size': '23px',
+          'background-color': 'rgba(0, 0, 0, 0.3)',
+          'font-size': '20px',
         }"
       >
         <div
           v-for="(option, i) in options" :key="option.id"
           class="Option"
           :style="{
-            'background-color': option.winning ? '#877520' : '#502f59',
+            'background-color': option.winning ? '#6DD47E' : '#B37BA4',
             'margin-left': i > 0 ? '5px' : '0',
           }"
           :ref="`Option${i + 1}`"
@@ -83,22 +86,24 @@
 </template>
 
 <script lang="ts">
-import { formatUSD } from '@esa-layouts/graphics/_misc/helpers';
+import { formatUSD, wait } from '@esa-layouts/graphics/_misc/helpers';
 import { Bids } from '@esa-layouts/types/schemas';
 import { Vue, Component, Prop, Ref } from 'vue-property-decorator';
 import gsap from 'gsap';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { orderBy } from 'lodash';
 import clone from 'clone';
 
-/** This component does not implement the "pin" feature correctly yet! */
+gsap.registerPlugin(ScrollToPlugin);
 
 @Component
 export default class extends Vue {
+  @Prop({ type: Number, required: true }) readonly seconds!: number;
   @Prop({ type: Object, required: true }) readonly bidOriginal!: Bids[0];
   @Ref('OptionsBar') optionsBar!: HTMLElement;
   formatUSD = formatUSD;
-  fallback = 0;
   bid!: Bids[0];
+  timeline: gsap.core.Timeline | undefined;
 
   get options(): { id: number, name: string, total: number, winning: boolean }[] {
     const ordered = orderBy(this.bid.options, ['total'], ['desc']);
@@ -111,29 +116,34 @@ export default class extends Vue {
     return Array.isArray(rep) ? rep[0] : rep;
   }
 
-  created(): void {
+  async created(): Promise<void> {
+    // Copied in case the prop changes and ruins the animations.
+    // In the current setup, this doesn't happen though (or shouldn't!).
     this.bid = clone(this.bidOriginal);
   }
 
   async mounted(): Promise<void> {
-    console.log('Bid: [War-Other] scrollWidth: %s', this.optionsBar.scrollWidth);
-    console.log('Bid: [War-Other] clientWidth: %s', this.optionsBar.clientWidth);
-    // If no need to scroll, just wait a flat 25 seconds before ending.
+    // If no need to scroll, just wait a flat X seconds before ending.
     if (this.optionsBar.scrollWidth <= this.optionsBar.clientWidth) {
-      await new Promise((res) => window.setTimeout(res, 25 * 1000));
-      this.$emit('end');
+      if (this.seconds >= 0) {
+        await wait(this.seconds * 1000);
+        this.$emit('end');
+      }
     } else {
-      this.fallback = window.setTimeout(() => { this.$emit('end'); }, 30 * 1000);
-      const timeline = gsap.timeline({
+      this.timeline = gsap.timeline({
         paused: true,
         onComplete: () => {
           window.setTimeout(() => {
-            window.clearTimeout(this.fallback);
-            this.$emit('end');
+            if (this.seconds >= 0) {
+              this.$emit('end');
+            } else {
+              // If pinned, restart the timeline on end.
+              this.timeline?.restart();
+            }
           }, 4000);
         },
       });
-      await new Promise((res) => window.setTimeout(res, 4000));
+      await wait(4000);
       const loopLength = this.bid.allowUserOptions ? this.options.length + 1 : this.options.length;
 
       // Check how many times we need to scroll along to fit everything in.
@@ -148,14 +158,28 @@ export default class extends Vue {
       for (let i = 1; i < loopLength; i += 1) {
         const rep = this.getRef(`Option${i + 1}`);
         const endPos = this.optionsBar.scrollWidth - this.optionsBar.clientWidth;
-        timeline.to(this.optionsBar, {
+        this.timeline.to(this.optionsBar, {
           scrollLeft: Math.min(rep.offsetLeft, endPos),
           duration: 2,
-        }, i > 1 ? `+=${Math.max(17 / scrollCount, 2)}` : undefined);
+        }, i > 1 ? `+=${Math.max((this.seconds - 8) / (scrollCount + 1), 2)}` : undefined);
         if (endPos <= rep.offsetLeft) break;
       }
-      timeline.resume();
+
+      // If pinned, scroll back to the start on finish.
+      if (this.seconds < 1) {
+        this.timeline.to(this.optionsBar, {
+          scrollTo: { x: 0 },
+          duration: 2,
+        }, '+=4');
+      }
+
+      this.timeline.resume();
     }
+  }
+
+  beforeDestroy(): void {
+    this.timeline?.kill();
+    delete this.timeline;
   }
 }
 </script>

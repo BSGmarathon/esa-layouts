@@ -1,108 +1,141 @@
 <template>
-  <div>
+<div :style="{ 'backgroundImage': `url(bsgbacks/3ds_bg.png)`,
+'background-repeat': 'no-repeat'}
+">
     <!-- Game Captures -->
     <game-capture
       id="GameCapture1"
-      class="BorderLeft BorderBottom"
+      class=""
       :style="{
-        left: '774px',
-        top: '0px',
-        width: '1146px',
-        height: '689px',
+      left: '573px',
+      top: '0px',
+      width: '1347px',
+      height: '809px',
       }"
     />
     <game-capture
-      id="GameCapture2"
-      class="BorderLeft"
+      id="GameCapture3"
+      class=""
       :style="{
-        left: '1506px',
-        top: '689px',
-        width: '414px',
-        height: '311px',
+      left: '8px',
+      top: '594px',
+      width: '538px',
+      height: '404px',
       }"
     />
 
     <!-- Camera Captures -->
     <div
       id="CameraCapture1"
-      class="Capture"
+      class="Capture Relative"
       :style="{
-        left: '0px',
-        top: '0px',
-        width: '774px',
-        height: '437px',
+      left: '8px',
+      top: '8px',
+      width: '538px',
+      height: '379px',
       }"
-    />
+    >
+      <flashing-lights-warning/>
+    </div>
+
+    <div class="Fixed"
+    :style="{
+    width: '97%',
+    left: '0px',
+    top: '316px',
+    width: '539px',
+    height: '111px',
+    }">
+    <commentators-reader show-reader />
+  </div>
 
     <!-- Run Game Info/Timer -->
     <div
-      class="Fixed FlexColumn BorderLeft"
+      class="Fixed Flex"
       :style="{
-        left: '774px',
-        top: '689px',
-        width: '732px',
-        height: '251px',
+      left: '1213px',
+      top: '829px',
+      width: '680px',
+      height: '170px',
       }"
     >
       <run-info />
-      <timer />
+      </div>
+
+          <!--TIMER-->
+          <div
+            class="Fixed FlexColumn BlockBlack"
+            :style="{
+              flex: '1',
+              width: '100%',
+              left: '17px',
+              top: '479px',
+              width: '519px',
+              height: '109px',
+            }"
+          >
+
+          <div
+          :style="{
+          left: '120px',
+          'position': 'absolute',
+          }">
+            <timer />
+      </div>
     </div>
 
     <!-- Player/Commetator -->
     <div
       class="Fixed"
       :style="{
-        left: '0px',
-        top: '437px',
-        width: '774px',
+      left: '0px',
+      top: '381px',
+      width: '537px',
+      height: '85px',
       }"
     >
       <player />
-      <comm-and-reader />
+      <!--<commentators-reader />
+      <commentators-reader show-reader />-->
     </div>
 
     <!-- Media Box -->
+
     <media-box
-      :font-size="50"
+    class="Fixed FlexColumn BlockPurple"
       :style="{
-        left: '0px',
-        top: '527px',
-        width: '774px',
-        height: '413px',
+        left: '582px',
+        top: '827px',
+        width: '602px',
+        height: '173px',
       }"
     />
 
     <!-- Donation Bar -->
-    <donation-bar
-      :style="{
-        left: '0px',
-        top: '940px',
-        width: '1506px',
-        height: '60px',
-      }"
-    />
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import MediaBox from '@esamarathon/esa-layouts-shared/mediabox/graphics';
+import MediaBox from '@shared/graphics/mediabox';
 import GameCapture from './components/GameCapture.vue';
 import Player from './components/Player.vue';
-import CommAndReader from './components/CommAndReader.vue';
+import CommentatorsReader from './components/CommentatorsReader.vue';
 import RunInfo from './components/RunInfo.vue';
 import Timer from './components/Timer.vue';
 import DonationBar from './components/DonationBar.vue';
+import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
 
 @Component({
   components: {
     GameCapture,
     Player,
-    CommAndReader,
+    CommentatorsReader,
     RunInfo,
     Timer,
     MediaBox,
     DonationBar,
+    FlashingLightsWarning,
   },
 })
 export default class extends Vue {}

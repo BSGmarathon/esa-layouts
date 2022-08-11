@@ -1,8 +1,0 @@
-#Intermission .Logo > img {
-  content: url('./together/IntermissionLogo.png');
-}
-
-#Omnibar #Logo {
-  content: url('./together/OmnibarLogo.png');
-  padding: 0 10px;
-}

@@ -1,6 +1,4 @@
-/**
- * Some stuff is commented out that may need re-enabling if necessary.
- */
+const path = require('path');
 
 module.exports = {
   root: true,
@@ -9,12 +7,14 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: 'tsconfig.extension.json',
+    // project: 'tsconfig.extension.json',
+    project: path.join(__dirname, 'tsconfig.extension.json'),
   },
   plugins: [
     '@typescript-eslint',
   ],
   extends: [
+    'airbnb-base',
     'airbnb-typescript/base',
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
@@ -24,7 +24,8 @@ module.exports = {
     'import/resolver': {
       typescript: {
         // This is needed to properly resolve paths.
-        project: 'tsconfig.extension.json',
+        // project: 'tsconfig.extension.json',
+        project: path.join(__dirname, 'tsconfig.extension.json'),
       },
     },
     'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
@@ -32,7 +33,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/lines-between-class-members': 'off',
     // max-len set to ignore "import" lines (as they usually get long and messy).
-    'max-len': ['error', { code: 100, ignorePattern: '^import\\s.+\\sfrom\\s.+;$' }],
+    'max-len': ['error', { code: 100, ignorePattern: '^import\\s.+\\sfrom\\s.+;' }],
     // I mainly have this off as it ruins auto import sorting in VSCode.
     'object-curly-newline': 'off',
     'import/extensions': ['error', 'ignorePackages', {
@@ -41,13 +42,9 @@ module.exports = {
       ts: 'never',
       tsx: 'never',
     }],
-    // 'import/no-unresolved': [2, { commonjs: true, caseSensitive: false }],
 
-    // '@typescript-eslint/ban-ts-comment': 'off',
     'no-restricted-syntax': 'off',
-    'import/prefer-default-export': 'off',
     'no-await-in-loop': 'off',
-    'global-require': 'off', // Apparently deprecated but still need to turn it off. :)
   },
 
   // Overrides for types.
@@ -60,8 +57,6 @@ module.exports = {
       'import/prefer-default-export': 'off',
       // Types are only used for development (usually!) so dev dependencies are fine.
       'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
-
-      // 'camelcase': 'off',
     }
   }],
 };

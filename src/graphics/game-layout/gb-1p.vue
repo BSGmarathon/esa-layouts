@@ -1,82 +1,87 @@
 <template>
-  <div>
+<div :style="{ 'backgroundImage': `url(bsgbacks/gameboy_bg.png)`,
+'background-repeat': 'no-repeat'}
+">
     <!-- Game Captures -->
     <game-capture
       id="GameCapture1"
-      class="BorderLeft"
+      class="BlockRed"
       :style="{
-        left: '875px',
-        top: '0px',
-        width: '1045px',
-        height: '940px',
+      left: '700px',
+      top: '0px',
+      width: '1110px',
+      height: '998px',
       }"
     />
 
     <!-- Camera Captures -->
     <div
       id="CameraCapture1"
-      class="Capture"
+      class="Capture BlockBlue Relative"
       :style="{
-        left: '0px',
-        top: '0px',
-        width: '875px',
-        height: '492px',
+      left: '0px',
+      top: '297px',
+      width: '554px',
+      height: '307px',
       }"
-    />
+    >
+      <flashing-lights-warning/>
+    </div>
 
     <!-- General Run Info -->
     <div
-      class="Fixed FlexColumn BorderBottom"
+      class="Fixed FlexColumn BlockGreen"
       :style="{
-        left: '0px',
-        top: '492px',
-        width: '875px',
-        height: '210px',
+      left: '0px',
+      top: '622px',
+      width: '536px',
+      height: '82px',
       }"
     >
       <player />
-      <comm-and-reader />
+      <!--<commentators-reader />
+      <commentators-reader show-reader />-->
 
       <!-- Run Game Info/Timer -->
       <div
-        class="Flex"
-        :style="{ flex: '1' }"
+        class="Fixed FlexColumn"
+        :style="{ flex: '1',
+        left: '0px',
+        top: '0px',
+        width: '522px',
+        height: '278px',
+    }"
       >
-        <run-info
-          :style="{
-            'width': '525px',
-            height: '100%',
-          }"
-        />
-        <timer
-          class="BorderLeft"
-          :style="{
-            'width': '350px',
-            height: '100%',
-          }"
-        />
+        <run-info />
+        <div class="sub_div">
+        <commentators-reader />
+  <commentators-reader show-reader />
       </div>
-    </div>
+        </div>
+
+    <!--TIMER-->
+    <div
+      class="Fixed FlexColumn BlockBlack"
+      :style="{
+        flex: '1',
+        width: '100%',
+        left: '146px',
+        top: '735px',
+        width: '535px',
+        height: '103px',
+      }"
+    >
+        <timer />
+      </div>
 
     <!-- Media Box -->
     <media-box
-      :font-size="40"
+      :font-size="20"
       :style="{
-        left: '0px',
-        top: '702px',
-        width: '875px',
-        height: '298px',
-      }"
-    />
-
-    <!-- Donation Bar -->
-    <donation-bar
-      class="BorderLeft"
-      :style="{
-        left: '875px',
-        top: '940px',
-        width: '1045px',
-        height: '60px',
+      left: '24px',
+      top: '840px',
+      width: '528px',
+      height: '157px',
       }"
     />
   </div>
@@ -84,23 +89,25 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import MediaBox from '@esamarathon/esa-layouts-shared/mediabox/graphics';
+import MediaBox from '@shared/graphics/mediabox';
 import GameCapture from './components/GameCapture.vue';
 import Player from './components/Player.vue';
-import CommAndReader from './components/CommAndReader.vue';
+import CommentatorsReader from './components/CommentatorsReader.vue';
 import RunInfo from './components/RunInfo.vue';
 import Timer from './components/Timer.vue';
 import DonationBar from './components/DonationBar.vue';
+import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
 
 @Component({
   components: {
     GameCapture,
     Player,
-    CommAndReader,
+    CommentatorsReader,
     RunInfo,
     Timer,
     MediaBox,
     DonationBar,
+    FlashingLightsWarning,
   },
 })
 export default class extends Vue {}

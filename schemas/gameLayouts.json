@@ -25,9 +25,14 @@
     },
     "selected": {
       "type": "string"
+    },
+    "crowdCamera": {
+      "type": "boolean",
+      "default": false
     }
   },
   "required": [
-    "available"
+    "available",
+    "crowdCamera"
   ]
 }

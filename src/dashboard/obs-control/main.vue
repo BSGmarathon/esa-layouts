@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <div v-if="!obsConfig.enable" :style="{ 'font-style': 'italic' }">
+    <div v-if="!obsConfig.enabled" :style="{ 'font-style': 'italic' }">
       This feature is not enabled.
     </div>
     <div v-else-if="!obsData.connected" :style="{ 'font-style': 'italic' }">
@@ -59,7 +59,7 @@
         @click="changeScene(obsConfig.names.scenes.gameLayout)"
         :disabled="disableButton(obsConfig.names.scenes.gameLayout)"
       >
-        Start Run
+        Transition to Run
         <template v-if="currentRunDelay.audio">
           ({{ (currentRunDelay.audio / 1000).toFixed(1) }}s delay)
         </template>
@@ -84,13 +84,14 @@
           ({{ (currentRunDelay.audio / 1000).toFixed(1) }}s delay)
         </template>
       </v-btn>
-      <template v-if="obsData.gameLayoutScreenshot && gameLayoutPreviewToggle">
+      <template v-if="evtConfig.online && obsData.gameLayoutScreenshot && gameLayoutPreviewToggle">
         <div class="mt-3 mb-1">
           "Game Layout" Preview (refreshes every second):
         </div>
         <img :src="obsData.gameLayoutScreenshot" :style="{ width: '100%' }">
       </template>
       <v-switch
+        v-if="evtConfig.online"
         v-model="gameLayoutPreviewToggle"
         class="ma-2 mb-0"
         hide-details
@@ -103,16 +104,19 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { State } from 'vuex-class';
 import { CurrentRunDelay, ObsData, ServerTimestamp, VideoPlayer } from '@esa-layouts/types/schemas';
 import { Configschema } from '@esa-layouts/types/schemas/configschema';
+import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
+import { Timer } from 'speedcontrol-util/types';
 
 @Component
 export default class extends Vue {
-  @State obsData!: ObsData;
-  @State currentRunDelay!: CurrentRunDelay;
-  @State serverTimestamp!: ServerTimestamp;
-  @State videoPlayer!: VideoPlayer;
+  @replicantNS.State((s) => s.reps.obsData) readonly obsData!: ObsData;
+  @replicantNS.State((s) => s.reps.currentRunDelay) readonly currentRunDelay!: CurrentRunDelay;
+  @replicantNS.State((s) => s.reps.serverTimestamp) readonly serverTimestamp!: ServerTimestamp;
+  @replicantNS.State((s) => s.reps.videoPlayer) readonly videoPlayer!: VideoPlayer;
+  @replicantNS.State((s) => s.reps.timer) readonly timer!: Timer;
+  evtConfig = (nodecg.bundleConfig as Configschema).event;
   obsConfig = (nodecg.bundleConfig as Configschema).obs;
   gameLayoutPreviewToggle = true;
 
@@ -126,13 +130,13 @@ export default class extends Vue {
     const intermissionScenes = [
       this.obsConfig.names.scenes.commercials,
       this.obsConfig.names.scenes.intermission,
-      this.obsConfig.names.scenes.videoPlayer,
-      this.obsConfig.names.scenes.hekIntermission,
+      this.obsConfig.names.scenes.intermissionPlayer,
       this.obsConfig.names.scenes.countdown,
     ];
     return this.obsData.transitioning
     || this.obsData.disableTransitioning
-    || !!intermissionScenes.find((s) => this.obsData.scene?.startsWith(s));
+    || !!intermissionScenes.find((s) => this.obsData.scene?.startsWith(s))
+    || ['running', 'paused'].includes(this.timer.state);
   }
 
   startIntermission(): void {

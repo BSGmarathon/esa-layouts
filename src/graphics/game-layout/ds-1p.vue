@@ -1,113 +1,113 @@
 <template>
-  <div>
+<div :style="{ 'backgroundImage': `url(bsgbacks/ds_bg.png)`,
+'background-repeat': 'no-repeat'}
+">
     <!-- Game Captures -->
     <game-capture
       id="GameCapture1"
-      class="BorderLeft BorderBottom"
+      class=" "
       :style="{
-        left: '858px',
-        top: '0px',
-        width: '1062px',
-        height: '797px',
+      left: '589px',
+      top: '0px',
+      width: '1331px',
+      height: '998px',
       }"
     />
     <game-capture
-      id="GameCapture2"
-      class="BorderTop BorderLeft"
+      id="GameCapture3"
+      class=" "
       :style="{
-        left: '373px',
-        top: '636px',
-        width: '485px',
-        height: '364px',
+      left: '102px',
+      top: '710px',
+      width: '386px',
+      height: '288px',
       }"
     />
 
     <!-- Camera Captures -->
     <div
       id="CameraCapture1"
-      class="Capture"
+      class="Capture Relative"
       :style="{
-        left: '0px',
-        top: '0px',
-        width: '858px',
-        height: '483px',
+      left: '6px',
+      top: '228px',
+      width: '548px',
+      height: '294px',
       }"
-    />
+    >
+      <flashing-lights-warning
+        :style="{
+          top: '33px',
+        }"
+      />
+    </div>
 
     <!-- Run Game Info/Timer -->
     <div
-      class="Fixed Flex"
+      class="Fixed FlexColumn BlockYellow"
       :style="{
-        left: '858px',
-        top: '797px',
-        width: '1062px',
-        height: '143px',
+      left: '0px',
+      top: '0px',
+      width: '555px',
+      height: '231px',
       }"
     >
-      <run-info
-        class="BorderLeft"
-        :style="{
-          'width': '692px',
-          height: '100%',
-        }"
-      />
-      <timer
-        class="BorderLeft"
-        :style="{
-          'width': '370px',
-          height: '100%',
-        }"
-      />
+      <run-info />
+
+      </div>
+
+          <!--TIMER-->
+          <div
+            class="Fixed FlexColumn BlockBlack"
+            :style="{
+              flex: '1',
+              width: '100%',
+              left: '156px',
+              top: '612px',
+              width: '536px',
+              height: '85px',
+            }"
+          >
+            <timer />
     </div>
 
-    <!-- Player/Commetator -->
+    <div class="Fixed"
+    :style="{
+    left: '0px',
+    top: '205px',
+    width: '531px',
+    height: '111px',
+    }">
+    <commentators-reader show-reader />
+  </div>
+
+    <!-- Player/Commentator -->
     <div
       class="Fixed"
       :style="{
-        left: '0px',
-        top: '483px',
-        width: '858px',
+      left: '0px',
+      top: '530px',
+      width: '553px',
+      height: '85px',
       }"
     >
       <player />
-      <commentators-reader />
-      <commentators-reader show-reader />
+      <!--<commentators-reader />
+      <commentators-reader show-reader />-->
     </div>
-
-    <!-- Media Box -->
-    <media-box
-      vertical
-      :font-size="30"
-      :style="{
-        left: '0px',
-        top: '636px',
-        width: '373px',
-        height: '364px',
-      }"
-    />
-
-    <!-- Donation Bar -->
-    <donation-bar
-      class="BorderLeft"
-      :style="{
-        left: '858px',
-        top: '940px',
-        width: '1062px',
-        height: '60px',
-      }"
-    />
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import MediaBox from '@esamarathon/esa-layouts-shared/mediabox/graphics';
+import MediaBox from '@shared/graphics/mediabox';
 import GameCapture from './components/GameCapture.vue';
 import Player from './components/Player.vue';
 import CommentatorsReader from './components/CommentatorsReader.vue';
 import RunInfo from './components/RunInfo.vue';
 import Timer from './components/Timer.vue';
 import DonationBar from './components/DonationBar.vue';
+import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
 
 @Component({
   components: {
@@ -118,6 +118,7 @@ import DonationBar from './components/DonationBar.vue';
     Timer,
     MediaBox,
     DonationBar,
+    FlashingLightsWarning,
   },
 })
 export default class extends Vue {}

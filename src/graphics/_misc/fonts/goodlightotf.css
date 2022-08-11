@@ -1,0 +1,15 @@
+@font-face {
+	font-family: 'Goodlight';
+	src: url('GoodlightRegular.woff2') format('woff2'),
+	url('GoodlightRegular.woff') format('woff');
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Goodlight-light';
+    src: url('GoodlightLight.woff2') format('woff2'),
+        url('GoodlightLight.woff') format('woff');
+	font-weight: 300;
+	font-style: normal;
+}

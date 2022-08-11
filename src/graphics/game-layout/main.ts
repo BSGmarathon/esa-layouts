@@ -1,12 +1,12 @@
 /* eslint no-new: off, @typescript-eslint/explicit-function-return-type: off */
 
 import type { GameLayouts } from '@esa-layouts/types/schemas';
+import { setUpReplicantsComponent as setUpReplicantsMediabox } from '@shared/graphics/mediabox';
 import { RunDataActiveRun } from 'speedcontrol-util/types';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import '../_misc/fonts/barlow-condensed.css';
+import '../_misc/common.css';
 import '../_misc/theme';
-import './common.css';
 import * as List from './list';
 import App from './main.vue';
 import waitForReplicants from './store';
@@ -20,24 +20,14 @@ const routes = [
     component: List.L_4x3_1p,
   },
   {
+    name: '4x3 1 Player (Large Camera)',
+    path: '/4x3-1p-largecam',
+    component: List.L_4x3_1p_LargeCam,
+  },
+  {
     name: '4:3 2 Player',
     path: '/4x3-2p',
     component: List.L_4x3_2p,
-  },
-  {
-    name: '4:3 2 Player (Extra Space)',
-    path: '/4x3-2p-extraspace',
-    component: List.L_4x3_2p_ExtraSpace,
-  },
-  {
-    name: '4:3 2 Player (Extra Middle Space)',
-    path: '/4x3-2p-extramiddlespace',
-    component: List.L_4x3_2p_ExtraMiddleSpace,
-  },
-  {
-    name: '4:3 2 Player (HEK Relay)',
-    path: '/4x3-2p-hekrelay',
-    component: List.L_4x3_2p_HekRelay,
   },
   {
     name: '4:3 3 Player',
@@ -60,9 +50,9 @@ const routes = [
     component: List.L_16x9_1p_LargeCam,
   },
   {
-    name: '16:9 1 Player (2 Cameras)',
-    path: '/16x9-1p-2cams',
-    component: List.L_16x9_1p_2Cams,
+    name: '16:9 2 Player Co-op (no line in middle)',
+    path: '/16x9-2p-c',
+    component: List.L_16x9_2p_c,
   },
   {
     name: '16:9 2 Player',
@@ -80,9 +70,9 @@ const routes = [
     component: List.L_GB_1p,
   },
   {
-    name: 'GameBoy 2 Player (Extra Space)',
-    path: '/GB-2p-extraspace',
-    component: List.L_GB_2p_ExtraSpace,
+    name: 'GameBoy 2 Player',
+    path: '/GB-2p',
+    component: List.L_GB_2p,
   },
   {
     name: 'GBA 1 Player',
@@ -100,24 +90,29 @@ const routes = [
     component: List.L_3DS_1p,
   },
   {
+    name: '3DS 1 Player Vertical',
+    path: '/3DSV-1p',
+    component: List.L_3DSV_1p,
+  },
+  {
+    name: '3DS 2 Player',
+    path: '/3DS-2p',
+    component: List.L_3DS_2p,
+  },
+  {
     name: 'DS 1 Player',
     path: '/DS-1p',
     component: List.L_DS_1p,
   },
   {
-    name: '5:2 1 Player',
-    path: '/5x2-1p',
-    component: List.L_5x2_1p,
+    name: 'DS 1 Player Vertical',
+    path: '/DSV-1p',
+    component: List.L_DSV_1p,
   },
   {
-    name: 'SM64 (Power Star Pathway 2P)',
-    path: '/sm64-psp-2p',
-    component: List.L_SM64_PSP_2p,
-  },
-  {
-    name: '2 Cameras Only',
-    path: '/2-cams-only',
-    component: List.L_2CamsOnly,
+    name: 'DS 2 Player',
+    path: '/DS-2p',
+    component: List.L_DS_2p,
   },
   {
     path: '*',
@@ -149,7 +144,8 @@ function checkCoop(runData: RunDataActiveRun): boolean {
     && runData.teams[0].players.length > 1) || false;
 }
 
-waitForReplicants().then((store) => {
+waitForReplicants().then(async (store) => {
+  await setUpReplicantsMediabox();
   store.commit('updateList', getAvailable());
   window.addEventListener('beforeunload', () => {
     store.commit('clearList');

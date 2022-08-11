@@ -1,4 +1,4 @@
-import type { Tracker } from '@esamarathon/esa-layouts-shared/types';
+import type { Tracker } from '@shared/types';
 import { store } from '../../store';
 
 /**
@@ -25,6 +25,7 @@ function getBidWeight(bid: Tracker.FormattedBid): number {
  * so nearer bids are more likely to be picked.
  * Original logic written by CBenni.
  */
+// eslint-disable-next-line import/prefer-default-export
 export function setCurrentBid(): boolean {
   const choices = store.state.bids.map((bid) => ({
     bid,

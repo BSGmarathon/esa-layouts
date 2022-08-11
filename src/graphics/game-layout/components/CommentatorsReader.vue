@@ -3,12 +3,16 @@
     class="Flex"
     :style="{
       width: '100%',
-      height: show ? '40px' : 0,
+      'font-size': '0.2em',
+      height: show ? '20px' : 0,
       opacity: show ? 1 : 0,
-      'margin-top': show ? '2px' : 0,
-      'font-weight': 400,
+      'margin-top': show ? '12px' : 0,
+      'font-weight': 200,
+      'margin-left': '8px',
       background: 'rgba(0, 0, 0, 0.4)', // HARDCODED, BAD!
       color: 'white', // HARDCODED, BAD!
+      'margin-bottom': '12px',
+              'font-family': 'Goodlight-light',
     }"
   >
     <div
@@ -16,14 +20,16 @@
       :style="{
         'min-width': '140px',
         height: '100%',
-        background: '#2d1d3c', // HARDCODED, BAD!
+        background: '#914e21', // HARDCODED, BAD!
         'justify-content': 'center',
         // 'padding-left': '10px',
-        'font-size': '24px',
-        'font-weight': 500,
+        'font-size': '20px',
+        'font-weight': 200,
+        'font-size': '18px',
+        'font-family': 'Goodlight-light',
       }"
     >
-      <template v-if="showReader">Reader</template>
+      <template v-if="showReader">Host</template>
       <template v-else>
         <template v-if="comms.length > 1">Commentators</template>
         <template v-else>Commentator</template>
@@ -34,10 +40,10 @@
         'flex-grow': 1,
         'justify-content': 'flex-end',
         'margin': '0 10px',
-        overflow: 'hidden',
+
       }"
     >
-      <div :style="{ width: '100%', 'text-align': 'center' }">
+      <div :style="{ width: '98%', 'text-align': 'center' }">
         <span
           ref="Fit"
           :style="{
@@ -50,6 +56,7 @@
             <template v-if="reader">{{ reader.name }}</template><span
               v-if="reader && reader.pronouns" class="Pronouns">{{ reader.pronouns }}</span>
           </template>
+
           <template v-else>
             <span v-for="({ name, pronouns }, i) in comms" :key="i">
               {{ name }}<span v-if="pronouns" class="Pronouns">
@@ -100,7 +107,7 @@ export default class extends Vue {
   mounted(): void {
     this.fittyInstance = fitty(this.toFit, {
       minSize: 1,
-      maxSize: 24,
+      maxSize: 18,
       multiLine: false,
     });
   }
@@ -115,13 +122,14 @@ export default class extends Vue {
   .Pronouns {
     position: relative;
     display: inline-block;
-    font-weight: 400;
-    font-size: 0.75em;
-    top: -0.1em;
-    line-height: 1.5em;
-    background: #2d1d3c;
-    color: #cccccc;
+    font-weight: 200;
+    font-size: 0.6em;
+    top: 0.1em;
+    /* background: #2d1d3c; /* ESA */
+    background: #914e21; /* UKSG */
+    color: #ffffff;
     text-transform: uppercase;
+    font-family: Goodlight-light;
     padding: 0 3px;
     margin-left: 3px;
   }

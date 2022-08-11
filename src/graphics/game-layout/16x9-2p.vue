@@ -1,15 +1,17 @@
 <template>
-  <div>
+  <div :style="{ 'backgroundImage': `url(bsgbacks/widescreen_2_bg.png)`,
+'background-repeat': 'no-repeat'}
+">
     <!-- Game Captures -->
     <game-capture
       id="GameCapture1"
-      class="BorderRight"
+      class=""
       :slot-no="0"
       :style="{
-        left: '0px',
-        top: '0px',
-        width: '960px',
-        height: '540px',
+      left: '0px',
+      top: '74px',
+      width: '955px',
+      height: '540px',
       }"
     />
     <game-capture
@@ -17,10 +19,10 @@
       :slot-no="1"
       finish-time-pos="bottomright"
       :style="{
-        left: '960px',
-        top: '0px',
-        width: '960px',
-        height: '540px',
+      left: '963px',
+      top: '74px',
+      width: '957px',
+      height: '540px',
       }"
     />
 
@@ -29,33 +31,35 @@
     <div
       v-if="!online"
       id="CameraCapture1"
-      class="Capture BorderTop BorderRight BorderLeft"
+      class="Capture Relative"
       :style="{
-        left: '660px',
-        top: '540px',
-        width: '600px',
-        height: '400px',
+      left: '724px',
+      top: '732px',
+      width: '470px',
+      height: '268px',
       }"
-    />
+    >
+      <flashing-lights-warning/>
+    </div>
     <template v-else>
       <div
         id="CameraCapture1"
-        class="Capture BorderTop BorderRight BorderLeft"
+        class="Capture"
         :style="{
-          left: '660px',
-          top: '540px',
-          width: '300px',
-          height: '400px',
+          left: '711px',
+          top: '720px',
+          width: '249px',
+          height: '280px',
         }"
       />
       <div
         id="CameraCapture2"
-        class="Capture BorderTop BorderRight"
+        class="Capture"
         :style="{
           left: '960px',
-          top: '540px',
-          width: '300px',
-          height: '400px',
+          top: '720px',
+          width: '249px',
+          height: '280px',
         }"
       />
     </template>
@@ -64,115 +68,86 @@
     <div
       class="Fixed"
       :style="{
-        left: '0px',
-        top: '540px',
-        width: '660px',
+      left: '189px',
+      top: '648px',
+      width: '520px',
+      height: '85px'
       }"
     >
       <player :slot-no="0" />
-      <commentators-reader />
-      <commentators-reader show-reader />
+      <!--<commentators-reader />
+      <commentators-reader show-reader />-->
     </div>
 
     <!-- Player 2/General Run Info -->
     <div
       class="Fixed FlexColumn"
       :style="{
-        left: '1260px',
-        top: '540px',
-        width: '660px',
-        height: '400px',
+      left: '1209px',
+      top: '632px',
+      width: '520px',
+      height: '85px'
       }"
     >
       <player :slot-no="1" />
 
-      <div
-        v-if="extraPlayers.length"
-        class="Flex CommAndReader"
-        :style="{
-          width: '100%',
-          height: '40px',
-          'font-size': '25px',
-          'font-weight': 400,
-          'white-space': 'nowrap',
-        }"
-      >
-        <span :style="{ 'font-weight': 600, 'padding-right': '5px' }">
-          Off Screen:
-        </span>
-        <template v-for="({ name, pronouns }, i) in extraPlayers">
-          <span :key="name">{{ name }}</span>
-          <span
-            v-if="pronouns"
-            :key="name"
-            class="Pronouns"
-            :style="{
-              padding: '1px 3px',
-              'margin-left': '4px',
-              'background-color': '#4b3163',
-            }"
-          >
-            {{ pronouns }}
-          </span><span
-            v-if="i < extraPlayers.length - 1"
-            :key="name"
-          >,&nbsp;</span>
-        </template>
-      </div>
-
       <!-- Run Game Info/Timer -->
       <div
-        class="FlexColumn"
+        class="Fixed FlexColumn BlockYellow"
         :style="{
-          flex: '1',
-          width: '100%',
-          overflow: 'hidden',
+        flex: '1',
+        width: '100%',
+        left: '1227px',
+        top: '727px',
+        width: '545px',
+        height: '270px',
         }"
       >
-        <run-info
-          :style="{ 'font-size': '45px' }"
-          no-wrap
-        />
-        <timer font-size="120px" />
+        <run-info :style="{ 'font-size': '35px' }" />
+        <div class="sub_div">
+          <commentators-reader />
+          <commentators-reader show-reader />
+        </div>
+      </div>
+      <div
+        class="Fixed FlexColumn BlockBlack"
+        :style="{
+    flex: '1',
+    width: '100%',
+    left: '821px',
+    top: '636px',
+    width: '412px',
+    height: '75px',
+  }"
+      >
+        <timer />
       </div>
     </div>
 
     <!-- Media Box -->
     <media-box
-      :font-size="40"
+      :font-size="20"
       :style="{
-        left: '0px',
-        top: '674px',
-        width: '660px',
-        height: '266px',
+      left: '43px',
+      top: '729px',
+      width: '665px',
+      height: '269px',
       }"
     />
 
-    <!-- Donation Bar -->
-    <donation-bar
-      :style="{
-        left: '0px',
-        top: '940px',
-        width: '1920px',
-        height: '60px',
-      }"
-    />
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
 import { Configschema } from '@esa-layouts/types/schemas/configschema';
-import { State } from 'vuex-class';
-import { RunDataActiveRun } from 'speedcontrol-util/types';
-import MediaBox from '@esamarathon/esa-layouts-shared/mediabox/graphics';
+import MediaBox from '@shared/graphics/mediabox';
+import { Component, Vue } from 'vue-property-decorator';
+import CommentatorsReader from './components/CommentatorsReader.vue';
 import GameCapture from './components/GameCapture.vue';
 import Player from './components/Player.vue';
-import CommentatorsReader from './components/CommentatorsReader.vue';
 import RunInfo from './components/RunInfo.vue';
 import Timer from './components/Timer.vue';
-import DonationBar from './components/DonationBar.vue';
-import { formatPronouns } from '../_misc/helpers';
+import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
 
 @Component({
   components: {
@@ -182,23 +157,10 @@ import { formatPronouns } from '../_misc/helpers';
     RunInfo,
     Timer,
     MediaBox,
-    DonationBar,
+    FlashingLightsWarning,
   },
 })
 export default class extends Vue {
   online = (nodecg.bundleConfig as Configschema).event.online;
-  @State('runDataActiveRun') runData!: RunDataActiveRun;
-
-  get extraPlayers(): { name: string, pronouns?: string }[] {
-    if (this.runData?.relay) return [];
-    return (this.runData?.teams[0].players || []).slice(2).map((p) => ({
-      name: p.name,
-      pronouns: this.formatPronouns(p.pronouns),
-    }));
-  }
-
-  formatPronouns(pronouns?: string): string | undefined {
-    return formatPronouns(pronouns);
-  }
 }
 </script>

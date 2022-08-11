@@ -1,0 +1,199 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "definitions": {
+    "props": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "seconds": {
+          "type": "number"
+        }
+      }
+    },
+    "types": {
+      "rotation": {
+        "type": "string",
+        "enum": [
+          "GenericMsg",
+          "UpcomingRun",
+          "Prize",
+          "Bid",
+          "Milestone"
+        ]
+      },
+      "alerts": {
+        "type": "string",
+        "enum": [
+          "Tweet",
+          "CrowdControl",
+          "MiniCredits"
+        ]
+      },
+      "pins": {
+        "type": "string",
+        "enum": [
+          "Bid",
+          "Milestone"
+        ]
+      }
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "rotation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "$ref": "#/definitions/types/rotation"
+          },
+          "id": {
+            "type": "string"
+          },
+          "props": {
+            "$ref": "#/definitions/props"
+          }
+        },
+        "required": [
+          "type",
+          "id"
+        ]
+      },
+      "default": []
+    },
+    "alertQueue": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "$ref": "#/definitions/types/alerts"
+          },
+          "id": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "type",
+          "id"
+        ]
+      },
+      "default": []
+    },
+    "current": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/types/rotation"
+                },
+                {
+                  "$ref": "#/definitions/types/alerts"
+                }
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "props": {
+              "$ref": "#/definitions/props"
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "lastId": {
+      "type": "string"
+    },
+    "pin": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "$ref": "#/definitions/types/pins"
+            },
+            "id": {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "miniCredits": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "runSubs": {
+          "type": "array",
+          "items": {
+            "$comment": "TODO: Update MQ event!",
+            "type": "object",
+            "additionalProperties": true
+          },
+          "default": []
+        },
+        "runCheers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "default": []
+        },
+        "runDonations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "default": []
+        }
+      },
+      "required": [
+        "runSubs",
+        "runCheers",
+        "runDonations"
+      ]
+    }
+  },
+  "required": [
+    "rotation",
+    "alertQueue",
+    "current",
+    "pin",
+    "miniCredits"
+  ]
+}

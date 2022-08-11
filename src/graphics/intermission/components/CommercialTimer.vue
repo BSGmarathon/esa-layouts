@@ -5,7 +5,7 @@
     :style="{
       'font-size': '20px',
       background:
-        `linear-gradient(to right, rgba(0, 0, 0) ${percentage}%, rgba(0, 0, 0, 0.3) 0)`,
+        `linear-gradient(to right, rgba(145, 78, 33) ${percentage}%, rgba(207, 119, 59, 0.3) 0)`,
     }"
   >
     Twitch Commercials Running

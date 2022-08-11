@@ -1,5 +1,5 @@
 <template>
-  <div id="Countdown">
+  <div id="Countdown" :style="{ zoom }">
     <div id="Background" />
     <div
       id="Layout"
@@ -9,7 +9,6 @@
         height: '1000px',
       }"
     >
-      <img class="Logo">
       <countdown :style="{ 'margin-top': '50px' }" />
     </div>
   </div>
@@ -17,12 +16,15 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import Countdown from '@esamarathon/esa-layouts-shared/countdown/graphics';
+import Countdown from '@shared/graphics/countdown';
+import { getZoomAmountCSS } from '../_misc/helpers';
 
 @Component({
   components: {
     Countdown,
   },
 })
-export default class extends Vue {}
+export default class extends Vue {
+  zoom = getZoomAmountCSS();
+}
 </script>

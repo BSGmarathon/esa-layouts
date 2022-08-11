@@ -39,32 +39,45 @@ export function msToTimeStr(ms: number): string {
  */
 export function formatUSD(amount: number): string {
   if (amount >= 100) {
-    return `$${Math.floor(amount).toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+    return `€${Math.floor(amount).toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
   }
-  return `$${amount.toFixed(2)}`;
+  return `€${amount.toFixed(0)}`;
 }
 
-// ALSO IN extension/util/helpers.ts, CHANGE THERE TOO!
-export function formatPronouns(pronouns?: string): string | undefined {
-  if (!pronouns) {
-    return undefined;
-  }
-  const split = pronouns.split(',').map((p) => p.trim().toLowerCase());
-  if (split.length > 1) {
-    if (split.includes('he/him') && split.includes('she/her') && !split.includes('they/them')) {
-      return 'he or she';
-    }
-    const list: string[] = [];
-    if (split.includes('he/him')) {
-      list.push('he');
-    }
-    if (split.includes('she/her')) {
-      list.push('she');
-    }
-    if (split.includes('they/them')) {
-      list.push('they');
-    }
-    return list.join('/');
-  }
-  return split[0];
+/**
+ * Returns the "zoom amount" that should be applied to meet the
+ * canvas resolution in the config.
+ * @returns Zoom amount as a decimal.
+ */
+export function getZoomAmount(): number {
+  return config.obs.canvasResolution.height / 1080;
+}
+
+/**
+ * Returns the CSS for the `zoom` propety that should be applied to meet the
+ * canvas resolution in the config.
+ * @returns CSS string used for the `zoom` property.
+ */
+export function getZoomAmountCSS(): string {
+  return `calc(${config.obs.canvasResolution.height}/1080)`;
+}
+
+/**
+ * Basic wait promise command.
+ * @param length Length in milliseconds.
+ * @param reason If supplied, will reject with this reason after the wait.
+ */
+export function wait(length: number, reason?: string): Promise<void> {
+  return new Promise((res, rej) => {
+    window.setTimeout(() => (!reason ? res() : rej(reason)), length);
+  });
+}
+
+/**
+ * Wrapper that allows an async/await function/Promise to have a max length before it times out.
+ * @param promise Function you want to await on a timeout.
+ * @param delay Millseconds you wish to wait before error.
+ */
+export function awaitTimeout(promise: Promise<void>, delay: number): Promise<void> {
+  return Promise.race([promise, wait(delay, 'timeout')]);
 }

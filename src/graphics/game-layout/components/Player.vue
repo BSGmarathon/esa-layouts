@@ -2,17 +2,19 @@
   <div
     v-if="player"
     ref="Player"
-    class="Flex Player"
+    class="FlexPlayer Player FlexCenter"
     :style="{
       'justify-content': 'space-between',
       'font-weight': 500,
-      'font-size': '25px',
-      width: '100%',
-      height: '50px',
-      padding: '7px',
+      width: '90%',
+      height: '48px',
+      padding: '0px',
+      'margin-top': 'auto',
+      'margin-bottom': 'auto',
       'box-sizing': 'border-box',
     }"
   >
+
     <!-- Player/Twitch Icon -->
     <div
       :style="{
@@ -25,9 +27,12 @@
           v-if="nameCycle === 1 && player.social.twitch"
           key="twitch"
           class="Icon"
+          :style="{
+          'display':'none',
+          }"
           src="../../_misc/TwitchIcon.png"
         >
-        <template v-else-if="!coop && typeof slotNo === 'number'">
+        <!--<template v-else-if="!coop && typeof slotNo === 'number'">
           <img
             v-if="slotNo === 0"
             key="name"
@@ -58,29 +63,39 @@
           key="name"
           class="Icon"
           src="../../_misc/PlayerIconSolo.png"
-        >
+        >-->
       </transition>
     </div>
 
     <!-- Player Name/Twitch -->
     <div
-      class="Flex"
+      class="FlexPlayer FlexCenter "
       :style="{
+      'font-size': '25px',
         position: 'relative',
         width: 'calc(100% - 130px)',
         height: '100%',
-        overflow: 'hidden',
+        'align-items': 'flex-start',
+              'display': 'flex',
+              'top': '2px',
+              'justify-content': 'center',
+              'flex': '1',
+              'white-space': 'no-wrap',
+              'padding-right': '80px',
+
+              'font-weight': '600',
+              'font-family': 'Goodlight',
       }"
     >
       <transition name="fade">
         <div
           v-if="nameCycle === 1 && player.social.twitch"
           key="twitch"
-          class="Flex TextWrapper"
+          class="FlexPlayer TextWrapper"
         >
           <div class="PlayerText">
             <span
-              v-if="team.name"
+              v-if="team && team.name"
               :style="{ 'font-size': '1.15em', 'font-weight': 600 }"
             >
               {{ team.name }}:
@@ -88,21 +103,21 @@
             /{{ player.social.twitch }}
             <!-- Custom Title code repeated twice, needs cleaning up! -->
             <span
-              v-if="formattedPronouns"
+              v-if="pronouns"
               class="Pronouns"
               :style="{
                 padding: '3px 5px',
                 'margin-left': '5px',
               }"
             >
-              {{ formattedPronouns }}
+              {{ pronouns }}
             </span>
           </div>
         </div>
         <div
           v-else
           key="name"
-          class="Flex TextWrapper"
+          class="FlexPlayer TextWrapper"
         >
           <div class="PlayerText">
             <span
@@ -114,14 +129,14 @@
             {{ player.name }}
             <!-- Custom Title code repeated twice, needs cleaning up! -->
             <span
-              v-if="formattedPronouns"
+              v-if="pronouns"
               class="Pronouns"
               :style="{
                 padding: '3px 5px',
                 'margin-left': '5px',
               }"
             >
-              {{ formattedPronouns }}
+              {{ pronouns }}
             </span>
           </div>
         </div>
@@ -143,9 +158,9 @@
           :src="player.country ? `/bundles/esa-layouts/flags/${player.country}.png` : ''"
           :style="{
             position: 'absolute',
-            right: '0',
+            right: '7px',
             height: 'calc(100% - 4px)',
-            'border-size': '2px',
+            'border-width': '2px',
             'border-style': 'solid',
             opacity: player.country ? 1 : 0,
           }"
@@ -156,12 +171,11 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'; // eslint-disable-line object-curly-newline, max-len
-import { State } from 'vuex-class';
-import fitty, { FittyInstance } from 'fitty';
 import { NameCycle } from '@esa-layouts/types/schemas';
-import { RunDataActiveRun, RunDataTeam, RunDataPlayer } from 'speedcontrol-util/types';
-import { formatPronouns } from '../../_misc/helpers';
+import fitty, { FittyInstance } from 'fitty';
+import { RunDataActiveRun, RunDataPlayer, RunDataTeam } from 'speedcontrol-util/types';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'; // eslint-disable-line object-curly-newline, max-len
+import { State } from 'vuex-class';
 
 @Component
 export default class extends Vue {
@@ -175,22 +189,20 @@ export default class extends Vue {
   nameCycle = 0; // "Local" name cycle used so we can let flags load.
   fittyPlayer: FittyInstance | undefined;
 
-  get formattedPronouns(): string | undefined {
-    return formatPronouns(this.player?.pronouns);
+  get pronouns(): string | undefined {
+    return this.player?.pronouns;
   }
 
   updateTeam(): void {
-    // Makes a fake team with just 1 player in it.
-    if (typeof this.slotNo === 'number' && (this.coop || this.runData?.relay)) {
-      if (this.runData?.relay) {
-        const team = this.runData.teams[this.slotNo];
-        const player = team?.players.find((p) => p.id === team.relayPlayerID);
-        this.team = player ? { name: team.name, id: player.id, players: [player] } : null;
-      } else if (this.coop) {
-        const team = this.runData?.teams[0];
-        const player = team?.players[this.slotNo];
-        this.team = team && player ? { name: team.name, id: player.id, players: [player] } : null;
-      }
+    // Makes a fake team with just 1 player in it for coop/relay.
+    if (this.runData?.relay) {
+      const team = this.runData?.teams[this.slotNo ?? 0];
+      const player = team?.players.find((p) => p.id === team.relayPlayerID);
+      this.team = player ? { name: team.name, id: player.id, players: [player] } : null;
+    } else if (typeof this.slotNo === 'number' && this.coop) {
+      const team = this.runData?.teams[0];
+      const player = team?.players[this.slotNo];
+      this.team = team && player ? { name: team.name, id: player.id, players: [player] } : null;
     } else {
       this.team = this.runData?.teams[this.slotNo || 0] || null;
     }
@@ -286,10 +298,10 @@ export default class extends Vue {
   }
 
   .TextWrapper {
-    width: 100%;
+    width: auto;
     height: 100%;
     position: absolute;
-    white-space: nowrap;
+
   }
 
   .fade-enter-active, .fade-leave-active {

@@ -6,54 +6,76 @@
     >
       "Game Layout" graphic must be open.
     </div>
-    <div
-      v-else
-      id="LayoutList"
-      :style="{
-        'max-height': '250px',
-        'overflow-y': 'auto',
-      }"
-    >
-      <v-radio-group
-        v-model="selected"
+    <template v-else>
+      <!--<v-switch
+        v-if="!online"
+        v-model="crowdCamera"
+        class="mx-3 mt-1 mb-2 pa-0"
+        inset
         hide-details
+        label="Crowd Camera"
+      />-->
+      <div
+        id="LayoutList"
         :style="{
-          margin: '0px',
-          padding: '10px',
+          'max-height': '250px',
+          'overflow-y': 'auto',
         }"
       >
-        <v-radio
-          v-for="layout in gameLayouts.available"
-          :id="`layout-${layout.code}`"
-          :key="layout.code"
-          :value="layout.code"
-          :label="layout.name"
-        />
-      </v-radio-group>
-    </div>
+        <v-radio-group
+          v-model="selected"
+          hide-details
+          :style="{
+            margin: '0px',
+            padding: '10px',
+          }"
+        >
+          <v-radio
+            v-for="layout in gameLayouts.available"
+            :id="`layout-${layout.code}`"
+            :key="layout.code"
+            :value="layout.code"
+            :label="layout.name"
+          />
+        </v-radio-group>
+      </div>
+    </template>
   </v-app>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from 'vue-property-decorator';
-import { State } from 'vuex-class';
-import { State2Way } from 'vuex-class-state2way';
-import goTo from 'vuetify/es5/services/goto';
-import { GameLayouts } from '@esa-layouts/types/schemas';
+import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
+import { Configschema, GameLayouts } from '@esa-layouts/types/schemas';
+import { Component, Vue, Watch } from 'vue-property-decorator';
+import { storeModule } from './store';
 
 @Component
 export default class extends Vue {
-  @State gameLayouts!: GameLayouts;
-  @State2Way('updateSelected', 'gameLayouts.selected') selected!: GameLayouts['selected'];
+  @replicantNS.State((s) => s.reps.gameLayouts) readonly gameLayouts!: GameLayouts;
+  online = (nodecg.bundleConfig as Configschema).event.online;
+
+  get selected(): GameLayouts['selected'] {
+    return this.gameLayouts.selected;
+  }
+  set selected(val: string | undefined) {
+    storeModule.updateSelected(val);
+  }
+
+  get crowdCamera(): GameLayouts['crowdCamera'] {
+    return this.gameLayouts.crowdCamera;
+  }
+  set crowdCamera(val: GameLayouts['crowdCamera']) {
+    storeModule.toggleCrowdCamera(val);
+  }
 
   @Watch('selected')
   async scrollToSelectedLayout(): Promise<void> {
     try {
       await Vue.nextTick();
       if (this.selected) {
-        goTo(`#layout-${this.selected}`, { container: '#LayoutList', offset: 25 });
+        this.$vuetify.goTo(`#layout-${this.selected}`, { container: '#LayoutList', offset: 25 });
       } else {
-        goTo(0, { container: '#LayoutList' });
+        this.$vuetify.goTo(0, { container: '#LayoutList' });
       }
     } catch (err) {
       // Not sure if this can error, but better be safe

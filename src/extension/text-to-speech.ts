@@ -1,7 +1,7 @@
 import type { TextToSpeech } from '@esa-layouts/types';
 import type { TtsVoices } from '@esa-layouts/types/schemas';
 import type { Configschema } from '@esa-layouts/types/schemas/configschema';
-import type { Tracker } from '@esamarathon/esa-layouts-shared/types';
+import type { Tracker } from '@shared/types';
 import needle from 'needle';
 import { get as nodecg } from './util/nodecg';
 import { ttsVoices } from './util/replicants';
@@ -12,11 +12,12 @@ const config = (nodecg().bundleConfig as Configschema).tts;
  * Will attempt to trigger speech for the supplied donation.
  * @param donation Donation object
  */
+// eslint-disable-next-line import/prefer-default-export
 export async function speak(donation: Tracker.FormattedDonation): Promise<void> {
   const text = `${donation.name} donated $${donation.amount.toFixed(2)}`
     + `${donation.comment ? `: ${donation.comment}` : ''}`;
   const url = `${config.voiceAPI}?voice=${ttsVoices.value.selected}`
-    + `&text=${encodeURIComponent(text)}`;
+    + `&text=${encodeURIComponent(text)}&key=${config.key}`;
   nodecg().sendMessage('ttsToRead', url);
   nodecg().log.debug('[TTS] URL sent to overlay:', url);
 }
@@ -68,6 +69,6 @@ async function init(): Promise<void> {
   }
 }
 
-if (config.enable && config.voiceAPI) {
+if (config.enabled && config.voiceAPI) {
   init();
 }

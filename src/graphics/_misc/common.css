@@ -1,43 +1,74 @@
-@import url('./fonts/barlow-condensed.css');
+/* @import url('../_misc/fonts/barlow-condensed.css'); */
+@import 'fonts/goodlightotf.css';
+@import url('../_misc/fonts/montserrat.css');
 
-body {
-  font-family: 'Barlow Condensed', sans-serif;
+ body {
+  font-family: 'Goodlight', sans-serif;
+  font-weight: 600;
+  /*color: var(--font-colour);*/
   /* text-shadow: 2px 2px 2px black; */
-  color: var(--font-colour);
-  overflow: hidden;
+  /*overflow: hidden;*/
   margin: 0;
   padding: 0;
 }
 
-#Background {
+#Background, #Layout {
   width: 1920px;
   height: 1080px;
+  position: fixed;
 }
 
+*[class*='Border'] {
+  box-sizing: border-box;
+  border-style: solid;
+  border-width: 0;
+}
 .BorderTop {
-  border-top: 3px solid var(--border-colour);
+  border-top-width: 3px;
 }
 .BorderRight {
-  border-right: 3px solid var(--border-colour);
+  border-right-width: 3px;
 }
 .BorderBottom {
-  border-bottom: 3px solid var(--border-colour);
+  border-bottom-width: 3px;
 }
 .BorderLeft {
-  border-left: 3px solid var(--border-colour);
+  border-left-width: 3px;
 }
 
-.Flex {
+*[class*="Flex"] {
+  display: flex;
+  align-items: left;
+  justify-content: left;
+}
+.FlexPlayer {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+.FlexColumn {
+  flex-direction: column;
+}
+
+.Grid {
+  display: grid;
+}
+
+.Grid > * {
+  grid-area: 1 / 1 / 2 / 2;
+}
 
 .Fixed {
   position: fixed;
+  overflow: hidden;
+}
+
+.Relative {
+  position: relative;
 }
 
 .Capture {
   box-sizing: border-box;
   position: fixed;
+  overflow: hidden;
 }

@@ -1,11 +1,21 @@
 <template>
-  <div class="Divider" />
+  <div
+    class="Divider"
+    :style="{
+      height: '100%',
+      width: '3px',
+      'min-width': '3px',
+    }"
+  />
 </template>
 
-<script>
-export default {
-  name: 'Divider',
-};
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator';
+
+@Component
+export default class extends Vue {
+  // code
+}
 </script>
 
 <style scoped>
@@ -13,5 +23,6 @@ export default {
     height: 100%;
     width: 3px;
     min-width: 3px;
+    background-color: #fff073;
   }
 </style>

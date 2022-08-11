@@ -1,5 +1,5 @@
 import type { Configschema } from '@esa-layouts/types/schemas/configschema';
-import RabbitMQ from '@esamarathon/esa-layouts-shared/rabbitmq/extension';
+import RabbitMQ from '@shared/extension/rabbitmq';
 import { getCurrentEventShort } from './helpers';
 import { get as nodecg } from './nodecg';
 
@@ -7,6 +7,7 @@ const { useTestData } = nodecg().bundleConfig as Configschema;
 const exchange = 'cg';
 const event = getCurrentEventShort();
 
+// eslint-disable-next-line import/prefer-default-export
 export const mq = new RabbitMQ(nodecg(), useTestData, {
   config: (nodecg().bundleConfig as Configschema).rabbitmq,
   exchange,

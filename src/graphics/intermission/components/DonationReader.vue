@@ -1,15 +1,15 @@
 <template>
   <div
     v-if="donationReader"
-    class="Flex DonationReader"
+    class="FlexI DonationReader"
     :style="{ height: '100%' }"
   >
     <div
-      class="Flex Mic"
+      class="FlexI Mic"
       :style="{
         'box-sizing': 'border-box',
-        height: '100%',
-        padding: '5px'
+        height: '85%',
+        padding: '0px'
       }"
     >
       <img
@@ -19,7 +19,7 @@
     </div>
     <div
       :style="{
-        display: 'flex',
+        'display': 'flex',
         padding: '0 15px',
       }"
     >
@@ -28,7 +28,7 @@
         v-if="pronouns"
         class="Pronouns"
         :style="{
-          padding: '3px 5px',
+          padding: '10px 5px',
           'margin-left': '10px',
         }"
       >
