@@ -109,19 +109,19 @@
 }
 
 
-.Icon[data-v-40a7a5e0] {
+.Icon[data-v-1826a1ed] {
   height: 100%;
   position: absolute;
 }
-.TextWrapper[data-v-40a7a5e0] {
+.TextWrapper[data-v-1826a1ed] {
   width: auto;
   height: 100%;
   position: absolute;
 }
-.fade-enter-active[data-v-40a7a5e0], .fade-leave-active[data-v-40a7a5e0] {
+.fade-enter-active[data-v-1826a1ed], .fade-leave-active[data-v-1826a1ed] {
   transition: opacity 1s;
 }
-.fade-enter[data-v-40a7a5e0], .fade-leave-to[data-v-40a7a5e0] {
+.fade-enter[data-v-1826a1ed], .fade-leave-to[data-v-1826a1ed] {
   opacity: 0;
 }
 
