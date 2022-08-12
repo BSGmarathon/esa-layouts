@@ -6,6 +6,7 @@ import { SpeedcontrolUtilBrowser } from 'speedcontrol-util';
 import type { RunDataActiveRun, Timer } from 'speedcontrol-util/types';
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
+import { ChannelDataReplicant } from '../../types/replicant-types';
 
 const sc = new SpeedcontrolUtilBrowser(nodecg);
 Vue.use(Vuex);
@@ -25,6 +26,7 @@ const reps: {
   prizes: ReplicantBrowser<Prizes>;
   runDataActiveRun: ReplicantBrowser<RunDataActiveRun>;
   timer: ReplicantBrowser<Timer>;
+  x32GameAudio: ReplicantBrowser<ChannelDataReplicant[]>;
   [k: string]: ReplicantBrowser<unknown>;
 } = {
   bids: nodecg.Replicant('bids'),
@@ -40,6 +42,7 @@ const reps: {
   prizes: nodecg.Replicant('prizes'),
   runDataActiveRun: sc.runDataActiveRun,
   timer: sc.timer,
+  x32GameAudio: nodecg.Replicant('x32-game-channel-status'),
 };
 
 interface StateTypes {

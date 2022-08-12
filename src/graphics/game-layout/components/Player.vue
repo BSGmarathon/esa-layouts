@@ -76,15 +76,14 @@
         width: 'calc(100% - 130px)',
         height: '100%',
         'align-items': 'flex-start',
-              'display': 'flex',
-              'top': '2px',
-              'justify-content': 'center',
-              'flex': '1',
-              'white-space': 'no-wrap',
-              'padding-right': '80px',
-
-              'font-weight': '600',
-              'font-family': 'Goodlight',
+        'display': 'flex',
+        'top': '2px',
+        'justify-content': 'center',
+        'flex': '1',
+        'white-space': 'no-wrap',
+        'padding-right': '80px',
+        'font-weight': '600',
+        'font-family': 'Goodlight',
       }"
     >
       <transition name="fade">
@@ -171,7 +170,8 @@
 </template>
 
 <script lang="ts">
-import { NameCycle } from '@esa-layouts/types/schemas';
+import { ChannelDataReplicant as ChanData } from '../../../types/replicant-types';
+import { GameLayouts, NameCycle } from '@esa-layouts/types/schemas';
 import fitty, { FittyInstance } from 'fitty';
 import { RunDataActiveRun, RunDataPlayer, RunDataTeam } from 'speedcontrol-util/types';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'; // eslint-disable-line object-curly-newline, max-len
@@ -180,7 +180,9 @@ import { State } from 'vuex-class';
 @Component
 export default class extends Vue {
   @State('runDataActiveRun') runData!: RunDataActiveRun;
+  @State('gameLayouts') gameLayouts!: GameLayouts;
   @State('nameCycle') nameCycleServer!: NameCycle;
+  @State('x32GameAudio') x32GameAudio!: ChanData[];
   @State coop!: boolean;
   @Prop(Number) slotNo!: number;
   team: RunDataTeam | null = null;
@@ -245,7 +247,10 @@ export default class extends Vue {
 
   created(): void {
     this.updateTeam();
-    this.updatePlayer();
+    this.updatePlayer().then(() => {
+      // initial setting of the icon
+      this.onX32GameAudioChange(this.x32GameAudio);
+    });
   }
 
   mounted(): void {
@@ -255,6 +260,28 @@ export default class extends Vue {
   destroyed(): void {
     if (this.fittyPlayer) {
       this.fittyPlayer.unsubscribe();
+    }
+  }
+
+  @Watch('x32GameAudio')
+  onX32GameAudioChange(newVal: ChanData[]): void {
+    const playerEl = this.$refs.Player as Element;
+
+    if (!playerEl) {
+      return;
+    }
+
+    if (this.gameLayouts!.selected!.endsWith('1p')) {
+      playerEl.classList.remove('PlayerAudioLive');
+      return;
+    }
+
+    const mixerConfig = newVal[this.slotNo || 0];
+
+    if (!mixerConfig.muted && mixerConfig.faderUp) {
+      playerEl.classList.add('PlayerAudioLive');
+    } else {
+      playerEl.classList.remove('PlayerAudioLive');
     }
   }
 
@@ -270,6 +297,7 @@ export default class extends Vue {
     this.updatePlayer();
     await Vue.nextTick();
     this.fit();
+    this.onX32GameAudioChange(this.x32GameAudio);
   }
 
   @Watch('nameCycleServer')

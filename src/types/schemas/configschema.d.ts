@@ -76,6 +76,12 @@ export interface Configschema {
 		enabled: boolean;
 		ip: string;
 		localPort: number;
+		channelMapping: {
+			player1Game: string;
+			player2Game: string;
+			player3Game: string;
+			player4Game: string;
+		};
 	};
 	xkeys: {
 		enabled: boolean;

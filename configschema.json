@@ -462,12 +462,41 @@
         "localPort": {
           "type": "number",
           "default": 52361
+        },
+        "channelMapping": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "player1Game": {
+              "type": "string",
+              "default": "09"
+            },
+            "player2Game": {
+              "type": "string",
+              "default": "11"
+            },
+            "player3Game": {
+              "type": "string",
+              "default": "13"
+            },
+            "player4Game": {
+              "type": "string",
+              "default": "15"
+            }
+          },
+          "required": [
+            "player1Game",
+            "player2Game",
+            "player3Game",
+            "player4Game"
+          ]
         }
       },
       "required": [
         "enabled",
         "ip",
-        "localPort"
+        "localPort",
+        "channelMapping"
       ]
     },
     "xkeys": {

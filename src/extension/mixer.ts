@@ -1,11 +1,108 @@
 import type { Configschema } from '@esa-layouts/types/schemas/configschema';
-import { logError, wait } from './util/helpers';
+import { MetaArgument, OscMessage } from 'osc';
+import { logError } from './util/helpers';
 import { get as nodecg } from './util/nodecg';
 import obs from './util/obs';
-import { currentRunDelay, obsData } from './util/replicants';
+import { obsData } from './util/replicants';
 import x32 from './util/x32';
+import { ChannelDataReplicant } from '../types/replicant-types';
 
 const config = (nodecg().bundleConfig as Configschema);
+
+const channelDefaultValue: ChannelDataReplicant[] = [
+  {
+    channel: config.x32.channelMapping.player1Game,
+    faderUp: false,
+    muted: true,
+  },
+  {
+    channel: config.x32.channelMapping.player2Game,
+    faderUp: false,
+    muted: true,
+  },
+  {
+    channel: config.x32.channelMapping.player3Game,
+    faderUp: false,
+    muted: true,
+  },
+  {
+    channel: config.x32.channelMapping.player4Game,
+    faderUp: false,
+    muted: true,
+  },
+];
+const channelStatuses = nodecg().Replicant<ChannelDataReplicant[]>('x32-game-channel-status', {
+  defaultValue: channelDefaultValue,
+});
+
+const wantedFaders = Object.values(config.x32.channelMapping).map((v) => `/ch/${v}/mix/fader`);
+const wantedMutes = Object.values(config.x32.channelMapping).map((v) => `/ch/${v}/mix/on`);
+
+function fetchInitialStatus(): void {
+  wantedFaders.forEach((fader) => {
+    x32.conn?.send({
+      address: fader,
+      args: [],
+    });
+  });
+
+  wantedMutes.forEach((fader) => {
+    x32.conn?.send({
+      address: fader,
+      args: [],
+    });
+  });
+}
+
+function getFaderNr(address: string): string {
+  const regex = /\/ch\/([0-9]{2})\/mix\/(?:fader|on)/;
+
+  return address.match(regex)![1];
+}
+
+function updateMuteStatus(message: OscMessage): void {
+  const fader = getFaderNr(message.address);
+  const muted = (message.args as Array<MetaArgument>)[0].value === 0;
+  const chIndex = channelStatuses.value.findIndex((x) => x.channel === fader);
+
+  channelStatuses.value[chIndex].muted = muted;
+
+  nodecg().log.info(`Fader ${fader} muted status`, muted);
+}
+
+function updateFaderStatus(message: OscMessage): void {
+  const fader = getFaderNr(message.address);
+  const faderValue = (message.args as Array<MetaArgument>)[0].value;
+  const faderActive = faderValue >= 0.3;
+  const chIndex = channelStatuses.value.findIndex((x) => x.channel === fader);
+
+  channelStatuses.value[chIndex].faderUp = faderActive;
+
+  nodecg().log.info(`Fader ${fader} value ${faderValue}, audible on stream`, faderActive);
+}
+
+if (config.x32.enabled) {
+  // fetch initial statues for faders and mutes
+  x32.conn?.on('ready', () => {
+    fetchInitialStatus();
+  });
+
+  // /ch/[01…32]/mix/on -> {OFF, ON} -> OFF meaning the channel is muted?
+  // /ch/[01…32]/mix/fader -> level in Db [0.0…1.0(+10dB), 1024] -> not sure what the values are
+  x32.conn?.on('message', (message) => {
+    if (wantedMutes.includes(message.address)) {
+      updateMuteStatus(message);
+      return;
+    }
+
+    if (wantedFaders.includes(message.address)) {
+      updateFaderStatus(message);
+    }
+
+    // DON'T do this, also triggers for other faderss
+    // nodecg.log.info('Unknown OSC command', message);
+  });
+}
 
 function getNonGameScenes(): string[] {
   // These scenes will *not* have "LIVE Game/Mics" DCAs audible.
@@ -75,6 +172,8 @@ export function toggleLiveMics(scene: string): void {
   }
 }
 
+// no auto fading for us pls :)
+/*
 let init = false;
 async function setInitialFaders(): Promise<void> {
   await wait(1000); // Waiting 1s as a workaround to make sure the OBS helper has all info.
@@ -152,3 +251,4 @@ obs.conn.on('TransitionBegin', async (data) => {
     }
   }
 });
+*/

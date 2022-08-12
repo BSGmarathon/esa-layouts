@@ -15,7 +15,7 @@ You will need [Node.js](https://nodejs.org) (16.x LTS tested) and [git](https://
 Next, clone the `build` branch of this repository into the NodeCG `bundles` folder and install the dependencies:
 > ```
 > cd bundles
-> git clone https://github.com/esamarathon/esa-layouts.git --branch build
+> git clone https://github.com/bsgmarathon/esa-layouts.git --branch build
 > cd esa-layouts
 > git submodule update --init --recursive
 > npm install --production
