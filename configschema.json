@@ -532,6 +532,10 @@
           "type": "string",
           "default": "PASSWORD"
         },
+        "prizesUrl": {
+          "type": "string",
+          "default": "prizes.esamarathon.com"
+        },
         "commentaryBias": {
           "$ref": "#/definitions/bidwarBias"
         },
@@ -544,6 +548,7 @@
         "address",
         "username",
         "password",
+        "prizesUrl",
         "commentaryBias",
         "otherBidwarBias"
       ]
