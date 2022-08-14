@@ -38,6 +38,7 @@ export default class extends Vue {
   font-weight: 500;
   text-align: left;
   float: right;
+  color: white !important;
 }
 
 /* Each character in the total is in a span; setting width so the numbers appear monospaced. */
@@ -47,6 +48,7 @@ export default class extends Vue {
   text-align: center;
   background: var(--slide-color);
   position: relative;
+  color: white !important;
 }
 
 #Total span:first-of-type {
@@ -60,6 +62,7 @@ export default class extends Vue {
 #Total > .Comma {
   display: inline-block;
   width: 0.22em;
+  color: white !important;
   text-align: center;
 }
 </style>
