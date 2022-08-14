@@ -12,7 +12,7 @@
           'object-fit': 'contain',
         }"
       >
-      <div :style="{ 'font-size': '40px' }">
+      <div :style="{ 'font-size': '30px' }">
         {{ prize.name }}
         <template v-if="prize.provided">
           provided by {{ prize.provided }}
