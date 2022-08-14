@@ -41,6 +41,14 @@
         }"
       />
 
+      <donation-total
+        :style="{
+          position: 'absolute',
+          left: '1436px',
+          top: '195px',
+        }"
+      />
+
       <!-- Upcoming Run -->
       <upcoming-run
         class="Fixed"
@@ -93,6 +101,7 @@ import UpcomingRun from './components/UpcomingRun.vue';
 import Rotation from './components/Rotation.vue';
 import DonationReader from './components/DonationReader.vue';
 import MusicTrack from './components/MusicTrack.vue';
+import DonationTotal from './components/DonationTotal.vue';
 
 @Component({
   components: {
@@ -102,6 +111,7 @@ import MusicTrack from './components/MusicTrack.vue';
     Rotation,
     DonationReader,
     MusicTrack,
+    DonationTotal,
   },
 })
 export default class extends Vue {
@@ -117,6 +127,7 @@ export default class extends Vue {
 
 <style scoped>
 #Intermission {
+  background-color: gray !important;
   width: 100%;
   height: 100%;
   position: absolute;

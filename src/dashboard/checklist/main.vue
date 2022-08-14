@@ -52,6 +52,10 @@ export default class extends Vue {
   audioReady = false;
   checks: ChecklistItem[] = [
     {
+      title: 'Write down end time and any tech problems',
+      checked: false,
+    },
+    {
       title: 'Press Next Game in Run Player',
       checked: false,
     },
@@ -93,7 +97,7 @@ export default class extends Vue {
       checked: false,
     },
     {
-      title: 'Final Check',
+      title: 'Final Check (remember to write down the start time)',
       checked: false,
     },
   ];

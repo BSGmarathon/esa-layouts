@@ -1,4 +1,4 @@
-import type { Bids, DonationReader, MediaBox, MusicData, Prizes, UpcomingRunID } from '@esa-layouts/types/schemas'; // eslint-disable-line object-curly-newline, max-len
+import type { Bids, DonationReader, MediaBox, MusicData, Prizes, UpcomingRunID, DonationTotal } from '@esa-layouts/types/schemas'; // eslint-disable-line object-curly-newline, max-len
 import type { Asset, Tracker } from '@shared/types';
 import clone from 'clone';
 import type { ReplicantBrowser } from 'nodecg/types/browser';
@@ -23,6 +23,7 @@ const reps: {
   intermissionSlides: ReplicantBrowser<Asset[]>;
   runDataArray: ReplicantBrowser<RunDataArray>;
   twitchCommercialTimer: ReplicantBrowser<TwitchCommercialTimer>;
+  donationTotal: ReplicantBrowser<DonationTotal>;
   [k: string]: ReplicantBrowser<unknown>;
 } = {
   upcomingRunID: nodecg.Replicant('upcomingRunID'),
@@ -35,6 +36,7 @@ const reps: {
   intermissionSlides: nodecg.Replicant('assets:intermission-slides'),
   runDataArray: sc.runDataArray,
   twitchCommercialTimer: sc.twitchCommercialTimer,
+  donationTotal: nodecg.Replicant('donationTotal'),
 };
 
 interface StateTypes {
