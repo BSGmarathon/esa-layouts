@@ -124,7 +124,37 @@
 }
 
 
-#Intermission[data-v-469756a2] {
+#Total[data-v-60a78aa8] {
+  padding: 0 13px 0 0;
+  font-size: 60px;
+  font-weight: 500;
+  text-align: left;
+  float: right;
+}
+
+/* Each character in the total is in a span; setting width so the numbers appear monospaced. */
+#Total > span[data-v-60a78aa8] {
+  padding-top: 40px;
+  display: inline-block;
+  text-align: center;
+  background: var(--slide-color);
+  position: relative;
+}
+#Total span[data-v-60a78aa8]:first-of-type {
+  padding-left: 10px;
+}
+#Total span[data-v-60a78aa8]:last-of-type {
+  padding-right: 10px;
+}
+#Total > .Comma[data-v-60a78aa8] {
+  display: inline-block;
+  width: 0.22em;
+  text-align: center;
+}
+
+
+#Intermission[data-v-4e39d240] {
+  background-color: gray !important;
   width: 100%;
   height: 100%;
   position: absolute;
