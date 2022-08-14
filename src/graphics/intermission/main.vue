@@ -127,7 +127,6 @@ export default class extends Vue {
 
 <style scoped>
 #Intermission {
-  background-color: gray !important;
   width: 100%;
   height: 100%;
   position: absolute;
