@@ -135,7 +135,6 @@
 
     <!-- Media Box -->
     <media-box
-      vertical
       class="BlockPurple"
       :font-size="20"
       :style="{

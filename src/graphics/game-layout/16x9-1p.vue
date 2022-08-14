@@ -113,6 +113,7 @@
 
     <!-- Media Box -->
     <media-box
+      vertical
       :font-size="20"
       class="Fixed FlexColumn BlockPurple"
       :style="{

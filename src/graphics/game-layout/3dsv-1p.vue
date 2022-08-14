@@ -97,7 +97,8 @@
 
     <!-- Media Box -->
     <media-box
-    class="Fixed FlexColumn BlockPurple"
+      :font-size="25"
+      class="Fixed FlexColumn BlockPurple"
       :style="{
       left: '19px',
       top: '849px',

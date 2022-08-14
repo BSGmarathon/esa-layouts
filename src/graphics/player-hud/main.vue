@@ -15,10 +15,10 @@
         'flex-grow': 1,
         'flex-direction': 'column',
         'box-sizing': 'border-box',
-        'padding': '0 5vw',
+        'padding': '30px 5vw',
         'transition': 'background-color 1s',
         'text-align': 'center',
-        'font-size': '15vh',
+        'font-size': '11vh',
       }"
     >
       <!-- Tag scanning messages. -->
@@ -75,8 +75,9 @@
         color: 'white',
         width: '100%',
         'text-align': 'center',
-        'font-size': '15vh',
-        'padding-bottom': '2vh',
+        'font-size': '6vh',
+        'padding-bottom': '1vh',
+        'padding-top': '30px',
       }"
     >
       {{ timer.time }}
