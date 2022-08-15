@@ -88,7 +88,7 @@
 }
 
 
-#Total[data-v-421f996a] {
+#Total[data-v-c5978640] {
   padding: 0 13px 0 0;
   font-size: 40px;
   font-weight: 500;
@@ -97,14 +97,14 @@
 }
 
 /* Each character in the total is in a span; setting width so the numbers appear monospaced. */
-#Total > span[data-v-421f996a] {
+#Total > span[data-v-c5978640] {
   padding-top: 14px;
   display: inline-block;
   text-align: center;
   background: var(--slide-color);
   position: relative;
 }
-#Total span[data-v-421f996a]:first-of-type {
+#Total span[data-v-c5978640]:first-of-type {
   padding-left: 10px;
 }
 
@@ -119,7 +119,7 @@
   left: -104px;
   top: 0px;
 }*/
-#Total span[data-v-421f996a]:last-of-type {
+#Total span[data-v-c5978640]:last-of-type {
   padding-right: 10px;
 }
 
@@ -134,20 +134,20 @@
   right: -44px;
   top: 0px;
 }*/
-#Total > .Comma[data-v-421f996a] {
+#Total > .Comma[data-v-c5978640] {
   display: inline-block;
   width: 0.22em;
   text-align: center;
 }
-.coin-thing[data-v-421f996a] {
+.coin-thing[data-v-c5978640] {
   z-index: 10000000;
 }
 
 /* TODO: implement animatecss with this */
-.fade-enter-active[data-v-421f996a], .fade-leave-active[data-v-421f996a] {
+.fade-enter-active[data-v-c5978640], .fade-leave-active[data-v-c5978640] {
   transition: opacity 0.5s ease;
 }
-.fade-enter[data-v-421f996a], .fade-leave-to[data-v-421f996a]
+.fade-enter[data-v-c5978640], .fade-leave-to[data-v-c5978640]
 /* .component-fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
