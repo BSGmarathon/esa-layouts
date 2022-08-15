@@ -82,10 +82,14 @@ export default class extends Vue {
       this.showAlert = true;
       this.alertText = formatUSD(this.alertList[0].amount);
     }
+
+    const nextTotal = this.alertList[0].total;
+
     gsap.to(this, {
-      total: this.alertList[0].total,
+      total: nextTotal,
       duration: 5,
     });
+    this.$emit('totalUpdate', nextTotal);
     await new Promise((res) => { setTimeout(res, 6000); });
     this.alertList.shift();
     this.showAlert = false;
@@ -104,6 +108,7 @@ export default class extends Vue {
 
   async created(): Promise<void> {
     this.total = this.rawTotal;
+    this.$emit('totalUpdate', this.total);
   }
 }
 </script>

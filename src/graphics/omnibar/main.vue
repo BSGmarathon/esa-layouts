@@ -1,6 +1,8 @@
 <template>
   <div id="omnibar">
-    <div id="information" :class="{ 'no-dash': !dashInfo }">
+    <div id="information" :class="{ 'no-dash': !dashInfo }" :style="{
+      width: infoWidth,
+    }">
       <ticker @set-dash="updateDash"/>
     </div>
     <div id="left">
@@ -25,7 +27,9 @@
               'margin-right': '3px',
               'text-align': 'right',
               'font-family': 'Goodlight',
-              }"/>
+              }"
+              @totalUpdate="updateInfoWidth"
+            />
           </div>
           <div class="box">
             <img src="./omniing/mind_logo.png" alt="">
@@ -51,6 +55,23 @@ import { DashProps, Omnibar } from '../../types/schemas';
 })
 export default class extends Vue {
   dashInfo?: DashProps | null | undefined = null;
+  infoWidth = '981px';
+
+  updateInfoWidth(newTotal: number): void {
+    if (newTotal < 1000) {
+      this.infoWidth = '981px';
+      return;
+    }
+
+    if (newTotal < 10000) {
+      this.infoWidth = '916px';
+      return;
+    }
+
+    if (newTotal < 100000) {
+      this.infoWidth = '885px';
+    }
+  }
 
   updateDash(newDashText: DashProps | null | undefined): void {
     this.dashInfo = newDashText;
@@ -161,6 +182,8 @@ html, body {
     //top: calc((82px - 50px) / 2);
     left: 492px;
     width: 981px;
+    /* TODO: make this fit automatically */
+    //width: 883px;
     //box-sizing: border-box;
     //border: solid green;
     animation-duration: 500ms;
