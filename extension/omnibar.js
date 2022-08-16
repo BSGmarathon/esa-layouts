@@ -116,8 +116,8 @@ async function showNext() {
                 top: 6,
             } : {
                 text: 'Upcoming Milestone',
-                fontSize: 26,
-                top: 2,
+                fontSize: 25,
+                top: 6,
             };
             replicants_1.omnibar.value.current = {
                 type: pin.type,
@@ -211,8 +211,8 @@ async function showNext() {
             }
             replicants_1.omnibar.value.current = Object.assign(Object.assign({}, next), { props: Object.assign(Object.assign({}, next.props), { milestone, dash: {
                         text: 'Upcoming Milestone',
-                        fontSize: 26,
-                        top: 2,
+                        fontSize: 25,
+                        top: 6,
                     } }) });
         }
         else if (next.type === 'Bid') {
