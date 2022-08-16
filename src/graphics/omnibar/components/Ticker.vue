@@ -75,7 +75,7 @@ export default class extends Vue {
     }
 
     // wait before starting the next animation
-    await wait(500);
+    await wait(600);
 
     const nextDash = newVal?.current?.props?.dash;
 

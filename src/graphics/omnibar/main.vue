@@ -1,7 +1,7 @@
 <template>
   <div id="omnibar">
     <div id="information" :class="{ 'no-dash': !dashInfo }" :style="{
-      width: infoWidth,
+      width: dashInfo && infoWidth,
     }">
       <ticker @set-dash="updateDash"/>
     </div>
@@ -194,17 +194,10 @@ html, body {
       //left: 269px;
       left: 194px;
       width: 1240px;
-    }
 
-    /* TODO: put this in the ticker transition */
-    &.show {
-      opacity: 1;
-      animation: fadeInUp;
-      animation-duration: 500ms;
-    }
-
-    &.hide {
-      display: none;
+      /* HACK: normal text is different */
+      transform: unset;
+      top: 6px;
     }
   }
 

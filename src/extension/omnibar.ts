@@ -111,8 +111,8 @@ async function showNext(): Promise<void> {
         top: 6,
       } : {
         text: 'Upcoming Milestone',
-        fontSize: 26,
-        top: 2,
+        fontSize: 25,
+        top: 6,
       };
 
       omnibar.value.current = {
@@ -199,8 +199,8 @@ async function showNext(): Promise<void> {
           milestone,
           dash: {
             text: 'Upcoming Milestone',
-            fontSize: 26,
-            top: 2,
+            fontSize: 25,
+            top: 6,
           },
         },
       };
