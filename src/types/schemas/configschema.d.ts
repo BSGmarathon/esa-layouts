@@ -16,8 +16,8 @@ export interface Configschema {
 	omnibar: {
 		miniCredits: {
 			header: string;
-			screeners?: string;
-			tech?: string;
+			screeners: string;
+			tech: string;
 		};
 	};
 	streamdeck: {

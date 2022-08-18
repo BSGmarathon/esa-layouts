@@ -1,12 +1,35 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
   "definitions": {
+    "dashProps": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "fontSize": {
+          "type": "number"
+        },
+        "top": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "text",
+        "fontSize",
+        "top"
+      ]
+    },
     "props": {
       "type": "object",
       "additionalProperties": true,
       "properties": {
         "seconds": {
           "type": "number"
+        },
+        "dash": {
+          "$ref": "#/definitions/dashProps"
         }
       }
     },
