@@ -63,7 +63,7 @@ function updateMuteStatus(message) {
     const muted = message.args[0].value === 0;
     const chIndex = channelStatuses.value.findIndex((x) => x.channel === fader);
     channelStatuses.value[chIndex].muted = muted;
-    (0, nodecg_1.get)().log.info(`Fader ${fader} muted status`, muted);
+    (0, nodecg_1.get)().log.debug(`Fader ${fader} muted status`, muted);
 }
 function updateFaderStatus(message) {
     const fader = getFaderNr(message.address);
@@ -71,7 +71,7 @@ function updateFaderStatus(message) {
     const faderActive = faderValue >= 0.3;
     const chIndex = channelStatuses.value.findIndex((x) => x.channel === fader);
     channelStatuses.value[chIndex].faderUp = faderActive;
-    (0, nodecg_1.get)().log.info(`Fader ${fader} value ${faderValue}, audible on stream`, faderActive);
+    (0, nodecg_1.get)().log.debug(`Fader ${fader} value ${faderValue}, audible on stream`, faderActive);
 }
 if (config.x32.enabled) {
     // fetch initial statues for faders and mutes
