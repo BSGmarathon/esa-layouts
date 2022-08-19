@@ -34,6 +34,10 @@
   background-image: url("./bsg/gamelayout/4x3-2p.png");
 }
 
+._4x3_3p {
+  background-image: url("./bsg/gamelayout/4x3-3p.png");
+}
+
 ._16x9_1p {
   background-image: url("./bsg/gamelayout/16x9-1p.png");
 }
