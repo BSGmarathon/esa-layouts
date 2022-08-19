@@ -170,7 +170,7 @@
 </template>
 
 <script lang="ts">
-import { ChannelDataReplicant as ChanData } from '../../../types/replicant-types';
+import { ChannelDataReplicant as ChanData } from '@esa-layouts/types/replicant-types';
 import { GameLayouts, NameCycle } from '@esa-layouts/types/schemas';
 import fitty, { FittyInstance } from 'fitty';
 import { RunDataActiveRun, RunDataPlayer, RunDataTeam } from 'speedcontrol-util/types';
@@ -276,7 +276,19 @@ export default class extends Vue {
       return;
     }
 
-    const mixerConfig = newVal[this.slotNo || 0];
+    let chosenSlot = this.slotNo || 0;
+
+    if (this.player && this.player.customData.audioChannelOverride) {
+      let overrideChannel = parseInt(this.player.customData.audioChannelOverride, 10);
+
+      if (overrideChannel > 0) {
+        overrideChannel -= 1;
+      }
+
+      chosenSlot = Math.max(0, Math.min(3, overrideChannel));
+    }
+
+    const mixerConfig = newVal[chosenSlot];
 
     if (!mixerConfig.muted && mixerConfig.faderUp) {
       playerEl.classList.add('PlayerAudioLive');

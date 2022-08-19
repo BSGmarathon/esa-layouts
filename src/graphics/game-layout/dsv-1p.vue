@@ -1,7 +1,5 @@
 <template>
-<div :style="{ 'backgroundImage': `url(bsgbacks/ds_vertical_addon.png)`,
-'background-repeat': 'no-repeat'}
-">
+<div class="bsglayout _ds_1p_vertical">
     <!-- Game Captures -->
     <game-capture
       id="GameCapture1"

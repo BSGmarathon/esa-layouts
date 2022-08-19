@@ -1,7 +1,5 @@
 <template>
-<div :style="{ 'backgroundImage': `url(bsgbacks/4x3_1_Tall.png)`,
-'background-repeat': 'no-repeat'}
-">
+<div class="bsglayout _4x3_1p_largecam">
 
   <div>
     <!-- Game Captures -->
@@ -67,8 +65,7 @@
   :style="{
   'margin-right': '80px',
   width: '93%',
-  }">
-      </div>
+  }"/></div>
 
       </div>
 

@@ -1,8 +1,5 @@
 <template>
-<div id="Intermission" :style="{
-  'background-image': 'url(bsgbacks/break_bg_edited.png)',
-'background-repeat': 'no-repeat'}
-">
+<div id="Intermission" class="bsglayout">
     <div
       id="Background"
       :style="{ 'clip-path': clipPath }"

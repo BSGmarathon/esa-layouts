@@ -1,5 +1,83 @@
-/* TODO: move all images to here */
+.PlayerAudioLive {
+  background: url("./bsg/audio-on.png") no-repeat 0 38% !important;
+}
 
-/*#Intermission {
-  background-image: url('bsgbacks/break_bg_edited.png');
-}*/
+.bsglayout {
+  background-repeat: no-repeat;
+}
+
+#Intermission {
+  background-image: url('./bsg/intermission.png');
+}
+
+._3ds_1p {
+  background-image: url("./bsg/gamelayout/3ds-1p.png");
+}
+
+._3ds_1p_vertical {
+  background-image: url("./bsg/gamelayout/3ds-1p-vertical.png");
+}
+
+._3ds_2p {
+  background-image: url("./bsg/gamelayout/3ds-2p.png");
+}
+
+._4x3_1p {
+  background-image: url("./bsg/gamelayout/4x3-1p.png");
+}
+
+._4x3_1p_largecam {
+  background-image: url("./bsg/gamelayout/4x3-1p-largecam.png");
+}
+
+._4x3_2p {
+  background-image: url("./bsg/gamelayout/4x3-2p.png");
+}
+
+._16x9_1p {
+  background-image: url("./bsg/gamelayout/16x9-1p.png");
+}
+
+._16x9_1p_largecam {
+  background-image: url("./bsg/gamelayout/16x9-1p-largecam.png");
+}
+
+._16x9_2p {
+  background-image: url("./bsg/gamelayout/16x9-2p.png");
+}
+
+._16x9_2p_connected {
+  background-image: url("./bsg/gamelayout/16x9-2p-connected.png");
+}
+
+._16x9_3p {
+  background-image: url("./bsg/gamelayout/16x9-3p.png");
+}
+
+._ds_1p {
+  background-image: url("./bsg/gamelayout/ds-1p.png");
+}
+
+._ds_1p_vertical {
+  background-image: url("./bsg/gamelayout/ds-1p-vertical.png");
+}
+
+._ds_2p {
+  background-image: url("./bsg/gamelayout/ds-2p.png");
+}
+
+._gb_1p {
+  background-image: url("./bsg/gamelayout/gb-1p.png");
+}
+
+._gb_2p {
+  background-image: url("./bsg/gamelayout/gb-2p.png");
+}
+
+._gba_1p {
+  background-image: url("./bsg/gamelayout/gba-1p.png");
+}
+
+._gba_2p {
+  background-image: url("./bsg/gamelayout/gba-2p.png");
+}

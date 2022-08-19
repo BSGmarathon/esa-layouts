@@ -67,7 +67,7 @@ const config = (name) => {
     plugins.push(
       new CopyPlugin({
         patterns: [
-          { from: './bsgbacks', to: '../graphics/bsgbacks' },
+          // { from: './bsgbacks', to: '../graphics/bsgbacks' },
           { from: './omnibar/omniing', to: '../graphics/img/omniing' },
           // { from: './host-dashboard.*', to: './' },
         ],

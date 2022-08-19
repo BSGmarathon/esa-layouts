@@ -67,7 +67,7 @@ function updateMuteStatus(message: OscMessage): void {
 
   channelStatuses.value[chIndex].muted = muted;
 
-  nodecg().log.info(`Fader ${fader} muted status`, muted);
+  nodecg().log.debug(`Fader ${fader} muted status`, muted);
 }
 
 function updateFaderStatus(message: OscMessage): void {
@@ -78,7 +78,7 @@ function updateFaderStatus(message: OscMessage): void {
 
   channelStatuses.value[chIndex].faderUp = faderActive;
 
-  nodecg().log.info(`Fader ${fader} value ${faderValue}, audible on stream`, faderActive);
+  nodecg().log.debug(`Fader ${fader} value ${faderValue}, audible on stream`, faderActive);
 }
 
 if (config.x32.enabled) {

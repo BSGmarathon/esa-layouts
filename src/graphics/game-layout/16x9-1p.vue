@@ -1,7 +1,5 @@
 <template>
-  <div :style="{ 'backgroundImage': `url(bsgbacks/widescreen_1_bg.png)`,
-'background-repeat': 'no-repeat'}
-">
+  <div class="bsglayout _16x9_1p">
     <!-- Game Captures -->
     <game-capture
       id="GameCapture1"

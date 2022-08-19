@@ -1,7 +1,5 @@
 <template>
-<div :style="{ 'backgroundImage': `url(bsgbacks/DS_Stack_2_Race.png)`,
-'background-repeat': 'no-repeat'}
-">
+<div class="bsglayout _ds_2p">
     <!-- Game Captures -->
     <game-capture
       id="GameCapture1"
