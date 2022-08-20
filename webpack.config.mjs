@@ -68,7 +68,7 @@ const config = (name) => {
       new CopyPlugin({
         patterns: [
           // { from: './bsgbacks', to: '../graphics/bsgbacks' },
-          { from: './omnibar/omniing', to: '../graphics/img/omniing' },
+          { from: './omnibar/omniing', to: '../graphics/img/omniing' }, // TODO: needed for retro coin
           // { from: './host-dashboard.*', to: './' },
         ],
       }),

@@ -1,5 +1,5 @@
 <template>
-<div class="bsglayout _gba_1p">
+  <div class="bsglayout _gba_1p">
     <!-- Game Captures -->
     <game-capture
       id="GameCapture1"
@@ -55,27 +55,26 @@
           height: '280px',
         }"
       >
-
         <run-info />
         <div class="sub_div">
         <commentators-reader />
         <commentators-reader show-reader />
       </div>
-        </div>
+     </div>
 
-              <!--TIMER-->
-              <div
-                class="Fixed FlexColumn BlockBlack"
-                :style="{
-                  flex: '1',
-                  width: '100%',
-                  left: '156px',
-                  top: '733px',
-                  width: '535px',
-                  height: '103px',
-                }"
-              >
-                <timer />
+      <!--TIMER-->
+      <div
+        class="Fixed FlexColumn BlockBlack"
+        :style="{
+          flex: '1',
+          width: '100%',
+          left: '156px',
+          top: '733px',
+          width: '535px',
+          height: '103px',
+        }"
+      >
+        <timer />
       </div>
     </div>
 
@@ -89,7 +88,6 @@
       height: '158px',
       }"
     />
-
   </div>
 </template>
 

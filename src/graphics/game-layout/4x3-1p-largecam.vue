@@ -44,7 +44,7 @@
     >
       <player />
       <!-- <comm-and-reader /> -->
-      </div>
+    </div>
 
             <!-- Run Game Info/Timer -->
       <div
@@ -59,13 +59,13 @@
         }"
       >
         <run-info />
-        <div class="sub_div"
->
-  <commentators-reader show-reader
-  :style="{
-  'margin-right': '80px',
-  width: '93%',
-  }"/></div>
+        <div class="sub_div">
+          <commentators-reader show-reader
+          :style="{
+          'margin-right': '80px',
+          width: '93%',
+          }"/>
+        </div>
 
       </div>
 
@@ -97,7 +97,7 @@
   </div>
     <!-- Donation Bar -->
   </div>
-
+</div>
 </template>
 
 <script lang="ts">

@@ -16,7 +16,7 @@
     <div :style="{
       position: 'absolute',
       top: '10px',
-      left: '-98px',
+      left: '20px',
       'z-index': 99999999999,
     }">
       <transition
@@ -115,7 +115,7 @@ export default class extends Vue {
 
 <style scoped>
   #Total {
-    padding: 0 13px 0 0;
+    /*padding: 0 13px 0 0;*/
     font-size: 40px;
     font-weight: 500;
     text-align: left;
@@ -132,7 +132,8 @@ export default class extends Vue {
   }
 
   #Total span:first-of-type {
-    padding-left: 10px;
+    /*padding-left: 10px;*/
+    background: unset !important;
   }
 
   /*#Total span:first-of-type:before {
@@ -144,22 +145,6 @@ export default class extends Vue {
     height: 82px;
     width: 104px;
     left: -104px;
-    top: 0px;
-  }*/
-
-  #Total span:last-of-type {
-    padding-right: 10px;
-  }
-
-  /*#Total span:last-of-type:after {
-    content: '';
-    position: absolute;
-    background: url('../omniing/right_dash_back.png');
-    background-position: center center;
-    background-size: cover;
-    height: 82px;
-    width: 44px;
-    right: -44px;
     top: 0px;
   }*/
 

@@ -52,11 +52,11 @@
       >
         <run-info />
         <div class="sub_div">
-        <commentators-reader />
-  <commentators-reader show-reader />
-      </div>
+          <commentators-reader />
+          <commentators-reader show-reader />
         </div>
-
+      </div>
+    </div>
     <!--TIMER-->
     <div
       class="Fixed FlexColumn BlockBlack"
@@ -69,8 +69,8 @@
         height: '103px',
       }"
     >
-        <timer />
-      </div>
+      <timer />
+    </div>
 
     <!-- Media Box -->
     <media-box

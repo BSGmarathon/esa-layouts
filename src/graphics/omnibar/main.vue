@@ -59,17 +59,17 @@ export default class extends Vue {
 
   updateInfoWidth(newTotal: number): void {
     if (newTotal < 1000) {
-      this.infoWidth = '981px';
+      this.infoWidth = '1045px';
       return;
     }
 
     if (newTotal < 10000) {
-      this.infoWidth = '916px';
+      this.infoWidth = '1015px';
       return;
     }
 
     if (newTotal < 100000) {
-      this.infoWidth = '885px';
+      this.infoWidth = '986px';
     }
   }
 
@@ -180,24 +180,23 @@ html, body {
     color: white;
     font-size: 39px;
     //top: calc((82px - 50px) / 2);
-    left: 492px;
+    left: 489px;
     width: 981px;
     /* TODO: make this fit automatically */
     //width: 883px;
     //box-sizing: border-box;
-    //border: solid green;
+    //border: 1px green solid;
     animation-duration: 500ms;
     height: 82px;
-    //border: 1px green solid;
 
     &.no-dash {
       //left: 269px;
       left: 194px;
-      width: 1240px;
+      width: 1285px;
 
       /* HACK: normal text is different */
       transform: unset;
-      top: 6px;
+      top: 5px;
     }
   }
 
@@ -210,7 +209,7 @@ html, body {
       position: absolute;
       right: 0;
       height: 82px;
-      width: 203px;
+      width: 177px;
       background: var(--bsg-color);
       // border-radius: 0px 0px 0px 34px / 0px 0px 0px 100px;
       border-radius: 0px 0px 0px 34px / 0px 0px 0px 85px;
@@ -218,15 +217,16 @@ html, body {
       img {
         position: relative;
         height: 82px;
-        left: 79px;
+        //left: 79px;
+        left: 58px;
       }
     }
 
     .dash {
       position: absolute;
-      // background: url("./omniing/left_dash.png");
-      background: #914e21;
-      right: 222px;
+      //background: #914e21;
+      //right: 222px;
+      right: 192px;
       // width: 404px;
       min-width: 10px;
       height: 82px;
@@ -240,7 +240,8 @@ html, body {
         background-size: cover;
         height: 82px;
         width: 104px;
-        left: -104px;
+        //left: -104px;
+        left: -75px;
         top: 0px;
       }
 
@@ -252,7 +253,8 @@ html, body {
         background-size: cover;
         height: 82px;
         width: 44px;
-        right: -44px;
+        //right: -44px;
+        right: -41px;
         top: 0px;
       }
 
