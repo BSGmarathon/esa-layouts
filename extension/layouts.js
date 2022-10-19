@@ -177,7 +177,7 @@ replicants_1.capturePositions.on('change', async (val) => {
                 (() => {
                     // Special game capture settings for DS-1p, 3DS-1p and sm64-psp-2p when online.
                     if (config.event.online && key.startsWith('GameCapture')
-                        //&& ['DS-1p', '3DS-1p', 'sm64-psp-2p'].includes(gameLayouts.value.selected || '')) {
+                        // && ['DS-1p', '3DS-1p', 'sm64-psp-2p'].includes(gameLayouts.value.selected || '')) {
                         // sm64-psp-2p.
                         && ['sm64-psp-2p'].includes(replicants_1.gameLayouts.value.selected || '')) {
                         if (replicants_1.gameLayouts.value.selected === 'sm64-psp-2p'
@@ -205,7 +205,7 @@ replicants_1.capturePositions.on('change', async (val) => {
                 (() => {
                     // Special game capture settings for DS-1p, 3DS-1p and sm64-psp-2p when online.
                     if (config.event.online && key.startsWith('GameCapture') && ['sm64-psp-2p'].includes(replicants_1.gameLayouts.value.selected || '')) {
-                        //&& ['DS-1p', '3DS-1p', 'sm64-psp-2p'].includes(gameLayouts.value.selected || '')) {
+                        // && ['DS-1p', '3DS-1p', 'sm64-psp-2p'].includes(gameLayouts.value.selected || '')) {
                         if (key === 'GameCapture1')
                             return true;
                         if (key === 'GameCapture2' && replicants_1.gameLayouts.value.selected === 'sm64-psp-2p') {
@@ -300,6 +300,34 @@ obs_1.default.conn.on('AuthenticationSuccess', async () => {
                 }
             }
         }
+    }
+    // Emit event indicating the current status to the component
+    (0, nodecg_1.get)().sendMessage('gameSourceVisibilityUpdated', selected.gameSource);
+});
+(0, nodecg_1.get)().listenFor('getGameSourceVisibility', async (val, ack) => {
+    if (ack && !ack.handled) {
+        ack(null, selected.gameSource);
+    }
+});
+(0, nodecg_1.get)().listenFor('setSelectedCaptures', async (data, ack) => {
+    const { sceneName, sourceName } = data;
+    // this is different from the xkeys one since it uses numbers there
+    for (const name of gameSources) {
+        try {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore: Typings say we need to specify more than we actually do.
+            await obs_1.default.conn.send('SetSceneItemProperties', {
+                'scene-name': sceneName,
+                item: { name },
+                visible: name === sourceName,
+            });
+        }
+        catch (err) {
+            (0, helpers_1.logError)('[Layouts] Could not change source visibility [%s: %s]', err, sceneName, sourceName);
+        }
+    }
+    if (ack && !ack.handled) {
+        ack(null);
     }
 });
 /**

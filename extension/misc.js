@@ -42,7 +42,9 @@ new audio_normaliser_1.default((0, nodecg_1.get)()); // eslint-disable-line no-n
 // This may want to be moved to that bundle directly in the future? It impacts all bundles!
 speedcontrol_1.sc.timer.setMaxListeners(20);
 replicants_1.serverTimestamp.value = Date.now();
-setInterval(() => { replicants_1.serverTimestamp.value = Date.now(); }, 100);
+setInterval(() => {
+    replicants_1.serverTimestamp.value = Date.now();
+}, 100);
 // Screened data from our moderation tool.
 rabbitmq_1.mq.evt.on('newScreenedSub', (data) => {
     (0, nodecg_1.get)().log.debug('[Misc] Received new subscription');
@@ -126,19 +128,24 @@ async function searchSrcomPronouns(val) {
         ]);
         pronouns = (0, helpers_1.formatSrcomPronouns)((data === null || data === void 0 ? void 0 : data.pronouns) || '') || '';
     }
+    // Allows the user to specify "(none)" and bypass a look-up.
+    if (pronouns.toLowerCase().includes('none'))
+        pronouns = '';
     return pronouns ? `${name} (${pronouns})` : name;
 }
 exports.searchSrcomPronouns = searchSrcomPronouns;
 async function searchOengusPronouns(val) {
     let user;
-    try {
-        const foundUsers = await (0, server_1.lookupUsersByStr)(val);
-        if (foundUsers.length) {
-            [user] = foundUsers;
+    if (config.server.enabled) {
+        try {
+            const foundUsers = await (0, server_1.lookupUsersByStr)(val);
+            if (foundUsers.length) {
+                [user] = foundUsers;
+            }
         }
-    }
-    catch (err) {
-        (0, nodecg_1.get)().log.error(err);
+        catch (err) {
+            (0, nodecg_1.get)().log.error(err);
+        }
     }
     let str;
     if (user) {
@@ -153,9 +160,17 @@ exports.searchOengusPronouns = searchOengusPronouns;
 // Processes adding commentators from the dashboard panel.
 (0, nodecg_1.get)().listenFor('commentatorAdd', async (val, ack) => {
     if (val) {
-        const str = await searchOengusPronouns(val);
-        if (!replicants_1.commentators.value.includes(str)) {
-            replicants_1.commentators.value.push(str);
+        if (config.server.enabled) {
+            const str = await searchOengusPronouns(val);
+            if (!replicants_1.commentators.value.includes(str)) {
+                replicants_1.commentators.value.push(str);
+            }
+        }
+        else {
+            const str = await searchSrcomPronouns(val);
+            if (!replicants_1.commentators.value.includes(str)) {
+                replicants_1.commentators.value.push(str);
+            }
         }
     }
     if (ack && !ack.handled) {
@@ -167,8 +182,11 @@ exports.searchOengusPronouns = searchOengusPronouns;
     if (!val) {
         replicants_1.donationReader.value = null;
     }
-    else {
+    else if (config.server.enabled) {
         replicants_1.donationReader.value = await searchOengusPronouns(val);
+    }
+    else {
+        replicants_1.donationReader.value = await searchSrcomPronouns(val);
     }
     if (ack && !ack.handled) {
         ack(null);
@@ -206,17 +224,50 @@ async function changeTwitchMetadata(title, gameId) {
         (0, helpers_1.logError)('[Misc] Error updating Twitch channel information:', err);
     }
 }
-// Used to change the Twitch title when requested by nodecg-speedcontrol.
-(0, nodecg_1.get)().listenFor('twitchExternalMetadata', 'nodecg-speedcontrol', async ({ title, gameID }) => {
-    (0, nodecg_1.get)().log.debug('[Misc] Message received to change title/game, will attempt (title: %s, game id: %s)', title, gameID);
-    await changeTwitchMetadata(title, gameID);
-});
-// Used to change the Twitch title when the donation total updates.
-let donationTotalInit = false;
-replicants_1.donationTotal.on('change', async (val) => {
-    if (donationTotalInit) {
-        (0, nodecg_1.get)().log.debug('[Misc] Donation total updated to %s, will attempt to set title', val);
-        await changeTwitchMetadata();
+if (config.tracker.donationTotalInTitle) {
+    // Used to change the Twitch title when requested by nodecg-speedcontrol.
+    (0, nodecg_1.get)().listenFor('twitchExternalMetadata', 'nodecg-speedcontrol', async ({ title, gameID }) => {
+        (0, nodecg_1.get)().log.debug('[Misc] Message received to change title/game, will attempt (title: %s, game id: %s)', title, gameID);
+        await changeTwitchMetadata(title, gameID);
+    });
+    // Used to change the Twitch title when the donation total updates.
+    let donationTotalInit = false;
+    replicants_1.donationTotal.on('change', async (val) => {
+        if (donationTotalInit) {
+            (0, nodecg_1.get)().log.debug('[Misc] Donation total updated to %s, will attempt to set title', val);
+            await changeTwitchMetadata();
+        }
+        donationTotalInit = true;
+    });
+}
+async function formatScheduleImportedPronouns() {
+    (0, nodecg_1.get)().log.info('[Misc] Schedule reimported, formatting pronouns');
+    const runs = speedcontrol_1.sc.getRunDataArray();
+    for (const run of runs) {
+        const { teams } = run;
+        teams.forEach((team, x) => {
+            team.players.forEach((player, y) => {
+                // Even though the function is named "Srcom", this should also work
+                // fine with those from Oengus imports as well.
+                teams[x].players[y].pronouns = (0, helpers_1.formatSrcomPronouns)(player.pronouns);
+            });
+        });
+        await speedcontrol_1.sc.sendMessage('modifyRun', {
+            runData: Object.assign(Object.assign({}, run), { teams }),
+        });
     }
-    donationTotalInit = true;
-});
+    (0, nodecg_1.get)().log.info('[Music] Schedule reimport pronoun formatting complete');
+}
+if (!config.server.enabled) {
+    // If server integration is disabled, checks pronouns formatting on every schedule (re)import.
+    replicants_1.horaroImportStatus.on('change', async (newVal, oldVal) => {
+        if (oldVal && oldVal.importing && !newVal.importing) {
+            await formatScheduleImportedPronouns();
+        }
+    });
+    replicants_1.oengusImportStatus.on('change', async (newVal, oldVal) => {
+        if (oldVal && oldVal.importing && !newVal.importing) {
+            await formatScheduleImportedPronouns();
+        }
+    });
+}
