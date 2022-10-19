@@ -463,6 +463,10 @@
           "type": "number",
           "default": 52361
         },
+        "xr18": {
+          "type": "boolean",
+          "default": false
+        },
         "channelMapping": {
           "type": "object",
           "additionalProperties": false,
@@ -496,7 +500,8 @@
         "enabled",
         "ip",
         "localPort",
-        "channelMapping"
+        "channelMapping",
+        "xr18"
       ]
     },
     "xkeys": {
@@ -541,6 +546,10 @@
         },
         "otherBidwarBias": {
           "$ref": "#/definitions/bidwarBias"
+        },
+        "donationTotalInTitle": {
+          "type": "boolean",
+          "default": true
         }
       },
       "required": [
@@ -550,7 +559,8 @@
         "password",
         "prizesUrl",
         "commentaryBias",
-        "otherBidwarBias"
+        "otherBidwarBias",
+        "donationTotalInTitle"
       ]
     },
     "tts": {

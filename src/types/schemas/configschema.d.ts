@@ -76,6 +76,7 @@ export interface Configschema {
 		enabled: boolean;
 		ip: string;
 		localPort: number;
+		xr18: boolean;
 		channelMapping: {
 			player1Game: string;
 			player2Game: string;
@@ -94,6 +95,7 @@ export interface Configschema {
 		prizesUrl: string;
 		commentaryBias: BidwarBias;
 		otherBidwarBias: BidwarBias;
+		donationTotalInTitle: boolean;
 	};
 	tts: {
 		enabled: boolean;
