@@ -121,14 +121,15 @@
         "title": "Game Layout Override",
         "width": 2,
         "file": "game-layout-override.html",
+        "workspace": "BSG Graphics",
         "headerColor": "#DB3A34"
       },
       {
         "name": "video-matrix",
         "title": "Game Feed Matrix",
-        "width": 3,
+        "width": 4,
         "file": "video-matrix.html",
-        "workspace": "Z - BSG Advanced",
+        "workspace": "BSG Graphics",
         "headerColor": "#DB3A34"
       },
       {
@@ -144,6 +145,7 @@
         "title": "Commentators",
         "width": 2,
         "file": "commentators.html",
+        "workspace": "BSG Graphics",
         "headerColor": "#DB3A34"
       },
       {
@@ -182,6 +184,7 @@
         "title": "Donation Reader Control",
         "width": 2,
         "file": "donation-reader-control.html",
+        "workspace": "BSG Graphics",
         "headerColor": "#DB3A34"
       },
       {
@@ -229,6 +232,7 @@
         "title": "Restream Viewer Tool",
         "width": 2,
         "file": "restream-viewer-tool.html",
+        "workspace": "BSG Graphics",
         "headerColor": "#DB3A34"
       },
       {
