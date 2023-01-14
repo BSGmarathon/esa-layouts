@@ -4,7 +4,7 @@ import { get as nodecg } from './util/nodecg';
 import { horaroImportStatus } from './util/replicants';
 import { sc } from './util/speedcontrol';
 
-const config = (nodecg().bundleConfig as Configschema).server;
+const config = nodecg().bundleConfig as Configschema;
 
 // TODO: oengus does not have this
 export async function lookupUserByID(id: number): Promise<any> {
@@ -12,13 +12,13 @@ export async function lookupUserByID(id: number): Promise<any> {
     return null;
   }
 
-  if (!config.enabled) throw new Error('server integration disabled');
+  if (!config.server.enabled) throw new Error('server integration disabled');
   const resp = await needle(
     'get',
-    `${config.address}/users/${id}`,
+    `${config.server.address}/users/${id}`,
     {
       headers: {
-        Authorization: `Bearer ${config.key}`,
+        Authorization: `Bearer ${config.server.key}`,
       },
     },
   );
@@ -28,14 +28,13 @@ export async function lookupUserByID(id: number): Promise<any> {
 }
 
 export async function lookupUsersByStr(str: string): Promise<any[]> {
-  if (!config.enabled) throw new Error('server integration disabled');
-
+  if (!config.server.enabled) throw new Error('server integration disabled');
   const resp = await needle(
     'get',
-    `${config.address}/users/${str}/search`,
+    `${config.server.address}/users/${str}/search`,
     {
       headers: {
-        // Authorization: `Bearer ${config.key}`,
+        // Authorization: `Bearer ${config.server.key}`,
       },
     },
   );
@@ -43,13 +42,9 @@ export async function lookupUsersByStr(str: string): Promise<any[]> {
   return resp.body;
 }
 
-if (config.enabled) {
+if (config.server.enabled) {
   horaroImportStatus.on('change', async (newVal, oldVal) => {
-    if (!config.enabled) {
-    return;
-  }
-
-  if (oldVal && oldVal.importing && !newVal.importing) {
+    if (oldVal && oldVal.importing && !newVal.importing) {
       nodecg().log.info('[Server] Schedule reimported, looking up user information');
       const runs = sc.getRunDataArray();
       for (const run of runs) {
@@ -72,21 +67,31 @@ if (config.enabled) {
         }
         let i = 0;
         const { teams } = run;
-        teams.forEach((team, x) => {
-          team.players.forEach((player, y) => {
+        for (const [x, team] of teams.entries()) {
+          for (const [y, player] of team.players.entries()) {
             teams[x].players[y].customData.id = userIds[i];
-            if (userDataArr[i] !== null) {
+            let userData = userDataArr[i];
+            if (!userData && config.event.shorts === 'swcf') {
+              try {
+                // 500ms wait to not hammer the server
+                await new Promise((res) => { setTimeout(res, 500); });
+                userData = (await lookupUsersByStr(player.name.toLowerCase()))[0] || null;
+              } catch (err) {
+                userData = null;
+              }
+            }
+            if (userData) {
               // Fix some flags which use a different format (mostly GB).
-              let { country } = userDataArr[i];
+              let { country } = userData;
               if (country && country.includes('-')) country = country.replace('-', '/');
-              teams[x].players[y].name = userDataArr[i].name;
+              teams[x].players[y].name = userData.name;
               teams[x].players[y].country = country || undefined;
-              teams[x].players[y].pronouns = userDataArr[i].pronouns || undefined;
-              teams[x].players[y].social.twitch = userDataArr[i].twitch?.displayName || undefined;
+              teams[x].players[y].pronouns = userData.pronouns || undefined;
+              teams[x].players[y].social.twitch = userData.twitch?.displayName || undefined;
             }
             i += 1;
-          });
-        });
+          }
+        }
         await sc.sendMessage('modifyRun', {
           runData: {
             ...run,

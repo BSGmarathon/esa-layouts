@@ -1,11 +1,11 @@
 <template>
-<div id="Intermission" class="bsglayout">
+  <div id="Intermission" class="bsglayout" :style="{ zoom }">
     <div
       id="Background"
       :style="{ 'clip-path': clipPath }"
     />
     <div id="Layout">
-      <!-- Logo linksboven-->
+    <!-- Logo linksboven-->
       <div
         class="Logo Fixed"
         :style="{
@@ -70,7 +70,7 @@
 
       <!-- Donation Reader and Music Track -->
       <div
-        class="Fixed FlexI"
+        class="Fixed Flex"
         :style="{
           left: '1110px',
           top: '802px',
@@ -88,14 +88,15 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
-import { State } from 'vuex-class';
 import { RunData } from 'speedcontrol-util/types';
+import { Component, Vue } from 'vue-property-decorator';
+import { State } from 'vuex-class';
 // import { generateClipPath } from '../_misc/cut-background';
-import MediaBox from '@shared/graphics/mediabox';
-import CommercialTimer from './components/CommercialTimer.vue';
 import UpcomingRun from './components/UpcomingRun.vue';
 import Rotation from './components/Rotation.vue';
+import MediaBox from '@shared/graphics/mediabox';
+import { getZoomAmountCSS } from '../_misc/helpers';
+import CommercialTimer from './components/CommercialTimer.vue';
 import DonationReader from './components/DonationReader.vue';
 import MusicTrack from './components/MusicTrack.vue';
 import DonationTotal from './components/DonationTotal.vue';
@@ -114,6 +115,7 @@ import DonationTotal from './components/DonationTotal.vue';
 export default class extends Vue {
   @State nextRuns!: RunData[];
   clipPath = 'unset';
+  zoom = getZoomAmountCSS();
 
   mounted(): void {
     // Bring this back if we actually gain some cameras on this layout.

@@ -236,7 +236,7 @@ obs.conn.on('TransitionBegin', async (data) => {
       toggleFadeHelper('/dca/2/fader', readerScenes, data, false); // LIVE Readers
       toggleFadeHelper('/dca/3/fader', gameScenes, data, false); // LIVE Games
     // Online
-    } if (config.event.online === true || config.event.online === 'full') {
+    } else if (config.event.online === true || config.event.online === 'full') {
       const nonGameScenes = getNonGameScenes(); // These scenes will *not* have "LIVE" DCAs audible.
       const intermissionScenes = [ // These scenes *will* have "Intrmsn Mics" DCA audible.
         obs.findScene(config.obs.names.scenes.commercials),

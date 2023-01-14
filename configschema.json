@@ -690,6 +690,24 @@
         "token",
         "textChannelId"
       ]
+    },
+    "streamlabsCharity": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "apiUrl": {
+          "type": "string",
+          "default": "API_URL"
+        }
+      },
+      "required": [
+        "enabled",
+        "apiUrl"
+      ]
     }
   },
   "required": [
@@ -707,6 +725,7 @@
     "flagcarrier",
     "offsite",
     "server",
-    "discord"
+    "discord",
+    "streamlabsCharity"
   ]
 }
