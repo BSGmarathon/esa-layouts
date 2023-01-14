@@ -82,7 +82,8 @@ speedcontrol_1.sc.runDataActiveRun.on('change', (newVal, oldVal) => {
         // imported from an external schedule. This stops manually added runs (like bonus runs)
         // Having things erased.
         if (speedcontrol_1.sc.runDataActiveRun.value && newVal && newVal.scheduled) {
-            replicants_1.commentators.value.length = 0;
+            if (config.event.shorts !== 'swcf')
+                replicants_1.commentators.value.length = 0;
             // If not online and flagcarrier is enabled,
             // we also clear the teams and big button player map.
             if (!config.event.online && config.flagcarrier.enabled) {
@@ -177,6 +178,12 @@ exports.searchOengusPronouns = searchOengusPronouns;
         ack(null);
     }
 });
+(0, nodecg_1.get)().listenFor('commentatorRemove', (val, ack) => {
+    replicants_1.commentators.value.splice(val, 1);
+    if (ack && !ack.handled) {
+        ack(null);
+    }
+});
 // Processes modifying the reader from the dasboard panel.
 (0, nodecg_1.get)().listenFor('readerModify', async (val, ack) => {
     if (!val) {
@@ -196,28 +203,41 @@ async function changeTwitchMetadata(title, gameId) {
     try {
         // Hardcoded fallback title for now!
         // TODO: Unhardcode!
-        let t = title || '🔴 ESA Summer 2022 - {{total}}/$115,000 in aid of Save the Children';
+        const fallback = (() => {
+            var _a;
+            if (config.event.shorts === 'swcf') {
+                const run = (_a = speedcontrol_1.sc.getCurrentRun()) === null || _a === void 0 ? void 0 : _a.game;
+                return `{{total}}/$50,000 - Souls Winter !Charity Fest${run ? ` - ${run}` : ''}`;
+            }
+            return '🔴 ESA Summer 2022 - {{total}}/$115,000 in aid of Save the Children';
+        })();
+        let t = title || fallback;
         if (t) {
             t = t.replace(/{{total}}/g, (0, helpers_1.formatUSD)(replicants_1.donationTotal.value, true));
         }
         (0, nodecg_1.get)().log.debug('[Misc] Decided Twitch title is: %s - Decided game ID is %s', t, gameId);
-        const data = { title: t === null || t === void 0 ? void 0 : t.slice(0, 140) };
-        if (gameId)
-            data.game_id = gameId;
-        const resp = await speedcontrol_1.sc.sendMessage('twitchAPIRequest', {
-            method: 'patch',
-            endpoint: `/channels?broadcaster_id=${replicants_1.twitchAPIData.value.channelID}`,
-            data,
-            newAPI: true,
-        });
-        if (resp.statusCode !== 204) {
-            throw new Error(JSON.stringify(resp.body));
+        if (config.event.shorts === 'swcf') {
+            (0, nodecg_1.get)().sendMessageToBundle('twitchExternalMetadataAltMode', 'esa-commercials', { title: t === null || t === void 0 ? void 0 : t.slice(0, 140), gameId });
         }
-        // "New" API doesn't return anything so update the data with what we've got.
-        replicants_1.twitchChannelInfo.value.title = (t === null || t === void 0 ? void 0 : t.slice(0, 140)) || '';
-        if (gameId)
-            replicants_1.twitchChannelInfo.value.game_id = gameId;
-        // twitchChannelInfo.value.game_name = dir?.name || '';
+        else {
+            const data = { title: t === null || t === void 0 ? void 0 : t.slice(0, 140) };
+            if (gameId)
+                data.game_id = gameId;
+            const resp = await speedcontrol_1.sc.sendMessage('twitchAPIRequest', {
+                method: 'patch',
+                endpoint: `/channels?broadcaster_id=${replicants_1.twitchAPIData.value.channelID}`,
+                data,
+                newAPI: true,
+            });
+            if (resp.statusCode !== 204) {
+                throw new Error(JSON.stringify(resp.body));
+            }
+            // "New" API doesn't return anything so update the data with what we've got.
+            replicants_1.twitchChannelInfo.value.title = (t === null || t === void 0 ? void 0 : t.slice(0, 140)) || '';
+            if (gameId)
+                replicants_1.twitchChannelInfo.value.game_id = gameId;
+            // twitchChannelInfo.value.game_name = dir?.name || '';
+        }
         (0, nodecg_1.get)().log.debug('[Misc] Twitch title/game updated');
     }
     catch (err) {

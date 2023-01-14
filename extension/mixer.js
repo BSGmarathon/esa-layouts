@@ -210,7 +210,7 @@ obs_1.default.conn.on('TransitionBegin', async (data) => {
             toggleFadeHelper('/dca/3/fader', gameScenes, data, false); // LIVE Games
             // Online
         }
-        if (config.event.online === true || config.event.online === 'full') {
+        else if (config.event.online === true || config.event.online === 'full') {
             const nonGameScenes = getNonGameScenes(); // These scenes will *not* have "LIVE" DCAs audible.
             const intermissionScenes = [
                 obs_1.default.findScene(config.obs.names.scenes.commercials),
