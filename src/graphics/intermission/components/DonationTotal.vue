@@ -7,7 +7,10 @@
       <span
         v-for="(char, i) in totalStr"
         :key="i"
-        :class="(char === ',' ? 'Comma' : undefined)"
+        :class="{
+          'no-bg': !noBackground,
+          'Comma': char === ',',
+        }"
       >
         {{ char }}
       </span>
@@ -18,12 +21,13 @@
 <script lang="ts">
 import { formatUSD } from '@esa-layouts/graphics/_misc/helpers';
 import { State } from 'vuex-class';
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import { DonationTotal } from '@esa-layouts/types/schemas';
 
 @Component
 export default class extends Vue {
   @State donationTotal!: DonationTotal;
+  @Prop({ default: false }) noBackground!: boolean;
 
   get totalStr(): string {
     return formatUSD(this.donationTotal);
@@ -31,7 +35,7 @@ export default class extends Vue {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 #Total {
   padding: 0 13px 0 0;
   font-size: 60px;
@@ -46,9 +50,12 @@ export default class extends Vue {
   padding-top: 40px;
   display: inline-block;
   text-align: center;
-  background: var(--slide-color);
   position: relative;
   color: white !important;
+
+  &:not(.no-bg) {
+    background: var(--slide-color);
+ }
 }
 
 #Total span:first-of-type {

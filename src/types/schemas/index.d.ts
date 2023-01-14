@@ -11,6 +11,7 @@ export * from './donationTotal';
 export * from './donationTotalMilestones';
 export * from './donationsToRead';
 export * from './gameLayouts';
+export * from './lowerThird';
 export * from './mediaBox';
 export * from './musicData';
 export * from './nameCycle';

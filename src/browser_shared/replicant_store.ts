@@ -1,4 +1,26 @@
-import type { Bids, BigbuttonPlayerMap, Commentators, Countdown, CurrentRunDelay, DonationReader, DonationsToRead, DonationTotal, DonationTotalMilestones, GameLayouts, ObsData, Omnibar, OtherStreamData, Prizes, ReaderIntroduction, ServerTimestamp, StreamDeckData, TtsVoices, UpcomingRunID, VideoPlayer } from '@esa-layouts/types/schemas';
+import type {
+  Bids,
+  BigbuttonPlayerMap,
+  Commentators,
+  Countdown,
+  CurrentRunDelay,
+  DonationReader,
+  DonationsToRead,
+  DonationTotal,
+  DonationTotalMilestones,
+  GameLayouts,
+  LowerThird,
+  ObsData,
+  Omnibar,
+  OtherStreamData,
+  Prizes,
+  ReaderIntroduction,
+  ServerTimestamp,
+  StreamDeckData,
+  TtsVoices,
+  UpcomingRunID,
+  VideoPlayer,
+} from '@esa-layouts/types/schemas';
 import { Asset } from '@shared/types';
 import clone from 'clone';
 import type { ReplicantBrowser } from 'nodecg/types/browser';
@@ -25,6 +47,7 @@ export const reps: {
   donationTotal: ReplicantBrowser<DonationTotal>;
   donationTotalMilestones: ReplicantBrowser<DonationTotalMilestones>;
   gameLayouts: ReplicantBrowser<GameLayouts>;
+  lowerThird: ReplicantBrowser<LowerThird>;
   obsData: ReplicantBrowser<ObsData>;
   omnibar: ReplicantBrowser<Omnibar>;
   otherStreamData: ReplicantBrowser<OtherStreamData>;
@@ -53,6 +76,7 @@ export const reps: {
   donationTotalMilestones: nodecg.Replicant('donationTotalMilestones'),
   gameLayouts: nodecg.Replicant('gameLayouts'),
   obsData: nodecg.Replicant('obsData'),
+  lowerThird: nodecg.Replicant('lowerThird'),
   omnibar: nodecg.Replicant('omnibar'),
   otherStreamData: nodecg.Replicant('otherStreamData'),
   prizes: nodecg.Replicant('prizes'),
@@ -81,6 +105,7 @@ export interface ReplicantTypes {
   donationTotal: DonationTotal;
   donationTotalMilestones: DonationTotalMilestones;
   gameLayouts: GameLayouts;
+  lowerThird: LowerThird;
   obsData: ObsData;
   omnibar: Omnibar;
   otherStreamData: OtherStreamData;

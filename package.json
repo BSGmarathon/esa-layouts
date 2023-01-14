@@ -237,6 +237,14 @@
         "headerColor": "#DB3A34"
       },
       {
+        "name": "lower-third",
+        "title": "Lower-third control",
+        "width": 3,
+        "file": "lower-third.html",
+        "workspace": "BSG Graphics",
+        "headerColor": "#DB3A34"
+      },
+      {
         "name": "rabbitmq-test",
         "title": "RabbitMQ Test",
         "width": 3,
@@ -308,6 +316,11 @@
         "file": "player-hud.html",
         "width": 800,
         "height": 480
+      },
+      {
+        "file": "lower-third.html",
+        "width": 1920,
+        "height": 1080
       },
       {
         "file": "media-box-only.html",

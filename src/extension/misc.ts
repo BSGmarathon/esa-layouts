@@ -7,7 +7,7 @@ import * as mqLogging from './util/mq-logging';
 import { get as nodecg } from './util/nodecg';
 import obs from './util/obs';
 import { mq } from './util/rabbitmq';
-import { bigbuttonPlayerMap, commentators, donationReader, donationTotal, horaroImportStatus, oengusImportStatus, otherStreamData, serverTimestamp, twitchAPIData, twitchChannelInfo, upcomingRunID } from './util/replicants';
+import { bigbuttonPlayerMap, commentators, lowerThird, donationReader, donationTotal, horaroImportStatus, oengusImportStatus, otherStreamData, serverTimestamp, twitchAPIData, twitchChannelInfo, upcomingRunID } from './util/replicants';
 import { sc } from './util/speedcontrol';
 
 const config = (nodecg().bundleConfig as Configschema);
@@ -142,22 +142,36 @@ export async function searchOengusPronouns(val: string): Promise<string> {
   return str;
 }
 
+async function searchName(val: string, currentVal: string[]): Promise<void> {
+  if (config.server.enabled) {
+    const str = await searchOengusPronouns(val);
+
+    if (!currentVal.includes(str)) {
+      currentVal.push(str);
+    }
+  } else {
+    const str = await searchSrcomPronouns(val);
+
+    if (!currentVal.includes(str)) {
+      currentVal.push(str);
+    }
+  }
+}
+
 // Processes adding commentators from the dashboard panel.
 nodecg().listenFor('commentatorAdd', async (val: string | null | undefined, ack) => {
   if (val) {
-    if (config.server.enabled) {
-      const str = await searchOengusPronouns(val);
+    await searchName(val, commentators.value);
+  }
 
-      if (!commentators.value.includes(str)) {
-        commentators.value.push(str);
-      }
-    } else {
-      const str = await searchSrcomPronouns(val);
+  if (ack && !ack.handled) {
+    ack(null);
+  }
+});
 
-      if (!commentators.value.includes(str)) {
-        commentators.value.push(str);
-      }
-    }
+nodecg().listenFor('lower-third:add-name', async (val: string | null | undefined, ack) => {
+  if (val) {
+    await searchName(val, lowerThird.value.names);
   }
 
   if (ack && !ack.handled) {

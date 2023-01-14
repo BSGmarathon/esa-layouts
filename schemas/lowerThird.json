@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "visible": {
+      "type": "boolean",
+      "default": false
+    },
+    "transitioning": {
+      "type": "boolean",
+      "default": false
+    },
+    "names": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    }
+  },
+  "required": [
+    "visible",
+    "transitioning",
+    "names"
+  ]
+}
