@@ -158,21 +158,32 @@ async function searchOengusPronouns(val) {
     return str;
 }
 exports.searchOengusPronouns = searchOengusPronouns;
+async function searchName(val, currentVal) {
+    if (config.server.enabled) {
+        const str = await searchOengusPronouns(val);
+        if (!currentVal.includes(str)) {
+            currentVal.push(str);
+        }
+    }
+    else {
+        const str = await searchSrcomPronouns(val);
+        if (!currentVal.includes(str)) {
+            currentVal.push(str);
+        }
+    }
+}
 // Processes adding commentators from the dashboard panel.
 (0, nodecg_1.get)().listenFor('commentatorAdd', async (val, ack) => {
     if (val) {
-        if (config.server.enabled) {
-            const str = await searchOengusPronouns(val);
-            if (!replicants_1.commentators.value.includes(str)) {
-                replicants_1.commentators.value.push(str);
-            }
-        }
-        else {
-            const str = await searchSrcomPronouns(val);
-            if (!replicants_1.commentators.value.includes(str)) {
-                replicants_1.commentators.value.push(str);
-            }
-        }
+        await searchName(val, replicants_1.commentators.value);
+    }
+    if (ack && !ack.handled) {
+        ack(null);
+    }
+});
+(0, nodecg_1.get)().listenFor('lower-third:add-name', async (val, ack) => {
+    if (val) {
+        await searchName(val, replicants_1.lowerThird.value.names);
     }
     if (ack && !ack.handled) {
         ack(null);

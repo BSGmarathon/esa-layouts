@@ -137,40 +137,9 @@
   margin-left: 3px;
 }
 
+#Total[data-v-34e12a2f]{padding:0 13px 0 0;font-size:60px;font-weight:500;text-align:left;float:right;color:#fff !important}#Total>span[data-v-34e12a2f]{padding-top:40px;display:inline-block;text-align:center;position:relative;color:#fff !important}#Total>span[data-v-34e12a2f]:not(.no-bg){background:var(--slide-color)}#Total span[data-v-34e12a2f]:first-of-type{padding-left:10px}#Total span[data-v-34e12a2f]:last-of-type{padding-right:10px}#Total>.Comma[data-v-34e12a2f]{display:inline-block;width:.22em;color:#fff !important;text-align:center}
 
-#Total[data-v-6527fd48] {
-  padding: 0 13px 0 0;
-  font-size: 60px;
-  font-weight: 500;
-  text-align: left;
-  float: right;
-  color: white !important;
-}
-
-/* Each character in the total is in a span; setting width so the numbers appear monospaced. */
-#Total > span[data-v-6527fd48] {
-  padding-top: 40px;
-  display: inline-block;
-  text-align: center;
-  background: var(--slide-color);
-  position: relative;
-  color: white !important;
-}
-#Total span[data-v-6527fd48]:first-of-type {
-  padding-left: 10px;
-}
-#Total span[data-v-6527fd48]:last-of-type {
-  padding-right: 10px;
-}
-#Total > .Comma[data-v-6527fd48] {
-  display: inline-block;
-  width: 0.22em;
-  color: white !important;
-  text-align: center;
-}
-
-
-#Intermission[data-v-a3cc5144] {
+#Intermission[data-v-8a0df324] {
   width: 100%;
   height: 100%;
   position: absolute;
