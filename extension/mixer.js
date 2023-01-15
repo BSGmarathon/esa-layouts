@@ -2,7 +2,6 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.toggleLiveMics = exports.setFaderName = void 0;
 const helpers_1 = require("./util/helpers");
@@ -38,7 +37,7 @@ const channelStatuses = (0, nodecg_1.get)().Replicant('x32-game-channel-status',
 });
 const wantedFaders = Object.values(config.x32.channelMapping).map((v) => `/ch/${v}/mix/fader`);
 const wantedMutes = Object.values(config.x32.channelMapping).map((v) => `/ch/${v}/mix/on`);
-function fetchInitialStatus() {
+function fetchInitialFaderMuteStatus() {
     wantedFaders.forEach((fader) => {
         var _a;
         (_a = x32_1.default.conn) === null || _a === void 0 ? void 0 : _a.send({
@@ -56,10 +55,18 @@ function fetchInitialStatus() {
 }
 function getFaderNr(address) {
     const regex = /\/ch\/([0-9]{2})\/mix\/(?:fader|on)/;
-    return address.match(regex)[1];
+    const reMatch = address.match(regex);
+    if (!reMatch) {
+        return null;
+    }
+    return reMatch[1];
 }
 function updateMuteStatus(message) {
     const fader = getFaderNr(message.address);
+    if (!fader) {
+        (0, nodecg_1.get)().log.warn('Failed to match fader for', message.address);
+        return;
+    }
     const muted = message.args[0].value === 0;
     const chIndex = channelStatuses.value.findIndex((x) => x.channel === fader);
     channelStatuses.value[chIndex].muted = muted;
@@ -67,32 +74,30 @@ function updateMuteStatus(message) {
 }
 function updateFaderStatus(message) {
     const fader = getFaderNr(message.address);
+    if (!fader) {
+        (0, nodecg_1.get)().log.warn('Failed to match fader for', message.address);
+        return;
+    }
     const faderValue = message.args[0].value;
     const faderActive = faderValue >= 0.3;
     const chIndex = channelStatuses.value.findIndex((x) => x.channel === fader);
     channelStatuses.value[chIndex].faderUp = faderActive;
     (0, nodecg_1.get)().log.debug(`Fader ${fader} value ${faderValue}, audible on stream`, faderActive);
 }
-if (config.x32.enabled) {
-    // fetch initial statues for faders and mutes
-    (_a = x32_1.default.conn) === null || _a === void 0 ? void 0 : _a.on('ready', () => {
-        fetchInitialStatus();
-    });
-    // /ch/[01…32]/mix/on -> {OFF, ON} -> OFF meaning the channel is muted?
-    // /ch/[01…32]/mix/fader -> level in Db [0.0…1.0(+10dB), 1024] -> not sure what the values are
-    (_b = x32_1.default.conn) === null || _b === void 0 ? void 0 : _b.on('message', (message) => {
-        if (wantedMutes.includes(message.address)) {
-            updateMuteStatus(message);
-            return;
-        }
-        if (wantedFaders.includes(message.address)) {
-            updateFaderStatus(message);
-        }
-        // DON'T do this, also triggers for other faderss
-        // nodecg.log.info('Unknown OSC command', message);
-    });
-}
-/// <editor-fold desc=="Mixer integration">
+// /ch/[01…32]/mix/on -> {OFF, ON} -> OFF meaning the channel is muted?
+// /ch/[01…32]/mix/fader -> level in Db [0.0…1.0(+10dB), 1024] -> not sure what the values are
+x32_1.default.on('message', (message) => {
+    if (wantedMutes.includes(message.address)) {
+        updateMuteStatus(message);
+        return;
+    }
+    if (wantedFaders.includes(message.address)) {
+        updateFaderStatus(message);
+    }
+    // DON'T do this, also triggers for other faderss
+    // nodecg.log.info('Unknown OSC command', message);
+});
+/// <editor-fold desc="DCA Automation">
 function getSceneConfig() {
     // These scenes will have the reader audible.
     const readerScenes = [
@@ -196,6 +201,8 @@ async function setInitialFaders() {
 }
 x32_1.default.on('ready', async () => {
     await setInitialFaders();
+    // fetch initial statues for faders and mutes
+    fetchInitialFaderMuteStatus();
 });
 obs_1.default.conn.on('AuthenticationSuccess', async () => {
     await setInitialFaders();

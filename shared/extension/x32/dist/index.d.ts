@@ -1,9 +1,15 @@
 import type { NodeCG } from 'nodecg/types/server';
-import osc from 'osc';
+import osc, { OscMessage } from 'osc';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { X32 as X32Types } from '../../../types';
 interface X32Events {
-    'ready': () => void;
+    error: (error: Error) => void;
+    ready: () => void;
+    /**
+     * This event is only sent when "forwardMessages" is set to true in the constructor
+     * @param message OSC message received from the mixer
+     */
+    message: (message: OscMessage) => void;
 }
 declare class X32 extends TypedEmitter<X32Events> {
     private nodecg;
@@ -21,7 +27,7 @@ declare class X32 extends TypedEmitter<X32Events> {
         };
     };
     private fadersInterval;
-    constructor(nodecg: NodeCG, config: X32Types.Config);
+    constructor(nodecg: NodeCG, config: X32Types.Config, forwardMessages?: boolean);
     /**
      * Just set a specific fader to the supplied value.
      * @param name Full name of fader (example: /dca/1/fader).
@@ -36,6 +42,7 @@ declare class X32 extends TypedEmitter<X32Events> {
      * @param length Milliseconds to spend doing fade.
      */
     fade(name: string, startValue: number, endValue: number, length: number): void;
+    private handleFaderEvent;
 }
 export = X32;
 //# sourceMappingURL=index.d.ts.map
