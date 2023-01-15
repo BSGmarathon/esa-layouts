@@ -38,7 +38,7 @@ const channelStatuses = nodecg().Replicant<ChannelDataReplicant[]>('x32-game-cha
 const wantedFaders = Object.values(config.x32.channelMapping).map((v) => `/ch/${v}/mix/fader`);
 const wantedMutes = Object.values(config.x32.channelMapping).map((v) => `/ch/${v}/mix/on`);
 
-function fetchInitialStatus(): void {
+function fetchInitialFaderMuteStatus(): void {
   wantedFaders.forEach((fader) => {
     x32.conn?.send({
       address: fader,
@@ -54,14 +54,25 @@ function fetchInitialStatus(): void {
   });
 }
 
-function getFaderNr(address: string): string {
+function getFaderNr(address: string): string | null {
   const regex = /\/ch\/([0-9]{2})\/mix\/(?:fader|on)/;
+  const reMatch = address.match(regex);
 
-  return address.match(regex)![1];
+  if (!reMatch) {
+    return null;
+  }
+
+  return reMatch[1];
 }
 
 function updateMuteStatus(message: OscMessage): void {
   const fader = getFaderNr(message.address);
+
+  if (!fader) {
+    nodecg().log.warn('Failed to match fader for', message.address);
+    return;
+  }
+
   const muted = (message.args as Array<MetaArgument>)[0].value === 0;
   const chIndex = channelStatuses.value.findIndex((x) => x.channel === fader);
 
@@ -72,6 +83,12 @@ function updateMuteStatus(message: OscMessage): void {
 
 function updateFaderStatus(message: OscMessage): void {
   const fader = getFaderNr(message.address);
+
+  if (!fader) {
+    nodecg().log.warn('Failed to match fader for', message.address);
+    return;
+  }
+
   const faderValue = (message.args as Array<MetaArgument>)[0].value;
   const faderActive = faderValue >= 0.3;
   const chIndex = channelStatuses.value.findIndex((x) => x.channel === fader);
@@ -81,30 +98,23 @@ function updateFaderStatus(message: OscMessage): void {
   nodecg().log.debug(`Fader ${fader} value ${faderValue}, audible on stream`, faderActive);
 }
 
-if (config.x32.enabled) {
-  // fetch initial statues for faders and mutes
-  x32.conn?.on('ready', () => {
-    fetchInitialStatus();
-  });
+// /ch/[01…32]/mix/on -> {OFF, ON} -> OFF meaning the channel is muted?
+// /ch/[01…32]/mix/fader -> level in Db [0.0…1.0(+10dB), 1024] -> not sure what the values are
+x32.on('message', (message: OscMessage) => {
+  if (wantedMutes.includes(message.address)) {
+    updateMuteStatus(message);
+    return;
+  }
 
-  // /ch/[01…32]/mix/on -> {OFF, ON} -> OFF meaning the channel is muted?
-  // /ch/[01…32]/mix/fader -> level in Db [0.0…1.0(+10dB), 1024] -> not sure what the values are
-  x32.conn?.on('message', (message) => {
-    if (wantedMutes.includes(message.address)) {
-      updateMuteStatus(message);
-      return;
-    }
+  if (wantedFaders.includes(message.address)) {
+    updateFaderStatus(message);
+  }
 
-    if (wantedFaders.includes(message.address)) {
-      updateFaderStatus(message);
-    }
+  // DON'T do this, also triggers for other faderss
+  // nodecg.log.info('Unknown OSC command', message);
+});
 
-    // DON'T do this, also triggers for other faderss
-    // nodecg.log.info('Unknown OSC command', message);
-  });
-}
-
-/// <editor-fold desc=="Mixer integration">
+/// <editor-fold desc="DCA Automation">
 
 function getSceneConfig() {
 // These scenes will have the reader audible.
@@ -221,6 +231,8 @@ async function setInitialFaders(): Promise<void> {
 
 x32.on('ready', async () => {
   await setInitialFaders();
+  // fetch initial statues for faders and mutes
+  fetchInitialFaderMuteStatus();
 });
 obs.conn.on('AuthenticationSuccess', async () => {
   await setInitialFaders();
