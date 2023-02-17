@@ -311,21 +311,17 @@ obs_1.default.conn.on('AuthenticationSuccess', async () => {
 });
 (0, nodecg_1.get)().listenFor('setSelectedCaptures', async (data, ack) => {
     const { sceneName, sourceName } = data;
+    // Using "Promise.all" prevents flickering
     // this is different from the xkeys one since it uses numbers there
-    for (const name of gameSources) {
-        try {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore: Typings say we need to specify more than we actually do.
-            await obs_1.default.conn.send('SetSceneItemProperties', {
-                'scene-name': sceneName,
-                item: { name },
-                visible: name === sourceName,
-            });
-        }
-        catch (err) {
-            (0, helpers_1.logError)('[Layouts] Could not change source visibility [%s: %s]', err, sceneName, sourceName);
-        }
-    }
+    await Promise.all(
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore: Typings say we need to specify more than we actually do.
+    gameSources.map((name) => obs_1.default.conn.send('SetSceneItemProperties', {
+        'scene-name': sceneName,
+        item: { name },
+        visible: name === sourceName,
+    })
+        .catch((err) => (0, helpers_1.logError)('[Layouts] Could not change source visibility [%s: %s]', err, sceneName, sourceName))));
     if (ack && !ack.handled) {
         ack(null);
     }
