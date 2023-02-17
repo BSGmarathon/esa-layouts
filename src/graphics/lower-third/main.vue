@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div class="d-flex">
-      <button @click="toggle">Toggle</button>
-    </div>
     <transition name="lower-third">
       <div class="lowe-third-wrapper" v-if="barVisible" >
         <div class="lower-third" :style="{
@@ -123,7 +120,7 @@ html, body {
 }
 
 * {
-  --lt-height: 50px;
+  --lt-height: 60px;
 
   // animation settings
   --lt-up-down-anim-dur: 500ms;
@@ -182,9 +179,10 @@ html, body {
     color: white;
     font-size: 26px;
     width: 100%;
-    padding-top: 5px;
+    padding-top: 13px;
 
     z-index: 1;
+    overflow: hidden;
 
     p {
       flex-grow: 0;

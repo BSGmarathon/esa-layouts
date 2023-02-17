@@ -5,7 +5,7 @@
       id="GameCapture1"
       class=""
       :style="{
-      left: '930px',
+      left: '931px',
       top: '0px',
       width: '649px',
       height: '487px',
@@ -15,7 +15,7 @@
       id="GameCapture3"
       class=" "
       :style="{
-      left: '930px',
+      left: '931px',
       top: '512px',
       width: '649px',
       height: '487px',

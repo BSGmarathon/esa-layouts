@@ -8,7 +8,7 @@
       :style="{
         left: '0px',
         top: '178px',
-        width: '660px',
+        width: '661px',
         height: '397px',
       }"
     />
@@ -18,10 +18,10 @@
       class=" BlockRed"
       finish-time-pos="bottomright"
       :style="{
-        left: '66px',
-        top: '600px',
-        width: '530px',
-        height: '398px',
+        left: '65px',
+        top: '601px',
+        width: '531px',
+        height: '397px',
       }"
     />
     <game-capture
@@ -31,7 +31,7 @@
       :style="{
         left: '1259px',
         top: '178px',
-        width: '660px',
+        width: '661px',
         height: '397px',
       }"
     />
@@ -42,9 +42,9 @@
       finish-time-pos="bottomright"
       :style="{
         left: '1325px',
-        top: '600px',
-        width: '530px',
-        height: '398px',
+        top: '601px',
+        width: '531px',
+        height: '397px',
       }"
     />
 
@@ -54,9 +54,9 @@
       class="Capture BlockBlue Relative"
       :style="{
         left: '686px',
-        top: '600px',
+        top: '601px',
         width: '547px',
-        height: '396px',
+        height: '397px',
       }"
     >
       <flashing-lights-warning/>

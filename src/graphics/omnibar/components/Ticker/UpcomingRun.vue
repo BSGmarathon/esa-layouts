@@ -10,25 +10,23 @@
       'align-items': 'flex-start',
     }"
   >
-    <div :style="{ 'font-size': '24px' }">
-      {{ when }}: {{ run.game }}
+    <div :style="{ 'font-size': '20px' }">
+      {{ when }}
     </div>
-    <div :style="{ 'font-size': '22px' }">
-      <span v-if="run.category">
-        {{ run.category }}
-      </span>
-      <span v-if="run.system">
-        ran on {{ run.system }}
-      </span>
+    <div :style="{ 'font-size': '26px' }">
       <span v-if="getRunTotalPlayers(run) > 0">
-        with {{ formPlayerNamesStr(run) }}
+        {{ formPlayerNamesStr(run) }}
+        play<span v-if="getRunTotalPlayers(run) === 1">s</span> {{ run.game }}
+      </span>
+      <span v-else>
+        {{ run.game }}
       </span>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { wait } from '@esa-layouts/graphics/_misc/helpers';
+import { replaceLast, wait } from '@esa-layouts/graphics/_misc/helpers';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { RunData } from 'speedcontrol-util/types';
 import { SpeedcontrolUtilBrowser } from 'speedcontrol-util';
@@ -52,6 +50,10 @@ export default class extends Vue {
     return this.run.scheduledS
       ? `in about ${dayjs.utc().to(dayjs.unix(this.run.scheduledS), true)}`
       : 'soon';
+  }
+
+  get playerNames(): string {
+    return replaceLast(this.formPlayerNamesStr(this.run), ',', ' and');
   }
 
   async created(): Promise<void> {

@@ -5,10 +5,10 @@
       id="GameCapture1"
       class=""
       :style="{
-      left: '573px',
+      left: '572px',
       top: '0px',
-      width: '1347px',
-      height: '809px',
+      width: '1348px',
+      height: '810px',
       }"
     />
     <game-capture
@@ -17,7 +17,7 @@
       :style="{
       left: '8px',
       top: '594px',
-      width: '538px',
+      width: '539px',
       height: '404px',
       }"
     />

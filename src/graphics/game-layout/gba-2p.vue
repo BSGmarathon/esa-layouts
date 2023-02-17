@@ -9,7 +9,7 @@
       left: '0px',
       top: '0px',
       width: '956px',
-      height: '638px',
+      height: '639px',
       }"
     />
     <game-capture
@@ -20,7 +20,7 @@
       left: '964px',
       top: '0px',
       width: '956px',
-      height: '638px',
+      height: '639px',
       }"
     />
 
@@ -34,7 +34,7 @@
       left: '724px',
       top: '757px',
       width: '472px',
-      height: '240px',
+      height: '241px',
       }"
     >
       <flashing-lights-warning/>

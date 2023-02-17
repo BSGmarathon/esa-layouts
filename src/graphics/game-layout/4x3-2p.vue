@@ -19,7 +19,7 @@
       :style="{
       left: '964px',
       top: '0px',
-      width: '955px',
+      width: '956px',
       height: '716px',
       }"
     />

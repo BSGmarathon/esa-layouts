@@ -81,3 +81,13 @@ export function wait(length: number, reason?: string): Promise<void> {
 export function awaitTimeout(promise: Promise<void>, delay: number): Promise<void> {
   return Promise.race([promise, wait(delay, 'timeout')]);
 }
+
+export function replaceLast(input: string, find: string, replace: string): string {
+  const index = input.lastIndexOf(find);
+
+  if (index < 0) {
+    return input;
+  }
+
+  return input.substring(0, index) + replace + input.substring(index + 1, input.length);
+}

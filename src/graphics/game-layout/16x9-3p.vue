@@ -9,7 +9,7 @@
       :style="{
         left: '0px',
         top: '0px',
-        width: '710px',
+        width: '714px',
         height: '404px',
       }"
     />
@@ -21,7 +21,7 @@
       :style="{
         left: '602px',
         top: '597px',
-        width: '712px',
+        width: '716px',
         height: '404px',
       }"
     />
@@ -31,9 +31,9 @@
       :slot-no="2"
       finish-time-pos="bottomright"
       :style="{
-        left: '1204px',
+        left: '1206px',
         top: '0px',
-        width: '712px',
+        width: '714px',
         height: '404px',
       }"
     />
@@ -46,7 +46,7 @@
       :style="{
         'justify-content': 'flex-start',
         'flex-direction': 'column-reverse',
-        left: '740px',
+        left: '741px',
         top: '0px',
         width: '438px',
         height: '323px',

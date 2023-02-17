@@ -6,7 +6,7 @@ body {
 
 #Background {
   background-color: #19171c;
-  display:none;
+  display: none;
 }
 
 *[class*='Border'] {
@@ -16,20 +16,23 @@ body {
 .TimerStopped, .TimerPaused {
   color: #4B5267;
 }
+
 .TimerRunning {
   color: #d7d7d7;
   font-family: "Goodlight";
 }
+
 .TimerFinished {
-color: #AAFAC8;
+  color: #AAFAC8;
 }
+
 .TimerForfeit {
-color: red;
+  color: red;
 }
 
 #GameLayout .RunInfoExtra {
   color: #d7d7d7;
-align-items: left;
+  /*align-items: left; this is an invalid property value riek*/
 }
 
 .Player {
@@ -37,17 +40,7 @@ align-items: left;
   /*background-color: #41245b;*/
 }
 
-.Player .Pronouns {
-  font-weight: 400;
-  font-size: 0.8em;
-  color: #d7d7d7;
-  text-transform: uppercase;
-  background-color: #914e21;
-    border-radius: 15px;
-justify-content: center;
-  align-items: center;
-}
-
+.Player .Pronouns,
 .DonationReader .Pronouns,
 .CommAndReader .Pronouns {
   font-weight: 200;
@@ -55,18 +48,25 @@ justify-content: center;
   color: #d7d7d7;
   text-transform: uppercase;
   background-color: #914e21;
-    border-radius: 15px;
-justify-content: center;
+  border-radius: 15px;
+  justify-content: center;
   align-items: center;
 }
+
 .CommAndReader .Pronouns {
   background-color: #CF773B;
+}
+
+.Player .Pronouns {
+  font-weight: 400 !important;
+  padding-top: 10px !important;
 }
 
 /** New commentators and reader component! **/
 #GameLayout .CommentatorsReader .Header {
   background-color: #2d1d3c;
 }
+
 #GameLayout .CommentatorsReader .Pronouns {
   background-color: #2d1d3c;
 }
@@ -76,7 +76,7 @@ justify-content: center;
 }
 
 .Player .Flag {
- border-color: #d7d7d7;
+  border-color: #d7d7d7;
 }
 
 .GameCapture {
@@ -110,9 +110,11 @@ justify-content: center;
 .DonationBoxTier1-1 {
   background-color: #301b4c;
 }
+
 .DonationBoxTier1-2 {
   background-color: #281643;
 }
+
 .DonationBoxTier1-3 {
   background-color: #502f59;
 }
@@ -121,12 +123,15 @@ justify-content: center;
   color: #604054;
   font-weight: 600;
 }
+
 .DonationBoxTier2-1 {
   background-color: #f1d13f;
 }
+
 .DonationBoxTier2-2 {
   background-color: #fbd93f;
 }
+
 .DonationBoxTier2-3 {
   background-color: #e1c43c;
 }
@@ -150,12 +155,14 @@ justify-content: center;
 #Intermission .Header, #ReaderIntroduction .Header {
   /* background-color: #41245b; */
   color: #914e21;
-font-family: "Goodlight";
+  font-family: "Goodlight";
 }
+
 #Intermission .Header:first-of-type {
-/* background-color: #41245b; */
+  /* background-color: #41245b; */
   color: #cf773b;
 }
+
 #Intermission .BottomBox,
 #Intermission .Content, #ReaderIntroduction .Content {
   /* background-color: rgba(0, 0, 0, 0.85);
@@ -163,12 +170,12 @@ font-family: "Goodlight";
 
 #IntermissionPlayer .UpcomingBar .Header {
   background-color: #41245b; */
-  	  text-align: left;
+  text-align: left;
 }
 
 #Omnibar {
   color: white;
-  background: linear-gradient(0deg, rgba(56,31,78,1) 0%, rgba(92,50,130,1) 100%);
+  background: linear-gradient(0deg, rgba(56, 31, 78, 1) 0%, rgba(92, 50, 130, 1) 100%);
 }
 
 #Omnibar > #Logo {
@@ -189,15 +196,16 @@ font-family: "Goodlight";
 }
 
 .sub_div {
-    position: absolute;
-    width:100%;
-    bottom: 0px;
-    font-family: 'Goodlight';
-    font-size: 21pt;
-    white-space: normal;
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  font-family: 'Goodlight';
+  font-size: 21pt;
+  white-space: normal;
 }
 
- /* .BlockRed {
+/*
+.BlockRed {
   background-color: red;
 }
 .BlockBlue {
@@ -214,12 +222,15 @@ font-family: "Goodlight";
 }
 .BlockBlack {
   background-color: black;
-} */
+}
+*/
 
-/* .BlockYellow {
+/*
+.BlockYellow {
   background-color: yellow;
   opacity: 0.3;
-} */
+}
+*/
 
 #Omnibar .Alert {
   background-color: rgba(255, 255, 255, 0.22);

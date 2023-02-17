@@ -15,10 +15,10 @@
       id="GameCapture3"
       class=" "
       :style="{
-      left: '102px',
-      top: '710px',
+      left: '101px',
+      top: '709px',
       width: '386px',
-      height: '288px',
+      height: '289px',
       }"
     />
 

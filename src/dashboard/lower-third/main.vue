@@ -98,8 +98,8 @@ import { storeModule } from './store';
 export default class extends Vue {
   nameEntry = '';
   updatingName = false;
-  autoHide = false;
-  autoHideSeconds = '5';
+  autoHide = true;
+  autoHideSeconds = '10';
   @replicantNS.State((s) => s.reps.lowerThird) readonly lowerThird!: LowerThird;
   removeName = storeModule.removeName;
 

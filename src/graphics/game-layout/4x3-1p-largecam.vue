@@ -9,7 +9,7 @@
       :style="{
         left: '589px',
         top: '0px',
-        width: '1329px',
+        width: '1331px',
         height: '998px',
       }"
     />

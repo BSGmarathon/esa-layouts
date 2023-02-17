@@ -8,7 +8,7 @@
       :style="{
         left: '0px',
         top: '0px',
-        width: '656px',
+        width: '660px',
         height: '496px',
       }"
     />
@@ -17,9 +17,9 @@
       class=" BlockRed"
       :slot-no="1"
       :style="{
-        left: '1258px',
+        left: '1260px',
         top: '0px',
-        width: '658px',
+        width: '660px',
         height: '496px',
       }"
     />
@@ -30,7 +30,7 @@
       :style="{
         left: '0px',
         top: '502px',
-        width: '656px',
+        width: '660px',
         height: '496px',
       }"
     />

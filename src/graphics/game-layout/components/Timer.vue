@@ -4,14 +4,13 @@
       :class="`Flex Timer${timerState}`"
       :style="{
         'text-align': 'center',
-        'margin-top': topMargin,
+        // 'margin-top': topMargin,
         transition: '1s',
         height: '100%',
         'font-family': 'Goodlight',
         'font-weight': 700,
         'font-size': '44pt',
-        'margin-top': '-0.07em',
-        transition: '1s'
+        // 'margin-top': '-0.07em',
       }"
     >
       <span
