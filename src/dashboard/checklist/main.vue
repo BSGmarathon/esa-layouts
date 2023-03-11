@@ -85,6 +85,10 @@ export default class extends Vue {
       checked: false,
     },
     {
+      title: '(2+ runners) Make sure names and game feeds align with runner seats',
+      checked: false,
+    },
+    {
       title: 'Check if online notifications are off',
       checked: false,
     },
