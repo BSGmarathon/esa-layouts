@@ -118,7 +118,7 @@ export default class extends Vue {
   @replicantNS.State((s) => s.reps.timer) readonly timer!: Timer;
   evtConfig = (nodecg.bundleConfig as Configschema).event;
   obsConfig = (nodecg.bundleConfig as Configschema).obs;
-  gameLayoutPreviewToggle = true;
+  gameLayoutPreviewToggle = false;
 
   disableButton(scene: string): boolean {
     return this.obsData.transitioning

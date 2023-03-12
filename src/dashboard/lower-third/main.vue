@@ -12,21 +12,11 @@
             inactive
             selectable
           >
+            <v-list-item-action>
+              <v-icon @click="removeName(name)">mdi-delete</v-icon>
+            </v-list-item-action>
             <v-list-item-content>
-              <div class="d-flex" style="justify-content: space-between">
-                <span>{{ name }}</span>
-                <v-btn
-                  :style="{
-                    'min-width': '0',
-                    'width': '20%',
-                  }"
-                  @click="removeName(name)"
-                  :disabled="inputsDisabled"
-                >
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
-              </div>
-              <hr>
+              {{ name }}
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>

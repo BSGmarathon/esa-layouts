@@ -60,9 +60,9 @@ export default class extends Vue {
       checked: false,
     },
     {
-      title: '(automated)Tweet about the run WITH a picture',
-      checked: true,
-      defaultState: true,
+      title: 'Tweet about the run WITH a picture',
+      checked: false,
+      defaultState: false,
     },
     {
       title: 'Set up runner & get image on capcard',

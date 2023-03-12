@@ -1,5 +1,8 @@
 <template>
-  <v-app>
+  <v-app v-if="online">
+    <p>Disabled for online events</p>
+  </v-app>
+  <v-app v-else>
     <v-simple-table>
       <template #default>
         <thead>
@@ -38,12 +41,18 @@ import { Configschema } from '../../types/schemas';
 
 @Component
 export default class extends Vue {
-  obsConfig = (nodecg.bundleConfig as Configschema).obs;
+  cfg = nodecg.bundleConfig as Configschema;
+  online = this.cfg.event.online;
+  obsConfig = this.cfg.obs;
   gameCaptures: string[] = [];
   selectedCaptures: number[] = [];
   locked = false;
 
   async mounted(): Promise<void> {
+    if (this.online) {
+      return;
+    }
+
     this.locked = true;
 
     // Only compute on startup for performance reasons :)

@@ -1,7 +1,7 @@
 import type { Configschema } from '@esa-layouts/types/schemas/configschema';
 import Countdown from '@shared/extension/countdown';
 import clone from 'clone';
-import SpeedcontrolUtil from 'speedcontrol-util';
+import { RtmpFeed } from '@esa-layouts/types/schemas';
 import { logError } from './util/helpers';
 import { get as nodecg } from './util/nodecg';
 import obs from './util/obs';
@@ -126,6 +126,11 @@ capturePositions.on('change', async (val) => {
   // or there's no game-layout values.
   if (config.event.online === 'partial' || !val['game-layout']) return;
 
+  // [BSG] We don't use this for online events
+  if (config.event.online) {
+    return;
+  }
+
   // Loops through all possible sources to move and does the work.
   for (const [key, value] of Object.entries(obsSourceKeys)) {
     if (value) { // Only continue if key -> value pair is set
@@ -247,6 +252,14 @@ capturePositions.on('change', async (val) => {
 // Things to do on OBS initial connection/authentication.
 // This should also trigger even if authentication is turned off, after initial connection.
 obs.conn.on('AuthenticationSuccess', async () => {
+  // TODO: disable all game can camera captures with online events.
+  //  Enable RTMP sources?
+
+  // [BSG] We don't use this for online events
+  if (config.event.online) {
+    return;
+  }
+
   // Game
   for (const capName of gameCaptures) {
     // Gets cropping values and stores them on initial connection.
@@ -327,6 +340,115 @@ obs.conn.on('AuthenticationSuccess', async () => {
 nodecg().listenFor('getGameSourceVisibility', async (val: string | null | undefined, ack) => {
   if (ack && !ack.handled) {
     ack(null, selected.gameSource);
+  }
+});
+
+function rtmpFromIndex(index: number) {
+  return {
+    sceneName: `RTMP Source ${index}`,
+    sourceName: `[RTMP] feed ${index}`,
+  };
+}
+
+nodecg().listenFor('refreshRtmpSources', async (val: number[], ack) => {
+  for (const index of val) {
+    const { sourceName } = rtmpFromIndex(index);
+
+    await obs.conn.send('RestartMedia', {
+      sourceName,
+    });
+  }
+
+  if (ack && !ack.handled) {
+    ack(null);
+  }
+});
+
+nodecg().listenFor('geRtmpSettings', async (val: string | null | undefined, ack) => {
+  const indexes = [1, 2];
+  const rtmpRegex = /rtmp:\/\/([^.]+)\.bsgmarathon\.com\/live\/(.*)/;
+  const feeds: RtmpFeed[] = [];
+
+  // send empty feeds in case of error
+  if (!obs.connected) {
+    if (ack && !ack.handled) {
+      ack(null, []);
+    }
+    return;
+  }
+
+  for (const index of indexes) {
+    const { sceneName, sourceName } = rtmpFromIndex(index);
+
+    const { sourceSettings } = await obs.conn.send('GetSourceSettings', {
+      sourceName,
+    });
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const rtmpUrl = sourceSettings.playlist[0].value as string;
+    const { visible } = await obs.conn.send('GetSceneItemProperties', {
+      'scene-name': config.obs.names.scenes.gameLayout,
+      item: { name: sceneName },
+    });
+
+    const feed: RtmpFeed = {
+      streamKey: 'DEFAULT',
+      server: 'eu',
+      enabled: visible,
+      feedIndex: index,
+      editAllowed: true,
+    };
+
+    const match = rtmpRegex.exec(rtmpUrl);
+
+    if (match !== null) {
+      feed.server = match[1] as RtmpFeed['server'];
+      // eslint-disable-next-line prefer-destructuring
+      feed.streamKey = match[2];
+    }
+
+    feeds.push(feed);
+  }
+
+  if (ack && !ack.handled) {
+    ack(null, feeds);
+  }
+});
+
+nodecg().listenFor('setRtmpSettings', async (data: RtmpFeed[], ack) => {
+  for (const settings of data) {
+    const rtmpUrl = `rtmp://${settings.server}.bsgmarathon.com/live/${settings.streamKey}`;
+    // TODO: unhardcode
+    const { sceneName, sourceName } = rtmpFromIndex(settings.feedIndex);
+
+    await obs.conn.send('SetSourceSettings', {
+      sourceName,
+      sourceSettings: {
+        loop: false,
+        shuffle: false,
+        playback_behavior: 'always_play',
+        playlist: [
+          {
+            hidden: false,
+            selected: false,
+            value: rtmpUrl,
+          },
+        ],
+      },
+    });
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore: Typings say we need to specify more than we actually do.
+    await obs.conn.send('SetSceneItemProperties', {
+      'scene-name': config.obs.names.scenes.gameLayout,
+      item: { name: sceneName },
+      visible: settings.enabled,
+    });
+  }
+
+  if (ack && !ack.handled) {
+    ack(null);
   }
 });
 

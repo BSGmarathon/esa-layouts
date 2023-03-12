@@ -230,8 +230,8 @@
       },
       {
         "name": "restream-viewer-tool",
-        "title": "Restream Viewer Tool",
-        "width": 2,
+        "title": "RTMP Control",
+        "width": 3,
         "file": "restream-viewer-tool.html",
         "workspace": "BSG Graphics",
         "headerColor": "#DB3A34"
