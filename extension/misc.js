@@ -136,6 +136,7 @@ async function searchSrcomPronouns(val) {
 }
 exports.searchSrcomPronouns = searchSrcomPronouns;
 async function searchOengusPronouns(val) {
+    var _a;
     let user;
     if (config.server.enabled) {
         try {
@@ -150,7 +151,10 @@ async function searchOengusPronouns(val) {
     }
     let str;
     if (user) {
-        str = user.pronouns ? `${user.username} (${user.pronouns.split(',')[0]})` : user.username;
+        const pronouns = typeof user.pronouns === 'string'
+            ? user.pronouns.split(',')[0]
+            : (_a = user.pronouns) === null || _a === void 0 ? void 0 : _a[0];
+        str = pronouns ? `${user.username} (${pronouns})` : user.username;
     }
     else {
         str = val;
@@ -289,14 +293,16 @@ async function formatScheduleImportedPronouns() {
     }
     (0, nodecg_1.get)().log.info('[Music] Schedule reimport pronoun formatting complete');
 }
-if (!config.server.enabled) {
-    // If server integration is disabled, checks pronouns formatting on every schedule (re)import.
-    replicants_1.horaroImportStatus.on('change', async (newVal, oldVal) => {
+if (config.server.enabled) {
+    replicants_1.oengusImportStatus.on('change', async (newVal, oldVal) => {
         if (oldVal && oldVal.importing && !newVal.importing) {
             await formatScheduleImportedPronouns();
         }
     });
-    replicants_1.oengusImportStatus.on('change', async (newVal, oldVal) => {
+}
+else {
+    // If server integration is disabled, checks pronouns formatting on every schedule (re)import.
+    replicants_1.horaroImportStatus.on('change', async (newVal, oldVal) => {
         if (oldVal && oldVal.importing && !newVal.importing) {
             await formatScheduleImportedPronouns();
         }

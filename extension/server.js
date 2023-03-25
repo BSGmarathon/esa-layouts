@@ -108,9 +108,9 @@ if (config.server.enabled) {
             await lookupScheduleUserInfo();
         }
     });
-    replicants_1.oengusImportStatus.on('change', async (newVal, oldVal) => {
-        if (oldVal && oldVal.importing && !newVal.importing) {
-            await lookupScheduleUserInfo();
-        }
-    });
+    /* oengusImportStatus.on('change', async (newVal, oldVal) => {
+      if (oldVal && oldVal.importing && !newVal.importing) {
+        await lookupScheduleUserInfo();
+      }
+    }); */
 }
