@@ -141,7 +141,7 @@ async function searchOengusPronouns(val) {
     let user;
     if (config.server.enabled) {
         try {
-            const resp = await (0, needle_1.default)('get', `${config.server.address}/users/${val}/search`, {
+            const resp = await (0, needle_1.default)('get', `https://oengus.io/api/v1/users/${val}/search`, {
                 headers: {
                     'User-Agent': 'github+bsgmarathon/esa-layouts',
                 },
