@@ -1,5 +1,6 @@
 import { Configschema } from '@esa-layouts/types/schemas';
 import needle from 'needle';
+import { OengusUser } from 'speedcontrol-util/types';
 import { get as nodecg } from './util/nodecg';
 import { horaroImportStatus, oengusImportStatus } from './util/replicants';
 import { sc } from './util/speedcontrol';
@@ -27,7 +28,7 @@ export async function lookupUserByID(id: number): Promise<any> {
   return null;
 }
 
-export async function lookupUsersByStr(str: string): Promise<any[]> {
+export async function lookupUsersByStr(str: string): Promise<OengusUser[]> {
   if (!config.server.enabled) throw new Error('server integration disabled');
   const resp = await needle(
     'get',
@@ -109,9 +110,9 @@ if (config.server.enabled) {
       await lookupScheduleUserInfo();
     }
   });
-  oengusImportStatus.on('change', async (newVal, oldVal) => {
+  /* oengusImportStatus.on('change', async (newVal, oldVal) => {
     if (oldVal && oldVal.importing && !newVal.importing) {
       await lookupScheduleUserInfo();
     }
-  });
+  }); */
 }

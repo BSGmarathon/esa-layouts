@@ -132,9 +132,11 @@ export async function searchOengusPronouns(val: string): Promise<string> {
   let str;
 
   if (user) {
-    str = user.pronouns ? `${user.username} (${
-      user.pronouns.split(',')[0]
-    })` : user.username;
+    const pronouns = typeof user.pronouns === 'string'
+      ? user.pronouns.split(',')[0]
+      : user.pronouns?.[0];
+
+    str = pronouns ? `${user.username} (${pronouns})` : user.username;
   } else {
     str = val;
   }
@@ -293,14 +295,15 @@ async function formatScheduleImportedPronouns(): Promise<void> {
   nodecg().log.info('[Music] Schedule reimport pronoun formatting complete');
 }
 
-if (!config.server.enabled) {
-  // If server integration is disabled, checks pronouns formatting on every schedule (re)import.
-  horaroImportStatus.on('change', async (newVal, oldVal) => {
+if (config.server.enabled) {
+  oengusImportStatus.on('change', async (newVal, oldVal) => {
     if (oldVal && oldVal.importing && !newVal.importing) {
       await formatScheduleImportedPronouns();
     }
   });
-  oengusImportStatus.on('change', async (newVal, oldVal) => {
+} else {
+  // If server integration is disabled, checks pronouns formatting on every schedule (re)import.
+  horaroImportStatus.on('change', async (newVal, oldVal) => {
     if (oldVal && oldVal.importing && !newVal.importing) {
       await formatScheduleImportedPronouns();
     }
