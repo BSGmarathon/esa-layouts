@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.searchOengusPronouns = exports.searchSrcomPronouns = void 0;
 const audio_normaliser_1 = __importDefault(require("@shared/extension/audio-normaliser"));
+const needle_1 = __importDefault(require("needle"));
 const server_1 = require("./server");
 const helpers_1 = require("./util/helpers");
 const mqLogging = __importStar(require("./util/mq-logging"));
@@ -140,7 +141,12 @@ async function searchOengusPronouns(val) {
     let user;
     if (config.server.enabled) {
         try {
-            const foundUsers = await (0, server_1.lookupUsersByStr)(val);
+            const resp = await (0, needle_1.default)('get', `${config.server.address}/users/${val}/search`, {
+                headers: {
+                    'User-Agent': 'github+bsgmarathon/esa-layouts',
+                },
+            });
+            const foundUsers = resp.body.data;
             if (foundUsers.length) {
                 [user] = foundUsers;
             }
@@ -149,21 +155,34 @@ async function searchOengusPronouns(val) {
             (0, nodecg_1.get)().log.error(err);
         }
     }
-    let str;
-    if (user) {
-        const pronouns = typeof user.pronouns === 'string'
-            ? user.pronouns.split(',')[0]
-            : (_a = user.pronouns) === null || _a === void 0 ? void 0 : _a[0];
-        str = pronouns ? `${user.username} (${pronouns})` : user.username;
+    if (!user) {
+        return val;
     }
-    else {
-        str = val;
-    }
-    return str;
+    const pronouns = typeof user.pronouns === 'string'
+        ? user.pronouns.split(',')[0]
+        : (_a = user.pronouns) === null || _a === void 0 ? void 0 : _a[0];
+    return pronouns ? `${user.username} (${pronouns})` : user.username;
 }
 exports.searchOengusPronouns = searchOengusPronouns;
+async function searchPronounsOnEsByStr(val) {
+    let user;
+    const foundUsers = await (0, server_1.lookupUsersByStr)(val);
+    if (foundUsers.length) {
+        [user] = foundUsers;
+    }
+    if (!user) {
+        return val;
+    }
+    return user.pronouns ? `${user.username} (${user.pronouns.split(',')[0]})` : user.username;
+}
 async function searchName(val, currentVal) {
     if (config.server.enabled) {
+        const str = await searchPronounsOnEsByStr(val);
+        if (!currentVal.includes(str)) {
+            currentVal.push(str);
+        }
+    }
+    else if (config.useOengusInsteadOfSrdc) {
         const str = await searchOengusPronouns(val);
         if (!currentVal.includes(str)) {
             currentVal.push(str);
@@ -204,7 +223,7 @@ async function searchName(val, currentVal) {
     if (!val) {
         replicants_1.donationReader.value = null;
     }
-    else if (config.server.enabled) {
+    else if (config.useOengusInsteadOfSrdc) {
         replicants_1.donationReader.value = await searchOengusPronouns(val);
     }
     else {
@@ -293,16 +312,14 @@ async function formatScheduleImportedPronouns() {
     }
     (0, nodecg_1.get)().log.info('[Music] Schedule reimport pronoun formatting complete');
 }
-if (config.server.enabled) {
-    replicants_1.oengusImportStatus.on('change', async (newVal, oldVal) => {
+if (!config.server.enabled) {
+    // If server integration is disabled, checks pronouns formatting on every schedule (re)import.
+    replicants_1.horaroImportStatus.on('change', async (newVal, oldVal) => {
         if (oldVal && oldVal.importing && !newVal.importing) {
             await formatScheduleImportedPronouns();
         }
     });
-}
-else {
-    // If server integration is disabled, checks pronouns formatting on every schedule (re)import.
-    replicants_1.horaroImportStatus.on('change', async (newVal, oldVal) => {
+    replicants_1.oengusImportStatus.on('change', async (newVal, oldVal) => {
         if (oldVal && oldVal.importing && !newVal.importing) {
             await formatScheduleImportedPronouns();
         }

@@ -9,35 +9,26 @@ const nodecg_1 = require("./util/nodecg");
 const replicants_1 = require("./util/replicants");
 const speedcontrol_1 = require("./util/speedcontrol");
 const config = (0, nodecg_1.get)().bundleConfig;
-// TODO: oengus does not have this
 async function lookupUserByID(id) {
-    /* if (!config.enabled) {
-      return null;
-    }
-  
-    if (!config.server.enabled) throw new Error('server integration disabled');
-    const resp = await needle(
-      'get',
-      `${config.server.address}/users/${id}`,
-      {
+    if (!config.server.enabled)
+        throw new Error('server integration disabled');
+    const resp = await (0, needle_1.default)('get', `${config.server.address}/users/${id}`, {
         headers: {
-          Authorization: `Bearer ${config.server.key}`,
+            Authorization: `Bearer ${config.server.key}`,
         },
-      },
-    );
-    return resp.body.data; */
-    return null;
+    });
+    return resp.body.data;
 }
 exports.lookupUserByID = lookupUserByID;
 async function lookupUsersByStr(str) {
     if (!config.server.enabled)
         throw new Error('server integration disabled');
-    const resp = await (0, needle_1.default)('get', `${config.server.address}/users/${str}/search`, {
+    const resp = await (0, needle_1.default)('get', `${config.server.address}/users?search=${str}`, {
         headers: {
-        // Authorization: `Bearer ${config.server.key}`,
+            Authorization: `Bearer ${config.server.key}`,
         },
     });
-    return resp.body;
+    return resp.body.data;
 }
 exports.lookupUsersByStr = lookupUsersByStr;
 async function lookupScheduleUserInfo() {
@@ -108,9 +99,9 @@ if (config.server.enabled) {
             await lookupScheduleUserInfo();
         }
     });
-    /* oengusImportStatus.on('change', async (newVal, oldVal) => {
-      if (oldVal && oldVal.importing && !newVal.importing) {
-        await lookupScheduleUserInfo();
-      }
-    }); */
+    replicants_1.oengusImportStatus.on('change', async (newVal, oldVal) => {
+        if (oldVal && oldVal.importing && !newVal.importing) {
+            await lookupScheduleUserInfo();
+        }
+    });
 }
