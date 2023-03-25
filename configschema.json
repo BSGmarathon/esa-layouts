@@ -655,7 +655,7 @@
         },
         "address": {
           "type": "string",
-          "default": "https://oengus.io/api/v1"
+          "default": "https://register.esamarathon.com/api"
         },
         "key": {
           "type": "string",
@@ -667,6 +667,11 @@
         "address",
         "key"
       ]
+    },
+    "useOengusInsteadOfSrdc": {
+      "type": "boolean",
+      "description": "Looks up pronouns on Oengus instead of speedrun.com",
+      "default": true
     },
     "discord": {
       "type": "object",
@@ -726,6 +731,7 @@
     "offsite",
     "server",
     "discord",
-    "streamlabsCharity"
+    "streamlabsCharity",
+    "useOengusInsteadOfSrdc"
   ]
 }

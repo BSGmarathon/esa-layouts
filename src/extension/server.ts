@@ -1,19 +1,14 @@
 import { Configschema } from '@esa-layouts/types/schemas';
 import needle from 'needle';
-import { OengusUser } from 'speedcontrol-util/types';
 import { get as nodecg } from './util/nodecg';
 import { horaroImportStatus, oengusImportStatus } from './util/replicants';
 import { sc } from './util/speedcontrol';
 
 const config = nodecg().bundleConfig as Configschema;
 
-// TODO: oengus does not have this
 export async function lookupUserByID(id: number): Promise<any> {
-  /* if (!config.enabled) {
-    return null;
-  }
-
   if (!config.server.enabled) throw new Error('server integration disabled');
+
   const resp = await needle(
     'get',
     `${config.server.address}/users/${id}`,
@@ -23,24 +18,22 @@ export async function lookupUserByID(id: number): Promise<any> {
       },
     },
   );
-  return resp.body.data; */
 
-  return null;
+  return resp.body.data;
 }
 
-export async function lookupUsersByStr(str: string): Promise<OengusUser[]> {
+export async function lookupUsersByStr(str: string): Promise<any[]> {
   if (!config.server.enabled) throw new Error('server integration disabled');
   const resp = await needle(
     'get',
-    `${config.server.address}/users/${str}/search`,
+    `${config.server.address}/users?search=${str}`,
     {
       headers: {
-        // Authorization: `Bearer ${config.server.key}`,
+        Authorization: `Bearer ${config.server.key}`,
       },
     },
   );
-
-  return resp.body;
+  return resp.body.data;
 }
 
 async function lookupScheduleUserInfo(): Promise<void> {
@@ -110,9 +103,9 @@ if (config.server.enabled) {
       await lookupScheduleUserInfo();
     }
   });
-  /* oengusImportStatus.on('change', async (newVal, oldVal) => {
+  oengusImportStatus.on('change', async (newVal, oldVal) => {
     if (oldVal && oldVal.importing && !newVal.importing) {
       await lookupScheduleUserInfo();
     }
-  }); */
+  });
 }

@@ -1,6 +1,7 @@
 import type { Configschema } from '@esa-layouts/types/schemas/configschema';
 import AudioNormaliser from '@shared/extension/audio-normaliser';
-import type { RunData } from 'speedcontrol-util/types';
+import type { OengusUser, RunData } from 'speedcontrol-util/types';
+import needle from 'needle';
 import { lookupUsersByStr } from './server';
 import { formatSrcomPronouns, formatUSD, getOtherStreamEventShort, logError } from './util/helpers';
 import * as mqLogging from './util/mq-logging';
@@ -115,11 +116,21 @@ export async function searchSrcomPronouns(val: string): Promise<string> {
 }
 
 export async function searchOengusPronouns(val: string): Promise<string> {
-  let user;
+  let user: OengusUser | undefined;
 
   if (config.server.enabled) {
     try {
-      const foundUsers = await lookupUsersByStr(val);
+      const resp = await needle(
+        'get',
+        `${config.server.address}/users/${val}/search`,
+        {
+          headers: {
+            'User-Agent': 'github+bsgmarathon/esa-layouts',
+          },
+        },
+      );
+
+      const foundUsers = resp.body.data as OengusUser[];
 
       if (foundUsers.length) {
         [user] = foundUsers;
@@ -129,23 +140,42 @@ export async function searchOengusPronouns(val: string): Promise<string> {
     }
   }
 
-  let str;
-
-  if (user) {
-    const pronouns = typeof user.pronouns === 'string'
-      ? user.pronouns.split(',')[0]
-      : user.pronouns?.[0];
-
-    str = pronouns ? `${user.username} (${pronouns})` : user.username;
-  } else {
-    str = val;
+  if (!user) {
+    return val;
   }
 
-  return str;
+  const pronouns = typeof user.pronouns === 'string'
+    ? user.pronouns.split(',')[0]
+    : user.pronouns?.[0];
+
+  return pronouns ? `${user.username} (${pronouns})` : user.username;
+}
+
+async function searchPronounsOnEsByStr(val: string): Promise<string> {
+  let user;
+  const foundUsers = await lookupUsersByStr(val);
+
+  if (foundUsers.length) {
+    [user] = foundUsers;
+  }
+
+  if (!user) {
+    return val;
+  }
+
+  return user.pronouns ? `${user.username} (${
+    user.pronouns.split(',')[0]
+  })` : user.username;
 }
 
 async function searchName(val: string, currentVal: string[]): Promise<void> {
   if (config.server.enabled) {
+    const str = await searchPronounsOnEsByStr(val);
+
+    if (!currentVal.includes(str)) {
+      currentVal.push(str);
+    }
+  } else if (config.useOengusInsteadOfSrdc) {
     const str = await searchOengusPronouns(val);
 
     if (!currentVal.includes(str)) {
@@ -192,7 +222,7 @@ nodecg().listenFor('commentatorRemove', (val: number, ack) => {
 nodecg().listenFor('readerModify', async (val: string | null | undefined, ack) => {
   if (!val) {
     donationReader.value = null;
-  } else if (config.server.enabled) {
+  } else if (config.useOengusInsteadOfSrdc) {
     donationReader.value = await searchOengusPronouns(val);
   } else {
     donationReader.value = await searchSrcomPronouns(val);
@@ -295,15 +325,14 @@ async function formatScheduleImportedPronouns(): Promise<void> {
   nodecg().log.info('[Music] Schedule reimport pronoun formatting complete');
 }
 
-if (config.server.enabled) {
-  oengusImportStatus.on('change', async (newVal, oldVal) => {
+if (!config.server.enabled) {
+  // If server integration is disabled, checks pronouns formatting on every schedule (re)import.
+  horaroImportStatus.on('change', async (newVal, oldVal) => {
     if (oldVal && oldVal.importing && !newVal.importing) {
       await formatScheduleImportedPronouns();
     }
   });
-} else {
-  // If server integration is disabled, checks pronouns formatting on every schedule (re)import.
-  horaroImportStatus.on('change', async (newVal, oldVal) => {
+  oengusImportStatus.on('change', async (newVal, oldVal) => {
     if (oldVal && oldVal.importing && !newVal.importing) {
       await formatScheduleImportedPronouns();
     }
