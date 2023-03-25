@@ -122,7 +122,7 @@ export async function searchOengusPronouns(val: string): Promise<string> {
     try {
       const resp = await needle(
         'get',
-        `${config.server.address}/users/${val}/search`,
+        `https://oengus.io/api/v1/users/${val}/search`,
         {
           headers: {
             'User-Agent': 'github+bsgmarathon/esa-layouts',
