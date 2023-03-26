@@ -118,26 +118,24 @@ export async function searchSrcomPronouns(val: string): Promise<string> {
 export async function searchOengusPronouns(val: string): Promise<string> {
   let user: OengusUser | undefined;
 
-  if (config.server.enabled) {
-    try {
-      const resp = await needle(
-        'get',
-        `https://oengus.io/api/v1/users/${val}/search`,
-        {
-          headers: {
-            'User-Agent': 'github+bsgmarathon/esa-layouts',
-          },
+  try {
+    const resp = await needle(
+      'get',
+      `https://oengus.io/api/v1/users/${val}/search`,
+      {
+        headers: {
+          'User-Agent': 'github+bsgmarathon/esa-layouts',
         },
-      );
+      },
+    );
 
-      const foundUsers = resp.body.data as OengusUser[];
+    const foundUsers = resp.body as OengusUser[];
 
-      if (foundUsers.length) {
-        [user] = foundUsers;
-      }
-    } catch (err) {
-      nodecg().log.error(err);
+    if (foundUsers.length) {
+      [user] = foundUsers;
     }
+  } catch (err) {
+    nodecg().log.error(err);
   }
 
   if (!user) {
@@ -201,9 +199,9 @@ nodecg().listenFor('commentatorAdd', async (val: string | null | undefined, ack)
   }
 });
 
-nodecg().listenFor('lower-third:add-name', async (val: string | null | undefined, ack) => {
+nodecg().listenFor('lower-third:add-name', (val: string | null | undefined, ack) => {
   if (val) {
-    await searchName(val, lowerThird.value.names);
+    lowerThird.value.names.push(val);
   }
 
   if (ack && !ack.handled) {

@@ -30,6 +30,7 @@
         filled
         :spellcheck="false"
         :disabled="inputsDisabled"
+        @keyup.enter="add"
       />
       <v-btn
         height="56px"
