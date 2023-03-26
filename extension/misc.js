@@ -139,21 +139,19 @@ exports.searchSrcomPronouns = searchSrcomPronouns;
 async function searchOengusPronouns(val) {
     var _a;
     let user;
-    if (config.server.enabled) {
-        try {
-            const resp = await (0, needle_1.default)('get', `https://oengus.io/api/v1/users/${val}/search`, {
-                headers: {
-                    'User-Agent': 'github+bsgmarathon/esa-layouts',
-                },
-            });
-            const foundUsers = resp.body.data;
-            if (foundUsers.length) {
-                [user] = foundUsers;
-            }
+    try {
+        const resp = await (0, needle_1.default)('get', `https://oengus.io/api/v1/users/${val}/search`, {
+            headers: {
+                'User-Agent': 'github+bsgmarathon/esa-layouts',
+            },
+        });
+        const foundUsers = resp.body;
+        if (foundUsers.length) {
+            [user] = foundUsers;
         }
-        catch (err) {
-            (0, nodecg_1.get)().log.error(err);
-        }
+    }
+    catch (err) {
+        (0, nodecg_1.get)().log.error(err);
     }
     if (!user) {
         return val;
@@ -204,9 +202,9 @@ async function searchName(val, currentVal) {
         ack(null);
     }
 });
-(0, nodecg_1.get)().listenFor('lower-third:add-name', async (val, ack) => {
+(0, nodecg_1.get)().listenFor('lower-third:add-name', (val, ack) => {
     if (val) {
-        await searchName(val, replicants_1.lowerThird.value.names);
+        replicants_1.lowerThird.value.names.push(val);
     }
     if (ack && !ack.handled) {
         ack(null);
