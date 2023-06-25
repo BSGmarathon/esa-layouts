@@ -130,9 +130,14 @@ function getSceneConfig() {
     obs.findScene(config.obs.names.scenes.gameLayout),
   ].filter(Boolean) as string[];
 
+  const interviewScenes = [
+    obs.findScene(config.obs.names.scenes.interview),
+  ].filter(Boolean) as string[];
+
   return {
     readerScenes,
     gameScenes,
+    interviewScenes,
   };
 }
 
@@ -209,9 +214,12 @@ async function setInitialFaders(): Promise<void> {
   await wait(1000); // Waiting 1s as a workaround to make sure the OBS helper has all info.
   if (!init && obs.connected && x32.ready) {
     init = true;
+
+    x32.setFader('/dca/4/fader', 0.75); // Setup Helper
+
     // On-Site
     if (!config.event.online) {
-      const { readerScenes, gameScenes } = getSceneConfig();
+      const { readerScenes, gameScenes, interviewScenes } = getSceneConfig();
 
       if (readerScenes.includes(obs.currentScene || '')) {
         x32.setFader('/dca/2/fader', 0.75); // LIVE Readers
@@ -224,6 +232,12 @@ async function setInitialFaders(): Promise<void> {
       } else {
         x32.setFader('/dca/1/fader', 0); // LIVE Runners
         x32.setFader('/dca/3/fader', 0); // LIVE Games
+      }
+
+      if (interviewScenes.includes(obs.currentScene || '')) {
+        x32.setFader('/dca/5/fader', 0.75); // Live Interview
+      } else {
+        x32.setFader('/dca/5/fader', 0); // Live Interview
       }
     }
   }
@@ -242,11 +256,12 @@ obs.conn.on('TransitionBegin', async (data) => {
   if (config.x32.enabled) {
     // On-Site
     if (!config.event.online) {
-      const { readerScenes, gameScenes } = getSceneConfig();
+      const { readerScenes, gameScenes, interviewScenes } = getSceneConfig();
 
       toggleFadeHelper('/dca/1/fader', gameScenes, data, false); // LIVE Runners
       toggleFadeHelper('/dca/2/fader', readerScenes, data, false); // LIVE Readers
       toggleFadeHelper('/dca/3/fader', gameScenes, data, false); // LIVE Games
+      toggleFadeHelper('/dca/5/fader', interviewScenes, data, false); // Live Interview
     // Online
     } else if (config.event.online === true || config.event.online === 'full') {
       const nonGameScenes = getNonGameScenes(); // These scenes will *not* have "LIVE" DCAs audible.

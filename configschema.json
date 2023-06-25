@@ -264,6 +264,10 @@
                 "countdown": {
                   "type": "string",
                   "default": "Countdown"
+                },
+                "interview": {
+                  "type": "string",
+                  "default": "Interview"
                 }
               },
               "required": [
@@ -272,7 +276,8 @@
                 "readerIntroduction",
                 "intermission",
                 "intermissionPlayer",
-                "countdown"
+                "countdown",
+                "interview"
               ]
             },
             "sources": {

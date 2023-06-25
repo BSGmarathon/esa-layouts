@@ -51,6 +51,7 @@ export interface Configschema {
 				intermission: string;
 				intermissionPlayer: string;
 				countdown: string;
+				interview: string;
 			};
 			sources: {
 				gameSources: string | [string, ...string[]];
