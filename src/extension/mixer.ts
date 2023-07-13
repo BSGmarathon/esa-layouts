@@ -1,4 +1,3 @@
-import type { Configschema } from '@esa-layouts/types/schemas/configschema';
 import { MetaArgument, OscMessage } from 'osc';
 import { logError, wait } from './util/helpers';
 import { get as nodecg } from './util/nodecg';
@@ -7,7 +6,7 @@ import { currentRunDelay, obsData } from './util/replicants';
 import x32 from './util/x32';
 import { ChannelDataReplicant } from '../types/replicant-types';
 
-const config = (nodecg().bundleConfig as Configschema);
+const config = nodecg().bundleConfig;
 
 const channelDefaultValue: ChannelDataReplicant[] = [
   {

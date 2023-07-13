@@ -156,7 +156,6 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { Configschema } from '@esa-layouts/types/schemas/configschema';
 import MediaBox from '@shared/graphics/mediabox';
 import GameCapture from './components/GameCapture.vue';
 import Player from './components/Player.vue';
@@ -179,6 +178,6 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
   },
 })
 export default class extends Vue {
-  online = (nodecg.bundleConfig as Configschema).event.online;
+  online = nodecg.bundleConfig.event.online;
 }
 </script>

@@ -19,21 +19,21 @@
       left: '20px',
       'z-index': 99999999999,
     }">
-      <transition
-        name="fade"
-        mode="out-in"
+      <div
+        v-if="alertList[0]"
+        :style="{
+              'z-index': 1,
+              opacity: showAlert ? 1 : 0,
+              transition: 'opacity 0.5s',
+          }"
+        class="Flex coin-thing"
       >
-        <div
-          v-if="alertList[0]"
-          :key="alertList[0].timestamp"
-          class="Flex coin-thing"
+        <img
+          src="../omniing/RetroCoin.png"
+          :style="{ height: '50px', 'image-rendering': 'pixelated', 'margin-right': '5px' }"
         >
-          <img
-            src="../omniing/RetroCoin.png"
-            :style="{ height: '50px', 'image-rendering': 'pixelated', 'margin-right': '5px' }"
-          >
-          <span
-            :style="{
+        <span
+          :style="{
                 'font-size': '28px',
                 color: '#7FFF00',
                 'font-weight': 600,
@@ -41,11 +41,10 @@
                 padding: '4px 8px',
                 'border-radius': '10px',
               }"
-          >
+        >
               {{ alertList[0] ? alertList[0].amount : '€0' }}
             </span>
-        </div>
-      </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -58,6 +57,8 @@ import gsap from 'gsap';
 
 @Component
 export default class extends Vue {
+  // @Ref('SFX') sfx!: HTMLAudioElement;
+  theme = nodecg.bundleConfig.event.theme;
   total = 0;
   playingAlerts = false;
   showAlert = false;

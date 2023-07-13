@@ -1,10 +1,18 @@
-import type { Bids, Commentators, DonationReader, MediaBox, MusicData, Prizes, UpcomingRunID, DonationTotal } from '@esa-layouts/types/schemas'; // eslint-disable-line object-curly-newline, max-len
-import type { Asset, Tracker } from '@shared/types';
+import type {
+  Bids,
+  Commentators,
+  DonationReader,
+  DonationTotal,
+  MediaBox,
+  MusicData,
+  Prizes,
+  UpcomingRunID,
+} from '@esa-layouts/types/schemas'; // eslint-disable-line object-curly-newline, max-len
+import type NodeCGTypes from '@nodecg/types';
 import clone from 'clone';
-import type { ReplicantBrowser } from 'nodecg/types/browser';
 import { SpeedcontrolUtilBrowser } from 'speedcontrol-util';
 import { RunData } from 'speedcontrol-util/types';
-import type { RunDataArray, TwitchCommercialTimer } from 'speedcontrol-util/types/speedcontrol/schemas';
+import type { RunDataArray, TwitchCommercialTimer } from 'speedcontrol-util/types/schemas';
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
 
@@ -13,19 +21,19 @@ Vue.use(Vuex);
 
 // Replicants and their types
 const reps: {
-  upcomingRunID: ReplicantBrowser<UpcomingRunID>;
-  musicData: ReplicantBrowser<MusicData>;
-  donationReader: ReplicantBrowser<DonationReader>;
-  mediaBoxImages: ReplicantBrowser<Asset[]>;
-  mediaBox: ReplicantBrowser<MediaBox>;
-  bids: ReplicantBrowser<Bids>;
-  prizes: ReplicantBrowser<Prizes>;
-  commentators: ReplicantBrowser<Commentators>;
-  intermissionSlides: ReplicantBrowser<Asset[]>;
-  runDataArray: ReplicantBrowser<RunDataArray>;
-  twitchCommercialTimer: ReplicantBrowser<TwitchCommercialTimer>;
-  donationTotal: ReplicantBrowser<DonationTotal>;
-  [k: string]: ReplicantBrowser<unknown>;
+  upcomingRunID: NodeCGTypes.ClientReplicant<UpcomingRunID>;
+  musicData: NodeCGTypes.ClientReplicant<MusicData>;
+  donationReader: NodeCGTypes.ClientReplicant<DonationReader>;
+  mediaBoxImages: NodeCGTypes.ClientReplicant<NodeCGTypes.AssetFile[]>;
+  mediaBox: NodeCGTypes.ClientReplicant<MediaBox>;
+  bids: NodeCGTypes.ClientReplicant<Bids>;
+  prizes: NodeCGTypes.ClientReplicant<Prizes>;
+  commentators: NodeCGTypes.ClientReplicant<Commentators>;
+  intermissionSlides: NodeCGTypes.ClientReplicant<NodeCGTypes.AssetFile[]>;
+  runDataArray: NodeCGTypes.ClientReplicant<RunDataArray>;
+  twitchCommercialTimer: NodeCGTypes.ClientReplicant<TwitchCommercialTimer>;
+  donationTotal: NodeCGTypes.ClientReplicant<DonationTotal>;
+  [k: string]: NodeCGTypes.ClientReplicant<unknown>;
 } = {
   upcomingRunID: nodecg.Replicant('upcomingRunID'),
   musicData: nodecg.Replicant('musicData'),
@@ -35,21 +43,19 @@ const reps: {
   bids: nodecg.Replicant('bids'),
   prizes: nodecg.Replicant('prizes'),
   commentators: nodecg.Replicant('commentators'),
-  intermissionSlides: nodecg.Replicant('assets:intermission-slides'),
+  assetsIntermissionSlides: nodecg.Replicant('assets:intermission-slides'),
   runDataArray: sc.runDataArray,
   twitchCommercialTimer: sc.twitchCommercialTimer,
   donationTotal: nodecg.Replicant('donationTotal'),
+  intermissionSlides: nodecg.Replicant('intermissionSlides'),
 };
 
 interface StateTypes {
   nextRuns: RunData[];
-  currentBid?: Tracker.FormattedBid;
-  currentPrize?: Tracker.FormattedPrize;
-  currentMedia?: Asset;
   upcomingRunID: UpcomingRunID;
   bids: Bids;
   prizes: Prizes;
-  intermissionSlides: Asset[];
+  assetsIntermissionSlides: NodeCGTypes.AssetFile[];
 }
 
 export const store = new Vuex.Store({
@@ -58,20 +64,11 @@ export const store = new Vuex.Store({
     upcomingRunID: null,
     bids: [],
     prizes: [],
-    intermissionSlides: [],
+    assetsIntermissionSlides: [],
   } as StateTypes,
   mutations: {
     setState(state, { name, val }): void {
       Vue.set(state, name, val);
-    },
-    setCurrentBid(state, bid?: Tracker.FormattedBid): void {
-      Vue.set(state, 'currentBid', bid);
-    },
-    setCurrentPrize(state, prize?: Tracker.FormattedPrize): void {
-      Vue.set(state, 'currentPrize', prize);
-    },
-    setCurrentMedia(state, media?: Asset): void {
-      Vue.set(state, 'currentMedia', media);
     },
     setNextRuns(state, runs: RunData[]): void {
       Vue.set(state, 'nextRuns', runs);
