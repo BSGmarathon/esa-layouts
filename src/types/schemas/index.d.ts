@@ -26,9 +26,9 @@ export * from './donationsToRead';
 // @ts-ignore
 export * from './gameLayouts';
 // @ts-ignore
-export * from './lowerThird';
-// @ts-ignore
 export * from './intermissionSlides';
+// @ts-ignore
+export * from './lowerThird';
 // @ts-ignore
 export * from './mediaBox';
 // @ts-ignore

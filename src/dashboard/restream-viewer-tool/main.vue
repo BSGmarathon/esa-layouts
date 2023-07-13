@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator';
-import { Configschema, GameLayouts, ObsData, RtmpFeed as RtmpSettings } from '@esa-layouts/types/schemas';
+import { GameLayouts, ObsData, RtmpFeed as RtmpSettings } from '@esa-layouts/types/schemas';
 import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
 import RTMPFeed from './components/RTMPFeed.vue';
 
@@ -32,8 +32,8 @@ import RTMPFeed from './components/RTMPFeed.vue';
 export default class extends Vue {
   @replicantNS.State((s) => s.reps.obsData) readonly obsData!: ObsData;
   @replicantNS.State((s) => s.reps.gameLayouts) readonly gameLayouts!: GameLayouts;
-  gameLayout = (nodecg.bundleConfig as Configschema).obs.names.scenes.gameLayout;
-  online = (nodecg.bundleConfig as Configschema).event.online;
+  gameLayout = nodecg.bundleConfig.obs.names.scenes.gameLayout;
+  online = nodecg.bundleConfig.event.online;
   feeds: RtmpSettings[] = [
     {
       streamKey: '',
@@ -87,6 +87,10 @@ export default class extends Vue {
 
   @Watch('obsData', { deep: true })
   onObsDataChange() {
+    if (!this.online) {
+      return;
+    }
+
     const isOnGame = this.obsData.scene === this.gameLayout;
 
     for (const feed of this.feeds) {
@@ -96,6 +100,10 @@ export default class extends Vue {
 
   @Watch('selected')
   async onGameLayoutChange(): Promise<void> {
+    if (!this.online) {
+      return;
+    }
+
     this.feeds[1].enabled = this.selected?.includes('2p') || false;
 
     await this.updateInObs();

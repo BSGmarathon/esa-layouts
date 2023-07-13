@@ -17,6 +17,23 @@
       "UUID": "com.esamarathon.streamdeck.timer"
     },
     {
+      "Name": "Interview Scene Control",
+      "Icon": "img/actionIcon",
+      "States": [
+        {
+          "Image": "img/actionDefaultImage",
+          "TitleAlignment": "middle",
+          "FontSize": "9",
+          "Title": "⌛",
+          "ShowTitle": true
+        }
+      ],
+      "SupportedInMultiActions": false,
+      "Tooltip": "Tells the layout to switch between either interview scene or intermission scene.",
+      "UUID": "com.esamarathon.streamdeck.interview-control",
+      "PropertyInspectorPath": "pi_interview_control.html"
+    },
+    {
       "Name": "TTS Donation Reading",
       "Icon": "img/actionIcon",
       "States": [
@@ -155,7 +172,7 @@
   "Description": "Plugin with actions programmed for use at ESA Marathons.",
   "Name": "ESA Marathon",
   "Icon": "img/pluginIcon",
-  "URL": "https://github.com/esamarathon/esa-layouts",
+  "URL": "https://github.com/bsgmarathon/esa-layouts",
   "PropertyInspectorPath": "pi.html",
   "DefaultWindowSize": [
     400,

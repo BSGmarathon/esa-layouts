@@ -1,9 +1,11 @@
+import obs from '@esa-layouts/util/obs';
 import { speak } from './text-to-speech';
 import { markDonationAsRead } from './tracker/donations';
 import { donationsToRead, streamDeckData } from './util/replicants';
 import { sc } from './util/speedcontrol';
 import sd from './util/streamdeck';
 import x32 from './util/x32';
+import { get as nodecg } from './util/nodecg';
 
 const defaultTimerText = 'Start\nTimer';
 const defaultPlayerHudMsgText = 'Message\nTo Read';
@@ -110,6 +112,53 @@ sd.on('keyUp', async (data) => {
       });
       muteToggleState[(data.payload as any).settings.address] = !toggle;
       sd.updateButtonText(data.context as string, !toggle ? '🔊\nUnmuted' : '🔇\nMuted');
+    }
+  }
+
+  if (data.action === 'com.esamarathon.streamdeck.interview-control') {
+    const scene = data.payload.settings.scene as string;
+    const ncg = nodecg();
+    const config = ncg.bundleConfig.obs.names.scenes;
+
+    switch (scene) {
+      case 'interview':
+        if (obs.isCurrentScene(config.interview)) {
+          sd.send({
+            context: data.context,
+            event: 'showAlert',
+          });
+          return;
+        }
+
+        ncg.sendMessage('obsChangeScene', {
+          scene: config.interview,
+        });
+        sd.send({
+          context: data.context,
+          event: 'showOk',
+        });
+        break;
+      case 'intermission':
+        if (obs.isCurrentScene(config.intermission) || obs.isCurrentScene(config.commercials)) {
+          sd.send({
+            context: data.context,
+            event: 'showAlert',
+          });
+          return;
+        }
+
+        ncg.sendMessage('startIntermission');
+        sd.send({
+          context: data.context,
+          event: 'showOk',
+        });
+        break;
+      default:
+        sd.send({
+          context: data.context,
+          event: 'showAlert',
+        });
+        break;
     }
   }
 });
