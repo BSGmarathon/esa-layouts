@@ -97,6 +97,8 @@ speedcontrol_1.sc.runDataActiveRun.on('change', (newVal, oldVal) => {
         }
     }
     // This will also be triggered on server start up.
+    // TODO: Move this to the start,
+    //       so changes are not taken into account (if that is actually happening)?
     mqLogging.logRunChange(newVal);
     init = true;
 });
@@ -241,7 +243,7 @@ async function changeTwitchMetadata(title, gameId) {
                 const run = (_a = speedcontrol_1.sc.getCurrentRun()) === null || _a === void 0 ? void 0 : _a.game;
                 return `{{total}}/$50,000 - Souls Winter !Charity Fest${run ? ` - ${run}` : ''}`;
             }
-            return '🔴 ESA Summer 2022 - {{total}}/$115,000 in aid of Save the Children';
+            return '🔴 ESA Winter 2023 - {{total}}/$135,000 in aid of Alzheimer\'s Game Over';
         })();
         let t = title || fallback;
         if (t) {

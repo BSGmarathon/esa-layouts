@@ -1,4 +1,4 @@
-import type { NodeCG } from 'nodecg/types/server';
+import type NodeCGTypes from '@nodecg/types';
 import osc, { OscMessage } from 'osc';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import { X32 as X32Types } from '../../../types';
@@ -27,7 +27,7 @@ declare class X32 extends TypedEmitter<X32Events> {
         };
     };
     private fadersInterval;
-    constructor(nodecg: NodeCG, config: X32Types.Config, forwardMessages?: boolean);
+    constructor(nodecg: NodeCGTypes.ServerAPI, config: X32Types.Config, forwardMessages?: boolean);
     /**
      * Just set a specific fader to the supplied value.
      * @param name Full name of fader (example: /dca/1/fader).
