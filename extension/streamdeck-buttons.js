@@ -3,12 +3,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const obs_1 = __importDefault(require("@esa-layouts/util/obs"));
 const text_to_speech_1 = require("./text-to-speech");
 const donations_1 = require("./tracker/donations");
 const replicants_1 = require("./util/replicants");
 const speedcontrol_1 = require("./util/speedcontrol");
 const streamdeck_1 = __importDefault(require("./util/streamdeck"));
 const x32_1 = __importDefault(require("./util/x32"));
+const nodecg_1 = require("./util/nodecg");
 const defaultTimerText = 'Start\nTimer';
 const defaultPlayerHudMsgText = 'Message\nTo Read';
 const muteToggleState = {};
@@ -106,6 +108,49 @@ streamdeck_1.default.on('keyUp', async (data) => {
             });
             muteToggleState[data.payload.settings.address] = !toggle;
             streamdeck_1.default.updateButtonText(data.context, !toggle ? '🔊\nUnmuted' : '🔇\nMuted');
+        }
+    }
+    if (data.action === 'com.esamarathon.streamdeck.interview-control') {
+        const scene = data.payload.settings.scene;
+        const ncg = (0, nodecg_1.get)();
+        const config = ncg.bundleConfig.obs.names.scenes;
+        switch (scene) {
+            case 'interview':
+                if (obs_1.default.isCurrentScene(config.interview)) {
+                    streamdeck_1.default.send({
+                        context: data.context,
+                        event: 'showAlert',
+                    });
+                    return;
+                }
+                ncg.sendMessage('obsChangeScene', {
+                    scene: config.interview,
+                });
+                streamdeck_1.default.send({
+                    context: data.context,
+                    event: 'showOk',
+                });
+                break;
+            case 'intermission':
+                if (obs_1.default.isCurrentScene(config.intermission) || obs_1.default.isCurrentScene(config.commercials)) {
+                    streamdeck_1.default.send({
+                        context: data.context,
+                        event: 'showAlert',
+                    });
+                    return;
+                }
+                ncg.sendMessage('startIntermission');
+                streamdeck_1.default.send({
+                    context: data.context,
+                    event: 'showOk',
+                });
+                break;
+            default:
+                streamdeck_1.default.send({
+                    context: data.context,
+                    event: 'showAlert',
+                });
+                break;
         }
     }
 });
