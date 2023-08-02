@@ -82,7 +82,9 @@
         }"
       >
         <donation-reader />
-        <!--<music-track />-->
+      </div>
+      <div class="musicContainer">
+        <music-track hide-icon class="music" />
       </div>
     </div>
   </div>
@@ -93,9 +95,9 @@ import { RunData } from 'speedcontrol-util/types';
 import { Component, Vue } from 'vue-property-decorator';
 import { State } from 'vuex-class';
 // import { generateClipPath } from '../_misc/cut-background';
+import MediaBox from '@shared/graphics/mediabox';
 import UpcomingRun from './components/UpcomingRun.vue';
 import Rotation from './components/Rotation.vue';
-import MediaBox from '@shared/graphics/mediabox';
 import { getZoomAmountCSS } from '../_misc/helpers';
 import CommercialTimer from './components/CommercialTimer.vue';
 import DonationReader from './components/DonationReader.vue';
@@ -133,4 +135,22 @@ export default class extends Vue {
   top: 0;
   left: 0;
 }
+
+.musicContainer {
+  position: relative;
+  width: 672px;
+  height: 100px;
+  left: 1110px;
+  top: 950px;
+  font-size: 20px;
+  //background: rgba(255, 255, 255, 0.5);
+}
+
+/*.music {
+  position: absolute;
+  font-size: 20px !important;
+  top: 50px !important;
+  left: 0;
+  height: 60px;
+}*/
 </style>

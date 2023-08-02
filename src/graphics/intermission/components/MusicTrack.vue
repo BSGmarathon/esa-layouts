@@ -5,6 +5,7 @@
     :style="{ height: '100%' }"
   >
     <div
+      v-if="!hideIcon"
       class="Flex MCat"
       :style="{
         'box-sizing': 'border-box',
@@ -27,13 +28,14 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import { State } from 'vuex-class';
 import { MusicData } from '@esa-layouts/types/schemas';
 
 @Component
 export default class extends Vue {
   @State musicData!: MusicData;
+  @Prop({ type: Boolean, required: false }) hideIcon!: boolean;
 
   get trackInformation(): string | undefined {
     const info = [
