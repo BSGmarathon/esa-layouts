@@ -9,7 +9,7 @@ import type {
   DonationsToRead,
   DonationTotal,
   DonationTotalMilestones,
-  GameLayouts,
+  GameLayouts, IntermissionSlides,
   LowerThird,
   ObsData,
   Omnibar,
@@ -46,6 +46,7 @@ export const reps: {
   donationTotal: NodeCGTypes.ClientReplicant<DonationTotal>;
   donationTotalMilestones: NodeCGTypes.ClientReplicant<DonationTotalMilestones>;
   gameLayouts: NodeCGTypes.ClientReplicant<GameLayouts>;
+  intermissionSlides: NodeCGTypes.ClientReplicant<IntermissionSlides>;
   lowerThird: NodeCGTypes.ClientReplicant<LowerThird>;
   obsData: NodeCGTypes.ClientReplicant<ObsData>;
   omnibar: NodeCGTypes.ClientReplicant<Omnibar>;
@@ -107,6 +108,7 @@ export interface ReplicantTypes {
   donationTotal: DonationTotal;
   donationTotalMilestones: DonationTotalMilestones;
   gameLayouts: GameLayouts;
+  intermissionSlides: IntermissionSlides;
   lowerThird: LowerThird;
   obsData: ObsData;
   omnibar: Omnibar;

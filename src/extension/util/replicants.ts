@@ -25,7 +25,7 @@ import {
   ReaderIntroduction,
   ServerTimestamp,
   StreamDeckData,
-  TtsVoices,
+ TaskmasterTimestamps, TtsVoices,
   UpcomingRunID,
   VideoPlayer,
 } from '@esa-layouts/types/schemas';
@@ -67,6 +67,7 @@ export const prizes = nodecg().Replicant<Prizes>('prizes', { persistent: false }
 export const readerIntroduction = nodecg().Replicant<ReaderIntroduction>('readerIntroduction') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<ReaderIntroduction>;
 export const serverTimestamp = nodecg().Replicant<ServerTimestamp>('serverTimestamp') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<ServerTimestamp>;
 export const streamDeckData = nodecg().Replicant<StreamDeckData>('streamDeckData') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<StreamDeckData>;
+export const taskmasterTimestamps = nodecg().Replicant<TaskmasterTimestamps>('taskmasterTimestamps') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<TaskmasterTimestamps>;
 export const ttsVoices = nodecg().Replicant<TtsVoices>('ttsVoices') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<TtsVoices>;
 export const twitchAPIData = nodecg().Replicant<TwitchAPIData>('twitchAPIData', 'nodecg-speedcontrol') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<TwitchAPIData>;
 export const twitchChannelInfo = nodecg().Replicant<TwitchChannelInfo>('twitchChannelInfo', 'nodecg-speedcontrol') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<TwitchChannelInfo>;

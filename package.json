@@ -145,6 +145,15 @@
         "workspace": "Z - BSG Advanced",
         "headerColor": "#c49215"
       },
+
+      {
+        "name": "intermission-slide-control",
+        "title": "Intermission Slide Control",
+        "width": 3,
+        "file": "intermission-slide-control.html",
+        "workspace": "Z - BSG Advanced",
+        "headerColor": "#c49215"
+      },
       {
         "name": "commentators",
         "title": "Commentators",

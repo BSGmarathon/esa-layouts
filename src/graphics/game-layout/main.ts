@@ -65,6 +65,11 @@ const routes = [
     component: List.L_16x9_3p,
   },
   {
+    name: '9:16 1 Player (2 Cameras)',
+    path: '/9x16-1p-2cams',
+    component: List.L_9x16_1p_2Cams,
+  },
+  {
     name: 'GameBoy 1 Player',
     path: '/GB-1p',
     component: List.L_GB_1p,
@@ -113,6 +118,16 @@ const routes = [
     name: 'DS 2 Player',
     path: '/DS-2p',
     component: List.L_DS_2p,
+  },
+  {
+    name: 'Full Camera',
+    path: '/full-cam',
+    component: List.L_FullCam,
+  },
+  {
+    name: 'Taskmaster Timer',
+    path: '/taskmaster-timer',
+    component: List.L_Taskmaster_Timer,
   },
   {
     path: '*',

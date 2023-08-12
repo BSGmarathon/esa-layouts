@@ -1,4 +1,4 @@
-import type { Bids, Commentators, CurrentRunDelay, DelayedTimer, DonationReader, GameLayouts, MediaBox, NameCycle, NotableDonations, Prizes } from '@esa-layouts/types/schemas'; // eslint-disable-line object-curly-newline, max-len
+import type { Bids, Commentators, CurrentRunDelay, DelayedTimer, DonationReader, GameLayouts, MediaBox, NameCycle, NotableDonations, Prizes, TaskmasterTimestamps } from '@esa-layouts/types/schemas'; // eslint-disable-line object-curly-newline, max-len
 import type NodeCGTypes from '@nodecg/types';
 import clone from 'clone';
 import { SpeedcontrolUtilBrowser } from 'speedcontrol-util';
@@ -24,6 +24,7 @@ const reps: {
   notableDonations: NodeCGTypes.ClientReplicant<NotableDonations>;
   prizes: NodeCGTypes.ClientReplicant<Prizes>;
   runDataActiveRun: NodeCGTypes.ClientReplicant<RunDataActiveRun>;
+  taskmasterTimestamps: NodeCGTypes.ClientReplicant<TaskmasterTimestamps>;
   timer: NodeCGTypes.ClientReplicant<Timer>;
   x32GameAudio: NodeCGTypes.ClientReplicant<ChannelDataReplicant[]>;
   [k: string]: NodeCGTypes.ClientReplicant<unknown>;
@@ -40,6 +41,7 @@ const reps: {
   notableDonations: nodecg.Replicant('notableDonations'),
   prizes: nodecg.Replicant('prizes'),
   runDataActiveRun: sc.runDataActiveRun,
+  taskmasterTimestamps: nodecg.Replicant('taskmasterTimestamps'),
   timer: sc.timer,
   x32GameAudio: nodecg.Replicant('x32-game-channel-status'),
 };
