@@ -72,8 +72,12 @@ speedcontrol_1.sc.timer.on('change', (val) => {
 });
 // Controls the nodecg-speedcontrol timer when the big buttons are pressed.
 rabbitmq_1.mq.evt.on('bigbuttonPressed', async (data) => {
-    // Only listen to this event on stream 1.
-    if (config.event.thisEvent !== 1)
+    var _a;
+    // For stream 2, the buttons are offset by 4.
+    const buttonId = config.event.thisEvent === 2
+        ? data.button_id - 4
+        : data.button_id;
+    if (buttonId < 1 || (config.event.thisEvent === 1 && buttonId > 4))
         return;
     // If the button was pressed more than 10s ago, ignore it.
     if (data.time.unix < (Date.now() / 1000) - 10)
@@ -84,10 +88,23 @@ rabbitmq_1.mq.evt.on('bigbuttonPressed', async (data) => {
         return;
     }
     const run = speedcontrol_1.sc.getCurrentRun();
+    // Hardcoded different timer for Taskmaster.
+    if (((_a = run === null || run === void 0 ? void 0 : run.game) === null || _a === void 0 ? void 0 : _a.toLowerCase()) === 'taskmaster') {
+        if (replicants_1.taskmasterTimestamps.value.start === null) { // Start
+            replicants_1.taskmasterTimestamps.value.start = Date.now();
+        }
+        else if (replicants_1.taskmasterTimestamps.value.end === null) { // End
+            replicants_1.taskmasterTimestamps.value.end = Date.now();
+        }
+        else {
+            replicants_1.taskmasterTimestamps.value = { start: null, end: null }; // Reset
+        }
+        return;
+    }
     let id = 0;
     // If more than 1 team, uses the big button player mapping to find out what team to stop.
     if (run && run.teams.length > 1) {
-        const userTag = replicants_1.bigbuttonPlayerMap.value[data.button_id];
+        const userTag = replicants_1.bigbuttonPlayerMap.value[buttonId];
         const teamIndex = run.teams.findIndex((t) => t.players.find((p) => userTag === null || userTag === void 0 ? void 0 : userTag.find((u) => u.user.displayName.toLowerCase() === p.name.toLowerCase())));
         if (teamIndex >= 0)
             id = teamIndex;
