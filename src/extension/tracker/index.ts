@@ -44,7 +44,7 @@ async function updateDonationTotalFromAPI(init = false): Promise<void> {
   try {
     let total = 0;
     for (const event of eventInfo) {
-      const resp = await needle('get', `https://${config.address}/${event.id}?json`);
+      const resp = await needle('get', `https://${config.address}/event/${event.id}?json`);
       if (resp.statusCode === 200) {
         const eventTotal = resp.body.agg.amount ? parseFloat(resp.body.agg.amount) : 0;
         event.total = eventTotal;
