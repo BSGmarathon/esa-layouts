@@ -20,7 +20,7 @@
       <commercial-timer
         :style="{
           left: '1116px',
-          top: '993px',
+          top: '750px',
           width: '655px',
           height: '35px',
         }"
