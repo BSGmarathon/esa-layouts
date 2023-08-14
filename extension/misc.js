@@ -161,7 +161,9 @@ async function searchOengusPronouns(val) {
     const pronouns = typeof user.pronouns === 'string'
         ? user.pronouns.split(',')[0]
         : (_a = user.pronouns) === null || _a === void 0 ? void 0 : _a[0];
-    return pronouns ? `${user.username} (${pronouns})` : user.username;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore (display name is not in types yet)
+    return pronouns ? `${user.displayName} (${pronouns})` : user.displayName;
 }
 exports.searchOengusPronouns = searchOengusPronouns;
 async function searchPronounsOnEsByStr(val) {
@@ -295,9 +297,16 @@ if (config.tracker.donationTotalInTitle) {
     });
 }
 async function formatScheduleImportedPronouns() {
+    var _a;
     (0, nodecg_1.get)().log.info('[Misc] Schedule reimported, formatting pronouns');
     const runs = speedcontrol_1.sc.getRunDataArray();
+    const currentRunId = (_a = speedcontrol_1.sc.getCurrentRun()) === null || _a === void 0 ? void 0 : _a.id;
     for (const run of runs) {
+        // Do not modify the active run.
+        if (run.id === currentRunId) {
+            // eslint-disable-next-line no-continue
+            continue;
+        }
         const { teams } = run;
         teams.forEach((team, x) => {
             team.players.forEach((player, y) => {
