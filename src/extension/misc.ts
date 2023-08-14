@@ -7,7 +7,20 @@ import * as mqLogging from './util/mq-logging';
 import { get as nodecg } from './util/nodecg';
 import obs from './util/obs';
 import { mq } from './util/rabbitmq';
-import { bigbuttonPlayerMap, commentators, lowerThird, donationReader, donationTotal, horaroImportStatus, oengusImportStatus, otherStreamData, serverTimestamp, twitchAPIData, twitchChannelInfo, upcomingRunID } from './util/replicants';
+import {
+  bigbuttonPlayerMap,
+  commentators,
+  lowerThird,
+  donationReader,
+  donationTotal,
+  horaroImportStatus,
+  oengusImportStatus,
+  otherStreamData,
+  serverTimestamp,
+  twitchAPIData,
+  twitchChannelInfo,
+  upcomingRunID,
+} from './util/replicants';
 import { sc } from './util/speedcontrol';
 
 const config = nodecg().bundleConfig;
@@ -147,7 +160,9 @@ export async function searchOengusPronouns(val: string): Promise<string> {
     ? user.pronouns.split(',')[0]
     : user.pronouns?.[0];
 
-  return pronouns ? `${user.username} (${pronouns})` : user.username;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore (display name is not in types yet)
+  return pronouns ? `${user.displayName} (${pronouns})` : user.displayName;
 }
 
 async function searchPronounsOnEsByStr(val: string): Promise<string> {
@@ -305,7 +320,15 @@ if (config.tracker.donationTotalInTitle) {
 async function formatScheduleImportedPronouns(): Promise<void> {
   nodecg().log.info('[Misc] Schedule reimported, formatting pronouns');
   const runs = sc.getRunDataArray();
+  const currentRunId = sc.getCurrentRun()?.id;
+
   for (const run of runs) {
+    // Do not modify the active run.
+    if (run.id === currentRunId) {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+
     const { teams } = run;
     teams.forEach((team, x) => {
       team.players.forEach((player, y) => {
