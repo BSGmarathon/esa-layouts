@@ -183,29 +183,36 @@ async function setInitialFaders() {
     await (0, helpers_1.wait)(1000); // Waiting 1s as a workaround to make sure the OBS helper has all info.
     if (!init && obs_1.default.connected && x32_1.default.ready) {
         init = true;
+        (0, nodecg_1.get)().log.info('Initializing DCAs');
         x32_1.default.setFader('/dca/4/fader', 0.75); // Setup Helper
         // On-Site
         if (!config.event.online) {
             const { readerScenes, gameScenes, interviewScenes } = getSceneConfig();
             if (readerScenes.includes(obs_1.default.currentScene || '')) {
                 x32_1.default.setFader('/dca/2/fader', 0.75); // LIVE Readers
+                (0, nodecg_1.get)().log.info('Reader DCAs ON');
             }
             else {
                 x32_1.default.setFader('/dca/2/fader', 0); // LIVE Readers
+                (0, nodecg_1.get)().log.info('Reader DCAs OFF');
             }
             if (gameScenes.includes(obs_1.default.currentScene || '')) {
                 x32_1.default.setFader('/dca/1/fader', 0.75); // LIVE Runners
                 x32_1.default.setFader('/dca/3/fader', 0.75); // LIVE Games
+                (0, nodecg_1.get)().log.info('Game DCAs ON');
             }
             else {
                 x32_1.default.setFader('/dca/1/fader', 0); // LIVE Runners
                 x32_1.default.setFader('/dca/3/fader', 0); // LIVE Games
+                (0, nodecg_1.get)().log.info('Game DCAs Off');
             }
             if (interviewScenes.includes(obs_1.default.currentScene || '')) {
                 x32_1.default.setFader('/dca/5/fader', 0.75); // Live Interview
+                (0, nodecg_1.get)().log.info('Interview DCAs ON');
             }
             else {
                 x32_1.default.setFader('/dca/5/fader', 0); // Live Interview
+                (0, nodecg_1.get)().log.info('Interview DCAs ON');
             }
         }
     }
