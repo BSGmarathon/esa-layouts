@@ -214,6 +214,8 @@ async function setInitialFaders(): Promise<void> {
   if (!init && obs.connected && x32.ready) {
     init = true;
 
+    nodecg().log.info('Initializing DCAs');
+
     x32.setFader('/dca/4/fader', 0.75); // Setup Helper
 
     // On-Site
@@ -222,21 +224,27 @@ async function setInitialFaders(): Promise<void> {
 
       if (readerScenes.includes(obs.currentScene || '')) {
         x32.setFader('/dca/2/fader', 0.75); // LIVE Readers
+        nodecg().log.info('Reader DCAs ON');
       } else {
         x32.setFader('/dca/2/fader', 0); // LIVE Readers
+        nodecg().log.info('Reader DCAs OFF');
       }
       if (gameScenes.includes(obs.currentScene || '')) {
         x32.setFader('/dca/1/fader', 0.75); // LIVE Runners
         x32.setFader('/dca/3/fader', 0.75); // LIVE Games
+        nodecg().log.info('Game DCAs ON');
       } else {
         x32.setFader('/dca/1/fader', 0); // LIVE Runners
         x32.setFader('/dca/3/fader', 0); // LIVE Games
+        nodecg().log.info('Game DCAs Off');
       }
 
       if (interviewScenes.includes(obs.currentScene || '')) {
         x32.setFader('/dca/5/fader', 0.75); // Live Interview
+        nodecg().log.info('Interview DCAs ON');
       } else {
         x32.setFader('/dca/5/fader', 0); // Live Interview
+        nodecg().log.info('Interview DCAs ON');
       }
     }
   }
@@ -280,5 +288,4 @@ obs.conn.on('TransitionBegin', async (data) => {
     }
   }
 });
-
 /// </editor-fold>
