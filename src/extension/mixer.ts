@@ -100,6 +100,10 @@ function updateFaderStatus(message: OscMessage): void {
 // /ch/[01…32]/mix/on -> {OFF, ON} -> OFF meaning the channel is muted?
 // /ch/[01…32]/mix/fader -> level in Db [0.0…1.0(+10dB), 1024] -> not sure what the values are
 x32.on('message', (message: OscMessage) => {
+  if (message.address.includes('/fader')) {
+    nodecg().log.debug('OSC command from mixer', message);
+  }
+
   if (wantedMutes.includes(message.address)) {
     updateMuteStatus(message);
     return;
