@@ -109,19 +109,23 @@
 }
 
 
-.Icon[data-v-fc953524] {
+.Icon[data-v-e4435f0e] {
   height: 100%;
   position: absolute;
 }
-.TextWrapper[data-v-fc953524] {
+.TextWrapper[data-v-e4435f0e] {
   width: auto;
   height: 100%;
   position: absolute;
 }
-.fade-enter-active[data-v-fc953524], .fade-leave-active[data-v-fc953524] {
+.PlayerAudioLive[data-v-e4435f0e] {
+  position: relative;
+  margin-right: 10px;
+}
+.fade-enter-active[data-v-e4435f0e], .fade-leave-active[data-v-e4435f0e] {
   transition: opacity 1s;
 }
-.fade-enter[data-v-fc953524], .fade-leave-to[data-v-fc953524] {
+.fade-enter[data-v-e4435f0e], .fade-leave-to[data-v-e4435f0e] {
   opacity: 0;
 }
 
