@@ -1,14 +1,10 @@
 <template>
-  <div :style="{ width: '1920px', height: '1080px', position: 'fixed' }">
-    <!--<video-elem
-      class="Fixed"
-      :style="{
-        left: '209px',
-        top: '25px',
-        width: '1503px',
-        height: '845px',
-      }"
-    />-->
+  <div id="IntermissionPlayer" :style="{
+      width: '1920px',
+      height: '1080px',
+      position: 'fixed',
+      zoom,
+    }">
     <div
       class="Fixed"
       :style="{
@@ -31,7 +27,6 @@
       <div
         class="Flex Header"
         :style="{
-          'background-color': '#914e21', // HARDCODED, BAD!
           color: 'white', // HARDCODED, BAD!
           'text-transform': 'uppercase',
           height: '100%',
@@ -40,7 +35,7 @@
           'font-weight': 500,
         }"
       >
-        Setting Up For
+        <p>Setting Up For</p>
       </div>
       <div
         class="Flex"
@@ -48,8 +43,10 @@
           flex: 1,
           'background-color': 'rgba(0, 0, 0, 0.3)',
           height: '100%',
-          'font-size': '40px',
+          'font-size': '24px',
           'justify-content': 'space-between',
+          'flex-direction': 'row',
+          'align-items': 'center',
           padding: '0 27px',
         }"
       >
@@ -58,7 +55,7 @@
           <span
             class="RunInfoExtra"
             :style="{
-              'font-size': '33px',
+              'font-size': '20px',
             }"
           >
             <span v-if="nextRun.category">
@@ -94,10 +91,12 @@ import { RunData } from 'speedcontrol-util/types';
 import { Vue, Component } from 'vue-property-decorator';
 import { SpeedcontrolUtilBrowser } from 'speedcontrol-util';
 import { storeModule } from './store';
+import { getZoomAmountCSS } from '../_misc/helpers';
 
 @Component
 export default class extends Vue {
   getRunTotalPlayers = SpeedcontrolUtilBrowser.getRunTotalPlayers;
+  zoom = getZoomAmountCSS();
 
   get nextRun(): RunData | null { return storeModule.nextRun; }
 

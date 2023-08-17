@@ -71,7 +71,7 @@ body {
   background-color: #2d1d3c;
 }
 
-.Player .Icon {
+.Player .Icon:not(.NormalIcon) {
   filter: invert(1);
 }
 
@@ -165,12 +165,12 @@ body {
 
 #Intermission .BottomBox,
 #Intermission .Content, #ReaderIntroduction .Content {
-  /* background-color: rgba(0, 0, 0, 0.85);
+  background-color: rgba(0, 0, 0, 0.85);
 }
 
 #IntermissionPlayer .UpcomingBar .Header {
-  background-color: #41245b; */
-  text-align: left;
+  /*background-color: #41245b;*/
+  background-color: #914e21;
 }
 
 #Omnibar {

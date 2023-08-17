@@ -20,15 +20,23 @@
       :style="{
         position: 'relative',
         height: '100%',
+        display: 'flex',
+        'flex-direction': 'row',
+        'margin-left': '10px',
       }"
     >
+      <transition name="fade">
+        <div key="audioLive"
+             class="PlayerAudioLive Icon NormalIcon"
+             style="width: 36px; height: 36px;" v-if="showSpeakerIcon" />
+      </transition>
       <transition name="fade">
         <img
           v-if="nameCycle === 1 && player.social.twitch"
           key="twitch"
           class="Icon"
           :style="{
-          'display':'none',
+            'position': 'relative',
           }"
           src="../../_misc/TwitchIcon.png"
         >
@@ -69,7 +77,7 @@
 
     <!-- Player Name/Twitch -->
     <div
-      class="FlexPlayer FlexCenter "
+      class="FlexPlayer FlexCenter"
       :style="{
       'font-size': '25px',
         position: 'relative',
@@ -101,7 +109,8 @@
             </span>
             /{{ player.social.twitch }}
             <!-- Custom Title code repeated twice, needs cleaning up! -->
-            <span
+            <!-- No need for pronouns during twitch -->
+<!--            <span
               v-if="pronouns"
               class="Pronouns"
               :style="{
@@ -110,7 +119,7 @@
               }"
             >
               {{ pronouns }}
-            </span>
+            </span>-->
           </div>
         </div>
         <div
@@ -190,6 +199,7 @@ export default class extends Vue {
   playerIndex = 0;
   nameCycle = 0; // "Local" name cycle used so we can let flags load.
   fittyPlayer: FittyInstance | undefined;
+  showSpeakerIcon = false;
 
   get pronouns(): string | undefined {
     return this.player?.pronouns;
@@ -265,14 +275,8 @@ export default class extends Vue {
 
   @Watch('x32GameAudio')
   onX32GameAudioChange(newVal: ChanData[]): void {
-    const playerEl = this.$refs.Player as Element;
-
-    if (!playerEl) {
-      return;
-    }
-
     if (this.gameLayouts!.selected!.endsWith('1p')) {
-      playerEl.classList.remove('PlayerAudioLive');
+      this.showSpeakerIcon = false;
       return;
     }
 
@@ -290,11 +294,7 @@ export default class extends Vue {
 
     const mixerConfig = newVal[chosenSlot];
 
-    if (!mixerConfig.muted && mixerConfig.faderUp) {
-      playerEl.classList.add('PlayerAudioLive');
-    } else {
-      playerEl.classList.remove('PlayerAudioLive');
-    }
+    this.showSpeakerIcon = !mixerConfig.muted && mixerConfig.faderUp;
   }
 
   @Watch('runData')
@@ -341,7 +341,11 @@ export default class extends Vue {
     width: auto;
     height: 100%;
     position: absolute;
+  }
 
+  .PlayerAudioLive {
+    position: relative;
+    margin-right: 10px;
   }
 
   .fade-enter-active, .fade-leave-active {
