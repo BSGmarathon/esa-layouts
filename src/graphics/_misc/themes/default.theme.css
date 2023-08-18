@@ -152,6 +152,7 @@ body {
   /* background-color: #41245b; */
 }
 
+/* TODO: add border colour on top here? */
 #Intermission .Header, #ReaderIntroduction .Header {
   /* background-color: #41245b; */
   color: #914e21;
@@ -163,9 +164,10 @@ body {
   color: #cf773b;
 }
 
+/* This is the intermission screen, BSG does not use the black boxes. */
 #Intermission .BottomBox,
 #Intermission .Content, #ReaderIntroduction .Content {
-  background-color: rgba(0, 0, 0, 0.85);
+  /*background-color: rgba(0, 0, 0, 0.85);*/
 }
 
 #IntermissionPlayer .UpcomingBar .Header {
