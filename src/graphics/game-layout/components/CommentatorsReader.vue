@@ -40,7 +40,6 @@
         'flex-grow': 1,
         'justify-content': 'flex-end',
         'margin': '0 10px',
-
       }"
     >
       <div :style="{ width: '98%', 'text-align': 'center' }">

@@ -36,7 +36,7 @@
           key="twitch"
           class="Icon"
           :style="{
-            'position': 'relative',
+            //
           }"
           src="../../_misc/TwitchIcon.png"
         >
@@ -79,7 +79,7 @@
     <div
       class="FlexPlayer FlexCenter"
       :style="{
-      'font-size': '25px',
+        'font-size': '25px',
         position: 'relative',
         width: 'calc(100% - 130px)',
         height: '100%',
@@ -344,8 +344,9 @@ export default class extends Vue {
   }
 
   .PlayerAudioLive {
-    position: relative;
-    margin-right: 10px;
+    position: absolute;
+    left: 460px;
+    /*margin-right: 10px;*/
   }
 
   .fade-enter-active, .fade-leave-active {

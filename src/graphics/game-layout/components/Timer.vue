@@ -5,7 +5,7 @@
       :style="{
         'text-align': 'center',
         // 'margin-top': topMargin,
-        transition: '1s',
+        transition: '500ms',
         height: '100%',
         'font-family': 'Goodlight',
         'font-weight': 700,
@@ -18,7 +18,8 @@
         :key="i"
         :style="{
           display: 'inline-block',
-          width: ([2, 5].includes(i)) ? '0.22em' : '0.75em',
+          // replace 0.22em with undefined for better styling
+          width: ([2, 5].includes(i)) ? undefined : '0.75em',
           'text-align': 'center',
           // Make the colon appear more towards the centre.
           'margin-top': ([2, 5].includes(i)) ? '-0.1em' : 'unset',
