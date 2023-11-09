@@ -139,7 +139,10 @@ streamdeck_1.default.on('keyUp', async (data) => {
                     });
                     return;
                 }
-                ncg.sendMessage('startIntermission');
+                // ncg.sendMessage('startIntermission');
+                ncg.sendMessage('obsChangeScene', {
+                    scene: config.intermission,
+                });
                 streamdeck_1.default.send({
                     context: data.context,
                     event: 'showOk',
