@@ -6,12 +6,12 @@
       Uncheck all
     </v-btn>
     <h2 class="mt-2">Checklist</h2>
-    <div class="multiselect with-transition" :class="{
-        'multiselect-on': audioReady,
-      }">
-      <input id="audio-ready-cb" type="checkbox" disabled :checked="audioReady">
-      <label for="audio-ready-cb">Audio Ready</label>
-    </div>
+<!--    <div class="multiselect with-transition" :class="{-->
+<!--        'multiselect-on': audioReady,-->
+<!--      }">-->
+<!--      <input id="audio-ready-cb" type="checkbox" disabled :checked="audioReady">-->
+<!--      <label for="audio-ready-cb">Audio Ready</label>-->
+<!--    </div>-->
     <ul>
       <li class="multiselect" :class="{
         'with-transition': unchecking,
@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import Pusher from 'pusher-js';
 import { Configschema } from '../../types/schemas';
 
@@ -39,11 +39,11 @@ type ChecklistItem = {
 
 Pusher.logToConsole = false;
 
-const pusher = new Pusher('2c53693ab820e678c32e', {
-  cluster: 'eu',
-});
-
-const channel = pusher.subscribe('bsg-checklist');
+// const pusher = new Pusher('2c53693ab820e678c32e', {
+//   cluster: 'eu',
+// });
+//
+// const channel = pusher.subscribe('bsg-checklist');
 
 @Component
 export default class extends Vue {
@@ -107,20 +107,20 @@ export default class extends Vue {
   ];
 
   mounted(): void {
-    nodecg.listenFor('obsChangeScene', ({ scene }) => {
-      // reset the checkmarks if we change to the game layout
-      if (scene === this.obsConfig.names.scenes.gameLayout) {
-        this.resetChecks();
-        fetch('https://pusher.bsg.duncte123.nl/sendUncheck.php', {
-          mode: 'no-cors',
-        })
-          .catch(console.log);
-      }
-    });
+    // nodecg.listenFor('obsChangeScene', ({ scene }) => {
+    //   // reset the checkmarks if we change to the game layout
+    //   if (scene === this.obsConfig.names.scenes.gameLayout) {
+    //     this.resetChecks();
+    //     fetch('https://pusher.bsg.duncte123.nl/sendUncheck.php', {
+    //       mode: 'no-cors',
+    //     })
+    //       .catch(console.log);
+    //   }
+    // });
 
-    channel.bind('audio-ready', (data: { ready: boolean }) => {
-      this.audioReady = data.ready;
-    });
+    // channel.bind('audio-ready', (data: { ready: boolean }) => {
+    //   this.audioReady = data.ready;
+    // });
 
     nodecg.listenFor('changeCheckStatus', ({ i, checked }) => {
       this.checks[i].checked = checked;
