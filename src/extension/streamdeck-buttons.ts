@@ -147,7 +147,10 @@ sd.on('keyUp', async (data) => {
           return;
         }
 
-        ncg.sendMessage('startIntermission');
+        // ncg.sendMessage('startIntermission');
+        ncg.sendMessage('obsChangeScene', {
+          scene: config.intermission,
+        });
         sd.send({
           context: data.context,
           event: 'showOk',
