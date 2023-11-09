@@ -1,12 +1,12 @@
 
-ul[data-v-7b2e4b48] {
+ul[data-v-5c58348c] {
   border: 2px solid black;
   border-radius: 5px;
   padding: 5px !important;
   list-style-type: none;
   column-count: 3;
 }
-.multiselect[data-v-7b2e4b48] {
+.multiselect[data-v-5c58348c] {
   border: solid 1px #768948;
   overflow: auto;
   padding: 5px;
@@ -14,10 +14,10 @@ ul[data-v-7b2e4b48] {
   margin-bottom: 4px;
   box-sizing: border-box;
 }
-.with-transition[data-v-7b2e4b48] {
+.with-transition[data-v-5c58348c] {
   transition: background-color ease-in-out 500ms;
 }
-.multiselect-on[data-v-7b2e4b48] {
+.multiselect-on[data-v-5c58348c] {
   color: #ffffff;
   background-color: #06BA63;
 }
