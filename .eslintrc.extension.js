@@ -7,7 +7,6 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    // project: 'tsconfig.extension.json',
     project: path.join(__dirname, 'tsconfig.extension.json'),
   },
   plugins: [
@@ -24,7 +23,6 @@ module.exports = {
     'import/resolver': {
       typescript: {
         // This is needed to properly resolve paths.
-        // project: 'tsconfig.extension.json',
         project: path.join(__dirname, 'tsconfig.extension.json'),
       },
     },

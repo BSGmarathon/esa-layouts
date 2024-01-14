@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { awaitTimeout, wait } from '@esa-layouts/graphics/_misc/helpers';
+import { awaitTimeout, wait, areObjectsEqual } from '@esa-layouts/graphics/_misc/helpers';
 import { Omnibar } from '@esa-layouts/types/schemas';
 import { Vue, Component, Watch } from 'vue-property-decorator';
 import GenericMsg from './Ticker/GenericMsg.vue';
@@ -63,27 +63,34 @@ export default class extends Vue {
 
   @Watch('omnibar')
   async onOmnibarChange(newVal?: Omnibar, oldVal?: Omnibar): Promise<void> {
+    // if there was no change, we don't need to hide stuff
+    if (areObjectsEqual(newVal, oldVal)) {
+      return;
+    }
+
     this.mayShow = false;
     await Vue.nextTick();
     await wait(500);
 
-    if (oldVal?.current?.props?.dash) {
+    const oldDash = oldVal?.current?.props?.dash;
+    const nextDash = newVal?.current?.props?.dash;
+
+    // if the dash has changed, we need to clear it out and set the new dash
+    if (!areObjectsEqual(oldDash, nextDash)) {
       // Wait for the dash to hide before showing next
       this.$emit('set-dash', null);
       await wait(500);
       await Vue.nextTick();
-    }
 
-    // wait before starting the next animation
-    await wait(600);
-
-    const nextDash = newVal?.current?.props?.dash;
-
-    this.$emit('set-dash', nextDash);
-    await Vue.nextTick();
-
-    if (nextDash) {
+      // wait before starting the next animation
       await wait(600);
+
+      this.$emit('set-dash', nextDash);
+      await Vue.nextTick();
+
+      if (nextDash) {
+        await wait(600);
+      }
     }
 
     this.mayShow = true;

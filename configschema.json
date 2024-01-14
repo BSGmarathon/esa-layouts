@@ -90,6 +90,10 @@
             }
           ],
           "default": false
+        },
+        "fallbackTwitchTitle": {
+          "$comment": "Set the fallback Twitch title for this event; {{total}} and {{run}} can be used as placeholders (see source code).",
+          "type": "string"
         }
       },
       "required": [
@@ -756,6 +760,19 @@
         "enabled",
         "apiUrl"
       ]
+    },
+    "therungg": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "required": [
+        "enabled"
+      ]
     }
   },
   "required": [
@@ -775,6 +792,7 @@
     "server",
     "discord",
     "streamlabsCharity",
-    "useOengusInsteadOfSrdc"
+    "useOengusInsteadOfSrdc",
+    "therungg"
   ]
 }

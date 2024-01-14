@@ -8,7 +8,7 @@ import {
   Countdown,
   CurrentRunDelay,
   DelayedTimer,
-  DonationReader,
+ DonationAlerts, DonationReader,
   DonationsToRead,
   DonationTotal,
   DonationTotalMilestones,
@@ -37,6 +37,7 @@ import { get as nodecg } from './nodecg';
  * This is where you can declare all your replicant to import easily into other files,
  * and to make sure they have any correct settings on startup.
  */
+export const assetsDonationAlertAssets = nodecg().Replicant<NodeCGTypes.AssetFile[]>('assets:donation-alert-assets') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<NodeCGTypes.AssetFile[]>;
 export const assetsIntermissionSlides = nodecg().Replicant<NodeCGTypes.AssetFile[]>('assets:intermission-slides') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<NodeCGTypes.AssetFile[]>;
 export const assetsMediaBoxImages = nodecg().Replicant<NodeCGTypes.AssetFile[]>('assets:media-box-images') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<NodeCGTypes.AssetFile[]>;
 export const assetsReaderIntroductionImages = nodecg().Replicant<NodeCGTypes.AssetFile[]>('assets:reader-introduction-images') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<NodeCGTypes.AssetFile[]>;
@@ -48,6 +49,7 @@ export const commentators = nodecg().Replicant<Commentators>('commentators') as 
 export const countdown = nodecg().Replicant<Countdown>('countdown') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<Countdown>;
 export const currentRunDelay = nodecg().Replicant<CurrentRunDelay>('currentRunDelay') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<CurrentRunDelay>;
 export const delayedTimer = nodecg().Replicant<DelayedTimer>('delayedTimer') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<DelayedTimer>;
+export const donationAlerts = nodecg().Replicant<DonationAlerts>('donationAlerts') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<DonationAlerts>;
 export const donationReader = nodecg().Replicant<DonationReader>('donationReader') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<DonationReader>;
 export const donationsToRead = nodecg().Replicant<DonationsToRead>('donationsToRead', { persistent: false }) as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<DonationsToRead>;
 export const donationTotal = nodecg().Replicant<DonationTotal>('donationTotal') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<DonationTotal>;

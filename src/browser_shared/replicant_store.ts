@@ -1,27 +1,5 @@
+import type { Bids, BigbuttonPlayerMap, LowerThird, Commentators, Countdown, CurrentRunDelay, DonationAlerts, DonationReader, DonationTotal, DonationTotalMilestones, DonationsToRead, GameLayouts, IntermissionSlides, ObsData, Omnibar, OtherStreamData, Prizes, ReaderIntroduction, ServerTimestamp, StreamDeckData, TtsVoices, UpcomingRunID, VideoPlayer } from '@esa-layouts/types/schemas';
 import type NodeCGTypes from '@nodecg/types';
-import type {
-  Bids,
-  BigbuttonPlayerMap,
-  Commentators,
-  Countdown,
-  CurrentRunDelay,
-  DonationReader,
-  DonationsToRead,
-  DonationTotal,
-  DonationTotalMilestones,
-  GameLayouts, IntermissionSlides,
-  LowerThird,
-  ObsData,
-  Omnibar,
-  OtherStreamData,
-  Prizes,
-  ReaderIntroduction,
-  ServerTimestamp,
-  StreamDeckData,
-  TtsVoices,
-  UpcomingRunID,
-  VideoPlayer,
-} from '@esa-layouts/types/schemas';
 import clone from 'clone';
 import { SpeedcontrolUtilBrowser } from 'speedcontrol-util';
 import { RunDataActiveRun, RunDataArray, Timer } from 'speedcontrol-util/types';
@@ -29,18 +7,21 @@ import { RunDataActiveRunSurrounding } from 'speedcontrol-util/types/schemas';
 import Vue from 'vue';
 import type { Store } from 'vuex';
 import { namespace } from 'vuex-class';
-import { getModule, Module, Mutation, VuexModule } from 'vuex-module-decorators';
+import { Module, Mutation, VuexModule, getModule } from 'vuex-module-decorators';
 
 const sc = new SpeedcontrolUtilBrowser(nodecg);
 
 // Declaring replicants.
 export const reps: {
+  assetsDonationAlertAssets: NodeCGTypes.ClientReplicant<NodeCGTypes.AssetFile[]>;
+  assetsIntermissionSlides: NodeCGTypes.ClientReplicant<NodeCGTypes.AssetFile[]>;
   assetsReaderIntroductionImages: NodeCGTypes.ClientReplicant<NodeCGTypes.AssetFile[]>;
   bids: NodeCGTypes.ClientReplicant<Bids>;
   bigbuttonPlayerMap: NodeCGTypes.ClientReplicant<BigbuttonPlayerMap>;
   commentators: NodeCGTypes.ClientReplicant<Commentators>;
   countdown: NodeCGTypes.ClientReplicant<Countdown>;
   currentRunDelay: NodeCGTypes.ClientReplicant<CurrentRunDelay>;
+  donationAlerts: NodeCGTypes.ClientReplicant<DonationAlerts>;
   donationReader: NodeCGTypes.ClientReplicant<DonationReader>;
   donationsToRead: NodeCGTypes.ClientReplicant<DonationsToRead>;
   donationTotal: NodeCGTypes.ClientReplicant<DonationTotal>;
@@ -64,6 +45,7 @@ export const reps: {
   videoPlayer: NodeCGTypes.ClientReplicant<VideoPlayer>;
   [k: string]: NodeCGTypes.ClientReplicant<unknown>;
 } = {
+  assetsDonationAlertAssets: nodecg.Replicant('assets:donation-alert-assets'),
   assetsIntermissionSlides: nodecg.Replicant('assets:intermission-slides'),
   assetsReaderIntroductionImages: nodecg.Replicant('assets:reader-introduction-images'),
   bids: nodecg.Replicant('bids'),
@@ -71,6 +53,7 @@ export const reps: {
   commentators: nodecg.Replicant('commentators'),
   countdown: nodecg.Replicant('countdown'),
   currentRunDelay: nodecg.Replicant('currentRunDelay'),
+  donationAlerts: nodecg.Replicant('donationAlerts'),
   donationReader: nodecg.Replicant('donationReader'),
   donationsToRead: nodecg.Replicant('donationsToRead'),
   donationTotal: nodecg.Replicant('donationTotal'),
@@ -96,6 +79,7 @@ export const reps: {
 
 // All the replicant types.
 export interface ReplicantTypes {
+  assetsDonationAlertAssets: NodeCGTypes.AssetFile[];
   assetsIntermissionSlides: NodeCGTypes.AssetFile[];
   assetsReaderIntroductionImages: NodeCGTypes.AssetFile[];
   bids: Bids;
@@ -103,6 +87,7 @@ export interface ReplicantTypes {
   commentators: Commentators;
   countdown: Countdown;
   currentRunDelay: CurrentRunDelay;
+  donationAlerts: DonationAlerts;
   donationReader: DonationReader;
   donationsToRead: DonationsToRead;
   donationTotal: DonationTotal;

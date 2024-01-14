@@ -91,3 +91,11 @@ export function replaceLast(input: string, find: string, replace: string): strin
 
   return input.substring(0, index) + replace + input.substring(index + 1, input.length);
 }
+
+export function areObjectsEqual(a: object | undefined, b: object | undefined): boolean {
+  if (a && b) {
+    return JSON.stringify(a) === JSON.stringify(b);
+  }
+
+  return false;
+}
