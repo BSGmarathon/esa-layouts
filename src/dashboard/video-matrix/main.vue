@@ -69,23 +69,25 @@ export default class extends Vue {
   }
 
   computeGameCaptures(): string[] {
-    const captures = this.obsConfig.names.groups.gameCaptures;
+    const gameCaptures = Array.isArray(this.obsConfig.names.groups.gameCaptures)
+      ? this.obsConfig.names.groups.gameCaptures
+      : [this.obsConfig.names.groups.gameCaptures];
+    const cameraCaptures = Array.isArray(this.obsConfig.names.groups.cameraCaptures)
+      ? this.obsConfig.names.groups.cameraCaptures
+      : [this.obsConfig.names.groups.cameraCaptures];
 
-    if (Array.isArray(captures)) {
-      return captures;
-    }
-
-    return [captures];
+    return gameCaptures.concat(cameraCaptures);
   }
 
   get gameSources(): string[] {
-    const sources = this.obsConfig.names.sources.gameSources;
+    const gameSources = Array.isArray(this.obsConfig.names.sources.gameSources)
+      ? this.obsConfig.names.sources.gameSources
+      : [this.obsConfig.names.sources.gameSources];
+    const cameraSources = Array.isArray(this.obsConfig.names.sources.cameraSources)
+      ? this.obsConfig.names.sources.cameraSources
+      : [this.obsConfig.names.sources.cameraSources];
 
-    if (Array.isArray(sources)) {
-      return sources;
-    }
-
-    return [sources];
+    return gameSources.concat(cameraSources);
   }
 
   get selectedCapturesComputed(): number[] {

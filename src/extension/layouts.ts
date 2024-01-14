@@ -71,8 +71,6 @@ const selected = {
   captureIndex: -1,
   sourceIndex: Array(gameCaptures.length + cameraCaptures.length).fill(-1),
   gameCrop: -1,
-  // TODO: remove this
-  gameSource: Array(gameCaptures.length).fill(-1),
 };
 let idleTimeout = true;
 
@@ -194,6 +192,11 @@ capturePositions.on('change', async (val) => {
   // Don't run this code at all if only on "partial" online support
   // or there's no game-layout values.
   if (config.event.online === 'partial' || !val['game-layout']) return;
+
+  // [BSG] We don't use this for online events
+  if (config.event.online) {
+    return;
+  }
 
   // Loops through all possible sources to move and does the work.
   // areaName: CSS ID (e.g. "GameCapture1")
@@ -354,12 +357,12 @@ obs.conn.on('AuthenticationSuccess', async () => {
   }
 
   // Emit event indicating the current status to the component
-  nodecg().sendMessage('gameSourceVisibilityUpdated', selected.gameSource);
+  nodecg().sendMessage('gameSourceVisibilityUpdated', selected.sourceIndex);
 });
 
 nodecg().listenFor('getGameSourceVisibility', async (val: string | null | undefined, ack) => {
   if (ack && !ack.handled) {
-    ack(null, selected.gameSource);
+    ack(null, selected.sourceIndex);
   }
 });
 
@@ -480,7 +483,7 @@ nodecg().listenFor('setSelectedCaptures', async (data: { [key: string]: string }
   await Promise.all(
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore: Typings say we need to specify more than we actually do.
-    gameSources.map((name) => obs.conn.send('SetSceneItemProperties', {
+    allSources.map(({ name, type }) => obs.conn.send('SetSceneItemProperties', {
       'scene-name': sceneName,
       item: { name },
       visible: name === sourceName,

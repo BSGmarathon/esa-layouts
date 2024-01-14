@@ -1,5 +1,5 @@
 import clone from 'clone';
-import sharp from 'sharp';
+// import sharp from 'sharp';
 import { startPlaylist } from './intermission-player';
 import * as mqLogging from './util/mq-logging';
 import { get as nodecg } from './util/nodecg';
@@ -76,6 +76,8 @@ async function startIntermission(): Promise<void> {
 
 let gameLayoutScreenshotInterval: NodeJS.Timeout;
 async function takeGameLayoutScreenshot(): Promise<void> {
+  // TODO: find a way to fix this
+  /*
   try {
     const gameLayoutScreenshot = await obs.conn.send('TakeSourceScreenshot', {
       sourceName: config.names.scenes.gameLayout,
@@ -88,6 +90,7 @@ async function takeGameLayoutScreenshot(): Promise<void> {
   } catch (err) {
     nodecg().log.debug('[OBS Data] Cannot take screenshot of game layout:', err);
   }
+  */
 }
 
 obs.on('connectionStatusChanged', (connected) => {
