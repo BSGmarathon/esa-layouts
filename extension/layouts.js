@@ -67,8 +67,6 @@ const selected = {
     captureIndex: -1,
     sourceIndex: Array(gameCaptures.length + cameraCaptures.length).fill(-1),
     gameCrop: -1,
-    // TODO: remove this
-    gameSource: Array(gameCaptures.length).fill(-1),
 };
 let idleTimeout = true;
 // Controls the name cycling ticks for user information.
@@ -186,6 +184,10 @@ replicants_1.capturePositions.on('change', async (val) => {
     // or there's no game-layout values.
     if (config.event.online === 'partial' || !val['game-layout'])
         return;
+    // [BSG] We don't use this for online events
+    if (config.event.online) {
+        return;
+    }
     // Loops through all possible sources to move and does the work.
     // areaName: CSS ID (e.g. "GameCapture1")
     // groupSourceName: name of group source in OBS (e.g. "Game Capture 1")
@@ -336,11 +338,11 @@ obs_1.default.conn.on('AuthenticationSuccess', async () => {
         }
     }
     // Emit event indicating the current status to the component
-    (0, nodecg_1.get)().sendMessage('gameSourceVisibilityUpdated', selected.gameSource);
+    (0, nodecg_1.get)().sendMessage('gameSourceVisibilityUpdated', selected.sourceIndex);
 });
 (0, nodecg_1.get)().listenFor('getGameSourceVisibility', async (val, ack) => {
     if (ack && !ack.handled) {
-        ack(null, selected.gameSource);
+        ack(null, selected.sourceIndex);
     }
 });
 function rtmpFromIndex(index) {
@@ -441,7 +443,7 @@ function rtmpFromIndex(index) {
     await Promise.all(
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore: Typings say we need to specify more than we actually do.
-    gameSources.map((name) => obs_1.default.conn.send('SetSceneItemProperties', {
+    allSources.map(({ name, type }) => obs_1.default.conn.send('SetSceneItemProperties', {
         'scene-name': sceneName,
         item: { name },
         visible: name === sourceName,
