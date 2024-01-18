@@ -106,32 +106,40 @@
 }
 
 
-.fade-enter-active[data-v-5ae8d9b1], .fade-leave-active[data-v-5ae8d9b1] {
-  transition: opacity 0.5s;
+.fade-enter-active[data-v-8a83a640], .fade-leave-active[data-v-8a83a640] {
+  transition: opacity 1s;
 }
-.fade-enter[data-v-5ae8d9b1], .fade-leave-to[data-v-5ae8d9b1] {
+.fade-enter[data-v-8a83a640], .fade-leave-to[data-v-8a83a640] {
   opacity: 0;
 }
+.TeamFinishTime[data-v-8a83a640] {
+  height: 40px;
+}
+.itemContainer[data-v-8a83a640] {
+  align-content: space-between;
+  justify-content: space-between;
+  width: 100%;
+}
 
 
-.Icon[data-v-21463709] {
+.Icon[data-v-a2895aa4] {
   height: 100%;
   position: absolute;
 }
-.TextWrapper[data-v-21463709] {
+.TextWrapper[data-v-a2895aa4] {
   width: auto;
   height: 100%;
   position: absolute;
 }
-.PlayerAudioLive[data-v-21463709] {
+.PlayerAudioLive[data-v-a2895aa4] {
   position: absolute;
   left: 460px;
   /*margin-right: 10px;*/
 }
-.fade-enter-active[data-v-21463709], .fade-leave-active[data-v-21463709] {
+.fade-enter-active[data-v-a2895aa4], .fade-leave-active[data-v-a2895aa4] {
   transition: opacity 1s;
 }
-.fade-enter[data-v-21463709], .fade-leave-to[data-v-21463709] {
+.fade-enter[data-v-a2895aa4], .fade-leave-to[data-v-a2895aa4] {
   opacity: 0;
 }
 

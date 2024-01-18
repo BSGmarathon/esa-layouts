@@ -21,8 +21,7 @@ var osc_1 = __importDefault(require("osc"));
 var tiny_typed_emitter_1 = require("tiny-typed-emitter");
 var X32 = /** @class */ (function (_super) {
     __extends(X32, _super);
-    function X32(nodecg, config, forwardMessages) {
-        if (forwardMessages === void 0) { forwardMessages = false; }
+    function X32(nodecg, config) {
         var _this = _super.call(this) || this;
         _this.ready = false;
         _this.faders = {};
@@ -44,20 +43,10 @@ var X32 = /** @class */ (function (_super) {
                 nodecg.log.debug('[X32] Error on connection:', err);
                 _this.emit('error', err);
             });
-            // Because the mixer sends a lot of messages to us,
-            //  we only check if we need to forward the messages once.
-            // For performance sake we only register one message listener
-            if (forwardMessages) {
-                _this.conn.on('message', function (message) {
-                    _this.handleFaderEvent(message);
-                    _this.emit('message', message);
-                });
-            }
-            else {
-                _this.conn.on('message', function (message) {
-                    _this.handleFaderEvent(message);
-                });
-            }
+            _this.conn.on('message', function (message) {
+                _this.handleFaderEvent(message);
+                _this.emit('message', message);
+            });
             _this.conn.on('close', function () {
                 nodecg.log.info('[X32] Connection closed');
                 _this.ready = false;
@@ -86,7 +75,7 @@ var X32 = /** @class */ (function (_super) {
     /**
      * Just set a specific fader to the supplied value.
      * @param name Full name of fader (example: /dca/1/fader).
-     * @param startValue Value to set (0.0 - 1.0).
+     * @param value Value to set (0.0 - 1.0).
      */
     X32.prototype.setFader = function (name, value) {
         if (!this.config.enabled || !this.conn) {

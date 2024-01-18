@@ -6,7 +6,6 @@ interface X32Events {
     error: (error: Error) => void;
     ready: () => void;
     /**
-     * This event is only sent when "forwardMessages" is set to true in the constructor
      * @param message OSC message received from the mixer
      */
     message: (message: OscMessage) => void;
@@ -27,11 +26,11 @@ declare class X32 extends TypedEmitter<X32Events> {
         };
     };
     private fadersInterval;
-    constructor(nodecg: NodeCGTypes.ServerAPI, config: X32Types.Config, forwardMessages?: boolean);
+    constructor(nodecg: NodeCGTypes.ServerAPI, config: X32Types.Config);
     /**
      * Just set a specific fader to the supplied value.
      * @param name Full name of fader (example: /dca/1/fader).
-     * @param startValue Value to set (0.0 - 1.0).
+     * @param value Value to set (0.0 - 1.0).
      */
     setFader(name: string, value: number): void;
     /**
