@@ -5,7 +5,7 @@
       id="GameCapture1"
       class="BlockRed"
       :slot-no="0"
-      finish-time-pos="topleft"
+      finish-time-pos="bottomleft"
       :style="{
         left: '0px',
         top: '0px',

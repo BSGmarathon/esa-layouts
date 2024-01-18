@@ -16,7 +16,6 @@
       id="GameCapture3"
       :slot-no="0"
       class=" BlockRed"
-      finish-time-pos="bottomright"
       :style="{
         left: '65px',
         top: '601px',
@@ -26,7 +25,8 @@
     />
     <game-capture
       id="GameCapture2"
-      class="  BlockRed"
+      class="BlockRed"
+      finish-time-pos="bottomright"
       :slot-no="1"
       :style="{
         left: '1259px',

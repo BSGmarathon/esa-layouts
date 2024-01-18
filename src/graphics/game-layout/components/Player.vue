@@ -26,11 +26,6 @@
       }"
     >
       <transition name="fade">
-        <div key="audioLive"
-             class="PlayerAudioLive Icon NormalIcon"
-             style="width: 36px; height: 36px;" v-if="showSpeakerIcon" />
-      </transition>
-      <transition name="fade">
         <img
           v-if="nameCycle === 1 && player.social.twitch"
           key="twitch"
@@ -179,8 +174,7 @@
 </template>
 
 <script lang="ts">
-import { ChannelDataReplicant as ChanData } from '@esa-layouts/types/replicant-types';
-import { GameLayouts, NameCycle } from '@esa-layouts/types/schemas';
+import { NameCycle } from '@esa-layouts/types/schemas';
 import fitty, { FittyInstance } from 'fitty';
 import { RunDataActiveRun, RunDataPlayer, RunDataTeam } from 'speedcontrol-util/types';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'; // eslint-disable-line object-curly-newline, max-len
@@ -189,9 +183,7 @@ import { State } from 'vuex-class';
 @Component
 export default class extends Vue {
   @State('runDataActiveRun') runData!: RunDataActiveRun;
-  @State('gameLayouts') gameLayouts!: GameLayouts;
   @State('nameCycle') nameCycleServer!: NameCycle;
-  @State('x32GameAudio') x32GameAudio!: ChanData[];
   @State coop!: boolean;
   @Prop(Number) slotNo!: number;
   team: RunDataTeam | null = null;
@@ -199,7 +191,6 @@ export default class extends Vue {
   playerIndex = 0;
   nameCycle = 0; // "Local" name cycle used so we can let flags load.
   fittyPlayer: FittyInstance | undefined;
-  showSpeakerIcon = false;
 
   get pronouns(): string | undefined {
     return this.player?.pronouns;
@@ -257,10 +248,7 @@ export default class extends Vue {
 
   created(): void {
     this.updateTeam();
-    this.updatePlayer().then(() => {
-      // initial setting of the icon
-      this.onX32GameAudioChange(this.x32GameAudio);
-    });
+    this.updatePlayer();
   }
 
   mounted(): void {
@@ -271,30 +259,6 @@ export default class extends Vue {
     if (this.fittyPlayer) {
       this.fittyPlayer.unsubscribe();
     }
-  }
-
-  @Watch('x32GameAudio')
-  onX32GameAudioChange(newVal: ChanData[]): void {
-    if (this.gameLayouts!.selected!.endsWith('1p')) {
-      this.showSpeakerIcon = false;
-      return;
-    }
-
-    let chosenSlot = this.slotNo || 0;
-
-    if (this.player && this.player.customData.audioChannelOverride) {
-      let overrideChannel = parseInt(this.player.customData.audioChannelOverride, 10);
-
-      if (overrideChannel > 0) {
-        overrideChannel -= 1;
-      }
-
-      chosenSlot = Math.max(0, Math.min(3, overrideChannel));
-    }
-
-    const mixerConfig = newVal[chosenSlot];
-
-    this.showSpeakerIcon = !mixerConfig.muted && mixerConfig.faderUp;
   }
 
   @Watch('runData')
@@ -309,7 +273,6 @@ export default class extends Vue {
     this.updatePlayer();
     await Vue.nextTick();
     this.fit();
-    this.onX32GameAudioChange(this.x32GameAudio);
   }
 
   @Watch('nameCycleServer')
