@@ -27,7 +27,7 @@
       <span :style="{ 'font-size': '120px' }">
         No More Runs
         <img
-          src="./esaOhNo.png"
+          src="./notlikethis_112.png"
           :style="{ height: '1em' }"
         >
       </span>
