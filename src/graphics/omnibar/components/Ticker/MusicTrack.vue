@@ -2,7 +2,7 @@
   <div
     class="Flex"
     :style="{
-      'font-size': lines < 2 ? '33px' : '29px',
+      'font-size': '33px',
       'white-space': 'nowrap',
       'font-weight': 500,
       'text-align': 'center',
@@ -33,10 +33,6 @@ export default class extends Vue {
       this.musicData?.track?.artist,
     ].filter(Boolean);
     return info.length ? info.join(' - ') : undefined;
-  }
-
-  get lines(): number {
-    return 4;
   }
 
   async created(): Promise<void> {
