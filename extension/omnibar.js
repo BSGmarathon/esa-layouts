@@ -233,6 +233,22 @@ async function showNext() {
         else {
             replicants_1.omnibar.value.current = (0, clone_1.default)(next);
         }
+        // TODO: do I want a dash on this?
+        /*
+        else if (next.type === 'MusicTrack') {
+          omnibar.value.current = {
+            ...next,
+            props: {
+              ...next.props,
+              dash: {
+                text: 'Now playing',
+                fontSize: 22,
+                top: 27,
+              },
+            },
+          };
+        }
+        */
         loopsWithoutResult = 0;
         (0, nodecg_1.get)().log.debug('[Omnibar] Will now show message of type:', next.type);
     }

@@ -98,7 +98,7 @@
   border-radius: 15px;
 }
 
-#Ticker[data-v-7b1ccd64]{height:100%;min-width:0;flex:1;padding-top:2px;margin-left:12px;align-items:center;font-family:"Goodlight"}.ticker-leave-active[data-v-7b1ccd64]{animation:fadeOutUp;animation-duration:500ms;animation-timing-function:ease-in-out}.ticker-enter-active[data-v-7b1ccd64]{animation:fadeInUp;animation-duration:500ms;animation-timing-function:ease-in-out}.ticker-enter[data-v-7b1ccd64],.ticker-leave-to[data-v-7b1ccd64]{opacity:0}
+#Ticker[data-v-698ad964]{height:100%;min-width:0;flex:1;padding-top:2px;margin-left:12px;align-items:center;font-family:"Goodlight"}.ticker-leave-active[data-v-698ad964]{animation:fadeOutUp;animation-duration:500ms;animation-timing-function:ease-in-out}.ticker-enter-active[data-v-698ad964]{animation:fadeInUp;animation-duration:500ms;animation-timing-function:ease-in-out}.ticker-enter[data-v-698ad964],.ticker-leave-to[data-v-698ad964]{opacity:0}
 
 .Clock[data-v-514c8462] {
   flex-shrink: 3;
