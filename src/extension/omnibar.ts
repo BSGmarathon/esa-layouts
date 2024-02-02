@@ -223,6 +223,23 @@ async function showNext(): Promise<void> {
     } else {
       omnibar.value.current = clone(next);
     }
+    // TODO: do I want a dash on this?
+    /*
+    else if (next.type === 'MusicTrack') {
+      omnibar.value.current = {
+        ...next,
+        props: {
+          ...next.props,
+          dash: {
+            text: 'Now playing',
+            fontSize: 22,
+            top: 27,
+          },
+        },
+      };
+    }
+    */
+
     loopsWithoutResult = 0;
     nodecg().log.debug('[Omnibar] Will now show message of type:', next.type);
   }

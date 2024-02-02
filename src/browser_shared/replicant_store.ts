@@ -1,4 +1,4 @@
-import type { Bids, BigbuttonPlayerMap, LowerThird, Commentators, Countdown, CurrentRunDelay, DonationAlerts, DonationReader, DonationTotal, DonationTotalMilestones, DonationsToRead, GameLayouts, IntermissionSlides, ObsData, Omnibar, OtherStreamData, Prizes, ReaderIntroduction, ServerTimestamp, StreamDeckData, TtsVoices, UpcomingRunID, VideoPlayer } from '@esa-layouts/types/schemas';
+import type { Bids, BigbuttonPlayerMap, LowerThird, Commentators, Countdown, CurrentRunDelay, DonationAlerts, DonationReader, DonationTotal, DonationTotalMilestones, DonationsToRead, GameLayouts, IntermissionSlides, ObsData, Omnibar, OtherStreamData, Prizes, ReaderIntroduction, MusicData, ServerTimestamp, StreamDeckData, TtsVoices, UpcomingRunID, VideoPlayer } from '@esa-layouts/types/schemas';
 import type NodeCGTypes from '@nodecg/types';
 import clone from 'clone';
 import { SpeedcontrolUtilBrowser } from 'speedcontrol-util';
@@ -29,6 +29,7 @@ export const reps: {
   gameLayouts: NodeCGTypes.ClientReplicant<GameLayouts>;
   intermissionSlides: NodeCGTypes.ClientReplicant<IntermissionSlides>;
   lowerThird: NodeCGTypes.ClientReplicant<LowerThird>;
+  musicData: NodeCGTypes.ClientReplicant<MusicData>;
   obsData: NodeCGTypes.ClientReplicant<ObsData>;
   omnibar: NodeCGTypes.ClientReplicant<Omnibar>;
   otherStreamData: NodeCGTypes.ClientReplicant<OtherStreamData>;
@@ -62,6 +63,7 @@ export const reps: {
   intermissionSlides: nodecg.Replicant('intermissionSlides'),
   obsData: nodecg.Replicant('obsData'),
   lowerThird: nodecg.Replicant('lowerThird'),
+  musicData: nodecg.Replicant('musicData'),
   omnibar: nodecg.Replicant('omnibar'),
   otherStreamData: nodecg.Replicant('otherStreamData'),
   prizes: nodecg.Replicant('prizes'),
@@ -95,6 +97,7 @@ export interface ReplicantTypes {
   gameLayouts: GameLayouts;
   intermissionSlides: IntermissionSlides;
   lowerThird: LowerThird;
+  musicData: MusicData;
   obsData: ObsData;
   omnibar: Omnibar;
   otherStreamData: OtherStreamData;
