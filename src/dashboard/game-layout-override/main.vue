@@ -7,14 +7,13 @@
       "Game Layout" graphic must be open.
     </div>
     <template v-else>
-      <!--<v-switch
-        v-if="!online"
-        v-model="crowdCamera"
+      <v-switch
+        v-model="flashingLightsWarning"
         class="mx-3 mt-1 mb-2 pa-0"
         inset
         hide-details
-        label="Crowd Camera"
-      />-->
+        label="Flashing Lights Warning"
+      />
       <div
         id="LayoutList"
         :style="{
@@ -47,18 +46,28 @@
 import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
 import { GameLayouts } from '@esa-layouts/types/schemas';
 import { Component, Vue, Watch } from 'vue-property-decorator';
+import { RunDataActiveRun } from 'speedcontrol-util/types';
 import { storeModule } from './store';
 
 @Component
 export default class extends Vue {
   @replicantNS.State((s) => s.reps.gameLayouts) readonly gameLayouts!: GameLayouts;
-  online = nodecg.bundleConfig.event.online;
+  @replicantNS.State((s) => s.reps.runDataActiveRun) readonly runDataActiveRun: RunDataActiveRun;
+  flashingLightsLocalState = false;
 
   get selected(): GameLayouts['selected'] {
     return this.gameLayouts.selected;
   }
   set selected(val: string | undefined) {
     storeModule.updateSelected(val);
+  }
+
+  get flashingLightsWarning(): boolean {
+    return this.flashingLightsLocalState;
+  }
+
+  set flashingLightsWarning(val: boolean) {
+    nodecg.sendMessage('updateFlashingLightsWarning', val);
   }
 
   get crowdCamera(): GameLayouts['crowdCamera'] {
@@ -87,6 +96,11 @@ export default class extends Vue {
     if (this.gameLayouts.available.length) {
       this.scrollToSelectedLayout();
     }
+  }
+
+  @Watch('runDataActiveRun', { immediate: true, deep: true })
+  async onCurrentRunChange(newVal: RunDataActiveRun) {
+    this.flashingLightsLocalState = newVal?.customData?.flashingLights === 'true';
   }
 
   mounted(): void {

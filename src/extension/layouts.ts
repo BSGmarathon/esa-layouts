@@ -47,11 +47,12 @@ const obsSourceKeys: { [key: string]: string | undefined } = {
 
 // Hardcoded (for now) sets of keys to use for groups/sources/etc for XKeys panel.
 // slice removes any that won't be applicable because of the current configuration.
-const gameCaptureKeys = [1, 2, 3, 4].slice(0, gameCaptures.length);
-const cameraCaptureKeys = [5, 6, 7, 8].slice(0, cameraCaptures.length);
+const gameCaptureKeys = [1, 2, 3, 4].slice(0, Math.min(gameCaptures.length, 4));
+const cameraCaptureKeys = [5, 6, 7, 8].slice(0, Math.min(cameraCaptures.length, 4));
 const allCaptureKeys = gameCaptureKeys.concat(cameraCaptureKeys);
-const gameSourceKeys = [9, 10, 11, 12].slice(0, gameSources.length);
-const cameraSourceKeys = [13, 14, 15, 16, 21].slice(0, cameraSources.length);
+const gameSourceKeys = [9, 10, 11, 12, 17, 18, 19, 20].slice(0, Math.min(gameSources.length, 8));
+const cameraSourceKeys = [13, 14, 15, 16, 21, 22, 23, 24]
+  .slice(0, Math.min(cameraSources.length, 8));
 const allSourceKeys = gameSourceKeys.concat(cameraSourceKeys);
 const gameCropKeys = [70, 79, 72, 63]; // order: top, right, bottom, left
 const gameCropResetKeys = { selected: 78, all: 62 };
@@ -99,8 +100,12 @@ sc.runDataActiveRun.on('change', (newVal, oldVal) => {
   if (newVal && layoutInit) {
     // If there's no old run or we changed to a different run, try to automatically set the layout.
     if (!oldVal || newVal.id !== oldVal.id) {
-      const layout = gameLayouts.value.available
-        .find((l) => l.code.toLowerCase() === newVal.customData.layout?.toLowerCase());
+      // Overwrite code with new ESAW24 layout if 1 player.
+      let code = (newVal.customData.layout as string | undefined)?.toLowerCase();
+      if (code?.endsWith('-1p') && !code.startsWith('ds') && !code.startsWith('3ds')) {
+        code = `esaw24-${code}`;
+      }
+      const layout = gameLayouts.value.available.find((l) => l.code.toLowerCase() === code);
       gameLayouts.value.selected = layout?.code;
       if (newVal.customData.layout && !layout) {
         nodecg().log.warn(
@@ -358,6 +363,26 @@ obs.conn.on('AuthenticationSuccess', async () => {
 
   // Emit event indicating the current status to the component
   nodecg().sendMessage('gameSourceVisibilityUpdated', selected.sourceIndex);
+});
+
+nodecg().listenFor('updateFlashingLightsWarning', async (val: boolean, ack) => {
+  const currRun = sc.getCurrentRun();
+
+  if (currRun) {
+    await sc.sendMessage('modifyRun', {
+      runData: {
+        ...currRun,
+        customData: {
+          ...currRun.customData,
+          flashingLights: String(val),
+        },
+      },
+    });
+  }
+
+  if (ack && !ack.handled) {
+    ack(null);
+  }
 });
 
 nodecg().listenFor('getGameSourceVisibility', async (val: string | null | undefined, ack) => {

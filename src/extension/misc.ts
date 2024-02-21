@@ -1,6 +1,7 @@
 import AudioNormaliser from '@shared/extension/audio-normaliser';
 import type { OengusUser, RunData } from 'speedcontrol-util/types';
 import needle from 'needle';
+import { CommentatorsNew, DonationReaderNew } from '@esa-layouts/types/schemas';
 import { lookupUsersByStr } from './server';
 import { formatSrcomPronouns, formatUSD, getOtherStreamEventShort, logError } from './util/helpers';
 import * as mqLogging from './util/mq-logging';
@@ -10,8 +11,10 @@ import { mq } from './util/rabbitmq';
 import {
   bigbuttonPlayerMap,
   commentators,
+  commentatorsNew,
   lowerThird,
   donationReader,
+  donationReaderNew,
   donationTotal,
   horaroImportStatus,
   oengusImportStatus,
@@ -112,9 +115,42 @@ nodecg().listenFor('forceUpcomingRun', (id?: string) => {
   upcomingRunID.value = run?.id || null;
 });
 
+function processNameWithPronouns(val: string): DonationReaderNew {
+  // User not found, process string as NAME or NAME (PRONOUNS).
+  return {
+    name: val.replace(/\((.*?)\)/g, '').trim(),
+    pronouns: (val.match(/\((.*?)\)/g) || [])[0]?.replace(/[()]/g, ''),
+    country: undefined,
+  };
+}
+
+function objToSimpleDisplay(input: DonationReaderNew | CommentatorsNew): string {
+  if (!input) {
+    return '';
+  }
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  let selected: DonationReaderNew = input;
+
+  if ('length' in input) {
+    selected = input[0] as DonationReaderNew;
+  }
+
+  if (!selected) {
+    return '';
+  }
+
+  if (selected.pronouns) {
+    return `${selected.name} (${selected.pronouns})`;
+  }
+
+  return selected.name;
+}
+
 // Helper function to get pronouns of a specified user name from speedrun.com
 // eslint-disable-next-line import/prefer-default-export
-export async function searchSrcomPronouns(val: string): Promise<string> {
+export async function searchSrcomPronouns(val: string): Promise<DonationReaderNew> {
   const name = val.replace(/\((.*?)\)/g, '').trim();
   let pronouns = (val.match(/\((.*?)\)/g) || [])[0]?.replace(/[()]/g, '');
   if (!pronouns) {
@@ -126,11 +162,11 @@ export async function searchSrcomPronouns(val: string): Promise<string> {
   }
   // Allows the user to specify "(none)" and bypass a look-up.
   if (pronouns.toLowerCase().includes('none')) pronouns = '';
-  return pronouns ? `${name} (${pronouns})` : name;
+  return processNameWithPronouns(pronouns ? `${name} (${pronouns})` : name);
 }
 
-export async function searchOengusPronouns(val: string): Promise<string> {
-  let user: OengusUser | undefined;
+export async function searchOengusPronouns(val: string): Promise<DonationReaderNew> {
+  let user: OengusUser & { displayName: string } | undefined;
 
   try {
     const resp = await needle(
@@ -146,6 +182,8 @@ export async function searchOengusPronouns(val: string): Promise<string> {
     const foundUsers = resp.body as OengusUser[];
 
     if (foundUsers.length) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore display name is not in types
       [user] = foundUsers;
     }
   } catch (err) {
@@ -153,19 +191,21 @@ export async function searchOengusPronouns(val: string): Promise<string> {
   }
 
   if (!user) {
-    return val;
+    return processNameWithPronouns(val);
   }
 
   const pronouns = typeof user.pronouns === 'string'
     ? user.pronouns.split(',')[0]
     : user.pronouns?.[0];
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore (display name is not in types yet)
-  return pronouns ? `${user.displayName} (${pronouns})` : user.displayName;
+  return {
+    name: user.displayName || user.username,
+    pronouns: pronouns || undefined,
+    country: user.country || undefined,
+  };
 }
 
-async function searchPronounsOnEsByStr(val: string): Promise<string> {
+async function searchPronounsOnEsByStr(val: string): Promise<DonationReaderNew> {
   let user;
   const foundUsers = await lookupUsersByStr(val);
 
@@ -174,32 +214,59 @@ async function searchPronounsOnEsByStr(val: string): Promise<string> {
   }
 
   if (!user) {
-    return val;
+    return processNameWithPronouns(val);
   }
 
-  return user.pronouns ? `${user.username} (${
-    user.pronouns.split(',')[0]
-  })` : user.username;
+  let { country } = user;
+  if (country && country.includes('-')) country = country.replace('-', '/');
+
+  return {
+    name: user.name,
+    country: user.country || undefined,
+    pronouns: user.pronouns || undefined,
+  };
 }
 
-async function searchName(val: string, currentVal: string[]): Promise<void> {
+async function searchName(val: string, currentVal: CommentatorsNew): Promise<void> {
   if (config.server.enabled) {
-    const str = await searchPronounsOnEsByStr(val);
+    const str = await searchPronounsOnEsByStr(val) as CommentatorsNew[0];
 
     if (!currentVal.includes(str)) {
       currentVal.push(str);
     }
   } else if (config.useOengusInsteadOfSrdc) {
-    const str = await searchOengusPronouns(val);
+    const str = await searchOengusPronouns(val) as CommentatorsNew[0];
 
     if (!currentVal.includes(str)) {
       currentVal.push(str);
     }
   } else {
-    const str = await searchSrcomPronouns(val);
+    const str = await searchSrcomPronouns(val) as CommentatorsNew[0];
 
     if (!currentVal.includes(str)) {
       currentVal.push(str);
+    }
+  }
+}
+
+async function searchNameOld(val: string, currentVal: string[]): Promise<void> {
+  if (config.server.enabled) {
+    const res = await searchPronounsOnEsByStr(val);
+
+    if (res && !currentVal.includes(res.name)) {
+      currentVal.push(res.name);
+    }
+  } else if (config.useOengusInsteadOfSrdc) {
+    const res = await searchOengusPronouns(val);
+
+    if (res && !currentVal.includes(res.name)) {
+      currentVal.push(res.name);
+    }
+  } else {
+    const res = await searchSrcomPronouns(val);
+
+    if (res && !currentVal.includes(res.name)) {
+      currentVal.push(res.name);
     }
   }
 }
@@ -207,7 +274,8 @@ async function searchName(val: string, currentVal: string[]): Promise<void> {
 // Processes adding commentators from the dashboard panel.
 nodecg().listenFor('commentatorAdd', async (val: string | null | undefined, ack) => {
   if (val) {
-    await searchName(val, commentators.value);
+    await searchName(val, commentatorsNew.value);
+    await searchNameOld(val, commentators.value);
   }
 
   if (ack && !ack.handled) {
@@ -226,6 +294,7 @@ nodecg().listenFor('lower-third:add-name', (val: string | null | undefined, ack)
 });
 
 nodecg().listenFor('commentatorRemove', (val: number, ack) => {
+  commentatorsNew.value.splice(val, 1);
   commentators.value.splice(val, 1);
   if (ack && !ack.handled) {
     ack(null);
@@ -235,12 +304,18 @@ nodecg().listenFor('commentatorRemove', (val: number, ack) => {
 // Processes modifying the reader from the dasboard panel.
 nodecg().listenFor('readerModify', async (val: string | null | undefined, ack) => {
   if (!val) {
+    donationReaderNew.value = null;
     donationReader.value = null;
   } else if (config.useOengusInsteadOfSrdc) {
-    donationReader.value = await searchOengusPronouns(val);
+    donationReaderNew.value = await searchOengusPronouns(val);
   } else {
-    donationReader.value = await searchSrcomPronouns(val);
+    donationReaderNew.value = await searchSrcomPronouns(val);
   }
+
+  if (donationReaderNew.value) {
+    donationReader.value = objToSimpleDisplay(donationReaderNew.value);
+  }
+
   if (ack && !ack.handled) {
     ack(null);
   }
@@ -250,10 +325,19 @@ async function changeTwitchMetadata(title?: string, gameId?: string): Promise<vo
   try {
     let t = title || config.event.fallbackTwitchTitle;
     if (t) {
-      const run = sc.getCurrentRun()?.game;
+      // Lots below copied from nodecg-speedcontrol (with some minor modifications).
+      // TODO: Expose a helper in that bundle to do this stuff instead.
+      const runData = sc.getCurrentRun();
+      const mentionChannels = true;
+      const players = runData?.teams.map((team) => (
+        team.players.map((player) => (mentionChannels && player.social.twitch
+          ? `@${player.social.twitch}` : player.name)).join(', ')
+      )).join(' vs. ') || 'Runs coming up!'; // "Fake" string to show when no runners active
       t = t
-        .replace(/{{total}}/g, formatUSD(donationTotal.value, true))
-        .replace(/{{run}}/g, run ? ` - ${run}` : '');
+        .replace(/{{game}}/g, runData?.game || '') // Copied from SC
+        .replace(/{{players}}/g, players) // Copied from SC
+        .replace(/{{category}}/g, runData?.category || '') // Copied from SC
+        .replace(/{{total}}/g, formatUSD(donationTotal.value, true)); // Original to this bundle
     } else {
       throw new Error('no title found to update to');
     }

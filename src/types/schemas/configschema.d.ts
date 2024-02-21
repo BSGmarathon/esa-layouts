@@ -27,6 +27,11 @@ export interface Configschema {
 		key: string;
 		debug: boolean;
 	};
+	companion: {
+		enabled: boolean;
+		port: number;
+		key: string;
+	};
 	rabbitmq: {
 		enabled: boolean;
 		protocol: string;
@@ -51,6 +56,7 @@ export interface Configschema {
 				readerIntroduction: string;
 				intermission: string;
 				intermissionPlayer: string;
+				intermissionCrowd: string;
 				countdown: string;
 				interview: string;
 			};

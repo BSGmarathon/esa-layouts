@@ -1,12 +1,11 @@
 import { Configschema } from '@esa-layouts/types/schemas';
 import type { Tracker } from '@shared/types';
-import clone from 'clone';
 import type { NeedleResponse } from 'needle';
 import needle from 'needle';
-import { DeepWritable } from 'ts-essentials';
+import type { DeepWritable } from 'ts-essentials';
 import { get as nodecg } from '../util/nodecg';
 import { mq } from '../util/rabbitmq';
-import { donationTotal, notableDonations } from '../util/replicants';
+import { donationTotal } from '../util/replicants';
 
 export const eventInfo: Tracker.EventInfo[] = [];
 const eventConfig = nodecg().bundleConfig.event;
@@ -61,14 +60,35 @@ async function updateDonationTotalFromAPI(init = false): Promise<void> {
   }
 }
 
+async function updateDonationTotalFromAPITiltify(init = false): Promise<void> {
+  try {
+    let total = 0;
+    // TODO: REMOVE ESAW24 AND URL HARDCODING!
+    const resp = await needle('get', 'https://app.esamarathon.com/tiltify/campaigns/team/esaw2024');
+    if (resp.statusCode === 200) {
+      const eventTotal = resp.body.total_amount_raised.value
+        ? parseFloat(resp.body.total_amount_raised.value)
+        : 0;
+      // event.total = eventTotal; // I hope this isn't important?
+      total += eventTotal;
+    }
+    if (init || donationTotal.value < total) {
+      nodecg().log.info('[Tracker] API donation total changed: $%s', total);
+      donationTotal.value = total;
+    }
+  } catch (err) {
+    nodecg().log.warn('[Tracker] Error updating donation total from API');
+    nodecg().log.debug('[Tracker] Error updating donation total from API:', err);
+  }
+}
+
 // Triggered when a donation total is updated in our tracker.
+// THIS WORKS EVEN IF TRACKER CONFIG IS DISABLED! WHICH IS GOOD FOR TILTIFY!
 mq.evt.on('donationTotalUpdated', (data) => {
   let total = 0;
-  for (const event of eventInfo) {
-    if (data.event === event.short) {
-      event.total = data.new_total;
-    }
-    total += event.total;
+  // HARDCODED FOR NOW!
+  if (data.event === 'esaw2024') {
+    total += data.new_total;
   }
   if (donationTotal.value < total) {
     nodecg().log.debug('[Tracker] Updated donation total received: $%s', total.toFixed(2));
@@ -76,8 +96,9 @@ mq.evt.on('donationTotalUpdated', (data) => {
   }
 });
 
+// DISABLED FOR NOW (ESAW24)
 // Triggered when a new donation is fully processed on the tracker.
-mq.evt.on('donationFullyProcessed', (data) => {
+/* mq.evt.on('donationFullyProcessed', (data) => {
   if (data.comment_state === 'APPROVED') {
     // eslint-disable-next-line no-underscore-dangle
     nodecg().log.debug('[Tracker] Received new donation with ID %s', data._id);
@@ -87,7 +108,7 @@ mq.evt.on('donationFullyProcessed', (data) => {
       notableDonations.value.length = Math.min(notableDonations.value.length, 20);
     }
   }
-});
+}); */
 
 let isFirstLogin = true;
 async function loginToTracker(): Promise<void> {
@@ -193,4 +214,9 @@ async function setup(): Promise<void> {
 
 if (config.enabled) {
   setup();
+} else {
+  // FOR TILTIFY USE!
+  // Get initial total from API and set an interval as a fallback.
+  updateDonationTotalFromAPITiltify(true);
+  setInterval(updateDonationTotalFromAPITiltify, 60 * 1000);
 }

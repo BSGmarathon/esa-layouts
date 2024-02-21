@@ -125,6 +125,7 @@ function getSceneConfig() {
     obs.findScene(config.obs.names.scenes.commercials),
     obs.findScene(config.obs.names.scenes.gameLayout),
     obs.findScene(config.obs.names.scenes.intermission),
+    obs.findScene(config.obs.names.scenes.intermissionCrowd),
     obs.findScene(config.obs.names.scenes.readerIntroduction),
   ].filter(Boolean) as string[];
 
@@ -150,6 +151,7 @@ function getNonGameScenes(): string[] {
     obs.findScene(config.obs.names.scenes.commercials),
     obs.findScene(config.obs.names.scenes.intermission),
     obs.findScene(config.obs.names.scenes.intermissionPlayer),
+    obs.findScene(config.obs.names.scenes.intermissionCrowd),
     obs.findScene(config.obs.names.scenes.countdown),
   ].filter(Boolean) as string[];
 }
