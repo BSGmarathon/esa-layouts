@@ -119,6 +119,33 @@ speedcontrol_1.sc.runDataActiveRunSurrounding.on('change', (newVal) => {
     const run = speedcontrol_1.sc.runDataArray.value.find((r) => r.id === id);
     replicants_1.upcomingRunID.value = (run === null || run === void 0 ? void 0 : run.id) || null;
 });
+function processNameWithPronouns(val) {
+    var _a;
+    // User not found, process string as NAME or NAME (PRONOUNS).
+    return {
+        name: val.replace(/\((.*?)\)/g, '').trim(),
+        pronouns: (_a = (val.match(/\((.*?)\)/g) || [])[0]) === null || _a === void 0 ? void 0 : _a.replace(/[()]/g, ''),
+        country: undefined,
+    };
+}
+function objToSimpleDisplay(input) {
+    if (!input) {
+        return '';
+    }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    let selected = input;
+    if ('length' in input) {
+        selected = input[0];
+    }
+    if (!selected) {
+        return '';
+    }
+    if (selected.pronouns) {
+        return `${selected.name} (${selected.pronouns})`;
+    }
+    return selected.name;
+}
 // Helper function to get pronouns of a specified user name from speedrun.com
 // eslint-disable-next-line import/prefer-default-export
 async function searchSrcomPronouns(val) {
@@ -135,7 +162,7 @@ async function searchSrcomPronouns(val) {
     // Allows the user to specify "(none)" and bypass a look-up.
     if (pronouns.toLowerCase().includes('none'))
         pronouns = '';
-    return pronouns ? `${name} (${pronouns})` : name;
+    return processNameWithPronouns(pronouns ? `${name} (${pronouns})` : name);
 }
 exports.searchSrcomPronouns = searchSrcomPronouns;
 async function searchOengusPronouns(val) {
@@ -149,6 +176,8 @@ async function searchOengusPronouns(val) {
         });
         const foundUsers = resp.body;
         if (foundUsers.length) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore display name is not in types
             [user] = foundUsers;
         }
     }
@@ -156,14 +185,16 @@ async function searchOengusPronouns(val) {
         (0, nodecg_1.get)().log.error(err);
     }
     if (!user) {
-        return val;
+        return processNameWithPronouns(val);
     }
     const pronouns = typeof user.pronouns === 'string'
         ? user.pronouns.split(',')[0]
         : (_a = user.pronouns) === null || _a === void 0 ? void 0 : _a[0];
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore (display name is not in types yet)
-    return pronouns ? `${user.displayName} (${pronouns})` : user.displayName;
+    return {
+        name: user.displayName || user.username,
+        pronouns: pronouns || undefined,
+        country: user.country || undefined,
+    };
 }
 exports.searchOengusPronouns = searchOengusPronouns;
 async function searchPronounsOnEsByStr(val) {
@@ -173,9 +204,16 @@ async function searchPronounsOnEsByStr(val) {
         [user] = foundUsers;
     }
     if (!user) {
-        return val;
+        return processNameWithPronouns(val);
     }
-    return user.pronouns ? `${user.username} (${user.pronouns.split(',')[0]})` : user.username;
+    let { country } = user;
+    if (country && country.includes('-'))
+        country = country.replace('-', '/');
+    return {
+        name: user.name,
+        country: user.country || undefined,
+        pronouns: user.pronouns || undefined,
+    };
 }
 async function searchName(val, currentVal) {
     if (config.server.enabled) {
@@ -197,10 +235,31 @@ async function searchName(val, currentVal) {
         }
     }
 }
+async function searchNameOld(val, currentVal) {
+    if (config.server.enabled) {
+        const res = await searchPronounsOnEsByStr(val);
+        if (res && !currentVal.includes(res.name)) {
+            currentVal.push(res.name);
+        }
+    }
+    else if (config.useOengusInsteadOfSrdc) {
+        const res = await searchOengusPronouns(val);
+        if (res && !currentVal.includes(res.name)) {
+            currentVal.push(res.name);
+        }
+    }
+    else {
+        const res = await searchSrcomPronouns(val);
+        if (res && !currentVal.includes(res.name)) {
+            currentVal.push(res.name);
+        }
+    }
+}
 // Processes adding commentators from the dashboard panel.
 (0, nodecg_1.get)().listenFor('commentatorAdd', async (val, ack) => {
     if (val) {
-        await searchName(val, replicants_1.commentators.value);
+        await searchName(val, replicants_1.commentatorsNew.value);
+        await searchNameOld(val, replicants_1.commentators.value);
     }
     if (ack && !ack.handled) {
         ack(null);
@@ -215,6 +274,7 @@ async function searchName(val, currentVal) {
     }
 });
 (0, nodecg_1.get)().listenFor('commentatorRemove', (val, ack) => {
+    replicants_1.commentatorsNew.value.splice(val, 1);
     replicants_1.commentators.value.splice(val, 1);
     if (ack && !ack.handled) {
         ack(null);
@@ -223,27 +283,37 @@ async function searchName(val, currentVal) {
 // Processes modifying the reader from the dasboard panel.
 (0, nodecg_1.get)().listenFor('readerModify', async (val, ack) => {
     if (!val) {
+        replicants_1.donationReaderNew.value = null;
         replicants_1.donationReader.value = null;
     }
     else if (config.useOengusInsteadOfSrdc) {
-        replicants_1.donationReader.value = await searchOengusPronouns(val);
+        replicants_1.donationReaderNew.value = await searchOengusPronouns(val);
     }
     else {
-        replicants_1.donationReader.value = await searchSrcomPronouns(val);
+        replicants_1.donationReaderNew.value = await searchSrcomPronouns(val);
+    }
+    if (replicants_1.donationReaderNew.value) {
+        replicants_1.donationReader.value = objToSimpleDisplay(replicants_1.donationReaderNew.value);
     }
     if (ack && !ack.handled) {
         ack(null);
     }
 });
 async function changeTwitchMetadata(title, gameId) {
-    var _a;
     try {
         let t = title || config.event.fallbackTwitchTitle;
         if (t) {
-            const run = (_a = speedcontrol_1.sc.getCurrentRun()) === null || _a === void 0 ? void 0 : _a.game;
+            // Lots below copied from nodecg-speedcontrol (with some minor modifications).
+            // TODO: Expose a helper in that bundle to do this stuff instead.
+            const runData = speedcontrol_1.sc.getCurrentRun();
+            const mentionChannels = true;
+            const players = (runData === null || runData === void 0 ? void 0 : runData.teams.map((team) => (team.players.map((player) => (mentionChannels && player.social.twitch
+                ? `@${player.social.twitch}` : player.name)).join(', '))).join(' vs. ')) || 'Runs coming up!'; // "Fake" string to show when no runners active
             t = t
-                .replace(/{{total}}/g, (0, helpers_1.formatUSD)(replicants_1.donationTotal.value, true))
-                .replace(/{{run}}/g, run ? ` - ${run}` : '');
+                .replace(/{{game}}/g, (runData === null || runData === void 0 ? void 0 : runData.game) || '') // Copied from SC
+                .replace(/{{players}}/g, players) // Copied from SC
+                .replace(/{{category}}/g, (runData === null || runData === void 0 ? void 0 : runData.category) || '') // Copied from SC
+                .replace(/{{total}}/g, (0, helpers_1.formatUSD)(replicants_1.donationTotal.value, true)); // Original to this bundle
         }
         else {
             throw new Error('no title found to update to');

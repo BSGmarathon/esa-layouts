@@ -417,10 +417,10 @@ sc.on('timerStopped', () => {
       return prev;
     }, [])
     : undefined;
-  const comms = commentators.value.length // Regex removes pronouns
-    ? commentators.value.map((c) => c.replace(/\((.*?)\)/g, '').trim())
+  const comms = commentatorsNew.value.length
+    ? commentatorsNew.value.map((c) => c.name)
     : undefined;
-  const reader = donationReader.value?.replace(/\((.*?)\)/g, '').trim(); // Regex removes pronouns
+  const reader = donationReaderNew.value?.name;
   const donators = runDonations.length
     ? orderBy( // Groups donation totals amounts by name and sorts descending.
       Object.entries(runDonations.reduce<{ [k: string]: number }>((prev, curr) => {
@@ -470,8 +470,9 @@ sc.on('timerStopped', () => {
     )
     : undefined;
 
+  // DISABLED FOR NOW (ESAW24).
   // Push actual data to the queue.
-  omnibar.value.alertQueue.push({
+  /!* omnibar.value.alertQueue.push({
     type: 'MiniCredits',
     id: uuid(),
     data: {
@@ -485,6 +486,6 @@ sc.on('timerStopped', () => {
       subscribers,
       cheers,
     },
-  });
+  }); *!/
 });
 */
