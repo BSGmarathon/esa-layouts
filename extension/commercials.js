@@ -83,13 +83,13 @@ async function setup() {
         });
         // What to do when a button "appears" in the Stream Deck software,
         // usually after dragging on a new instance.
-        streamdeck_1.default.on('willAppear', (data) => {
+        streamdeck_1.default.on('willAppear', (socketId, data) => {
             if (data.action.endsWith('twitchads')) {
                 changeDisableCommercialsSDTitle();
             }
         });
         // What to do when any key is lifted on a connected Stream Deck.
-        streamdeck_1.default.on('keyUp', async (data) => {
+        streamdeck_1.default.on('keyUp', async (socketId, data) => {
             if (data.action.endsWith('twitchads') && !disabled.value
                 && !['stopped', 'finished'].includes(speedcontrol_1.sc.timer.value.state)) {
                 // Sends a message to the esa-commercials bundle.

@@ -201,7 +201,7 @@ streamdeck_1.default.on('init', () => {
 });
 // What to do when a button "appears" in the Stream Deck software,
 // usually after dragging on a new instance.
-streamdeck_1.default.on('willAppear', (data) => {
+streamdeck_1.default.on('willAppear', (socketId, data) => {
     if (data.action.endsWith('scenecycler')) {
         changeSceneCyclerSDTitle();
     }
@@ -233,7 +233,7 @@ async function cycleScene() {
     return false;
 }
 // What to do when any key is lifted on a connected Stream Deck.
-streamdeck_1.default.on('keyUp', async (data) => {
+streamdeck_1.default.on('keyUp', async (socketId, data) => {
     if (data.action.endsWith('scenecycler')) {
         const success = await cycleScene();
         if (success)

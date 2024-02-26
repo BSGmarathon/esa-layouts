@@ -36,7 +36,7 @@ speedcontrol_1.sc.timer.on('change', (val) => {
         }
     });
 });
-streamdeck_1.default.on('keyUp', async (data) => {
+streamdeck_1.default.on('keyUp', async (socketId, data) => {
     var _a, _b;
     // com.esamarathon.streamdeck.timer
     // Controls the nodecg-speedcontrol timer when the button is pressed.
@@ -94,7 +94,9 @@ streamdeck_1.default.on('keyUp', async (data) => {
             delete replicants_1.streamDeckData.value.playerHUDTriggerType;
         }
         else if (data.action.includes('message')) {
-            streamdeck_1.default.updateButtonText(data.context, '(ACTIVE)\nMessage\nTo Read');
+            msgBtns.forEach((btn) => {
+                streamdeck_1.default.updateButtonText(btn.context, '(ACTIVE)\nMessage\nTo Read');
+            });
             replicants_1.streamDeckData.value.playerHUDTriggerType = 'message';
         }
     }
@@ -157,7 +159,8 @@ streamdeck_1.default.on('keyUp', async (data) => {
         }
     }
 });
-streamdeck_1.default.on('willAppear', (data) => {
+streamdeck_1.default.on('willAppear', (socketId, data) => {
+    console.log('willAppear', JSON.stringify(data));
     // Set default text on buttons.
     // TODO: Make these check *what* text they should actually show!
     if (data.action === 'com.esamarathon.streamdeck.timer') {

@@ -3,10 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const streamdeck_util_1 = __importDefault(require("streamdeck-util"));
+// import StreamdeckUtil from 'streamdeck-util';
+const streamdeck_tmp_1 = __importDefault(require("./streamdeck-tmp"));
 const nodecg_1 = require("./nodecg");
 const config = (0, nodecg_1.get)().bundleConfig.streamdeck;
-const sd = new streamdeck_util_1.default();
+const sd = new streamdeck_tmp_1.default();
 if (config.enabled) {
     sd.listen({
         key: config.key,
