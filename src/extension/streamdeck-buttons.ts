@@ -35,7 +35,7 @@ sc.timer.on('change', (val) => {
   });
 });
 
-sd.on('keyUp', async (data) => {
+sd.on('keyUp', async (socketId, data) => {
   // com.esamarathon.streamdeck.timer
   // Controls the nodecg-speedcontrol timer when the button is pressed.
   // Currently the "Stop Timer" state works if there's only 1 team.
@@ -97,7 +97,9 @@ sd.on('keyUp', async (data) => {
       && data.action.includes(streamDeckData.value.playerHUDTriggerType)) {
       delete streamDeckData.value.playerHUDTriggerType;
     } else if (data.action.includes('message')) {
-      sd.updateButtonText(data.context, '(ACTIVE)\nMessage\nTo Read');
+      msgBtns.forEach((btn) => {
+        sd.updateButtonText(btn.context, '(ACTIVE)\nMessage\nTo Read');
+      });
       streamDeckData.value.playerHUDTriggerType = 'message';
     }
   }
@@ -166,7 +168,8 @@ sd.on('keyUp', async (data) => {
   }
 });
 
-sd.on('willAppear', (data) => {
+sd.on('willAppear', (socketId, data) => {
+  console.log('willAppear', JSON.stringify(data));
   // Set default text on buttons.
   // TODO: Make these check *what* text they should actually show!
   if (data.action === 'com.esamarathon.streamdeck.timer') {

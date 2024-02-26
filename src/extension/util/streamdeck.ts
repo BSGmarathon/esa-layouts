@@ -1,4 +1,5 @@
-import StreamdeckUtil from 'streamdeck-util';
+// import StreamdeckUtil from 'streamdeck-util';
+import StreamdeckUtil from './streamdeck-tmp';
 import { get as nodecg } from './nodecg';
 
 const config = nodecg().bundleConfig.streamdeck;

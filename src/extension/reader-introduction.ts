@@ -188,14 +188,14 @@ sd.on('init', () => {
 
 // What to do when a button "appears" in the Stream Deck software,
 // usually after dragging on a new instance.
-sd.on('willAppear', (data) => {
+sd.on('willAppear', (socketId, data) => {
   if ((data.action as string) === sdButtonUUIDMap.advanceSlide) {
     changeAdvanceSlideSDTitle();
   }
 });
 
 // What to do when any key is lifted on a connected Stream Deck.
-sd.on('keyUp', (data) => {
+sd.on('keyUp', (socketId, data) => {
   if (data.action === sdButtonUUIDMap.advanceSlide) {
     const success = showNext();
     if (success) sd.send({ event: 'showOk', context: data.context });
