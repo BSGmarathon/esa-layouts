@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
 import {
- AdditionalDonations, Bids,
+  AdditionalDonations, Bids,
   BigbuttonPlayerMap,
   CapturePositions,
   Commentators,

@@ -41,7 +41,6 @@ export default class extends Vue {
     const info = [
       this.musicData.track?.title,
       this.musicData.track?.artist,
-      'cheese',
     ].filter(Boolean);
     return info.length ? info.join(' - ') : undefined;
   }
