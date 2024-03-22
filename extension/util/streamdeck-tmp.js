@@ -25,6 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 const stream_1 = require("stream");
 const util = __importStar(require("util"));
+// eslint-disable-next-line import/no-extraneous-dependencies
 const socket_io_1 = require("socket.io");
 /* eslint-enable */
 class StreamDeck extends stream_1.EventEmitter {

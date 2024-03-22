@@ -81,7 +81,7 @@ speedcontrol_1.sc.runDataActiveRun.on('change', (newVal, oldVal) => {
             || (obs_1.default.connected && !obs_1.default.isCurrentScene(config.obs.names.scenes.gameLayout)))) {
         // Only trigger these changes if the new run has a scheduled time, which means it was
         // imported from an external schedule. This stops manually added runs (like bonus runs)
-        // Having things erased.
+        // having things erased.
         if (speedcontrol_1.sc.runDataActiveRun.value && newVal && newVal.scheduled) {
             if (config.event.shorts !== 'swcf')
                 replicants_1.commentators.value.length = 0;
@@ -211,7 +211,7 @@ async function searchPronounsOnEsByStr(val) {
         country = country.replace('-', '/');
     return {
         name: user.name,
-        country: user.country || undefined,
+        country: country || undefined,
         pronouns: user.pronouns || undefined,
     };
 }
@@ -282,6 +282,7 @@ async function searchNameOld(val, currentVal) {
 });
 // Processes modifying the reader from the dasboard panel.
 (0, nodecg_1.get)().listenFor('readerModify', async (val, ack) => {
+    // TODO: pronouns from ESA server.
     if (!val) {
         replicants_1.donationReaderNew.value = null;
         replicants_1.donationReader.value = null;
@@ -307,13 +308,32 @@ async function changeTwitchMetadata(title, gameId) {
             // TODO: Expose a helper in that bundle to do this stuff instead.
             const runData = speedcontrol_1.sc.getCurrentRun();
             const mentionChannels = true;
-            const players = (runData === null || runData === void 0 ? void 0 : runData.teams.map((team) => (team.players.map((player) => (mentionChannels && player.social.twitch
-                ? `@${player.social.twitch}` : player.name)).join(', '))).join(' vs. ')) || 'Runs coming up!'; // "Fake" string to show when no runners active
+            let players = 'Runs coming up!'; // "Fake" string to show when no runners active
+            // OVERRIDE FOR RELAYS BECAUSE LOTS OF PEOPLE! ESAW24
+            if ((runData === null || runData === void 0 ? void 0 : runData.relay) && runData.teams[0].name) {
+                players = runData.teams[0].name;
+            }
+            else {
+                players = (runData === null || runData === void 0 ? void 0 : runData.teams.map((team) => (team.players.map((player) => (mentionChannels && player.social.twitch
+                    ? `@${player.social.twitch}` : player.name)).join(', '))).join(' vs. ')) || 'Runs coming up!'; // "Fake" string to show when no runners active
+            }
+            const additionalDonationsMapped = (0, nodecg_1.get)().bundleConfig.additionalDonations.map((d) => {
+                var _a, _b;
+                return ({
+                    key: d.key,
+                    description: d.description,
+                    amount: d.amount,
+                    active: (_b = (_a = replicants_1.additionalDonations.value.find((a) => a.key === d.key)) === null || _a === void 0 ? void 0 : _a.active) !== null && _b !== void 0 ? _b : false,
+                });
+            });
+            const donationTotalAdditional = additionalDonationsMapped
+                .filter((d) => d.active).reduce((partialSum, a) => partialSum + a.amount, 0);
+            const fullDonationTotal = replicants_1.donationTotal.value + donationTotalAdditional;
             t = t
                 .replace(/{{game}}/g, (runData === null || runData === void 0 ? void 0 : runData.game) || '') // Copied from SC
                 .replace(/{{players}}/g, players) // Copied from SC
                 .replace(/{{category}}/g, (runData === null || runData === void 0 ? void 0 : runData.category) || '') // Copied from SC
-                .replace(/{{total}}/g, (0, helpers_1.formatUSD)(replicants_1.donationTotal.value, true)); // Original to this bundle
+                .replace(/{{total}}/g, (0, helpers_1.formatUSD)(fullDonationTotal, true)); // Original to this bundle
         }
         else {
             throw new Error('no title found to update to');
@@ -356,11 +376,19 @@ if (config.tracker.donationTotalInTitle) {
     // Used to change the Twitch title when the donation total updates.
     let donationTotalInit = false;
     replicants_1.donationTotal.on('change', async (val) => {
-        if (donationTotalInit) {
+        if (donationTotalInit && replicants_1.twitchAPIData.value.sync) {
             (0, nodecg_1.get)().log.debug('[Misc] Donation total updated to %s, will attempt to set title', val);
             await changeTwitchMetadata();
         }
         donationTotalInit = true;
+    });
+    let additionalDonationsInit = false;
+    replicants_1.additionalDonations.on('change', async () => {
+        if (additionalDonationsInit && replicants_1.twitchAPIData.value.sync) {
+            (0, nodecg_1.get)().log.debug('[Misc] Additional donations updated, will attempt to set title');
+            await changeTwitchMetadata();
+        }
+        additionalDonationsInit = true;
     });
 }
 async function formatScheduleImportedPronouns() {

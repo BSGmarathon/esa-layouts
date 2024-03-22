@@ -4,6 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCookies = exports.eventInfo = void 0;
+const helpers_1 = require("@esa-layouts/util/helpers");
+const lodash_1 = require("lodash");
 const needle_1 = __importDefault(require("needle"));
 const nodecg_1 = require("../util/nodecg");
 const rabbitmq_1 = require("../util/rabbitmq");
@@ -13,6 +15,8 @@ const eventConfig = (0, nodecg_1.get)().bundleConfig.event;
 const config = (0, nodecg_1.get)().bundleConfig.tracker;
 const { useTestData } = (0, nodecg_1.get)().bundleConfig;
 let cookies;
+let tiltifyApiBackupTimeout;
+const tiltifyApiBackupLength = 5 * 60 * 1000;
 /**
  * Returns tracker cookies, if set.
  */
@@ -46,8 +50,10 @@ async function updateDonationTotalFromAPI(init = false) {
             }
         }
         if (init || replicants_1.donationTotal.value < total) {
+            total = (0, lodash_1.round)(total, 2);
             (0, nodecg_1.get)().log.info('[Tracker] API donation total changed: $%s', total);
             replicants_1.donationTotal.value = total;
+            (0, nodecg_1.get)().sendMessage('donationTotalUpdated', { total });
         }
     }
     catch (err) {
@@ -67,42 +73,108 @@ async function updateDonationTotalFromAPITiltify(init = false) {
             // event.total = eventTotal; // I hope this isn't important?
             total += eventTotal;
         }
+        total = (0, lodash_1.round)(total, 2);
+        // Wait 10s to just check we're not getting a new total just before a MQ message.
+        await (0, helpers_1.wait)(10 * 1000);
         if (init || replicants_1.donationTotal.value < total) {
+            const oldTotal = replicants_1.donationTotal.value;
+            (0, nodecg_1.get)().sendMessage('donationTotalUpdated', { total });
             (0, nodecg_1.get)().log.info('[Tracker] API donation total changed: $%s', total);
             replicants_1.donationTotal.value = total;
+            // If we checked the donation total on an interval and it was different, the MQ
+            // messages may be failing. Using a Discord Webhook to notify someone for ease of use.
+            const webhookUrl = (0, nodecg_1.get)().bundleConfig.tiltify.errorDiscordWebhook;
+            const userId = (0, nodecg_1.get)().bundleConfig.tiltify.errorDiscordWebhookUserIdToPing;
+            if (!init && webhookUrl) {
+                try {
+                    await (0, needle_1.default)('post', webhookUrl, {
+                        content: `${userId ? `<@${userId}> ` : ''}There may be an issue with the esa-layouts `
+                            + 'Tiltify integration with RabbitMQ messages! '
+                            + `Stored total was ${oldTotal} but API said total was ${total}`
+                            + ` (sent from stream ${(0, nodecg_1.get)().bundleConfig.event.thisEvent}`
+                            + ` at ${(new Date().toISOString())})`,
+                    });
+                    (0, nodecg_1.get)().log.debug('[Tracker] Discord webhook sent');
+                }
+                catch (err) {
+                    (0, nodecg_1.get)().log.debug('[Tracker] Discord webhook failed:', err);
+                }
+            }
         }
     }
     catch (err) {
         (0, nodecg_1.get)().log.warn('[Tracker] Error updating donation total from API');
         (0, nodecg_1.get)().log.debug('[Tracker] Error updating donation total from API:', err);
     }
+    tiltifyApiBackupTimeout = setTimeout(updateDonationTotalFromAPITiltify, tiltifyApiBackupLength);
 }
 // Triggered when a donation total is updated in our tracker.
 // THIS WORKS EVEN IF TRACKER CONFIG IS DISABLED! WHICH IS GOOD FOR TILTIFY!
 rabbitmq_1.mq.evt.on('donationTotalUpdated', (data) => {
-    let total = 0;
     // HARDCODED FOR NOW!
     if (data.event === 'esaw2024') {
-        total += data.new_total;
-    }
-    if (replicants_1.donationTotal.value < total) {
-        (0, nodecg_1.get)().log.debug('[Tracker] Updated donation total received: $%s', total.toFixed(2));
-        replicants_1.donationTotal.value = total;
+        clearInterval(tiltifyApiBackupTimeout);
+        tiltifyApiBackupTimeout = setTimeout(updateDonationTotalFromAPITiltify, tiltifyApiBackupLength);
+        const total = (0, lodash_1.round)(data.new_total, 2);
+        if (replicants_1.donationTotal.value < total) {
+            (0, nodecg_1.get)().sendMessage('donationTotalUpdated', { total });
+            (0, nodecg_1.get)().log.debug('[Tracker] Updated donation total received: $%s', total);
+            replicants_1.donationTotal.value = total;
+        }
     }
 });
-// DISABLED FOR NOW (ESAW24)
-// Triggered when a new donation is fully processed on the tracker.
-/* mq.evt.on('donationFullyProcessed', (data) => {
-  if (data.comment_state === 'APPROVED') {
-    // eslint-disable-next-line no-underscore-dangle
-    nodecg().log.debug('[Tracker] Received new donation with ID %s', data._id);
-    nodecg().sendMessage('newDonation', data);
+/*
+const seenDonationIds: number[] = [];
+// Fully processed donations for donations targeted towards this stream.
+mq.evt.on('donationFullyProcessedStream', (data) => {
+  // eslint-disable-next-line no-underscore-dangle
+  const id = data._id;
+  if (!seenDonationIds.includes(id)) {
+    seenDonationIds.push(id);
+    nodecg().log.debug('[Tracker] Received new donation with ID %s', id);
+    nodecg().sendMessage('newDonation', { amount: data.amount });
     if (data.amount >= 20) { // Notable donations are over $20
-      notableDonations.value.unshift(clone(data));
+      notableDonations.value.unshift({
+        event: data.event,
+        // eslint-disable-next-line no-underscore-dangle
+        _id: data._id,
+        donor_visiblename: data.donor_visiblename,
+        amount: data.amount,
+        comment: data.comment,
+      });
       notableDonations.value.length = Math.min(notableDonations.value.length, 20);
     }
   }
-}); */
+});
+// Fully processed donations for donations targeted towards the main campaign.
+// We only listen for this on stream 1.
+if (eventConfig.thisEvent === 1) {
+  mq.evt.on('donationFullyProcessedTeam', (data) => {
+    // eslint-disable-next-line no-underscore-dangle
+    const id = data._id;
+    if (!seenDonationIds.includes(id)) {
+      seenDonationIds.push(id);
+      nodecg().log.debug('[Tracker] Received new donation with ID %s', id);
+      nodecg().sendMessage('newDonation', { amount: data.amount });
+      if (data.amount >= 20) { // Notable donations are over $20
+        notableDonations.value.unshift({
+          event: data.event,
+          // eslint-disable-next-line no-underscore-dangle
+          _id: data._id,
+          donor_visiblename: data.donor_visiblename,
+          amount: data.amount,
+          comment: data.comment,
+        });
+        notableDonations.value.length = Math.min(notableDonations.value.length, 20);
+      }
+    }
+  });
+}
+*/
+// Used to log messages from the browser.
+(0, nodecg_1.get)().listenFor('donationAlertsLogging', (msg) => {
+    (0, nodecg_1.get)().log.debug('[Tracker] %s', msg);
+});
 let isFirstLogin = true;
 async function loginToTracker() {
     if (isFirstLogin)
@@ -201,7 +273,6 @@ if (config.enabled) {
 }
 else {
     // FOR TILTIFY USE!
-    // Get initial total from API and set an interval as a fallback.
+    // Get initial total from API (function also sets a timeout as a fallback).
     updateDonationTotalFromAPITiltify(true);
-    setInterval(updateDonationTotalFromAPITiltify, 60 * 1000);
 }
