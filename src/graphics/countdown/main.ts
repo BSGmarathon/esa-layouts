@@ -1,13 +1,12 @@
 /* eslint no-new: off, @typescript-eslint/explicit-function-return-type: off */
 
-import { setUpReplicants } from '@esa-layouts/browser_shared/replicant_store';
 import Vue from 'vue';
 import '../_misc/common.css';
 import '../_misc/theme';
 import App from './main.vue';
-import store from './store';
+import waitForReplicants from './store';
 
-setUpReplicants(store).then(() => {
+waitForReplicants().then((store) => {
   new Vue({
     store,
     el: '#App',

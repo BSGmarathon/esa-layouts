@@ -9,7 +9,7 @@ import { get as nodecg } from './util/nodecg';
 import obs from './util/obs';
 import { mq } from './util/rabbitmq';
 import {
- additionalDonations, bigbuttonPlayerMap,
+  additionalDonations, bigbuttonPlayerMap,
   commentators,
   commentatorsNew,
   lowerThird,

@@ -15,8 +15,12 @@
   background-repeat: no-repeat;
 }
 
-#Intermission {
+#Intermission{
   background-image: url('./bsg/intermission.png');
+}
+
+.countdownLayout {
+  background-image: url('./bsg/countdown.png');
 }
 
 ._3ds_1p {
