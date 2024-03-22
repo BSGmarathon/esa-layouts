@@ -124,6 +124,7 @@ function getSceneConfig() {
   const readerScenes = [
     obs.findScene(config.obs.names.scenes.commercials),
     obs.findScene(config.obs.names.scenes.gameLayout),
+    obs.findScene(`${config.obs.names.scenes.gameLayout} (custom)`),
     obs.findScene(config.obs.names.scenes.intermission),
     obs.findScene(config.obs.names.scenes.intermissionCrowd),
     obs.findScene(config.obs.names.scenes.readerIntroduction),
@@ -132,6 +133,7 @@ function getSceneConfig() {
   // These scenes will have the game and players audible.
   const gameScenes = [
     obs.findScene(config.obs.names.scenes.gameLayout),
+    obs.findScene(`${config.obs.names.scenes.gameLayout} (custom)`),
   ].filter(Boolean) as string[];
 
   const interviewScenes = [

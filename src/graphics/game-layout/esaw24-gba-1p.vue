@@ -1,7 +1,8 @@
 <template>
   <layout-base
-    :camera-height="thisEvent === 2 ? `550px` : undefined"
-    :participants-zoom="0.85"
+    game-left="750px"
+    game-width="1170px"
+    camera-width="750px"
   />
 </template>
 
@@ -15,6 +16,6 @@ import LayoutBase from './esaw24-base.vue';
   },
 })
 export default class extends Vue {
-  thisEvent = nodecg.bundleConfig.event.thisEvent;
+  // code
 }
 </script>

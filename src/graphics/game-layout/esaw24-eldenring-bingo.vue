@@ -5,10 +5,19 @@
       id="GameCapture1"
       class="BorderLeft BorderBottom"
       :style="{
-        left: gameLeft || '533px',
+        left: '533px',
         top: '0px',
-        width: gameWidth || '1387px',
-        height: gameHeight || '780px',
+        width: '1387px',
+        height: '780px',
+      }"
+    />
+    <game-capture
+      id="GameCapture2"
+      :style="{
+        left: '0px',
+        top: '455px',
+        width: '533px',
+        height: '485px',
       }"
     />
 
@@ -19,8 +28,9 @@
       :style="{
         left: '0px',
         top: '0px',
-        width: cameraWidth || '533px',
-        height: cameraHeight || '780px',
+        width: '533px',
+        // height: '940px',
+        height: '455px',
       }"
     />
 
@@ -28,13 +38,14 @@
     <div
       :class="{
         Flex: true,
-        BorderBottom: participantsBorderBottom,
+        BorderBottom: true,
       }"
       :style="{
         left: '0px',
         top: '0px',
-        width: cameraWidth || '533px',
-        height: participantsHeight || '780px',
+        width: '533px',
+        // height: '940px',
+        height: '455px',
         'align-items': 'flex-end',
       }"
     >
@@ -46,7 +57,7 @@
           'align-items': 'flex-end',
           padding: '25px',
           'padding-bottom': '25px',
-          zoom: participantsZoom || 1,
+          zoom: 0.75,
         }
       ">
         <div
@@ -91,18 +102,18 @@
 
     <!-- Run Game Info/Timer -->
     <div
-      class="Fixed Flex"
+      class="Fixed Flex BorderLeft"
       :style="{
-        left: '0px',
-        top: gameInfoMediaBoxTop || '780px',
-        width: '1346px',
-        height: gameInfoMediaBoxHeight || '160px',
+        left: '533px',
+        top: '780px',
+        width: '967px',
+        height: '160px',
       }"
     >
       <run-info
         :style="{
           'font-size': '45px',
-          'width': '959px',
+          'width': '580px',
           height: '100%',
         }"
       />
@@ -119,22 +130,22 @@
       class="BorderLeft"
       :font-size="40"
       :style="{
-        left: '1346px',
-        top: gameInfoMediaBoxTop || '780px',
-        width: '574px',
-        height: gameInfoMediaBoxHeight || '160px',
+        left: '1500px',
+        top: '780px',
+        width: '420px',
+        height: '160px',
       }"
     />
 
     <!-- Donation Bar -->
     <donation-bar
-      :padding="donationBarBoxPadding || 15"
+      :padding="15"
       :style="{
         left: '0px',
-        top: donationBarTop || '940px',
-        width: donationBarWidth || '1920px',
-        height: donationBarHeight || '60px',
-        'font-size': donationBarBoxFontSize || '30px',
+        top: '940px',
+        width: '1920px',
+        height: '60px',
+        'font-size': '30px',
       }"
     />
   </div>
@@ -143,8 +154,8 @@
 <script lang="ts">
 import { CommentatorsNew, DonationReaderNew } from '@esa-layouts/types/schemas';
 import MediaBox from '@shared/graphics/mediabox';
-import { RunDataActiveRun, RunDataPlayer } from 'speedcontrol-util/types';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { RunDataActiveRun } from 'speedcontrol-util/types';
+import { Component, Vue } from 'vue-property-decorator';
 import { State } from 'vuex-class';
 import ParticipantInfo from '../_misc/components/ParticipantInfo.vue';
 import DonationBar from './components/DonationBar.vue';
@@ -163,32 +174,12 @@ import Timer from './components/Timer.vue';
   },
 })
 export default class extends Vue {
-  @Prop({ type: String, required: false }) gameLeft!: string | undefined;
-  @Prop({ type: String, required: false }) gameWidth!: string | undefined;
-  @Prop({ type: String, required: false }) gameHeight!: string | undefined;
-  @Prop({ type: String, required: false }) cameraWidth!: string | undefined;
-  @Prop({ type: String, required: false }) cameraHeight!: string | undefined;
-  @Prop({ type: String, required: false }) participantsHeight!: string | undefined;
-  @Prop({ type: Number, required: false }) participantsZoom!: number | undefined;
-  @Prop({ type: Boolean, default: true }) participantsBorderBottom!: boolean;
-  @Prop({ type: String, required: false }) gameInfoMediaBoxTop!: string | undefined;
-  @Prop({ type: String, required: false }) gameInfoMediaBoxHeight!: string | undefined;
-  @Prop({ type: String, required: false }) donationBarTop!: string | undefined;
-  @Prop({ type: String, required: false }) donationBarWidth!: string | undefined;
-  @Prop({ type: String, required: false }) donationBarHeight!: string | undefined;
-  @Prop({ type: Number, required: false }) donationBarBoxPadding!: number | undefined;
-  @Prop({ type: String, required: false }) donationBarBoxFontSize!: string | undefined;
   @State('runDataActiveRun') runData!: RunDataActiveRun;
   @State readonly commentatorsNew!: CommentatorsNew;
   @State readonly donationReaderNew!: DonationReaderNew;
 
-  get players(): RunDataPlayer[] {
+  get players() {
     if (!this.runData) return [];
-    if (this.runData.relay) {
-      const team = this.runData?.teams[0];
-      const player = team?.players.find((p) => p.id === team.relayPlayerID);
-      return player ? [player] : [];
-    }
     return this.runData.teams.map((t) => t.players).flat(1);
   }
 }

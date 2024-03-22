@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
 import {
-  Bids,
+ AdditionalDonations, Bids,
   BigbuttonPlayerMap,
   CapturePositions,
   Commentators,
@@ -37,6 +37,7 @@ import { get as nodecg } from './nodecg';
  * This is where you can declare all your replicant to import easily into other files,
  * and to make sure they have any correct settings on startup.
  */
+export const additionalDonations = nodecg().Replicant<AdditionalDonations>('additionalDonations') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<AdditionalDonations>;
 export const assetsDonationAlertAssets = nodecg().Replicant<NodeCGTypes.AssetFile[]>('assets:donation-alert-assets') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<NodeCGTypes.AssetFile[]>;
 export const assetsIntermissionSlides = nodecg().Replicant<NodeCGTypes.AssetFile[]>('assets:intermission-slides') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<NodeCGTypes.AssetFile[]>;
 export const assetsMediaBoxImages = nodecg().Replicant<NodeCGTypes.AssetFile[]>('assets:media-box-images') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<NodeCGTypes.AssetFile[]>;

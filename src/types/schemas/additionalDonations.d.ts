@@ -5,13 +5,7 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export type NotableDonations = {
-	event: string;
-	_id: number;
-	donor_visiblename: string;
-	amount: number;
-	comment_state?: string | number;
-	comment: string | null;
-	time_received?: string;
-	[k: string]: unknown;
+export type AdditionalDonations = {
+	key: string;
+	active: boolean;
 }[];

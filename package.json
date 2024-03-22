@@ -272,7 +272,7 @@
         "title": "RabbitMQ Test",
         "width": 3,
         "file": "rabbitmq-test.html",
-        "workspace": "Z - BSG Advanced",
+        "workspace": "Z9 - Debug",
         "headerColor": "#c49215"
       },
       {
@@ -281,6 +281,14 @@
         "width": 4,
         "file": "checklist.html",
         "headerColor": "#33cbcb"
+      },
+      {
+        "name": "additional-donations-control",
+        "title": "Additional Donations Control",
+        "width": 3,
+        "file": "additional-donations-control.html",
+        "workspace": "Z2 - ESA Advanced",
+        "headerColor": "#c49215"
       }
     ],
     "graphics": [

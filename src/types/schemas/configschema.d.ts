@@ -145,6 +145,15 @@ export interface Configschema {
 	therungg: {
 		enabled: boolean;
 	};
+	tiltify: {
+		errorDiscordWebhook?: string;
+		errorDiscordWebhookUserIdToPing?: string;
+	};
+	additionalDonations: {
+		key: string;
+		description: string;
+		amount: number;
+	}[];
 }
 export interface BidwarBias {
 	bidId: number;

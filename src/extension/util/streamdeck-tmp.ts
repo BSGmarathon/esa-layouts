@@ -2,6 +2,7 @@
 
 import { EventEmitter } from 'stream';
 import * as util from 'util';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { Server } from 'socket.io';
 import type { SocketId } from 'socket.io-adapter';
 import type { ButtonLocations, ButtonObject, EventReceive } from 'streamdeck-util/types';

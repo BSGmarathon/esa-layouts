@@ -9,7 +9,7 @@ import { get as nodecg } from './util/nodecg';
 import obs from './util/obs';
 import { mq } from './util/rabbitmq';
 import {
-  bigbuttonPlayerMap,
+ additionalDonations, bigbuttonPlayerMap,
   commentators,
   commentatorsNew,
   lowerThird,
@@ -74,7 +74,7 @@ sc.runDataActiveRun.on('change', (newVal, oldVal) => {
       || (obs.connected && !obs.isCurrentScene(config.obs.names.scenes.gameLayout)))) {
     // Only trigger these changes if the new run has a scheduled time, which means it was
     // imported from an external schedule. This stops manually added runs (like bonus runs)
-    // Having things erased.
+    // having things erased.
     if (sc.runDataActiveRun.value && newVal && newVal.scheduled) {
       if (config.event.shorts !== 'swcf') commentators.value.length = 0;
       // If not online and flagcarrier is enabled,
@@ -222,7 +222,7 @@ async function searchPronounsOnEsByStr(val: string): Promise<DonationReaderNew> 
 
   return {
     name: user.name,
-    country: user.country || undefined,
+    country: country || undefined,
     pronouns: user.pronouns || undefined,
   };
 }
@@ -303,6 +303,7 @@ nodecg().listenFor('commentatorRemove', (val: number, ack) => {
 
 // Processes modifying the reader from the dasboard panel.
 nodecg().listenFor('readerModify', async (val: string | null | undefined, ack) => {
+  // TODO: pronouns from ESA server.
   if (!val) {
     donationReaderNew.value = null;
     donationReader.value = null;
@@ -329,15 +330,30 @@ async function changeTwitchMetadata(title?: string, gameId?: string): Promise<vo
       // TODO: Expose a helper in that bundle to do this stuff instead.
       const runData = sc.getCurrentRun();
       const mentionChannels = true;
-      const players = runData?.teams.map((team) => (
-        team.players.map((player) => (mentionChannels && player.social.twitch
-          ? `@${player.social.twitch}` : player.name)).join(', ')
-      )).join(' vs. ') || 'Runs coming up!'; // "Fake" string to show when no runners active
+      let players = 'Runs coming up!'; // "Fake" string to show when no runners active
+      // OVERRIDE FOR RELAYS BECAUSE LOTS OF PEOPLE! ESAW24
+      if (runData?.relay && runData.teams[0].name) {
+        players = runData.teams[0].name;
+      } else {
+        players = runData?.teams.map((team) => (
+          team.players.map((player) => (mentionChannels && player.social.twitch
+            ? `@${player.social.twitch}` : player.name)).join(', ')
+        )).join(' vs. ') || 'Runs coming up!'; // "Fake" string to show when no runners active
+      }
+      const additionalDonationsMapped = nodecg().bundleConfig.additionalDonations.map((d) => ({
+        key: d.key,
+        description: d.description,
+        amount: d.amount,
+        active: additionalDonations.value.find((a) => a.key === d.key)?.active ?? false,
+      }));
+      const donationTotalAdditional = additionalDonationsMapped
+        .filter((d) => d.active).reduce((partialSum, a) => partialSum + a.amount, 0);
+      const fullDonationTotal = donationTotal.value + donationTotalAdditional;
       t = t
         .replace(/{{game}}/g, runData?.game || '') // Copied from SC
         .replace(/{{players}}/g, players) // Copied from SC
         .replace(/{{category}}/g, runData?.category || '') // Copied from SC
-        .replace(/{{total}}/g, formatUSD(donationTotal.value, true)); // Original to this bundle
+        .replace(/{{total}}/g, formatUSD(fullDonationTotal, true)); // Original to this bundle
     } else {
       throw new Error('no title found to update to');
     }
@@ -389,11 +405,19 @@ if (config.tracker.donationTotalInTitle) {
   // Used to change the Twitch title when the donation total updates.
   let donationTotalInit = false;
   donationTotal.on('change', async (val) => {
-    if (donationTotalInit) {
+    if (donationTotalInit && twitchAPIData.value.sync) {
       nodecg().log.debug('[Misc] Donation total updated to %s, will attempt to set title', val);
       await changeTwitchMetadata();
     }
     donationTotalInit = true;
+  });
+  let additionalDonationsInit = false;
+  additionalDonations.on('change', async () => {
+    if (additionalDonationsInit && twitchAPIData.value.sync) {
+      nodecg().log.debug('[Misc] Additional donations updated, will attempt to set title');
+      await changeTwitchMetadata();
+    }
+    additionalDonationsInit = true;
   });
 }
 
