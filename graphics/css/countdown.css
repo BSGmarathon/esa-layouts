@@ -87,4 +87,5 @@
   overflow: hidden;
 }
 
-#Countdown{position:absolute;top:0;left:0;height:100%}#Countdown #Layout{position:relative;justify-content:center;align-items:center}#Countdown #Layout div div:last-child{margin-top:0 !important}.musicContainer{position:relative;width:672px;height:100px;left:484px;top:200px;font-size:20px}
+img[data-v-1bb6e7e3]{display:none}.scorePart[data-v-1bb6e7e3]{padding-left:10px;justify-content:space-between;max-width:100%}.scorePart p[data-v-1bb6e7e3]{font-size:1.5em}canvas[data-v-1bb6e7e3]{box-sizing:border-box}
+#Countdown{position:absolute;top:0;left:0;height:100%}#Countdown #Layout{position:relative;justify-content:center;align-items:center}#Countdown #Layout div div:last-child{margin-top:0 !important;letter-spacing:.5rem}.game-container{position:absolute;left:27px;top:600px}.musicContainer{position:absolute;width:672px;height:100px;left:57px;top:148px;font-size:20px}
