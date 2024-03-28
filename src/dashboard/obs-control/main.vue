@@ -49,7 +49,7 @@
         @click="startIntermission"
         :disabled="disableIntermission"
       >
-        Start Intermission
+        Transition to Intermission (<strong><em>ADS</em></strong>)
         <template v-if="currentRunDelay.audio">
           ({{ (currentRunDelay.audio / 1000).toFixed(1) }}s delay)
         </template>

@@ -34,6 +34,7 @@
     "@esamarathon/mq-events": "^1.0.1",
     "animate.css": "^4.1.1",
     "clone": "^2.1.2",
+    "comfy.js": "^1.1.16",
     "discord.js": "^13.17.1",
     "lodash": "^4.17.21",
     "module-alias": "^2.2.3",

@@ -9,7 +9,7 @@
         height: '100%',
       }"
     >
-      <countdown :style="{ 'margin-top': '50px' }" />
+      <countdown class="textOrangeShadow" :style="{ 'margin-top': '50px' }" />
 
       <div class="game-container">
         <game/>
@@ -58,17 +58,24 @@ export default class extends Vue {
 
     div div:last-child {
       margin-top: 0 !important;
+      letter-spacing: .5rem;
     }
   }
 }
 
+.game-container {
+  position: absolute;
+  left: 27px;
+  top: 600px;
+}
+
 .musicContainer {
-  position: relative;
+  position: absolute;
   width: 672px;
   height: 100px;
-  left: 484px;
-  top: 200px;
+  left: 57px;
+  top: 148px;
   font-size: 20px;
-  //background: rgba(255, 255, 255, 0.5);
+  //background: rgba(0, 0, 0, 0.5);
 }
 </style>

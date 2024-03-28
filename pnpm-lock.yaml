@@ -14,6 +14,9 @@ dependencies:
   clone:
     specifier: ^2.1.2
     version: 2.1.2
+  comfy.js:
+    specifier: ^1.1.16
+    version: 1.1.16
   discord.js:
     specifier: ^13.17.1
     version: 13.17.1
@@ -2007,6 +2010,17 @@ packages:
     engines: {node: '>= 0.8'}
     dependencies:
       delayed-stream: 1.0.0
+    dev: false
+
+  /comfy.js@1.1.16:
+    resolution: {integrity: sha512-APuu/fo1u96v/ARN/K/wjhz0PXwEW6A21nKIp6OIypZcsWNNzZOl8bDdDSn6yfDToJTHsd8cTsZy6YiMBSwsWQ==}
+    dependencies:
+      node-fetch: 2.7.0
+      tmi.js: 1.8.5
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - utf-8-validate
     dev: false
 
   /commander@2.20.3:
@@ -5697,6 +5711,18 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /tmi.js@1.8.5:
+    resolution: {integrity: sha512-A9qrydfe1e0VWM9MViVhhxVgvLpnk7pFShVUWePsSTtoi+A1X+Zjdoa7OJd7/YsgHXGj3GkNEvnWop/1WwZuew==}
+    engines: {node: '>=10.0.0'}
+    dependencies:
+      node-fetch: 2.7.0
+      ws: 8.16.0
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - utf-8-validate
+    dev: false
 
   /tmp@0.0.33:
     resolution: {integrity: sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw==}
