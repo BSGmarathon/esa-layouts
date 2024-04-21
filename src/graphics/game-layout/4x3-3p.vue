@@ -1,5 +1,5 @@
 <template>
-<div class="bsglayout _4x3_3p">
+  <div class="bsglayout _4x3_3p">
     <!-- Game Captures -->
     <game-capture
       id="GameCapture1"
@@ -46,97 +46,87 @@
         width: '662px',
         height: '496px',
       }"
-    >
-      <flashing-lights-warning/>
-    </div>
+    />
 
     <!-- General Run Info -->
 
     <!-- Players -->
     <div
-      class="Fixed FlexColumn BlockGreen"
+      class="Fixed FlexColumn"
       :style="{
-      left: '672px',
-      top: '288px',
-      width: '505px',
-      height: '84px',
+      left: '675px',
+      top: '338px',
+      width: '512px',
+      height: '44px',
       }"
     >
-    <player :slot-no="0"  />
+      <player :slot-no="0"/>
     </div>
 
     <div
-      class="Fixed FlexColumn BlockGreen"
+      class="Fixed FlexColumn"
       :style="{
-      left: '730px',
-      top: '410px',
-      width: '520px',
-      height: '84px',
+      left: '729px',
+      top: '453px',
+      width: '517px',
+      height: '44px',
       }"
     >
-    <player :slot-no="1" />
+      <player :slot-no="1"/>
     </div>
 
     <div
-      class="Fixed FlexColumn BlockGreen"
+      class="Fixed FlexColumn"
       :style="{
-      left: '672px',
-      top: '532px',
-      width: '505px',
-      height: '84px',
+      left: '675px',
+      top: '574px',
+      width: '512px',
+      height: '44px',
       }"
     >
-    <player :slot-no="2" />
+      <player :slot-no="2"/>
     </div>
-      <!--<comm-and-reader />-->
 
-      <div
-        class="Fixed FlexColumn BlockYellow"
-        :style="{
-          flex: '1',
-          left: '680px',
-          top: '4px',
-          width: '470px',
-          height: '270px',
-        }"
-      >
-        <run-info />
-        <div class="sub_div">
-        <commentators-reader />
-        <commentators-reader show-reader />
-      </div>
-        </div>
-
-      <!-- Run Game Info/Timer -->
-      <div
-        class="Fixed FlexColumn BlockBlack"
-        :style="{
-          flex: '1',
-          width: '100%',
-          left: '810px',
-          top: '675px',
-          width: '535px',
-          height: '103px',
-        }"
-      >
-              <timer />
-            </div>
-
-    <!-- Media Box -->
-    <media-box
-      :font-size="20"
+    <!-- Run Game Info/host/comms -->
+    <div
+      class="Fixed FlexColumn"
       :style="{
-        left: '699px',
-        top: '783px',
-        width: '525px',
-        height: '205px',
+        left: '675px',
+        top: '0px',
+        width: '571px',
+        height: '333px',
       }"
-    />
-        </div>
+    >
+      <run-info line-left line-right />
+      <commentators-reader line-top show-reader/>
+      <commentators-reader line-top/>
+    </div>
+
+    <!-- Timer/Media Box -->
+    <div
+      class="Fixed FlexColumn"
+      :style="{
+        left: '675px',
+        top: '681px',
+        width: '571px',
+        height: '317px',
+      }"
+    >
+      <timer line-right line-left/>
+      <flashing-lights-warning/>
+      <media-box-box
+        line-left
+        line-right
+        :style="{
+          width: '571px',
+          height: '100%',
+        }"
+      />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import MediaBox from '@shared/graphics/mediabox';
 import { Component, Vue } from 'vue-property-decorator';
 import CommentatorsReader from './components/CommentatorsReader.vue';
 import GameCapture from './components/GameCapture.vue';
@@ -144,6 +134,7 @@ import Player from './components/Player.vue';
 import RunInfo from './components/RunInfo.vue';
 import Timer from './components/Timer.vue';
 import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
+import MediaBoxBox from './components/MediaBoxBox.vue';
 
 @Component({
   components: {
@@ -152,9 +143,10 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
     CommentatorsReader,
     RunInfo,
     Timer,
-    MediaBox,
+    MediaBoxBox,
     FlashingLightsWarning,
   },
 })
-export default class extends Vue {}
+export default class extends Vue {
+}
 </script>

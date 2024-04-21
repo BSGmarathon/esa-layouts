@@ -1,4 +1,4 @@
-import CopyPlugin from 'copy-webpack-plugin';
+// import CopyPlugin from 'copy-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { globbySync } from 'globby';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -63,17 +63,15 @@ const config = (name) => {
       new VuetifyLoaderPlugin(),
     );
   }
-  if (name === 'graphics') {
-    plugins.push(
-      new CopyPlugin({
-        patterns: [
-          // { from: './bsgbacks', to: '../graphics/bsgbacks' },
-          { from: './omnibar/omniing', to: '../graphics/img/omniing' }, // TODO: needed for retro coin
-          // { from: './host-dashboard.*', to: './' },
-        ],
-      }),
-    );
-  }
+  // if (name === 'graphics') {
+  //   plugins.push(
+  //     new CopyPlugin({
+  //       patterns: [
+  //         // { from: './host-dashboard.*', to: './' },
+  //       ],
+  //     }),
+  //   );
+  // }
 
   return {
     context: path.resolve(__dirname, `src/${name}`),

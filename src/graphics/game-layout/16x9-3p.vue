@@ -1,155 +1,142 @@
 <template>
-<div class="bsglayout _16x9_3p">
+  <div class="bsglayout _16x9_3p">
     <!-- Game Captures -->
     <game-capture
       id="GameCapture1"
-      class="BlockRed"
       :slot-no="0"
       finish-time-pos="bottomleft"
       :style="{
         left: '0px',
         top: '0px',
-        width: '714px',
-        height: '404px',
+        width: '712px',
+        height: '405px',
       }"
     />
     <game-capture
       id="GameCapture2"
-      class=" BlockRed"
       :slot-no="1"
       finish-time-pos="topright"
       :style="{
         left: '602px',
-        top: '597px',
-        width: '716px',
-        height: '404px',
+        top: '600px',
+        width: '713px',
+        height: '398px',
       }"
     />
     <game-capture
       id="GameCapture3"
-      class="BlockRed"
       :slot-no="2"
       finish-time-pos="bottomright"
       :style="{
-        left: '1206px',
+        left: '1205px',
         top: '0px',
-        width: '714px',
-        height: '404px',
+        width: '715px',
+        height: '405px',
       }"
     />
 
     <!-- Camera Captures -->
-    <!-- Commentators Inside -->
     <div
       id="CameraCapture1"
-      class="Capture Flex BlockBlue Relative"
+      class="Capture Flex Relative"
       :style="{
-        'justify-content': 'flex-start',
-        'flex-direction': 'column-reverse',
-        left: '741px',
+        left: '736px',
         top: '0px',
-        width: '438px',
+        width: '446px',
         height: '323px',
       }"
+    />
+
+    <!-- Timer -->
+    <div
+      class="Fixed FlexColumn"
+      :style="{
+        left: '726px',
+        top: '337px',
+        width: '465px',
+        height: '130px',
+      }"
     >
-      <flashing-lights-warning/>
-      <!--<comm-and-reader />-->
+      <timer line-right line-left />
     </div>
 
     <!-- Players -->
     <div
-      class="Fixed FlexColumn BlockGreen"
-    :style="{
-      'font-size': '22px',
-      left: '38px',
+      class="Fixed FlexColumn"
+      :style="{
+      left: '0px',
       top: '418px',
-      width: '523px',
-      height: '83px',
+      width: '721px',
+      height: '44px',
     }"
     >
-    <player  :slot-no="0"  />
-        </div>
-
-        <div
-          class="Fixed FlexColumn BlockGreen"
-        :style="{
-          'font-size': '22px',
-          left: '714px',
-          top: '498px',
-          width: '523px',
-          height: '83px',
-        }"
-        >
-    <player :slot-no="1"/>
+      <player :slot-no="0"/>
     </div>
 
     <div
-      class="Fixed FlexColumn BlockGreen"
-    :style="{
-      'font-size': '22px',
-      left: '1360px',
-      top: '418px',
-      width: '523px',
-      height: '83px',
-    }"
-    >
-    <player
-      :slot-no="2"
-    />
-    </div>
-
-    <!-- Run Game Info/Timer -->
-    <div
-      class="Fixed FlexColumn BlockYellow"
+      class="Fixed FlexColumn"
       :style="{
-        left: '24px',
-        top: '603px',
-        width: '550px',
-        height: '274px',
+      left: '594px',
+      top: '542px',
+      width: '730px',
+      height: '44px',
       }"
     >
-      <run-info />
-      <div class="sub_div">
-      <commentators-reader />
-<commentators-reader show-reader />
+      <player :slot-no="1"/>
     </div>
-    </div>
-
-    <!-- TIMER -->
 
     <div
-      class="Fixed FlexColumn BlockBlack"
+      class="Fixed FlexColumn"
       :style="{
-        flex: '1',
-        width: '100%',
-        left: '156px',
-        top: '904px',
-        width: '534px',
-        height: '100px',
+        left: '1196px',
+        top: '418px',
+        width: '724px',
+        height: '44px',
       }"
     >
-            <timer />
-          </div>
+      <player :slot-no="2"/>
+    </div>
+
+    <!-- Run Game Info / Reader / Commentators -->
+    <div
+      class="Fixed FlexColumn"
+      :style="{
+        left: '0px',
+        top: '592px',
+        width: '589px',
+        height: '406px',
+      }"
+    >
+      <run-info line-right />
+      <commentators-reader line-top show-reader />
+      <commentators-reader line-top />
+    </div>
 
     <!-- Media Box -->
-    <media-box
-      class="BlockPurple"
-      :font-size="20"
+    <div
+      class="Fixed FlexColumn"
       :style="{
-        left: '1353px',
-        top: '589px',
-        width: '548px',
-        height: '409px',
+        left: '1329px',
+        top: '592px',
+        width: '591px',
+        height: '406px',
       }"
-    />
-
-    <!-- Donation Bar -->
+    >
+      <flashing-lights-warning/>
+      <media-box-box
+        line-right
+        line-left
+        :style="{
+          width: '591px',
+          height: '100%',
+        }"
+      />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import MediaBox from '@shared/graphics/mediabox';
 import GameCapture from './components/GameCapture.vue';
 import Player from './components/Player.vue';
 import CommentatorsReader from './components/CommentatorsReader.vue';
@@ -157,6 +144,7 @@ import RunInfo from './components/RunInfo.vue';
 import Timer from './components/Timer.vue';
 import DonationBar from './components/DonationBar.vue';
 import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
+import MediaBoxBox from './components/MediaBoxBox.vue';
 
 @Component({
   components: {
@@ -165,10 +153,11 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
     CommentatorsReader,
     RunInfo,
     Timer,
-    MediaBox,
+    MediaBoxBox,
     DonationBar,
     FlashingLightsWarning,
   },
 })
-export default class extends Vue {}
+export default class extends Vue {
+}
 </script>

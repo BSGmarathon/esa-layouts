@@ -3,130 +3,95 @@
     <!-- Game Captures -->
     <game-capture
       id="GameCapture1"
-      class="BlockRed"
       :style="{
-        left: '482px',
+        left: '483px',
         top: '0px',
-        width: '1440px',
-        height: '810px',
+        width: '1437px',
+        height: '811px',
       }"
     />
 
     <!-- Camera Captures -->
     <div
       id="CameraCapture1"
-      class="Capture BlockBlue Relative"
-      :style="{
-        left: '8px',
-        top: '9px',
-        width: '440px',
-        height: '366px',
-      }"
-    >
-      <flashing-lights-warning />
-    </div>
-
-    <!-- Run Game Info/Timer -->
-    <div
-      class="Fixed FlexColumn BlockGreen"
+      class="Capture Relative"
       :style="{
         left: '0px',
-        top: '363px',
-        width: '447px',
-        height: '86px',
+        top: '0px',
+        width: '462px',
+        height: '349px',
       }"
-    >
-      <div
-        class="Fixed FlexColumn BlockYellow"
-        :style="{
-          flex: '1',
-          width: '100%',
-          left: '1213px',
-          top: '827px',
-          width: '680px',
-          height: '170px',
-        }"
-      >
-        <run-info />
-      </div>
-      <div
-        class="Fixed FlexColumn BlockBlack"
-        :style="{
-          flex: '1',
-          width: '100%',
-          left: '495px',
-          top: '864px',
-          width: '692px',
-          height: '137px',
-        }"
-      >
-        <div
-          :style="{
-        left: '200px',
-        'position': 'absolute',
-        }">
-          <timer />
-        </div>
-        <div class="sub_div"
-             :style="{
-            'margin-right': '24px',
-            width: '97%',
-        }">
-          <commentators-reader />
-        </div>
-      </div>
-    </div>
-
-      <div class="Fixed"
-           :style="{
-        width: '97%',
-        left: '18px',
-        top: '957px',
-        width: '428px',
-        height: '111px',
-        }">
-        <commentators-reader show-reader />
-      </div>
+    />
 
     <div
-      class="Fixed FlexColumn BlockGreen"
+      class="Fixed FlexColumn"
       :style="{
       left: '0px',
-      top: '363px',
-      width: '447px',
-      height: '86px',
+      top: '361px',
+      width: '469px',
+      height: '44px',
       }"
     >
-      <player />
+      <player/>
     </div>
-    <div
-      class="Fixed FlexColumn BlockGreen"
-      :style="{
-      left: '18px',
-      top: '458px',
-      width: '428px',
-      height: '86px',
-      }"
-    />
 
-    <!-- Media Box -->
-    <media-box
-      vertical
-      :font-size="20"
-      class="Fixed FlexColumn BlockPurple"
+    <!-- Run Game Info -->
+    <div
+      class="Fixed FlexColumn"
       :style="{
-            left: '18px',
-            top: '458px',
-            width: '428px',
-            height: '511px',
-          }"
-    />
+          left: '474px',
+          top: '822px',
+          width: '731px',
+          height: '176px',
+        }"
+    >
+      <timer
+        class="TimerFH"
+        line-right
+        line-left
+        :line-bottom="false"
+      />
+    </div>
+
+    <!-- Run Game Info -->
+    <div
+      class="Fixed FlexColumn"
+      :style="{
+        left: '1210px',
+        top: '822px',
+        width: '710px',
+        height: '176px',
+      }"
+    >
+      <run-info text-align="left" />
+    </div>
+
+    <!-- Media Box / Reader / Comms -->
+    <div
+      class="Fixed FlexColumn"
+      :style="{
+        left: '0px',
+        top: '410px',
+        width: '469px',
+        height: '588px',
+      }"
+    >
+      <flashing-lights-warning/>
+      <media-box-box
+        line-right
+        :style="{
+          width: '469px',
+          height: '100%',
+        }"
+      />
+      <commentators-reader line-top show-reader />
+      <commentators-reader line-top />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import MediaBox from '@shared/graphics/mediabox';
 import GameCapture from './components/GameCapture.vue';
 import Player from './components/Player.vue';
 import CommentatorsReader from './components/CommentatorsReader.vue';
@@ -134,6 +99,7 @@ import RunInfo from './components/RunInfo.vue';
 import Timer from './components/Timer.vue';
 import DonationBar from './components/DonationBar.vue';
 import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
+import MediaBoxBox from './components/MediaBoxBox.vue';
 
 @Component({
   components: {
@@ -142,7 +108,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
     CommentatorsReader,
     RunInfo,
     Timer,
-    MediaBox,
+    MediaBoxBox,
     DonationBar,
     FlashingLightsWarning,
   },

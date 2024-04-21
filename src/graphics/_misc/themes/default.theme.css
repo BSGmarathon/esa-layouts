@@ -13,42 +13,87 @@ body {
   border-color: #41245b;
 }
 
+*[class*='Timer'] {
+  --timer-glow: 10px;
+}
+
+*[class*='Timer'] span {
+  color: var(--timer-color);
+  text-shadow: 0 0 var(--timer-glow) var(--timer-color);
+  /*box-shadow: 0 0 10px var(--timer-color);*/
+}
+
 .TimerStopped, .TimerPaused {
-  color: #4B5267;
+  --timer-color: #BCBCBC;
 }
 
 .TimerRunning {
-  color: #d7d7d7;
-  font-family: "Goodlight";
+  /*--timer-color: #d7d7d7;*/
+  --timer-color: #FFFFFF;
 }
 
 .TimerFinished {
-  color: #AAFAC8;
+  /*--timer-color: #AAFAC8;*/
+  --timer-color: #fffacc;
+
+  animation-name: timer-blink;
+  animation-duration: 500ms;
+  animation-iteration-count: 3;
+}
+
+@keyframes timer-blink {
+  0% {
+    /*opacity: 0.5;*/
+    /*--timer-color: #dad8c3;*/
+  }
+  25% {
+    /*opacity: 0;*/
+    --timer-color: #BCBCBC;
+    --timer-glow: 0;
+  }
+  50% {
+    /*opacity: 0;*/
+    --timer-color: #BCBCBC;
+    --timer-glow: 0;
+  }
+
+  75% {
+    /*opacity: 1;*/
+    --timer-color: #fffacc;
+  }
+
+  100% {
+    /*opacity: 1;*/
+    --timer-color: #fffacc;
+  }
+
 }
 
 .TimerForfeit {
-  color: #ff6767;
+  --timer-color: #ff6767;
 }
 
 #GameLayout .RunInfoExtra {
   color: #d7d7d7;
-  /*align-items: left; this is an invalid property value riek*/
+}
+
+.PlayerText {
+  font-family: Bahnschrift;
 }
 
 .Player {
-  color: #d7d7d7;
+  color: var(--text-color);
   /*background-color: #41245b;*/
 }
 
 .Player .Pronouns,
 .DonationReader .Pronouns,
 .CommAndReader .Pronouns {
-  font-weight: 200;
-  font-size: 0.8em;
-  color: #d7d7d7;
+  font-family: pixelmix;
+  font-size: 9pt;
+  color: var(--text-color);
   text-transform: uppercase;
-  background-color: #914e21;
-  border-radius: 15px;
+  background-color: var(--slide-color);
   justify-content: center;
   align-items: center;
 }
@@ -57,9 +102,12 @@ body {
   background-color: #CF773B;
 }
 
-.Player .Pronouns {
-  font-weight: 400 !important;
-  padding-top: 10px !important;
+.has-side-lines {
+  align-self: center;
+  box-sizing: border-box;
+  position: relative;
+  width: calc(100% - 14px);
+  height: calc(100% - 12px);
 }
 
 /** New commentators and reader component! **/
@@ -202,38 +250,10 @@ body {
   position: absolute;
   width: 100%;
   bottom: 0px;
-  font-family: 'Goodlight';
+  font-family: 'Bahnschrift';
   font-size: 21pt;
   white-space: normal;
 }
-
-/*
-.BlockRed {
-  background-color: red;
-}
-.BlockBlue {
-  background-color: blue;
-}
-.BlockGreen {
-  background-color: green;
-}
-.BlockYellow {
-  background-color: yellow;
-}
-.BlockPurple {
-  background-color: purple;
-}
-.BlockBlack {
-  background-color: black;
-}
-*/
-
-/*
-.BlockYellow {
-  background-color: yellow;
-  opacity: 0.3;
-}
-*/
 
 #Omnibar .Alert {
   background-color: rgba(255, 255, 255, 0.22);

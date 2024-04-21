@@ -1,5 +1,6 @@
 /* @import url('../_misc/fonts/barlow-condensed.css'); */
 @import 'fonts/goodlightotf.css';
+@import 'fonts/general_bsg.css';
 @import url('../_misc/fonts/montserrat.css');
 
  body {
@@ -41,11 +42,17 @@
   align-items: left;
   justify-content: left;
 }
+
 .FlexPlayer {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
+.FlexRow {
+  flex-direction: row;
+}
+
 .FlexColumn {
   flex-direction: column;
 }

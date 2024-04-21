@@ -112,3 +112,4 @@ Here's a list of previous bundles that used to fulfil the purpose of this one, w
 
 * Country flags sourced from [speedrun.com](https://www.speedrun.com/).
 * [clip.ts](src/graphics/_misc/clip.ts), modified from a version originally written by [Hoishin](https://github.com/hoishin).
+* https://calculateaspectratio.com/ for helping me (duncte) wiht some math

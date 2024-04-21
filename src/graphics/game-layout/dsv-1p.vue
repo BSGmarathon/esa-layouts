@@ -1,24 +1,22 @@
 <template>
-<div class="bsglayout _ds_1p_vertical">
+  <div class="bsglayout _ds_1p_vertical">
     <!-- Game Captures -->
     <game-capture
       id="GameCapture1"
-      class=""
       :style="{
-      left: '931px',
+      left: '932px',
       top: '0px',
-      width: '649px',
-      height: '487px',
+      width: '647px',
+      height: '487px'
       }"
     />
     <game-capture
       id="GameCapture3"
-      class=" "
       :style="{
-      left: '931px',
-      top: '512px',
-      width: '649px',
-      height: '487px',
+      left: '932px',
+      top: '513px',
+      width: '647px',
+      height: '485px'
       }"
     />
 
@@ -27,79 +25,63 @@
       id="CameraCapture1"
       class="Capture Relative"
       :style="{
-      left: '7px',
-      top: '273px',
-      width: '547px',
-      height: '360px',
+      left: '0px',
+      top: '363px',
+      width: '566px',
+      height: '307px',
       }"
     >
-      <flashing-lights-warning
-        :style="{
-          top: '33px',
-        }"
-      />
+      <flashing-lights-warning />
     </div>
 
-    <!-- Run Game Info/Timer -->
+    <!-- Run Game Info -->
     <div
       class="Fixed FlexColumn"
       :style="{
       left: '0px',
       top: '0px',
-      width: '517px',
-      height: '290px',
+      width: '574px',
+      height: '349px'
       }"
     >
-      <run-info />
-      <div class="sub_div">
-      <commentators-reader />
-<commentators-reader show-reader />
-    </div>
-      </div>
-
-          <!--TIMER-->
-          <div
-            class="Fixed FlexColumn BlockBlack"
-            :style="{
-              flex: '1',
-              width: '100%',
-              left: '147px',
-              top: '733px',
-              width: '535px',
-              height: '103px',
-            }"
-          >
-            <timer />
+      <run-info line-right />
+      <commentators-reader line-top show-reader/>
+      <commentators-reader line-top/>
     </div>
 
-    <!-- Player/Commetator -->
+    <!-- Player -->
     <div
       class="Fixed"
       :style="{
       left: '0px',
-      top: '636px',
-      width: '536px',
-      height: '82px',
+      top: '683px',
+      width: '574px',
+      height: '44px'
       }"
     >
-      <player />
-      <!--<commentators-reader />
-      <commentators-reader show-reader />-->
+      <player/>
     </div>
 
-    <!-- Media Box -->
-<media-box
-      :font-size="20"
-    class="Fixed FlexColumn BlockPurple"
+    <!-- Media Box / Timer -->
+    <div
+      class="Fixed FlexColumn"
       :style="{
-        left: '24px',
-        top: '840px',
-        width: '528px',
-        height: '157px',
+        left: '0px',
+        top: '732px',
+        width: '574px',
+        height: '266px',
       }"
-    />
+    >
+      <timer line-right />
+      <media-box-box
+        line-right
+        :style="{
+          width: '574px',
+          height: '100%',
+        }"
+      />
+    </div>
 
-    <!-- Donation Bar -->
   </div>
 </template>
 
@@ -113,6 +95,7 @@ import RunInfo from './components/RunInfo.vue';
 import Timer from './components/Timer.vue';
 import DonationBar from './components/DonationBar.vue';
 import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
+import MediaBoxBox from './components/MediaBoxBox.vue';
 
 @Component({
   components: {
@@ -122,9 +105,11 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
     RunInfo,
     Timer,
     MediaBox,
+    MediaBoxBox,
     DonationBar,
     FlashingLightsWarning,
   },
 })
-export default class extends Vue {}
+export default class extends Vue {
+}
 </script>

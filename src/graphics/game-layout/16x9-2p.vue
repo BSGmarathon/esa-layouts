@@ -7,9 +7,9 @@
       :slot-no="0"
       :style="{
       left: '0px',
-      top: '74px',
-      width: '955px',
-      height: '540px',
+      top: '77px',
+      width: '958px',
+      height: '536px',
       }"
     />
     <game-capture
@@ -18,120 +18,96 @@
       finish-time-pos="bottomright"
       :style="{
       left: '963px',
-      top: '74px',
-      width: '957px',
-      height: '540px',
+      top: '77px',
+      width: '958px',
+      height: '536px',
       }"
     />
 
     <!-- Camera Captures -->
-    <!-- Online has 2 camera spots -->
     <div
-      v-if="!online"
       id="CameraCapture1"
       class="Capture Relative"
       :style="{
-      left: '724px',
-      top: '732px',
-      width: '470px',
-      height: '268px',
+      left: '696px',
+      top: '742px',
+      width: '529px',
+      height: '256px',
       }"
-    >
-      <flashing-lights-warning/>
-    </div>
-    <template v-else>
-      <div
-        id="CameraCapture1"
-        class="Capture"
-        :style="{
-          left: '711px',
-          top: '720px',
-          width: '249px',
-          height: '280px',
-        }"
-      />
-      <div
-        id="CameraCapture2"
-        class="Capture"
-        :style="{
-          left: '960px',
-          top: '720px',
-          width: '249px',
-          height: '280px',
-        }"
-      />
-    </template>
+    />
 
-    <!-- Player 1/Commentator -->
+    <!-- Player 1 -->
     <div
       class="Fixed"
       :style="{
-      left: '189px',
-      top: '648px',
-      width: '520px',
-      height: '85px'
+      left: '0px',
+      top: '627px',
+      width: '682px',
+      height: '44px'
       }"
     >
       <player :slot-no="0" />
-      <!--<commentators-reader />
-      <commentators-reader show-reader />-->
     </div>
 
-    <!-- Player 2/General Run Info -->
+    <!-- Player 2 -->
     <div
       class="Fixed FlexColumn"
       :style="{
-      left: '1209px',
-      top: '632px',
-      width: '520px',
-      height: '85px'
+      left: '1238px',
+      top: '627px',
+      width: '682px',
+      height: '44px'
       }"
     >
       <player :slot-no="1" />
-
-      <!-- Run Game Info/Timer -->
-      <div
-        class="Fixed FlexColumn BlockYellow"
-        :style="{
-        flex: '1',
-        width: '100%',
-        left: '1227px',
-        top: '727px',
-        width: '545px',
-        height: '270px',
-        }"
-      >
-        <run-info :style="{ 'font-size': '35px' }" />
-        <div class="sub_div">
-          <commentators-reader />
-          <commentators-reader show-reader />
-        </div>
-      </div>
-      <div
-        class="Fixed FlexColumn BlockBlack"
-        :style="{
-    flex: '1',
-    width: '100%',
-    left: '821px',
-    top: '636px',
-    width: '412px',
-    height: '75px',
-  }"
-      >
-        <timer />
-      </div>
     </div>
 
-    <!-- Media Box -->
-    <media-box
-      :font-size="20"
+    <div
+      class="Fixed FlexColumn"
       :style="{
-      left: '43px',
-      top: '729px',
-      width: '665px',
-      height: '269px',
-      }"
-    />
+          left: '687px',
+          top: '627px',
+          width: '546px',
+          height: '101px',
+        }"
+    >
+      <timer line-left line-right />
+    </div>
+
+    <!-- Run Game Info -->
+    <div
+      class="Fixed FlexColumn"
+      :style="{
+        left: '1238px',
+        top: '676px',
+        width: '682px',
+        height: '322px',
+        }"
+    >
+      <flashing-lights-warning class="Flex" style="align-self: flex-end" />
+      <run-info line-right />
+    </div>
+
+    <!-- Media Box / Reader / Commentators -->
+    <div
+      class="Fixed FlexColumn"
+      :style="{
+          left: '0px',
+          top: '676px',
+          width: '682px',
+          height: '322px',
+        }"
+    >
+      <media-box-box
+        line-right
+        :style="{
+          width: '682px',
+          height: '100%',
+        }"
+      />
+      <commentators-reader line-top show-reader />
+      <commentators-reader line-top />
+    </div>
 
   </div>
 </template>
@@ -145,6 +121,7 @@ import Player from './components/Player.vue';
 import RunInfo from './components/RunInfo.vue';
 import Timer from './components/Timer.vue';
 import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
+import MediaBoxBox from './components/MediaBoxBox.vue';
 
 @Component({
   components: {
@@ -154,10 +131,10 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
     RunInfo,
     Timer,
     MediaBox,
+    MediaBoxBox,
     FlashingLightsWarning,
   },
 })
 export default class extends Vue {
-  online = nodecg.bundleConfig.event.online;
 }
 </script>

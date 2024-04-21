@@ -1,9 +1,8 @@
 <template>
-<div class="bsglayout _ds_1p">
+  <div class="bsglayout _ds_1p">
     <!-- Game Captures -->
     <game-capture
       id="GameCapture1"
-      class=" "
       :style="{
       left: '589px',
       top: '0px',
@@ -13,7 +12,6 @@
     />
     <game-capture
       id="GameCapture3"
-      class=" "
       :style="{
       left: '101px',
       top: '709px',
@@ -27,71 +25,60 @@
       id="CameraCapture1"
       class="Capture Relative"
       :style="{
-      left: '6px',
-      top: '228px',
-      width: '548px',
-      height: '294px',
+      left: '0px',
+      top: '299px',
+      width: '567px',
+      height: '236px',
       }"
     >
-      <flashing-lights-warning
-        :style="{
-          top: '33px',
-        }"
-      />
+      <flashing-lights-warning/>
     </div>
 
-    <!-- Run Game Info/Timer -->
+    <!-- Run Game Info / Reader / Commentators -->
     <div
-      class="Fixed FlexColumn BlockYellow"
+      class="Fixed FlexColumn"
       :style="{
       left: '0px',
       top: '0px',
-      width: '555px',
-      height: '231px',
+      width: '575px',
+      height: '285px',
       }"
     >
-      <run-info />
-
-      </div>
-
-          <!--TIMER-->
-          <div
-            class="Fixed FlexColumn BlockBlack"
-            :style="{
-              flex: '1',
-              width: '100%',
-              left: '156px',
-              top: '612px',
-              width: '536px',
-              height: '85px',
-            }"
-          >
-            <timer />
+      <run-info line-right line-left />
+      <commentators-reader line-top show-reader/>
+      <commentators-reader line-top />
     </div>
 
-    <div class="Fixed"
-    :style="{
-    left: '0px',
-    top: '205px',
-    width: '531px',
-    height: '111px',
-    }">
-    <commentators-reader show-reader />
-  </div>
-
-    <!-- Player/Commentator -->
+    <!-- Player -->
     <div
       class="Fixed"
       :style="{
       left: '0px',
-      top: '530px',
-      width: '553px',
-      height: '85px',
+      top: '547px',
+      width: '575px',
+      height: '45px',
       }"
     >
-      <player />
-      <!--<commentators-reader />
-      <commentators-reader show-reader />-->
+      <player/>
+    </div>
+
+    <!--TIMER-->
+    <div
+      class="Fixed FlexColumn"
+      :style="{
+        left: '0px',
+        top: '597px',
+        width: '575px',
+        height: '101px',
+      }"
+    >
+      <timer
+        class="TimerFH"
+        top-margin="5px"
+        line-left
+        line-right
+        :line-bottom="false"
+      />
     </div>
   </div>
 </template>
@@ -119,5 +106,6 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
     FlashingLightsWarning,
   },
 })
-export default class extends Vue {}
+export default class extends Vue {
+}
 </script>

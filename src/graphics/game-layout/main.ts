@@ -30,14 +30,14 @@ const routes = [
     component: List.L_4x3_2p,
   },
   {
+    name: '4:3 2P with tracker (16x9-2p-c)',
+    path: '/16x9-2p-c',
+    component: List.L_16x9_2p_c,
+  },
+  {
     name: '4:3 3 Player',
     path: '/4x3-3p',
     component: List.L_4x3_3p,
-  },
-  {
-    name: '4:3 4 Player',
-    path: '/4x3-4p',
-    component: List.L_4x3_4p,
   },
   {
     name: '16:9 1 Player',
@@ -50,11 +50,6 @@ const routes = [
     component: List.L_16x9_1p_LargeCam,
   },
   {
-    name: '16:9 2 Player Co-op (no line in middle)',
-    path: '/16x9-2p-c',
-    component: List.L_16x9_2p_c,
-  },
-  {
     name: '16:9 2 Player',
     path: '/16x9-2p',
     component: List.L_16x9_2p,
@@ -63,11 +58,6 @@ const routes = [
     name: '16:9 3 Player',
     path: '/16x9-3p',
     component: List.L_16x9_3p,
-  },
-  {
-    name: '9:16 1 Player (2 Cameras)',
-    path: '/9x16-1p-2cams',
-    component: List.L_9x16_1p_2Cams,
   },
   {
     name: 'GameBoy 1 Player',

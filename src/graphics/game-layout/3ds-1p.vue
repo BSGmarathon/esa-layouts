@@ -1,24 +1,24 @@
 <template>
-<div class="bsglayout _3ds_1p">
+  <div class="bsglayout _3ds_1p">
     <!-- Game Captures -->
     <game-capture
       id="GameCapture1"
       class=""
       :style="{
-      left: '572px',
-      top: '0px',
-      width: '1348px',
-      height: '810px',
+        left: '574px',
+        top: '0px',
+        width: '1346px',
+        height: '808px',
       }"
     />
     <game-capture
       id="GameCapture3"
       class=""
       :style="{
-      left: '8px',
-      top: '594px',
-      width: '539px',
-      height: '404px',
+        left: '0px',
+        top: '594px',
+        width: '550px',
+        height: '404px',
       }"
     />
 
@@ -27,96 +27,79 @@
       id="CameraCapture1"
       class="Capture Relative"
       :style="{
-      left: '8px',
-      top: '8px',
-      width: '538px',
-      height: '379px',
-      }"
-    >
-      <flashing-lights-warning/>
-    </div>
-
-    <div class="Fixed"
-    :style="{
-    width: '97%',
-    left: '0px',
-    top: '316px',
-    width: '539px',
-    height: '111px',
-    }">
-    <commentators-reader show-reader />
-  </div>
-
-    <!-- Run Game Info/Timer -->
-    <div
-      class="Fixed Flex"
-      :style="{
-      left: '1213px',
-      top: '829px',
-      width: '680px',
-      height: '170px',
-      }"
-    >
-      <run-info />
-      </div>
-
-          <!--TIMER-->
-          <div
-            class="Fixed FlexColumn BlockBlack"
-            :style="{
-              flex: '1',
-              width: '100%',
-              left: '17px',
-              top: '479px',
-              width: '519px',
-              height: '109px',
-            }"
-          >
-
-          <div
-          :style="{
-          left: '120px',
-          'position': 'absolute',
-          }">
-            <timer />
-      </div>
-    </div>
-
-    <!-- Player/Commetator -->
-    <div
-      class="Fixed"
-      :style="{
-      left: '0px',
-      top: '381px',
-      width: '537px',
-      height: '85px',
-      }"
-    >
-      <player />
-      <!--<commentators-reader />
-      <commentators-reader show-reader />-->
-    </div>
-
-    <!-- Media Box -->
-
-    <media-box
-      :font-size="25"
-      class="Fixed FlexColumn BlockPurple"
-      :style="{
-        left: '582px',
-        top: '827px',
-        width: '602px',
-        height: '173px',
+        left: '0px',
+        top: '0px',
+        width: '553px',
+        height: '319px',
       }"
     />
 
-    <!-- Donation Bar -->
+    <!-- Player -->
+    <div
+      class="Fixed FlexColumn"
+      :style="{
+        left: '0px',
+        top: '331px',
+        width: '559px',
+        height: '44px',
+      }"
+    >
+      <player/>
+    </div>
+
+    <!--host, comms, timer-->
+    <div class="Fixed FlexColumn"
+         :style="{
+          left: '0px',
+          top: '380px',
+          width: '559px',
+          height: '203px',
+        }"
+    >
+      <commentators-reader/>
+      <commentators-reader show-reader/>
+      <timer line-right/>
+    </div>
+
+    <!-- Media Box -->
+    <div
+      class="Fixed FlexColumn"
+      :style="{
+        left: '564px',
+        top: '822px',
+        width: '641px',
+        height: '176px',
+      }"
+    >
+      <flashing-lights-warning class="Flex" style="align-self: flex-start" />
+      <media-box-box
+        line-right
+        line-left
+        :style="{
+          width: '641px',
+          height: '100%',
+        }"
+      />
+    </div>
+
+    <!-- Run Game Info -->
+    <div
+      class="Fixed FlexColumn"
+      :style="{
+        left: '1210px',
+        top: '822px',
+        width: '710px',
+        height: '176px',
+      }"
+    >
+      <run-info line-right text-align="left"/>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import MediaBox from '@shared/graphics/mediabox';
 import { Vue, Component } from 'vue-property-decorator';
+import MediaBoxBox from './components/MediaBoxBox.vue';
 import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
 import CommentatorsReader from './components/CommentatorsReader.vue';
 import DonationBar from './components/DonationBar.vue';
@@ -132,10 +115,11 @@ import Timer from './components/Timer.vue';
     CommentatorsReader,
     RunInfo,
     Timer,
-    MediaBox,
+    MediaBoxBox,
     DonationBar,
     FlashingLightsWarning,
   },
 })
-export default class extends Vue {}
+export default class extends Vue {
+}
 </script>

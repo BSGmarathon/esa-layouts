@@ -1,10 +1,25 @@
 * {
   --bsg-color: #cf773b;
   --slide-color: #914e21;
+  --text-color: white;
   --bg-start: #303030;
   --bg-end: #212121;
 
   --dash-left-width: 194px;
+}
+
+/* TODO: scss */
+.TimerFH.TimerParent {
+  height: 100%;
+}
+
+.TimerFH.TimerParent .TimerContainer div {
+  align-items: center;
+}
+
+.MBNoPadding .Slide {
+  padding: 0px !important;
+  padding-bottom: 10px !important;
 }
 
 .PlayerAudioLive {
@@ -13,6 +28,10 @@
 
 .bsglayout {
   background-repeat: no-repeat;
+}
+
+.TimerParent {
+  background: url('./bsg/timer_grid.png') repeat;
 }
 
 #Intermission{

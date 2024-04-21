@@ -5,9 +5,9 @@
     class="FlexPlayer Player FlexCenter"
     :style="{
       'justify-content': 'space-between',
-      'font-weight': 500,
-      width: '90%',
-      height: '48px',
+      'font-weight': 300,
+      width: '100%',
+      height: '45px',
       padding: '0px',
       'margin-top': 'auto',
       'margin-bottom': 'auto',
@@ -22,18 +22,17 @@
         height: '100%',
         display: 'flex',
         'flex-direction': 'row',
-        'margin-left': '10px',
       }"
     >
       <transition name="fade">
         <img
           v-if="nameCycle === 1 && player.social.twitch"
           key="twitch"
-          class="Icon"
+          class="Icon NormalIcon"
           :style="{
             //
           }"
-          src="../../_misc/TwitchIcon.png"
+          src="../../_misc/bsgIcons/twitch-icon.png"
         >
         <!--<template v-else-if="!coop && typeof slotNo === 'number'">
           <img
@@ -74,19 +73,14 @@
     <div
       class="FlexPlayer FlexCenter"
       :style="{
-        'font-size': '25px',
-        position: 'relative',
         width: 'calc(100% - 130px)',
         height: '100%',
-        'align-items': 'flex-start',
-        'display': 'flex',
-        'top': '2px',
+        'align-items': 'center',
+        'align-content': 'center',
         'justify-content': 'center',
-        'flex': '1',
-        'white-space': 'no-wrap',
-        'padding-right': '80px',
-        'font-weight': '600',
-        'font-family': 'Goodlight',
+        'font-size': '20pt',
+        'font-weight': 600,
+        'font-family': 'Bahnschrift',
       }"
     >
       <transition name="fade">
@@ -102,19 +96,19 @@
             >
               {{ team.name }}:
             </span>
-            /{{ player.social.twitch }}
+            {{ player.social.twitch }}
             <!-- Custom Title code repeated twice, needs cleaning up! -->
             <!-- No need for pronouns during twitch -->
-<!--            <span
+            <!-- <span
               v-if="pronouns"
               class="Pronouns"
               :style="{
-                padding: '3px 5px',
+                padding: '4px',
                 'margin-left': '5px',
               }"
             >
               {{ pronouns }}
-            </span>-->
+            </span> -->
           </div>
         </div>
         <div
@@ -124,7 +118,7 @@
         >
           <div class="PlayerText">
             <span
-              v-if="team.name"
+              v-if="team?.name"
               :style="{ 'font-size': '1.15em', 'font-weight': 600 }"
             >
               {{ team.name }}:
@@ -135,7 +129,7 @@
               v-if="pronouns"
               class="Pronouns"
               :style="{
-                padding: '3px 5px',
+                padding: '4px',
                 'margin-left': '5px',
               }"
             >
@@ -148,7 +142,9 @@
 
     <!-- Country Flag -->
     <div
+      class="FlexColumn"
       :style="{
+        'justify-content': 'center',
         position: 'relative',
         height: '100%',
       }"
@@ -160,15 +156,30 @@
           class="Flag"
           :src="player.country ? `/bundles/esa-layouts/flags/${player.country}.png` : ''"
           :style="{
-            position: 'absolute',
+            position: 'relative',
             right: '7px',
-            height: 'calc(100% - 4px)',
+            // width: '52px',
+            height: '28px',
+            'align-self': 'center',
             'border-width': '2px',
             'border-style': 'solid',
             opacity: player.country ? 1 : 0,
           }"
         >
       </transition>
+      <!-- TODO: I could do this, but it causes a lot of style issues -->
+<!--      <transition name="fade">
+        <span
+          v-if="pronouns"
+          class="Pronouns"
+          :style="{
+            padding: '4px',
+            'margin-left': '5px',
+          }"
+        >
+          {{ pronouns }}
+        </span>
+      </transition>-->
     </div>
   </div>
 </template>
@@ -304,6 +315,17 @@ export default class extends Vue {
     width: auto;
     height: 100%;
     position: absolute;
+  }
+
+  .PlayerText {
+    height: 30px;
+  }
+
+  .Player .Pronouns,
+  .Pronouns {
+    display: inline;
+    font-size: 12pt;
+    height: 19px;
   }
 
   .PlayerAudioLive {

@@ -1,15 +1,14 @@
 <template>
-<div class="bsglayout _4x3_2p">
+  <div class="bsglayout _4x3_2p">
     <!-- Game Captures -->
     <game-capture
       id="GameCapture1"
-      class=""
       :slot-no="0"
       :style="{
         left: '0px',
         top: '0px',
-        width: '955px',
-        height: '716px',
+        width: '958px',
+        height: '715px',
       }"
     />
     <game-capture
@@ -17,132 +16,105 @@
       :slot-no="1"
       finish-time-pos="bottomright"
       :style="{
-      left: '964px',
+      left: '963px',
       top: '0px',
-      width: '956px',
-      height: '716px',
+      width: '958px',
+      height: '715px',
       }"
     />
 
-    <!-- Camera Captures -->
-    <!-- Online has 2 camera spots. -->
+    <!-- Camera Capture -->
     <div
-      v-if="!online"
       id="CameraCapture1"
       class="Capture Relative"
       :style="{
-      left: '724px',
-      top: '834px',
-      width: '472px',
-      height: '166px',
-      }"
-    >
-      <flashing-lights-warning/>
-    </div>
-    <template v-else>
-      <div
-        id="CameraCapture1"
-        class="Capture"
-        :style="{
-          left: '711px',
-          top: '720px',
-          width: '249px',
-          height: '280px',
-        }"
-      />
-      <div
-        id="CameraCapture2"
-        class="Capture"
-        :style="{
-          left: '960px',
-          top: '720px',
-          width: '249px',
-          height: '280px',
-        }"
-      />
-    </template>
-
-    <!-- Player 1/Commentator -->
-    <div
-      class="Fixed BlockGreen"
-      :style="{
-      left: '189px',
-      top: '748px',
-      width: '520px',
-      height: '85px'
-      }"
-    >
-      <player :slot-no="0" />
-    </div>
-
-    <!-- Player 2/General Run Info -->
-    <div
-      class="Fixed FlexColumn"
-      :style="{
-        left: '1209px',
-        top: '733px',
-        width: '520px',
-        height: '85px'
-      }"
-    >
-      <player :slot-no="1" />
-
-      <!-- Run Game Info/Timer -->
-      <div
-      class="Fixed Flex BlockYellow"
-      :style="{
-        flex: '1',
-        width: '100%',
-        left: '1227px',
-        top: '827px',
-        width: '534px',
-        height: '170px',
-        }"
-      >
-        <run-info :style="{ 'font-size': '35px' }" />
-      </div>
-      <div
-  class="Fixed FlexColumn BlockBlack"
-  :style="{
-    flex: '1',
-    width: '100%',
-    left: '827px',
-    top: '737px',
-    width: '412px',
-    height: '75px',
-  }"
->
-  <timer />
-</div>
-    </div>
-
-    <!-- Media Box -->
-    <media-box
-      :font-size="20"
-      :style="{
-      left: '43px',
-      top: '829px',
-      width: '665px',
-      height: '169px',
+      left: '720px',
+      top: '828px',
+      width: '480px',
+      height: '170px',
       }"
     />
 
-    <div class="Fixed"
-    :style="{
-    width: '97%',
-    left: '47px',
-    top: '961px',
-    width: '661px',
-    height: '111px',
-    }">
-    <commentators-reader show-reader />
-  </div>
+    <!-- Player 1 -->
+    <div
+      class="Fixed FlexColumn"
+      :style="{
+      left: '0px',
+      top: '728px',
+      width: '710px',
+      height: '45px'
+      }"
+    >
+      <player :slot-no="0"/>
+    </div>
+
+    <!-- Player 2 -->
+    <div
+      class="Fixed FlexColumn"
+      :style="{
+        left: '1210px',
+        top: '728px',
+        width: '710px',
+        height: '45px'
+      }"
+    >
+      <player :slot-no="1"/>
+    </div>
+
+    <!-- Timer -->
+    <div
+      class="Fixed FlexColumn"
+      :style="{
+          left: '715px',
+          top: '728px',
+          width: '490px',
+          height: '94px',
+        }"
+    >
+      <timer line-right line-left />
+    </div>
+
+    <!-- Run Game Info -->
+    <div
+      class="Fixed FlexColumn"
+      :style="{
+        left: '1210px',
+        top: '778px',
+        width: '710px',
+        height: '220px',
+      }"
+    >
+      <run-info text-align="left" :info-is-row="infoIsRow" line-right/>
+      <flashing-lights-warning
+        class="Flex"
+        @flashing-lights-updated="flashingLightsUpdated"
+        style="align-self: flex-end"/>
+    </div>
+
+    <!-- Media box / commentator / donation reader -->
+    <div class="Fixed FlexColumn"
+         :style="{
+          left: '0px',
+          top: '778px',
+          width: '710px',
+          height: '221px',
+        }"
+    >
+      <media-box-box
+        line-left
+        :style="{
+          width: '710px',
+          height: '100%',
+        }"
+      />
+      <commentators-reader line-top />
+      <commentators-reader line-top show-reader/>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { Configschema } from '@esa-layouts/types/schemas/configschema';
 import MediaBox from '@shared/graphics/mediabox';
 import CommentatorsReader from './components/CommentatorsReader.vue';
 import GameCapture from './components/GameCapture.vue';
@@ -151,6 +123,7 @@ import RunInfo from './components/RunInfo.vue';
 import Timer from './components/Timer.vue';
 import DonationBar from './components/DonationBar.vue';
 import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
+import MediaBoxBox from './components/MediaBoxBox.vue';
 
 @Component({
   components: {
@@ -160,11 +133,16 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
     RunInfo,
     Timer,
     MediaBox,
+    MediaBoxBox,
     DonationBar,
     FlashingLightsWarning,
   },
 })
 export default class extends Vue {
-  online = (nodecg.bundleConfig as Configschema).event.online;
+  infoIsRow = false;
+
+  flashingLightsUpdated(newVal: boolean): void {
+    this.infoIsRow = newVal;
+  }
 }
 </script>

@@ -1,0 +1,27 @@
+@font-face {
+	font-family: 'Bahnschrift';
+  src: url('BAHNSCHRIFT.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'pixelmix';
+  src: url('pixelmix.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'LiquidCrystal';
+  src: url('LiquidCrystal-Normal.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Corbel-Bold';
+  src: url('corbel-bold.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+}
