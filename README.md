@@ -1,23 +1,22 @@
 # esa-layouts
 
-> The on-screen graphics used during European Speedrunner Assembly's "marathon" events.
+> The on-screen graphics used during Benelux Speedrunner Gathering's "marathon" events.
 
 *This is a bundle for [NodeCG](https://nodecg.dev); if you do not understand what that is, we advise you read their website first for more information.*
 
 ***This documentation isn't fully complete and may have errors, but intends to be as correct as possible.***
 
-This is a [NodeCG](https://nodecg.dev) v1.8.1 bundle. You will need to have NodeCG v1.8.1 or above installed to run it. It also requires you to install the [nodecg-speedcontrol](https://github.com/speedcontrol/nodecg-speedcontrol) bundle (of which you may also need to install the latest changes instead of the most stable release).
+This is a [NodeCG](https://nodecg.dev) v2.0 bundle. You will need to have NodeCG v2.0 or above installed to run it. It also requires you to install the [nodecg-speedcontrol](https://github.com/speedcontrol/nodecg-speedcontrol) bundle (of which you may also need to install the latest changes instead of the most stable release).
 
 ## Installation
 
-You will need [Node.js](https://nodejs.org) (16.x LTS tested) and [git](https://git-scm.com/) installed to install NodeCG, then see the [NodeCG documentation](https://www.nodecg.dev/docs/installing) on how to install that. I also suggest installing `nodecg-cli`; information on that is also on the documentation just linked (**the guide below will assume you have done this!**). You may also need to install the appropriate build tools for whichever platform you are running on; for example if you are on Windows you can either install it while installing Node.js, or using [windows-build-tools](https://github.com/felixrieseberg/windows-build-tools).
+You will need [Node.js](https://nodejs.org) (20.x LTS tested) and [git](https://git-scm.com/) installed to install NodeCG, then see the [NodeCG documentation](https://www.nodecg.dev/docs/installing) on how to install that. I also suggest installing `nodecg-cli`; information on that is also on the documentation just linked (**the guide below will assume you have done this!**). You may also need to install the appropriate build tools for whichever platform you are running on; for example if you are on Windows you can either install it while installing Node.js, or using [windows-build-tools](https://github.com/felixrieseberg/windows-build-tools).
 
 Next, clone the `build` branch of this repository into the NodeCG `bundles` folder and install the dependencies:
 > ```
 > cd bundles
 > git clone https://github.com/bsgmarathon/esa-layouts.git --branch build
 > cd esa-layouts
-> git submodule update --init --recursive
 > npm install --production
 > ```
 
@@ -60,7 +59,7 @@ This can be enabled via the config, controlled via Stream Deck buttons available
 
 ### Music Player
 
-This bundle can interface with [foobar2000](https://www.foobar2000.org/) using the [beefweb](https://github.com/hyperblast/beefweb) plugin. Set up foobar2000 however you want it to play music (we use a long playlist on shuffle, and set a fade in/out on pause), make sure the correct username/password are set in the configuration fiole, and this bundle with automatically play music when needed. It will only play if the scene name ends in `[M]`, for example, `Intermission [M]`.
+This bundle can interface with [foobar2000](https://www.foobar2000.org/) using the [beefweb](https://github.com/hyperblast/beefweb) plugin. Set up foobar2000 however you want it to play music (we use a long playlist on shuffle, and set a fade in/out on pause), make sure the correct username/password are set in the configuration file, and this bundle with automatically play music when needed. It will only play if the scene name ends in `[M]`, for example, `Intermission [M]`.
 
 ## Other Information
 
@@ -90,26 +89,18 @@ Here's a list of events this bundle has been used at so far, most recent first.
 * All BSG's from BSG @Home 2020 onwards (Aug 2020)
 * All Hekathon events from 2021 onwards
 
-### Previous Bundles
-
-Here's a list of previous bundles that used to fulfil the purpose of this one, when we kept making new repositories for most of them.
-
-* [esaw19-layouts](https://github.com/esamarathon/esaw19-layouts)
-  * ESA Winter 2019
-  * ESA @ TwitchCon Europe 2019
-* [esas18-layouts](https://github.com/esamarathon/esas18-layouts)
-  * ESA Summer 2018
-  * UKSG Fall 2018
-  * ESA Movember
-  * UKSG Winter 2019
-  * UKSG Spring 2019
-* [esaw18-layouts](https://github.com/esamarathon/esaw18-layouts)
-  * ESA Winter 2018
-* [esa17-layouts](https://github.com/esamarathon/esa17-layouts)
-  * ESA 2017
-
 ### Credits
 
 * Country flags sourced from [speedrun.com](https://www.speedrun.com/).
 * [clip.ts](src/graphics/_misc/clip.ts), modified from a version originally written by [Hoishin](https://github.com/hoishin).
 * https://calculateaspectratio.com/ for helping me (duncte) wiht some math
+
+## Development
+To get this bundle set-up for development run the following commands
+> ```
+> cd bundles
+> git clone https://github.com/bsgmarathon/esa-layouts.git
+> cd esa-layouts
+> git submodule update --init --recursive
+> npm install --production
+> ```

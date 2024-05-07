@@ -93,13 +93,13 @@ jobs:
     - name: Node.js setup
       uses: actions/setup-node@v3
       with:
-        node-version: '18'
+        node-version: '20'
 
     # Install pnpm
     - uses: pnpm/action-setup@v2
       name: Install pnpm
       with:
-        version: 8
+        version: 9
 
     # Gets pnpm's store directory (for next step)
     - name: Get pnpm store directory
