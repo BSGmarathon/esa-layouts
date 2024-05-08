@@ -132,6 +132,21 @@ companion_1.default.evt.on('action', async (name, value) => {
                 }
             }
         }
+    }
+    else if (name === 'transition_to_scene') {
+        const { disableTransitioning, transitioning, connected } = replicants_1.obsData.value;
+        // If transitioning is disabled, or we *are* transitioning, and OBS is connected,
+        // and the timer is not running or paused, we can trigger these actions.
+        if (!disableTransitioning && !transitioning && connected
+            && !['running', 'paused'].includes(speedcontrol_1.sc.timer.value.state)) {
+            const strScn = value;
+            if (Object.keys(config.obs.names.scenes).includes(strScn)) {
+                await (0, obs_1.changeScene)({
+                    // @ts-expect-error this should work tho
+                    scene: config.obs.names.scenes[strScn],
+                });
+            }
+        }
         // Used to change between intermission scenes using a supplied scene name config key.
     }
     else if (name === 'intermission_scene_change') {
