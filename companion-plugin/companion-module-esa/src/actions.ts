@@ -1,4 +1,5 @@
 import type ModuleInstance from './index';
+import { getSceneChoiceData } from './feedbacks';
 
 /**
  * Called by module instance class when actions should be set up.
@@ -68,6 +69,22 @@ function initActions(instance: ModuleInstance, videos?: { name: string, sum: str
       options: [],
       callback: () => {
         instance.wsSend({ name: 'scene_cycle' });
+      },
+    },
+    transition_to_scene: {
+      name: 'Transition to Scene',
+      description: 'Transition to a specified scene',
+      options: [
+        {
+          id: 'scene',
+          type: 'dropdown',
+          label: 'Scene',
+          choices: getSceneChoiceData(),
+          default: '',
+        },
+      ],
+      callback: (action) => {
+        instance.wsSend({ name: 'transition_to_scene', value: action.options.scene });
       },
     },
     intermission_scene_change: {

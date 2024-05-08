@@ -13,6 +13,7 @@ let sceneKeys: { [k: string]: string } = {
   intermission: 'Intermission',
   intermissionPlayer: 'Intermission Player',
   countdown: 'Countdown',
+  interview: 'Interview',
 };
 
 // TODO: Replace this with Companion's "learn" feature?
@@ -50,6 +51,9 @@ function isCurrentScene(name: string): boolean {
   && instance.getVariableValue('obs_scene') === findScene(name);
 }
 
+export const getSceneChoiceData = () => Object.entries(sceneKeys)
+  .map(([k, v]) => ({ id: k, label: v }));
+
 // Defined as an additional function so we can update the choices dropdown on connection.
 export const obsSceneFeedback = (): CompanionFeedbackDefinition => ({
   type: 'boolean',
@@ -60,7 +64,7 @@ export const obsSceneFeedback = (): CompanionFeedbackDefinition => ({
       type: 'multidropdown',
       label: 'Scene(s)',
       id: 'scenes',
-      choices: Object.entries(sceneKeys).map(([k, v]) => ({ id: k, label: v })),
+      choices: getSceneChoiceData(),
       default: [],
     },
   ],

@@ -106,7 +106,22 @@ companion.evt.on('action', async (name, value) => {
         }
       }
     }
-  // Used to change between intermission scenes using a supplied scene name config key.
+  } else if (name === 'transition_to_scene') {
+    const { disableTransitioning, transitioning, connected } = obsData.value;
+    // If transitioning is disabled, or we *are* transitioning, and OBS is connected,
+    // and the timer is not running or paused, we can trigger these actions.
+    if (!disableTransitioning && !transitioning && connected
+      && !['running', 'paused'].includes(sc.timer.value.state)) {
+      const strScn = value as string;
+
+      if (Object.keys(config.obs.names.scenes).includes(strScn)) {
+        await changeScene({
+          // @ts-expect-error this should work tho
+          scene: config.obs.names.scenes[strScn],
+        });
+      }
+    }
+    // Used to change between intermission scenes using a supplied scene name config key.
   } else if (name === 'intermission_scene_change') {
     const { scenes } = config.obs.names;
     const val = value as string;
