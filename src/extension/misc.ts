@@ -166,7 +166,7 @@ export async function searchSrcomPronouns(val: string): Promise<DonationReaderNe
 }
 
 export async function searchOengusPronouns(val: string): Promise<DonationReaderNew> {
-  let user: OengusUser & { displayName: string } | undefined;
+  let user: OengusUser | undefined;
 
   try {
     const resp = await needle(

@@ -34,6 +34,15 @@
           }"
           src="../../_misc/bsgIcons/twitch-icon.png"
         >
+        <img
+          v-else-if="nameCycle === 1 && player.social.youtube"
+          key="twitch"
+          class="Icon NormalIcon"
+          :style="{
+            //
+          }"
+          src="../../_misc/bsgIcons/youtube-icon.png"
+        >
         <!--<template v-else-if="!coop && typeof slotNo === 'number'">
           <img
             v-if="slotNo === 0"
@@ -85,7 +94,7 @@
     >
       <transition name="fade">
         <div
-          v-if="nameCycle === 1 && player.social.twitch"
+          v-if="nameCycle === 1 && (player.social.twitch || player.social.youtube)"
           key="twitch"
           class="FlexPlayer TextWrapper"
         >
@@ -96,7 +105,7 @@
             >
               {{ team.name }}:
             </span>
-            {{ player.social.twitch }}
+            {{ player.social.twitch ?? player.social.youtube }}
             <!-- Custom Title code repeated twice, needs cleaning up! -->
             <!-- No need for pronouns during twitch -->
             <!-- <span

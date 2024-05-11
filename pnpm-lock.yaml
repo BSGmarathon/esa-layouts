@@ -51,8 +51,8 @@ importers:
         specifier: ^4.7.2
         version: 4.7.4
       speedcontrol-util:
-        specifier: github:speedcontrol/speedcontrol-util.git#build
-        version: https://codeload.github.com/speedcontrol/speedcontrol-util/tar.gz/492998c8b55858f4f0d245dd14be70583d6dcbbf(typescript@4.9.5)
+        specifier: github:speedcontrol/speedcontrol-util#build
+        version: https://codeload.github.com/speedcontrol/speedcontrol-util/tar.gz/6efcbc9575c9d33cf5fc57fe29c6a070c4bb5a39(typescript@4.9.5)
       streamdeck-util:
         specifier: ^0.4.0
         version: 0.4.0
@@ -221,7 +221,7 @@ importers:
         version: 2.3.4
       vue-loader:
         specifier: ^15.11.1
-        version: 15.11.1(@vue/compiler-sfc@2.7.16)(css-loader@6.10.0(webpack@5.90.2(webpack-cli@4.10.0)))(lodash@4.17.21)(vue-template-compiler@2.7.16)(webpack@5.90.2(webpack-cli@4.10.0))
+        version: 15.11.1(css-loader@6.10.0(webpack@5.90.2(webpack-cli@4.10.0)))(lodash@4.17.21)(vue-template-compiler@2.7.16)(webpack@5.90.2(webpack-cli@4.10.0))
       vue-property-decorator:
         specifier: ^9.1.2
         version: 9.1.2(vue-class-component@7.2.6(vue@2.7.16))(vue@2.7.16)
@@ -3179,8 +3179,8 @@ packages:
   spdx-license-ids@3.0.17:
     resolution: {integrity: sha512-sh8PWc/ftMqAAdFiBu6Fy6JUOYjqDJBJvIhpfDMyHrr0Rbp5liZqd4TjtQ/RgfLjKFZb+LMx5hpml5qOWy0qvg==}
 
-  speedcontrol-util@https://codeload.github.com/speedcontrol/speedcontrol-util/tar.gz/492998c8b55858f4f0d245dd14be70583d6dcbbf:
-    resolution: {tarball: https://codeload.github.com/speedcontrol/speedcontrol-util/tar.gz/492998c8b55858f4f0d245dd14be70583d6dcbbf}
+  speedcontrol-util@https://codeload.github.com/speedcontrol/speedcontrol-util/tar.gz/6efcbc9575c9d33cf5fc57fe29c6a070c4bb5a39:
+    resolution: {tarball: https://codeload.github.com/speedcontrol/speedcontrol-util/tar.gz/6efcbc9575c9d33cf5fc57fe29c6a070c4bb5a39}
     version: 0.6.1
 
   sprintf-js@1.0.3:
@@ -6982,7 +6982,7 @@ snapshots:
 
   spdx-license-ids@3.0.17: {}
 
-  speedcontrol-util@https://codeload.github.com/speedcontrol/speedcontrol-util/tar.gz/492998c8b55858f4f0d245dd14be70583d6dcbbf(typescript@4.9.5):
+  speedcontrol-util@https://codeload.github.com/speedcontrol/speedcontrol-util/tar.gz/6efcbc9575c9d33cf5fc57fe29c6a070c4bb5a39(typescript@4.9.5):
     dependencies:
       '@nodecg/types': 2.1.12(typescript@4.9.5)
       '@types/needle': 3.3.0
@@ -7372,7 +7372,7 @@ snapshots:
 
   vue-hot-reload-api@2.3.4: {}
 
-  vue-loader@15.11.1(@vue/compiler-sfc@2.7.16)(css-loader@6.10.0(webpack@5.90.2(webpack-cli@4.10.0)))(lodash@4.17.21)(vue-template-compiler@2.7.16)(webpack@5.90.2(webpack-cli@4.10.0)):
+  vue-loader@15.11.1(css-loader@6.10.0(webpack@5.90.2(webpack-cli@4.10.0)))(lodash@4.17.21)(vue-template-compiler@2.7.16)(webpack@5.90.2(webpack-cli@4.10.0)):
     dependencies:
       '@vue/component-compiler-utils': 3.3.0(lodash@4.17.21)
       css-loader: 6.10.0(webpack@5.90.2(webpack-cli@4.10.0))
@@ -7382,7 +7382,6 @@ snapshots:
       vue-style-loader: 4.1.3
       webpack: 5.90.2(webpack-cli@4.10.0)
     optionalDependencies:
-      '@vue/compiler-sfc': 2.7.16
       vue-template-compiler: 2.7.16
     transitivePeerDependencies:
       - arc-templates

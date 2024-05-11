@@ -74,14 +74,13 @@ export default class extends Vue {
 </script>
 
 <style scoped>
-  .PronounsComms {
+  .Pronouns {
     position: relative;
     display: inline-block;
     font-weight: 400;
     font-size: 0.75em;
     top: -0.1em;
     line-height: 1.5em;
-    color: #cccccc;
     text-transform: uppercase;
     padding: 0 3px;
     margin-left: 3px;

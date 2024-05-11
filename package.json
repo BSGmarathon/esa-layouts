@@ -45,7 +45,7 @@
     "socket.io": "^4.7.4",
     "socket.io-adapter": "^2.5.4",
     "socket.io-client": "^4.7.2",
-    "speedcontrol-util": "github:speedcontrol/speedcontrol-util.git#build",
+    "speedcontrol-util": "github:speedcontrol/speedcontrol-util#build",
     "streamdeck-util": "^0.4.0",
     "strict-event-emitter": "^0.5.1",
     "uuid": "^9.0.1",
