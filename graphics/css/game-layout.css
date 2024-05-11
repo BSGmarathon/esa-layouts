@@ -156,33 +156,33 @@
 }
 
 
-.Icon[data-v-54591e8f] {
+.Icon[data-v-7cb8bc3f] {
   height: 100%;
   position: absolute;
 }
-.TextWrapper[data-v-54591e8f] {
+.TextWrapper[data-v-7cb8bc3f] {
   width: auto;
   height: 100%;
   position: absolute;
 }
-.PlayerText[data-v-54591e8f] {
+.PlayerText[data-v-7cb8bc3f] {
   height: 30px;
 }
-.Player .Pronouns[data-v-54591e8f],
-.Pronouns[data-v-54591e8f] {
+.Player .Pronouns[data-v-7cb8bc3f],
+.Pronouns[data-v-7cb8bc3f] {
   display: inline;
   font-size: 12pt;
   height: 19px;
 }
-.PlayerAudioLive[data-v-54591e8f] {
+.PlayerAudioLive[data-v-7cb8bc3f] {
   position: absolute;
   left: 460px;
   /*margin-right: 10px;*/
 }
-.fade-enter-active[data-v-54591e8f], .fade-leave-active[data-v-54591e8f] {
+.fade-enter-active[data-v-7cb8bc3f], .fade-leave-active[data-v-7cb8bc3f] {
   transition: opacity 1s;
 }
-.fade-enter[data-v-54591e8f], .fade-leave-to[data-v-54591e8f] {
+.fade-enter[data-v-7cb8bc3f], .fade-leave-to[data-v-7cb8bc3f] {
   opacity: 0;
 }
 
