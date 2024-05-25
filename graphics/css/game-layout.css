@@ -188,7 +188,7 @@
 
 .Pronouns[data-v-9379f7d0]{position:relative;height:19px;margin-left:5px;margin-right:5px;font-size:12pt;padding:4px;background:var(--slide-color);color:var(--text-color);text-transform:uppercase;font-family:pixelmix}
 .RunGame[data-v-b05dd1e6]{margin-top:10px;position:relative;text-align:center !important;text-shadow:5px 5px 0px var(--bsg-color),5px 7px 3px rgba(0,0,0,.5);text-transform:uppercase;white-space:unset !important}.systemEst[data-v-b05dd1e6]{align-self:flex-start;text-shadow:1px 2px 3px rgba(0,0,0,.5);display:inline-flex}.catEstBlock[data-v-b05dd1e6]{display:inline-flex;text-shadow:1px 2px 3px rgba(0,0,0,.5);margin-bottom:15px}.RunInfoExtra[data-v-b05dd1e6]{display:flex !important;justify-content:space-between;align-content:flex-start;margin-top:5px}.RunInfoExtra>.catEstBlock>span[data-v-b05dd1e6]:not(:last-child)::after{content:" | ";color:var(--text-color);display:inline-block;margin-left:15px;margin-right:15px}.RunInfoExtra>.systemEst>span[data-v-b05dd1e6]:not(:last-child)::after{content:" - ";color:var(--text-color);display:inline-block;margin-left:15px;margin-right:15px}.categoryEst[data-v-b05dd1e6]{text-transform:uppercase}
-span[data-v-1f1f37a4]{display:inline-flex;font-variant-numeric:tabular-nums;font-stretch:condensed}
+span[data-v-fa6a5bf4]{display:inline-flex;font-variant-numeric:tabular-nums;font-stretch:condensed}
 
 .flashingLightsWarning[data-v-403ec3fb] {
   background-color: red;
