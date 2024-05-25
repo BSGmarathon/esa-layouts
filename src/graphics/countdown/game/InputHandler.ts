@@ -44,7 +44,7 @@ export default class InputHandler {
       }
     };
 
-    ComfyJS.Init('bsg_marathon', '', ['esamarathon', 'duncte123']);
+    ComfyJS.Init('bsg_marathon', '', ['bsg_marathon', 'esamarathon', 'duncte123']);
   }
 
   get isJump() {
