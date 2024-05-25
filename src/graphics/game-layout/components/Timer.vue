@@ -45,7 +45,7 @@
           // width: ([2, 5].includes(i)) ? undefined : '0.75em',
           // 'text-align': 'center',
           // Make the colon appear more towards the centre.
-          'margin-top': ([2, 5].includes(i)) ? '-0.2em' : 'unset',
+          'margin-top': ([2, 5].includes(i)) ? '-0.2em' : '-4px',
         }"
       >
         {{ char }}

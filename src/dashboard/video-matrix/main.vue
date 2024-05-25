@@ -8,11 +8,11 @@
         <thead>
           <tr>
             <th class="text-left text-muted input-dash-output">
-              <span>output</span>
-              <hr>
               <span>input</span>
+              <hr>
+              <span>output</span>
             </th>
-            <th v-for="capture in gameCaptures"
+            <th v-for="capture in gameSources"
                 :key="capture"
                 class="text-left">
               {{ capture }}
@@ -20,10 +20,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(source, si) in gameSources"
-              :key="source">
+          <tr v-for="(source, si) in gameCaptures" :key="source">
             <td class="text--lighten-5">{{ source }}</td>
-            <td v-for="ci in gameCaptures.length" :key="ci">
+            <td v-for="ci in gameSources.length" :key="ci">
               <v-radio-group v-model="selectedCaptures[si]" row :name="`selctor-${source}`">
                 <v-radio :value="ci - 1"/>
               </v-radio-group>
