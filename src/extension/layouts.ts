@@ -102,15 +102,20 @@ sc.runDataActiveRun.on('change', (newVal, oldVal) => {
     if (!oldVal || newVal.id !== oldVal.id) {
       // Overwrite code with new ESAW24 layout if 1 player.
       let code = (newVal.customData.layout as string | undefined)?.toLowerCase();
-      if (code?.endsWith('-1p') && !code.startsWith('ds') && !code.startsWith('3ds')) {
-        code = `esaw24-${code}`;
+
+      // ZOTON I SWEAR
+      if (config.event.theme?.includes('esa')) {
+        if (code?.endsWith('-1p') && !code.startsWith('ds') && !code.startsWith('3ds')) {
+          code = `esaw24-${code}`;
+        }
       }
+
       const layout = gameLayouts.value.available.find((l) => l.code.toLowerCase() === code);
       gameLayouts.value.selected = layout?.code;
       if (newVal.customData.layout && !layout) {
         nodecg().log.warn(
           '[Layouts] Run specified game layout with code %s but none available',
-          newVal.customData.layout,
+          code,
         );
       } else if (newVal.customData.layout && layout) {
         nodecg().log.info(`[Layouts] Game layout changed to ${layout.name} (${layout.code})`);
