@@ -143,7 +143,7 @@ export default class extends Vue {
   left: 1110px;
   top: 950px;
   font-size: 20px;
-  //background: rgba(255, 255, 255, 0.5);
+  /*background: rgba(255, 255, 255, 0.5);*/
 }
 
 /*.music {

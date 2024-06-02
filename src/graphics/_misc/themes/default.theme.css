@@ -18,6 +18,8 @@ body {
 }
 
 *[class*='Timer'] span {
+  /* FUCK WINDOWS */
+  margin-bottom: 10px;
   color: var(--timer-color);
   text-shadow: 0 0 var(--timer-glow) var(--timer-color);
   /*box-shadow: 0 0 10px var(--timer-color);*/

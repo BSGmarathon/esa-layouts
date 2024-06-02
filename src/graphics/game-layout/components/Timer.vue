@@ -45,7 +45,7 @@
           // width: ([2, 5].includes(i)) ? undefined : '0.75em',
           // 'text-align': 'center',
           // Make the colon appear more towards the centre.
-          'margin-top': ([2, 5].includes(i)) ? '-0.2em' : '-4px',
+          'margin-top': ([2, 5].includes(i)) ? '-0.2em' : undefined,
         }"
       >
         {{ char }}
@@ -118,8 +118,6 @@ export default class extends Vue {
 
 <style lang="scss" scoped>
 span {
-  display: inline-flex;
   font-variant-numeric: tabular-nums;
-  font-stretch: condensed;
 }
 </style>

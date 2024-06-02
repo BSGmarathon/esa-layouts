@@ -78,7 +78,7 @@ export default class extends Vue {
     position: relative;
     display: inline-block;
     font-weight: 400;
-    font-size: 0.75em;
+    font-size: 25px;
     top: -0.1em;
     line-height: 1.5em;
     text-transform: uppercase;
