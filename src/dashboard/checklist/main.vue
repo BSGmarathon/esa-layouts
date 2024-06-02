@@ -107,16 +107,16 @@ export default class extends Vue {
   ];
 
   mounted(): void {
-    // nodecg.listenFor('obsChangeScene', ({ scene }) => {
-    //   // reset the checkmarks if we change to the game layout
-    //   if (scene === this.obsConfig.names.scenes.gameLayout) {
-    //     this.resetChecks();
-    //     fetch('https://pusher.bsg.duncte123.nl/sendUncheck.php', {
-    //       mode: 'no-cors',
-    //     })
-    //       .catch(console.log);
-    //   }
-    // });
+    nodecg.listenFor('obsChangeScene', ({ scene }) => {
+      // reset the checkmarks if we change to the game layout
+      if (scene === this.obsConfig.names.scenes.gameLayout) {
+        this.resetChecks();
+        // fetch('https://pusher.bsg.duncte123.nl/sendUncheck.php', {
+        //   mode: 'no-cors',
+        // })
+        //   .catch(console.log);
+      }
+    });
 
     // channel.bind('audio-ready', (data: { ready: boolean }) => {
     //   this.audioReady = data.ready;
