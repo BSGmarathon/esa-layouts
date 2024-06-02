@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { awaitTimeout, wait, areObjectsEqual } from '@esa-layouts/graphics/_misc/helpers';
+import { awaitTimeout, wait, areObjectsEqual, areOmnibarObjectsEqual } from '@esa-layouts/graphics/_misc/helpers';
 import { Omnibar } from '@esa-layouts/types/schemas';
 import { Vue, Component, Watch } from 'vue-property-decorator';
 import GenericMsg from './Ticker/GenericMsg.vue';
@@ -66,7 +66,7 @@ export default class extends Vue {
   @Watch('omnibar')
   async onOmnibarChange(newVal?: Omnibar, oldVal?: Omnibar): Promise<void> {
     // if there was no change, we don't need to hide stuff
-    if (areObjectsEqual(newVal, oldVal)) {
+    if (areOmnibarObjectsEqual(newVal, oldVal)) {
       return;
     }
 

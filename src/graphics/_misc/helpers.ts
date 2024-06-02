@@ -99,3 +99,17 @@ export function areObjectsEqual(a: object | undefined, b: object | undefined): b
 
   return false;
 }
+
+export function areOmnibarObjectsEqual(a: object | undefined, b: object | undefined): boolean {
+  if (a && b) {
+    const aMinPinned = JSON.parse(JSON.stringify(a));
+    const bMinPinned = JSON.parse(JSON.stringify(b));
+
+    delete aMinPinned.pin;
+    delete bMinPinned.pin;
+
+    return JSON.stringify(aMinPinned) === JSON.stringify(bMinPinned);
+  }
+
+  return false;
+}
