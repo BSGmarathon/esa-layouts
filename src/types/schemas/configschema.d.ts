@@ -112,10 +112,8 @@ export interface Configschema {
 	};
 	flagcarrier: {
 		enabled: boolean;
-		allowedDevices?: string | [string, ...string[]] | null;
-		group: string;
 		availableButtons: {
-			id: string;
+			id: number;
 			name: string;
 		}[];
 	};
