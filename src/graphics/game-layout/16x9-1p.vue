@@ -63,7 +63,7 @@
         height: '176px',
       }"
     >
-      <run-info text-align="left" />
+      <run-info text-align="left" info-is-row />
     </div>
 
     <!-- Media Box / Reader / Comms -->

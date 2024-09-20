@@ -7,16 +7,6 @@
       'align-items': 'center',
     }"
   >
-<!--    <div
-      :style="{
-        'font-size': '20px',
-        'text-align': 'right',
-        'margin-left': '15px',
-        'line-height': '150%',
-      }"
-    >
-      Upcoming<br>Bid War
-    </div>-->
     <div
       :style="{
         position: 'relative',
@@ -129,7 +119,7 @@ export default class extends Vue {
     });
   }
 
-  @Watch('bid')
+  @Watch('bid', { deep: true })
   onBidChange(): void {
     this.tweenValues();
   }

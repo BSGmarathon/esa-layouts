@@ -294,7 +294,13 @@ async function setup(): Promise<void> {
     // Update the donation total to a random number while testing
     if (useTestData) {
       setInterval(() => {
-        donationTotal.value += Math.random() * 1000;
+        let newDonoAmount = donationTotal.value + (Math.random() * 1000);
+
+        if (newDonoAmount > 70_000) {
+          newDonoAmount = 0;
+        }
+
+        donationTotal.value = newDonoAmount;
         nodecg().sendMessage('donationTotalUpdated', { total: donationTotal.value });
       }, 10 * 1000);
     }
