@@ -5,7 +5,6 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export type MediaBox = MediaBox1;
 export type Rotation = {
 	type: 'image' | 'prize' | 'prize_generic' | 'text';
 	id: string;
@@ -14,8 +13,26 @@ export type Rotation = {
 	text?: string;
 	showOnIntermission: boolean;
 }[];
+export type MediaActive = {
+	type: TypesAll;
+	id: string;
+	mediaUUID: string;
+	index: number;
+	timestamp: number;
+	timeElapsed: number;
+} | null;
+export type TypesAll =
+	| 'image'
+	| 'prize'
+	| 'prize_generic'
+	| 'text'
+	| 'donation'
+	| 'subscription'
+	| 'cheer'
+	| 'merch'
+	| 'therungg';
 
-export interface MediaBox1 {
+export interface MediaBox {
 	rotation: Rotation;
 	rotationApplicable: Rotation;
 	alertQueue: {
@@ -45,21 +62,7 @@ export interface MediaBox1 {
 					msg: string;
 			  };
 	}[];
-	paused: {
-		type: 'image' | 'prize' | 'prize_generic' | 'text' | 'donation' | 'subscription' | 'cheer' | 'merch' | 'therungg';
-		id: string;
-		mediaUUID: string;
-		index: number;
-		timestamp: number;
-		timeElapsed: number;
-	} | null;
-	current: {
-		type: 'image' | 'prize' | 'prize_generic' | 'text' | 'donation' | 'subscription' | 'cheer' | 'merch' | 'therungg';
-		id: string;
-		mediaUUID: string;
-		index: number;
-		timestamp: number;
-		timeElapsed: number;
-	} | null;
+	paused: MediaActive;
+	current: MediaActive;
 	lastIndex: number;
 }

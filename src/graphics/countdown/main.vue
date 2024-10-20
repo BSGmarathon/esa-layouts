@@ -23,11 +23,11 @@
 </template>
 
 <script lang="ts">
-import Countdown from '@shared/graphics/countdown';
 import { Component, Vue } from 'vue-property-decorator';
-import { Countdown as CountdownType } from '@shared/types/schemas';
+import { Countdown as CountdownType } from '@esa-layouts/types/schemas';
 import MusicTrack from '@esa-layouts/graphics/intermission/components/MusicTrack.vue';
 import { State } from 'vuex-class';
+import Countdown from './components/Countdown.vue';
 import Game from './game/game.vue';
 import { getZoomAmountCSS } from '../_misc/helpers';
 

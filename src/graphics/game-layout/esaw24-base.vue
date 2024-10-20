@@ -142,7 +142,7 @@
 
 <script lang="ts">
 import { CommentatorsNew, DonationReaderNew } from '@esa-layouts/types/schemas';
-import MediaBox from '@shared/graphics/mediabox';
+import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
 import { RunDataActiveRun, RunDataPlayer } from 'speedcontrol-util/types';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { State } from 'vuex-class';

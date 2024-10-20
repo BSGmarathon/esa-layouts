@@ -125,7 +125,7 @@
 import type NodeCGTypes from '@nodecg/types';
 import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
 import { ReaderIntroduction } from '@esa-layouts/types/schemas';
-import MediaBox from '@shared/graphics/mediabox';
+import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
 import clone from 'clone';
 import { SpeedcontrolUtilBrowser } from 'speedcontrol-util';
 import { RunData } from 'speedcontrol-util/types';

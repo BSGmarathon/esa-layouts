@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import MediaBox from '@shared/graphics/mediabox';
+import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component({

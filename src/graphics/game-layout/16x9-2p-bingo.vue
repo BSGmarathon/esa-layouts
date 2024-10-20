@@ -147,7 +147,7 @@
 </template>
 
 <script lang="ts">
-import MediaBox from '@shared/graphics/mediabox';
+import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
 import { RunDataActiveRun } from 'speedcontrol-util/types';
 import { Component, Vue } from 'vue-property-decorator';
 import { State } from 'vuex-class';

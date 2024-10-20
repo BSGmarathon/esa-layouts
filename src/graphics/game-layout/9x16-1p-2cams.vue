@@ -84,7 +84,7 @@
 </template>
 
 <script lang="ts">
-import MediaBox from '@shared/graphics/mediabox';
+import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
 import { Component, Vue } from 'vue-property-decorator';
 import CommentatorsReader from './components/CommentatorsReader.vue';
 import DonationBar from './components/DonationBar.vue';

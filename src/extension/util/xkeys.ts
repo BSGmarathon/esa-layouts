@@ -1,4 +1,4 @@
-import XKeysClass from '@shared/extension/xkeys-esa';
+import XKeysClass from './xkeys-class';
 import { get as nodecg } from './nodecg';
 
 const xkeys = new XKeysClass(nodecg(), nodecg().bundleConfig.xkeys);

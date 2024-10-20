@@ -1,7 +1,7 @@
 /* eslint no-new: off, @typescript-eslint/explicit-function-return-type: off */
 
 import { setUpReplicants } from '@esa-layouts/browser_shared/replicant_store';
-import { setUpReplicantsComponent as setUpReplicantsMediabox } from '@shared/graphics/mediabox';
+import { setUpReplicantsComponent as setUpReplicantsMediabox } from '@esa-layouts/graphics/_misc/components/mediabox';
 import Vue from 'vue';
 import '../_misc/common.css';
 import '../_misc/theme';

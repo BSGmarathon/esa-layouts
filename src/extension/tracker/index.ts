@@ -1,6 +1,6 @@
 import { Configschema } from '@esa-layouts/types/schemas';
 import { wait } from '@esa-layouts/util/helpers';
-import type { Tracker } from '@shared/types';
+import type { Tracker } from '@esa-layouts/types';
 import { round } from 'lodash';
 import type { NeedleResponse } from 'needle';
 import needle from 'needle';
