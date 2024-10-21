@@ -50,7 +50,8 @@ function getPrize(): Prizes[0] | undefined {
 
 // Gets a random (but weighted) active milestone.
 let lastBidId = -1;
-function getBid(): Bids[0] | undefined {
+
+function getClonedBid(): Bids[0] | undefined {
   // Just return nothing if there are no bids to show.
   if (!bids.value.length) return undefined;
   let filtered = clone(bids.value).filter((b) => b.id !== lastBidId);
@@ -90,13 +91,16 @@ let loopsWithoutResult = 0;
 async function showNext(): Promise<void> {
   // If there is a pin to start showing.
   const { pin } = omnibar.value;
+
   if (pin) {
     let item: DonationTotalMilestones[0] | Bids[0] | undefined;
+
     if (pin.type === 'Milestone') {
       item = donationTotalMilestones.value.find((m) => m.id === pin.id);
     } else if (pin.type === 'Bid') {
       item = bids.value.find((b) => b.id === pin.id);
     }
+
     if (item) {
       item = clone(item);
       nodecg().log.debug('[Omnibar] Pin available, will show:', pin.type);
@@ -115,6 +119,7 @@ async function showNext(): Promise<void> {
         id: uuid(),
         props: {
           seconds: -1,
+          bidId: pin.type === 'Bid' ? item.id : undefined,
           bid: pin.type === 'Bid' ? item : undefined,
           milestone: pin.type === 'Milestone' ? item : undefined,
           dash: dashConfig,
@@ -201,12 +206,13 @@ async function showNext(): Promise<void> {
         },
       };
     } else if (next.type === 'Bid') {
-      const bid = getBid();
+      const bid = getClonedBid();
       if (!bid) { showNext(); return; }
       omnibar.value.current = { ...next,
         props: {
           ...next.props,
           bid,
+          bidId: bid.id,
           dash: {
             text: bid.war ? 'Upcoming Bid War' : 'Upcoming Goal',
             fontSize: 34,

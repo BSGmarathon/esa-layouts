@@ -3,9 +3,7 @@ import needle from 'needle';
 import { eventInfo, getCookies } from '.';
 import { get as nodecg } from '../util/nodecg';
 import { prizes } from '../util/replicants';
-import utils from './utils';
-
-const { trackerUrl } = utils;
+import { trackerUrl } from './utils';
 
 const { useTestData } = nodecg().bundleConfig;
 const refreshTime = 60 * 1000; // Get prizes every 60s.

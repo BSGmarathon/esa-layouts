@@ -70,6 +70,8 @@ Alternatively, you can use [DeaDBeeF](https://deadbeef.sourceforge.io/) with the
 * https://calculateaspectratio.com/ for helping me (duncte) wiht some math
 
 ## Development
+***Install nodecg first before doing anything else***
+
 To get this bundle set-up for development run the following commands.
 ***Make sure to install speedcontrol!***
 > ```

@@ -3,9 +3,7 @@ import needle from 'needle';
 import { eventInfo, getCookies } from '.';
 import { get as nodecg } from '../util/nodecg';
 import { bids } from '../util/replicants';
-import utils from './utils';
-
-const { trackerUrl } = utils;
+import { trackerUrl } from './utils';
 
 const eventConfig = nodecg().bundleConfig.event;
 const { useTestData } = nodecg().bundleConfig;
@@ -61,12 +59,23 @@ function processRawBids(rawBids: Tracker.Bid[]): Tracker.FormattedBid[] {
     // Sort bid war options from largest to smallest.
     if (bid.options && bid.options.length) {
       bid.options = bid.options.sort((a, b) => {
-        if (a.total > b.total) {
-          return -1;
-        }
-        if (a.total < b.total) {
+        // TODO: revert if we want this
+        // if (a.total > b.total) {
+        //   return -1;
+        // }
+        // if (a.total < b.total) {
+        //   return 1;
+        // }
+        // return 0;
+
+        if (a.id > b.id) {
           return 1;
         }
+
+        if (a.id < b.id) {
+          return -1;
+        }
+
         return 0;
       });
     }
@@ -103,22 +112,29 @@ async function updateBids(): Promise<void> {
         cookies: getCookies(),
       },
     );
+
     if (!resp.statusCode || resp.statusCode >= 300 || resp.statusCode < 200) {
       throw new Error(`status code ${resp.statusCode ?? 'unknown'}`);
     }
+
     if (!Array.isArray(resp.body)) {
       throw new Error('received non-array type');
     }
+
     const currentBids = processRawBids(resp.body);
+
     if (!Array.isArray(currentBids)) {
       throw new Error('currentBids result was non-array type');
     }
+
+    nodecg().log.debug('[Tracker] Updated bids:', JSON.stringify(currentBids));
     bids.value = currentBids;
   } catch (err) {
     nodecg().log.warn('[Tracker] Error updating bids');
     nodecg().log.debug('[Tracker] Error updating bids:', err);
     bids.value.length = 0; // Clear the array so we do not display incorrect information.
   }
+
   setTimeout(updateBids, refreshTime);
 }
 

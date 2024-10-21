@@ -47,7 +47,8 @@
       "properties": {
         "theme": {
           "$comment": "Theme to be used in the graphical overlays; will use default if none supplied.",
-          "type": "string"
+          "type": "string",
+          "default": "bsg"
         },
         "shorts": {
           "$comment": "This/these must match the tracker, if that feature is enabled.",
@@ -99,7 +100,8 @@
       "required": [
         "shorts",
         "thisEvent",
-        "online"
+        "online",
+        "theme"
       ]
     },
     "omnibar": {

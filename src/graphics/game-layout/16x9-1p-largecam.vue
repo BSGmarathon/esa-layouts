@@ -33,7 +33,7 @@
         height: '176px',
       }"
     >
-      <run-info text-align="left" line-right/>
+      <run-info text-align="left" line-right info-is-row/>
     </div>
 
     <!-- Timer -->

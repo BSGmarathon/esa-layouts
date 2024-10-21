@@ -91,7 +91,7 @@ export default class extends Vue {
 
   @Watch('x32GameAudio')
   onX32GameAudioChange(newVal: ChanData[]): void {
-    if (this.gameLayouts?.selected?.endsWith('1p')) {
+    if (this.gameLayouts?.selected?.includes('-1p')) {
       this.showSpeakerIcon = false;
       return;
     }
