@@ -95,7 +95,7 @@ import { RunData } from 'speedcontrol-util/types';
 import { Component, Vue } from 'vue-property-decorator';
 import { State } from 'vuex-class';
 // import { generateClipPath } from '../_misc/cut-background';
-import MediaBox from '@shared/graphics/mediabox';
+import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
 import UpcomingRun from './components/UpcomingRun.vue';
 import Rotation from './components/Rotation.vue';
 import { getZoomAmountCSS } from '../_misc/helpers';

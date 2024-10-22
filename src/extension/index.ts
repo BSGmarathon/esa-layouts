@@ -3,7 +3,6 @@
 // This must go first so we can use module aliases!
 /* eslint-disable import/first */
 require('module-alias').addAlias('@esa-layouts', require('path').join(__dirname, '.'));
-require('module-alias').addAlias('@shared', require('path').join(__dirname, '../zoton_shared'));
 
 import { ExtensionReturn } from '@esa-layouts/types';
 import type { Configschema } from '@esa-layouts/types/schemas/configschema';

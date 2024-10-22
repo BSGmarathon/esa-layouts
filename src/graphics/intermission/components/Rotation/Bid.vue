@@ -45,7 +45,7 @@
 
 <script lang="ts">
 import { Bids, IntermissionSlides } from '@esa-layouts/types/schemas';
-import { Tracker } from '@shared/types';
+import { Tracker } from '@esa-layouts/types';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { State } from 'vuex-class';
 import { formatUSD } from '../../../_misc/helpers';

@@ -45,9 +45,6 @@
       "@esa-layouts/types/*": [
         "src/types/*"
       ],
-      "@shared/*": [
-        "zoton_shared/*"
-      ]
     },                                                   /* Specify a set of entries that re-map imports to additional lookup locations. */
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like `./node_modules/@types`. */
@@ -128,15 +125,6 @@
     "src/graphics/**/*.ts",
     "src/graphics/**/*.vue",
     "src/types/**/*.d.ts",
-
-    // esa-layouts-shared
-    "zoton_shared/browser_shared/**/*.ts",
-    "zoton_shared/browser_shared/**/*.vue",
-    "zoton_shared/dashboard/**/*.ts",
-    "zoton_shared/dashboard/**/*.vue",
-    "zoton_shared/graphics/**/*.ts",
-    "zoton_shared/graphics/**/*.vue",
-    "zoton_shared/types/**/*.d.ts"
   ],
   "exclude": [
     "node_modules"

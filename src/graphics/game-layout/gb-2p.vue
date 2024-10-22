@@ -116,7 +116,7 @@
 </template>
 
 <script lang="ts">
-import MediaBox from '@shared/graphics/mediabox';
+import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
 import { Component, Vue } from 'vue-property-decorator';
 import GameCapture from './components/GameCapture.vue';
 import Player from './components/Player.vue';

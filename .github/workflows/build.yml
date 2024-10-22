@@ -132,7 +132,6 @@ jobs:
     - name: Commit built files (1)
       run: |
         git add -f dashboard graphics extension
-        git add -f ':(glob)./zoton_shared/extension/*/dist/**'
         git commit -m "Built files" -a --allow-empty
 
     # Squash the previous 2 commits down for convenience and create the final build commit.

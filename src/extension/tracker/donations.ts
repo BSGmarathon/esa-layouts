@@ -1,4 +1,4 @@
-import type { Tracker } from '@shared/types';
+import type { Tracker } from '@esa-layouts/types';
 import needle from 'needle';
 import { get as nodecg } from '../util/nodecg';
 import { donationsToRead } from '../util/replicants';

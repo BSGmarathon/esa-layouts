@@ -1,7 +1,7 @@
 /* eslint no-new: off, @typescript-eslint/explicit-function-return-type: off */
 
 import type { GameLayouts } from '@esa-layouts/types/schemas';
-import { setUpReplicantsComponent as setUpReplicantsMediabox } from '@shared/graphics/mediabox';
+import { setUpReplicantsComponent as setUpReplicantsMediabox } from '@esa-layouts/graphics/_misc/components/mediabox';
 import { RunDataActiveRun } from 'speedcontrol-util/types';
 import Vue from 'vue';
 import VueRouter from 'vue-router';

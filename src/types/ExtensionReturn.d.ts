@@ -1,5 +1,5 @@
 import { DeepReadonly } from 'ts-essentials';
-import type OBS from '../../zoton_shared/extension/obs'; // eslint-disable-line import/no-relative-packages
+import { OBS } from '@esa-layouts/types/OBS';
 import { Configschema } from './schemas';
 
 export interface ExtensionReturn {

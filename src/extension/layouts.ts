@@ -1,7 +1,7 @@
 import { CapturePositions, Configschema, RtmpFeed } from '@esa-layouts/types/schemas';
-import Countdown from '@shared/extension/countdown';
 import clone from 'clone';
 import type { DeepWritable } from 'ts-essentials';
+import Countdown from './countdown';
 import { logError } from './util/helpers';
 import { get as nodecg } from './util/nodecg';
 import obs from './util/obs';
@@ -518,7 +518,7 @@ nodecg().listenFor('setSelectedCaptures', async (data: { [key: string]: string }
       item: { name },
       visible: name === sourceName,
     })
-      .catch((err) => logError(
+      .catch((err: unknown) => logError(
         '[Layouts] Could not change source visibility [%s: %s]',
         err,
         sceneName,
