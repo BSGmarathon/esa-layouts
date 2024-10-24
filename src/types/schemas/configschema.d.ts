@@ -8,7 +8,7 @@
 export interface Configschema {
 	useTestData: boolean;
 	event: {
-		theme?: string;
+		theme: string;
 		shorts: string | [string] | [string, string];
 		thisEvent: number;
 		online: boolean | ('partial' | 'full');

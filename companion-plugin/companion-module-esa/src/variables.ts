@@ -52,6 +52,24 @@ function initVariables(instance: InstanceBase<Config>) {
       variableId: 'obs_scene_list',
       name: 'OBS: Scene List (JSON stringified array)',
     },
+
+    // Cool cropping stuff
+    {
+      variableId: 'waitingForSingleCropConfirm',
+      name: 'Waiting for single crop confirm',
+    },
+    {
+      variableId: 'waitingForAllCropConfirm',
+      name: 'Waiting for all crop confirm',
+    },
+    {
+      variableId: 'fastCropOn',
+      name: 'Fast cropping enabled',
+    },
+    {
+      variableId: 'selectedCropItem',
+      name: 'Selected crop item',
+    },
   ]);
 }
 export default initVariables;

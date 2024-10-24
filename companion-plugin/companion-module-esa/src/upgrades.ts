@@ -3,7 +3,7 @@ import { Config } from './config';
 
 /**
  * Upgrade scripts are stored here.
- * Once you add a upgrade script here, remmeber that it cannot be removed!
+ * Once you add a upgrade script here, remember that it cannot be removed!
  */
 const upgradeScripts: CompanionStaticUpgradeScript<Config>[] = [
   // set up upgrade scripts here

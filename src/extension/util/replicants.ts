@@ -78,3 +78,9 @@ export const twitchAPIData = nodecg().Replicant<TwitchAPIData>('twitchAPIData', 
 export const twitchChannelInfo = nodecg().Replicant<TwitchChannelInfo>('twitchChannelInfo', 'nodecg-speedcontrol') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<TwitchChannelInfo>;
 export const upcomingRunID = nodecg().Replicant<UpcomingRunID>('upcomingRunID') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<UpcomingRunID>;
 export const videoPlayer = nodecg().Replicant<VideoPlayer>('videoPlayer') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<VideoPlayer>;
+
+// Custom stuff for companion
+export const companionFastCropEnabled = nodecg().Replicant<boolean>('companionFastCropEnabled', { persistent: false, defaultValue: false }) as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<boolean>;
+export const companionWaitingSingleCropConfirm = nodecg().Replicant<boolean>('companionWaitingSingleCropConfirm', { persistent: false, defaultValue: false }) as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<boolean>;
+export const companionWaitingAllCropConfirm = nodecg().Replicant<boolean>('companionWaitingAllCropConfirm', { persistent: false, defaultValue: false }) as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<boolean>;
+export const selectedCropItem = nodecg().Replicant<number>('companionWaitingAllCropConfirm', { persistent: false, defaultValue: -1 }) as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<number>;

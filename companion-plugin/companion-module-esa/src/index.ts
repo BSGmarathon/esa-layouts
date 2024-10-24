@@ -65,6 +65,7 @@ class ModuleInstance extends InstanceBase<Config> {
         this.wsReconnectionTimeout = setTimeout(() => this.wsConnect(), 5000);
       }
     });
+    // TODO: clean this up
     this.ws.on('message', (data, isBinary) => {
       this.log('debug', `Message: "${data.toString()}", isBinary: ${isBinary}`);
 
@@ -160,6 +161,14 @@ class ModuleInstance extends InstanceBase<Config> {
         // Updates the dropdown with the video information by re-initialising all actions.
         // TODO: Is there a better way?
         initActions(this, videos);
+      } else if (msg.name === 'fastCropOn') {
+        this.setVariableValues({
+          fastCropOn: msg.value as boolean,
+        });
+      } else if (msg.name === 'selectedCropItem') {
+        this.setVariableValues({
+          selectedCropItem: msg.value as number,
+        });
       }
     });
   }

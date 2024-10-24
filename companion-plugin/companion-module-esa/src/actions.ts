@@ -134,6 +134,80 @@ function initActions(instance: ModuleInstance, videos?: { name: string, sum: str
         instance.wsSend({ name: 'video_stop' });
       },
     },
+    fast_crop_toggle: {
+      name: 'Toggle fast crop',
+      description: 'Enables or disables fast crop mode',
+      options: [],
+      callback: () => {
+        instance.wsSend({ name: 'fast_crop_toggle' });
+      },
+    },
+    select_crop_item: {
+      name: 'Toggle crop item',
+      description: 'Selects an item to crop, or toggles it off',
+      options: [
+        {
+          id: 'item_index',
+          type: 'number',
+          label: 'Item index (not sure how this works either)',
+          min: 0,
+          max: 7,
+          default: -1,
+        },
+      ],
+      callback: (action) => {
+        instance.wsSend({ name: 'select_crop_item', value: action.options.item_index });
+      },
+    },
+    modify_crop: {
+      name: 'Modify crop',
+      description: 'Use the dials to change the crop!',
+      options: [
+        {
+          id: 'side',
+          type: 'dropdown',
+          label: 'What side do we crop?',
+          choices: [
+            {
+              id: 0,
+              label: 'Top',
+            },
+            {
+              id: 1,
+              label: 'Left',
+            },
+            {
+              id: 2,
+              label: 'Bottom',
+            },
+            {
+              id: 3,
+              label: 'Right',
+            },
+          ],
+          default: 0,
+        },
+        {
+          id: 'inc_dec',
+          type: 'dropdown',
+          label: 'Increase/Decrease?',
+          choices: [
+            {
+              id: -1,
+              label: 'Decrease',
+            },
+            {
+              id: 1,
+              label: 'Increase',
+            },
+          ],
+          default: -1,
+        },
+      ],
+      callback: () => {
+        instance.log('info', 'Modify crop action called');
+      },
+    },
   });
 }
 

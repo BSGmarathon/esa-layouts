@@ -67,6 +67,8 @@ function send(data: { name: string, value: unknown }, socket?: WebSocket) {
   }
 }
 
+export type ActionHandler = (name: string, value: unknown) => Promise<void> | void;
+
 export default {
   evt,
   send,

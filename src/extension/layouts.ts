@@ -5,7 +5,12 @@ import type { DeepWritable } from 'ts-essentials';
 import { logError } from './util/helpers';
 import { get as nodecg } from './util/nodecg';
 import obs from './util/obs';
-import { capturePositions, gameLayouts, nameCycle } from './util/replicants';
+import {
+  capturePositions,
+  gameLayouts,
+  nameCycle,
+  selectedCropItem as companionSelectedCropItem,
+} from './util/replicants';
 import { sc } from './util/speedcontrol';
 import xkeys from './util/xkeys';
 
@@ -601,17 +606,19 @@ function calculateCameraCrop(
  * @param value Amount to crop from the selected slide.
  * @param cap Override the capture that is cropped.
  * @param mode Specify the mode this function will run with.
+ * @param gameCropSide The side to crop
  */
 async function changeCrop(
   value: number | undefined,
   cap: number | undefined,
   mode: 'game' | 'camera',
+  gameCropSide: number = selected.gameCrop,
 ): Promise<void> {
   const capI = cap ?? selected.captureIndex;
   if (typeof capI === 'undefined' || capI < 0) return;
   if (mode === 'game') {
-    if (value && selected.gameCrop >= 0) {
-      switch (selected.gameCrop) {
+    if (value && gameCropSide >= 0) {
+      switch (gameCropSide) {
         case 0:
           gameCropValues[capI].top = calculateGameCrop(gameCropValues[capI].top, value);
           break;
@@ -676,6 +683,14 @@ async function changeCrop(
       );
     }
   }
+}
+
+// eslint-disable-next-line import/prefer-default-export
+export async function changeCropFromFromStreamDeck(side: number, value: number): Promise<void> {
+  const captureIndex = companionSelectedCropItem.value;
+  const mode = allSources[selected.sourceIndex[captureIndex]]?.type;
+
+  await changeCrop(value, captureIndex, mode, side);
 }
 
 let resetOneGameCropConfirm = false;
