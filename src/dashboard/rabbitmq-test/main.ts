@@ -1,7 +1,7 @@
 /* eslint no-new: off, @typescript-eslint/explicit-function-return-type: off */
 
-import App from '@shared/dashboard/rabbitmq';
 import Vue from 'vue';
+import App from './App.vue';
 import vuetify from '../_misc/vuetify';
 
 const config = nodecg.bundleConfig;

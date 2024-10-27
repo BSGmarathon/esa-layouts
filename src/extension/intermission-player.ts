@@ -1,6 +1,6 @@
 import { VideoPlayer } from '@esa-layouts/types/schemas';
 import type NodeCGTypes from '@nodecg/types';
-import Player from '@shared/extension/video-player';
+import Player from './util/video-player';
 import { TwitchCommercialTimer } from 'speedcontrol-util/types/schemas';
 import { v4 as uuid } from 'uuid';
 import { logError } from './util/helpers';
@@ -191,7 +191,7 @@ player.on('videoEnded', async (item) => {
   } catch (err) { /* do nothing */ }
 });
 
-player.on('playlistEnded', async (early) => {
+player.on('playlistEnded', async (early: boolean) => {
   videoPlayer.value.playing = false;
   videoPlayer.value.current = null;
   if (!early) videoPlayer.value.playlist.length = 0;

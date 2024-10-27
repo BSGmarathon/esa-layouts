@@ -1,4 +1,4 @@
-import OBS from '@shared/extension/obs';
+import OBS from './obs-class';
 import { logError } from './helpers';
 import { get as nodecg } from './nodecg';
 import { currentRunDelay, obsData } from './replicants';

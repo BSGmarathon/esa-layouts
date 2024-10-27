@@ -1,7 +1,7 @@
-import AudioNormaliser from '@shared/extension/audio-normaliser';
 import type { OengusUser, RunData } from 'speedcontrol-util/types';
 import needle from 'needle';
 import { CommentatorsNew, DonationReaderNew } from '@esa-layouts/types/schemas';
+import AudioNormaliser from './audio-normaliser';
 import { lookupUsersByStr } from './server';
 import { formatSrcomPronouns, formatUSD, getOtherStreamEventShort, logError } from './util/helpers';
 import * as mqLogging from './util/mq-logging';

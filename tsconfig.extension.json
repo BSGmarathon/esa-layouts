@@ -37,9 +37,6 @@
       ],
       "@esa-layouts/types/*": [
         "src/types/*"
-      ],
-      "@shared/*": [
-        "zoton_shared/*"
       ]
     },                                                   /* Specify a set of entries that re-map imports to additional lookup locations. */
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
@@ -113,22 +110,10 @@
   },
   "include": [
     "src/extension/**/*.ts",
-    "src/types/**/*.d.ts",
-    "zoton_shared/types/**/*.d.ts"
+    "src/types/**/*.d.ts"
   ],
   "exclude": [
     "node_modules",
     "src/types/augment-window.d.ts"
-  ],
-  "references": [
-    { "path": "./zoton_shared/extension/audio-normaliser" },
-    { "path": "./zoton_shared/extension/countdown" },
-    { "path": "./zoton_shared/extension/mediabox" },
-    { "path": "./zoton_shared/extension/music" },
-    { "path": "./zoton_shared/extension/obs" },
-    { "path": "./zoton_shared/extension/rabbitmq" },
-    { "path": "./zoton_shared/extension/video-player" },
-    { "path": "./zoton_shared/extension/x32" },
-    { "path": "./zoton_shared/extension/xkeys-esa" }
   ],
 }

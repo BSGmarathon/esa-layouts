@@ -1,5 +1,5 @@
 import { IntermissionSlides } from '@esa-layouts/types/schemas';
-import { Tracker } from '@shared/types';
+import { Tracker } from '@esa-layouts/types';
 import clone from 'clone';
 import { get as nodecg } from './util/nodecg';
 import { bids, intermissionSlides, prizes } from './util/replicants';
