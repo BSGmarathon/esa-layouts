@@ -100,7 +100,7 @@ class Music {
     async setup() {
         try {
             this.nodecg.log.info('[Music] Attempting connection');
-            const resp = await this.request('get', '/query?player=true&trcolumns=%artist%,%title%');
+            const resp = await this.request('get', '/query/updates?player=true&trcolumns=%artist%,%title%');
             this.musicData.value.connected = true;
             this.nodecg.log.info('[Music] Connection successful');
             if (!resp.body) {

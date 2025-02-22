@@ -114,7 +114,7 @@ class Music {
       this.nodecg.log.info('[Music] Attempting connection');
       const resp = await this.request(
         'get',
-        '/query?player=true&trcolumns=%artist%,%title%',
+        '/query/updates?player=true&trcolumns=%artist%,%title%',
       );
       this.musicData.value.connected = true;
       this.nodecg.log.info('[Music] Connection successful');
