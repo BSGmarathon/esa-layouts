@@ -3,8 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const needle_1 = __importDefault(require("needle"));
 const path_1 = __importDefault(require("path"));
+const node_fetch_1 = __importDefault(require("node-fetch"));
 const nodecg_1 = require("./util/nodecg");
 const obs_1 = __importDefault(require("./util/obs"));
 /**
@@ -39,14 +39,15 @@ class Music {
     async request(method, endpoint) {
         var _a;
         this.nodecg.log.debug(`[Music] API ${method.toUpperCase()} request processing on ${endpoint}`);
-        const resp = await (0, needle_1.default)(method, `http://${this.config.address}/api${endpoint}`, {
+        const resp = await (0, node_fetch_1.default)(`http://${this.config.address}/api${endpoint}`, {
+            method: method.toUpperCase(),
             headers: this.headers,
         });
-        if (![200, 204].includes((_a = resp.statusCode) !== null && _a !== void 0 ? _a : 0)) {
-            const text = await resp.body;
+        if (![200, 204].includes((_a = resp.status) !== null && _a !== void 0 ? _a : 0)) {
+            const text = await resp.text();
             this.nodecg.log
                 .debug(`[Music] API ${method.toUpperCase()} request error on ${endpoint}:`, text);
-            throw new Error(text);
+            throw new Error(JSON.stringify(text));
         }
         this.nodecg.log.debug(`[Music] API ${method.toUpperCase()} request successful on ${endpoint}`);
         return resp;
@@ -98,16 +99,15 @@ class Music {
      */
     async setup() {
         try {
-            this.nodecg.log.info('[Music] Attempting connection');
-            const resp = await this.request('get', '/query?player=true&trcolumns=%artist%,%title%');
+            this.nodecg.log.debug('[Music] Attempting update');
+            const fetchResp = await this.request('get', '/query?player=true&trcolumns=%artist%,%title%');
+            const body = await fetchResp.json();
             this.musicData.value.connected = true;
-            this.nodecg.log.info('[Music] Connection successful');
-            if (!resp.body) {
+            this.nodecg.log.debug('[Music] Update successful', body);
+            if (!body) {
                 throw new Error('body was null');
             }
-            // const readable = Readable.from(resp.body);
-            const msg = resp.body;
-            // this.nodecg.log.debug('[Music] messageadata', msg);
+            const msg = body;
             if (!msg || !msg.player) {
                 return;
             }

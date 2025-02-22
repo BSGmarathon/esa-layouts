@@ -1,7 +1,6 @@
 import type NodeCGTypes from '@nodecg/types';
-import needle, { NeedleHttpVerbs, NeedleResponse } from 'needle';
 import path from 'path';
-import { Readable } from 'stream';
+import fetch, { Response, HeadersInit } from 'node-fetch';
 import { Foobar2000, Music as MusicTypes } from '@esa-layouts/types';
 import { MusicData } from '@esa-layouts/types/schemas';
 import { get as nodecgGetter } from './util/nodecg';
@@ -51,18 +50,22 @@ class Music {
    * @param method Required HTTP method.
    * @param endpoint The endpoint to request.
    */
-  private async request(method: NeedleHttpVerbs, endpoint: string): Promise<NeedleResponse> {
+  private async request(method: string, endpoint: string): Promise<Response> {
     this.nodecg.log.debug(`[Music] API ${method.toUpperCase()} request processing on ${endpoint}`);
-    const resp = await needle(method, `http://${this.config.address}/api${endpoint}`, {
+    const resp = await fetch(`http://${this.config.address}/api${endpoint}`, {
+      method: method.toUpperCase(),
       headers: this.headers,
     });
-    if (![200, 204].includes(resp.statusCode ?? 0)) {
-      const text = await resp.body as string;
+
+    if (![200, 204].includes(resp.status ?? 0)) {
+      const text = await resp.text();
       this.nodecg.log
         .debug(`[Music] API ${method.toUpperCase()} request error on ${endpoint}:`, text);
-      throw new Error(text);
+      throw new Error(JSON.stringify(text));
     }
+
     this.nodecg.log.debug(`[Music] API ${method.toUpperCase()} request successful on ${endpoint}`);
+
     return resp;
   }
 
@@ -111,23 +114,20 @@ class Music {
    */
   private async setup(): Promise<void> {
     try {
-      this.nodecg.log.info('[Music] Attempting connection');
-      const resp = await this.request(
+      this.nodecg.log.debug('[Music] Attempting update');
+      const fetchResp = await this.request(
         'get',
         '/query?player=true&trcolumns=%artist%,%title%',
       );
+      const body = await fetchResp.json();
       this.musicData.value.connected = true;
-      this.nodecg.log.info('[Music] Connection successful');
+      this.nodecg.log.debug('[Music] Update successful', body);
 
-      if (!resp.body) {
+      if (!body) {
         throw new Error('body was null');
       }
 
-      // const readable = Readable.from(resp.body);
-
-      const msg = resp.body;
-
-      // this.nodecg.log.debug('[Music] messageadata', msg);
+      const msg = body as Foobar2000.UpdateMsg;
 
       if (!msg || !msg.player) {
         return;
