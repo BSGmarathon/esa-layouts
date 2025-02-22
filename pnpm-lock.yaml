@@ -141,6 +141,9 @@ importers:
       '@types/node':
         specifier: ^18.19.8
         version: 18.19.17
+      '@types/node-fetch':
+        specifier: ^2.6.12
+        version: 2.6.12
       '@types/sharp':
         specifier: ^0.31.1
         version: 0.31.1
@@ -1199,8 +1202,8 @@ packages:
   '@types/needle@3.3.0':
     resolution: {integrity: sha512-UFIuc1gdyzAqeVUYpSL+cliw2MmU/ZUhVZKE7Zo4wPbgc8hbljeKSnn6ls6iG8r5jpegPXLUIhJ+Wb2kLVs8cg==}
 
-  '@types/node-fetch@2.6.11':
-    resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
+  '@types/node-fetch@2.6.12':
+    resolution: {integrity: sha512-8nneRWKCg3rMtF69nLQJnOYUcbafYeFSjqkw3jCRLsqkWFlHaoQrr5mXmofFGOx3DKn7UfmBMyov8ySvLRVldA==}
 
   '@types/node@14.18.63':
     resolution: {integrity: sha512-fAtCfv4jJg+ExtXhvCkCqUKZ+4ok/JQk01qDKhL5BDDoS3AxKXhV5/MAVUZyQnSEd2GT92fkgZl0pz0Q0AzcIQ==}
@@ -6546,7 +6549,7 @@ snapshots:
     dependencies:
       '@types/node': 18.19.17
 
-  '@types/node-fetch@2.6.11':
+  '@types/node-fetch@2.6.12':
     dependencies:
       '@types/node': 18.19.17
       form-data: 4.0.0
@@ -7713,7 +7716,7 @@ snapshots:
       '@discordjs/builders': 0.16.0
       '@discordjs/collection': 0.7.0
       '@sapphire/async-queue': 1.5.2
-      '@types/node-fetch': 2.6.11
+      '@types/node-fetch': 2.6.12
       '@types/ws': 8.5.10
       discord-api-types: 0.33.5
       form-data: 4.0.0

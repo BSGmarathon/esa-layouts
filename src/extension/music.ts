@@ -1,6 +1,6 @@
 import type NodeCGTypes from '@nodecg/types';
 import path from 'path';
-import fetch, { Response } from 'node-fetch';
+import fetch, { Response, HeadersInit } from 'node-fetch';
 import { Foobar2000, Music as MusicTypes } from '@esa-layouts/types';
 import { MusicData } from '@esa-layouts/types/schemas';
 import { get as nodecgGetter } from './util/nodecg';
