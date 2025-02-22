@@ -1,0 +1,45 @@
+.arrow_base[data-v-501cdb87]{position:relative;top:0px;--color: var(--bsg-color);--size: 82px;display:block;width:var(--size);height:82px;background:var(--color);clip-path:polygon(63% 0, 100% 50%, 63% 100%, 0% 100%, 0 51%, 0% 0%)}.arrow_base.right[data-v-501cdb87]{clip-path:polygon(40% 0%, 100% 0%, 100% 100%, 40% 100%, 0% 50%)}#Total[data-v-501cdb87]{font-variant-numeric:tabular-nums;font-size:40px;font-weight:500;text-align:center;padding-left:45px;padding-right:45px;background:var(--bsg-color);--arrow-setting: 50px;clip-path:polygon(100% 0%, 80% 50%, 100% 100%, var(--arrow-setting) 100%, 10% 50%, var(--arrow-setting) 0%)}.dash_seg_1[data-v-501cdb87]{--color: var(--dark-arrow-default);right:-78px}.dash_seg_2[data-v-501cdb87]{--color: var(--bsg-color);right:-142px}#Total>span[data-v-501cdb87]{width:.5em;color:#fff;padding-top:18px;display:inline-block;text-align:center;background:var(--bsg-color);position:relative}#Total>.Comma[data-v-501cdb87]{display:inline-block;width:.22em;text-align:center}.coin-thing[data-v-501cdb87]{z-index:10000000}.fade-enter-active[data-v-501cdb87],.fade-leave-active[data-v-501cdb87]{transition:opacity .5s ease}.fade-enter[data-v-501cdb87],.fade-leave-to[data-v-501cdb87]{opacity:0}
+.dash[data-v-dd1a9766]{background-color:purple}
+
+.Msg > span + span[data-v-3124c81c]::before {
+  content: '';
+  margin: 0 10px 0 7px;
+}
+.Title[data-v-3124c81c] {
+  font-weight: 600;
+}
+
+
+.BarText[data-v-1a60c94f] {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 7px 10px;
+  border-radius: 15px;
+}
+.BarTextFull[data-v-1a60c94f] {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 150%;
+  height: 100%
+}
+
+
+.BarText[data-v-264c89b6] {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 7px 10px;
+  border-radius: 15px;
+}
+
+.WarOther[data-v-9f980b7c]{--mask: linear-gradient(to right, rgba(0,0,0, 1) 0, rgba(0,0,0, 1) 40%, rgba(0,0,0, 1) 98%, rgba(0,0,0, 0) 100% ) 100% 50% / 100% 100% repeat-y;-webkit-mask:var(--mask);mask:var(--mask)}.Option[data-v-9f980b7c]{display:flex;align-items:center;height:100%;padding:0 12px;font-size:25px}
+
+.BarText[data-v-9135af88] {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 7px 10px;
+  border-radius: 15px;
+}
+
+#Ticker[data-v-5d41a332]{height:100%;min-width:0;flex:1;padding-top:2px;margin-left:0px;align-items:center;font-family:"Bahnschrift",sans-serif}.ticker-leave-active[data-v-5d41a332]{animation:fadeOutUp;animation-duration:500ms;animation-timing-function:ease-in-out}.ticker-enter-active[data-v-5d41a332]{animation:fadeInUp;animation-duration:500ms;animation-timing-function:ease-in-out}.ticker-enter[data-v-5d41a332],.ticker-leave-to[data-v-5d41a332]{opacity:0}
+.Clock[data-v-59ce56a2]{font-variant-numeric:tabular-nums;position:relative;left:-15px;text-align:center;padding-top:2px;display:flex;flex-direction:column;justify-content:center;font-family:"Bahnschrift"}.Clock span[data-v-59ce56a2]:first-child{font-size:40px}.Clock span[data-v-59ce56a2]:nth-child(2){font-size:20px}
+.arrow_base{position:relative;top:0px;--color: var(--bsg-color);--size: 82px;display:block;width:var(--size);height:82px;background:var(--color);clip-path:polygon(63% 0, 100% 50%, 63% 100%, 0% 100%, 0 51%, 0% 0%)}.arrow_base.right{clip-path:polygon(40% 0%, 100% 0%, 100% 100%, 40% 100%, 0% 50%)}*{--dash-left-width: 160px;--dark-arrow-default: #232323}html,body{padding:0;margin:0}#omnibar{position:relative;flex-grow:1;width:1920px;height:82px;background-image:url(../img/background-e26a63c1cfb8e15bff38.png)}#omnibar #left{position:absolute}#omnibar #left .box{position:absolute;left:0;height:82px;width:var(--dash-left-width);background:var(--slide-color);clip-path:polygon(80% 0, 100% 50%, 80% 100%, 0% 100%, 0 51%, 0% 0%)}#omnibar #left .after_left_box{position:absolute;--color: var(--dark-arrow-default);left:calc(var(--dash-left-width) - 60px)}#omnibar #left #logobsg{position:relative;left:169px;width:50px;height:50px;top:-62px}#omnibar #left .dashContainer{width:350px;position:absolute;left:calc(var(--dash-left-width) - 14px);animation-duration:500ms;height:82px;top:0}#omnibar #left .dashContainer.hide{display:none}#omnibar #left .dashContainer .before_dash{--color: var(--dark-arrow-default);left:-45px;top:-246px}#omnibar #left .dashContainer #dash{position:relative;background:var(--bsg-color);clip-path:polygon(90% 0%, 100% 50%, 90% 100%, 0% 100%, 10% 50%, 0% 0%);top:-164px;width:300px;height:82px;font-family:"Bahnschrift"}#omnibar #left .dashContainer #dash p{color:#fff;position:absolute;left:34px;max-width:200px;word-break:break-word;top:22px;font-size:34px;text-transform:uppercase;vertical-align:middle;text-align:center;margin:0}#omnibar #left .dashContainer .dash_seg_1{--color: var(--dark-arrow-default);left:240px;top:-82px}#omnibar #left .dashContainer .dash_seg_2{--color: var(--bsg-color);left:260px}#omnibar #information{transform:translateY(-50%);top:50%;position:absolute;color:#fff;font-size:39px;left:489px;width:981px;animation-duration:500ms;height:82px}#omnibar #information.no-dash{left:190px;width:1285px;transform:unset;top:5px}#omnibar #right{position:absolute;right:0;top:0}#omnibar #right .box{position:absolute;right:0;top:0;height:82px;width:177px;background:var(--slide-color);clip-path:polygon(20% 0%, 100% 0%, 100% 100%, 20% 100%, 0% 50%)}#omnibar #right .box img{position:relative;height:82px;left:20px}#omnibar #right .dash{position:absolute;right:160px;height:82px;top:0;animation-duration:500ms}#omnibar #right .dash.hide{display:none}#omnibar #right .dash p{color:#fff;position:relative;top:calc((82px - 50px) / 2);font-size:39px}#omnibar #right .after_right_box{position:absolute;--color: var(--dark-arrow-default);right:115px}#GenericMessage{padding-top:8px}.omnibar-dash-leave-active{animation:slideOutLeft;animation-duration:calc(500ms - 0ms);animation-timing-function:ease-in-out;animation-delay:0ms !important}.omnibar-dash-enter-active{animation:slideInLeft;animation-duration:500ms;animation-timing-function:ease-in-out}.omnibar-dash-enter-active .before_dash{animation-delay:100ms}.omnibar-dash-enter-active #dash{animation-delay:150ms}.omnibar-dash-enter-active .dash_seg_1{animation-delay:200ms}.omnibar-dash-enter-active .dash_seg_2{animation-delay:400ms}.omnibar-dash-enter,.omnibar-dash-leave-to{left:-100px}.omnibar-dash-enter .dash_seg_1,.omnibar-dash-enter .dash_seg_2,.omnibar-dash-enter #dash,.omnibar-dash-enter .before_dash,.omnibar-dash-leave-to .dash_seg_1,.omnibar-dash-leave-to .dash_seg_2,.omnibar-dash-leave-to #dash,.omnibar-dash-leave-to .before_dash{left:-20px}
