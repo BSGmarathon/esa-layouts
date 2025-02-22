@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const needle_1 = __importDefault(require("needle"));
 const path_1 = __importDefault(require("path"));
-const stream_1 = require("stream");
 const nodecg_1 = require("./util/nodecg");
 const obs_1 = __importDefault(require("./util/obs"));
 /**
@@ -100,61 +99,41 @@ class Music {
     async setup() {
         try {
             this.nodecg.log.info('[Music] Attempting connection');
-            const resp = await this.request('get', '/query/updates?player=true&trcolumns=%artist%,%title%');
+            const resp = await this.request('get', '/query?player=true&trcolumns=%artist%,%title%');
             this.musicData.value.connected = true;
             this.nodecg.log.info('[Music] Connection successful');
             if (!resp.body) {
                 throw new Error('body was null');
             }
-            const readable = stream_1.Readable.from(resp.body);
-            readable.on('data', (chunk) => {
-                let msg;
-                try {
-                    const cleaned = chunk.toString().slice(6).replace(/(\r\n|\n|\r)/gm, '');
-                    msg = JSON.parse(cleaned);
+            // const readable = Readable.from(resp.body);
+            const msg = resp.body;
+            // this.nodecg.log.debug('[Music] messageadata', msg);
+            if (!msg || !msg.player) {
+                return;
+            }
+            if (this.positionInterval) {
+                clearInterval(this.positionInterval);
+            }
+            const isPlaying = msg.player.playbackState === 'playing';
+            this.musicData.value.playing = isPlaying;
+            if (msg.player.playbackState === 'stopped') {
+                delete this.musicData.value.track;
+                return;
+            }
+            if (msg.player.activeItem.duration > 0) {
+                this.musicData.value.track = {
+                    artist: msg.player.activeItem.columns[0] || undefined,
+                    title: msg.player.activeItem.columns[1] || undefined,
+                    position: msg.player.activeItem.position,
+                    duration: msg.player.activeItem.duration,
+                };
+                if (isPlaying) {
+                    this.positionInitial = msg.player.activeItem.position;
+                    this.positionTimestamp = Date.now();
+                    this.positionInterval = setInterval(() => this.updatePosition(), 1000);
                 }
-                catch (err) {
-                    this.nodecg.log.warn('[Music] Error parsing message on connection');
-                    this.nodecg.log.debug('[Music] Error parsing message on connection:', err);
-                }
-                if (!msg || !msg.player) {
-                    return;
-                }
-                if (this.positionInterval) {
-                    clearInterval(this.positionInterval);
-                }
-                const isPlaying = msg.player.playbackState === 'playing';
-                this.musicData.value.playing = isPlaying;
-                if (msg.player.playbackState === 'stopped') {
-                    delete this.musicData.value.track;
-                    return;
-                }
-                if (msg.player.activeItem.duration > 0) {
-                    this.musicData.value.track = {
-                        artist: msg.player.activeItem.columns[0] || undefined,
-                        title: msg.player.activeItem.columns[1] || undefined,
-                        position: msg.player.activeItem.position,
-                        duration: msg.player.activeItem.duration,
-                    };
-                    if (isPlaying) {
-                        this.positionInitial = msg.player.activeItem.position;
-                        this.positionTimestamp = Date.now();
-                        this.positionInterval = setInterval(() => this.updatePosition(), 1000);
-                    }
-                }
-            });
-            readable.on('close', () => {
-                this.nodecg.log.warn('[Music] Connection closed');
-            });
-            readable.on('error', (err) => {
-                this.nodecg.log.warn('[Music] Connection error');
-                this.nodecg.log.debug('[Music] Connection error:', err);
-            });
-            readable.on('end', () => {
-                this.musicData.value.connected = false;
-                this.nodecg.log.warn('[Music] Connection ended, retrying in 5 seconds');
-                setTimeout(() => this.setup(), 5 * 1000);
-            });
+            }
+            setTimeout(() => this.setup(), 5 * 1000);
             // Listen to OBS transitions to play/pause correctly.
             this.obs.conn.on('TransitionBegin', (data) => {
                 if (data['to-scene']) {
