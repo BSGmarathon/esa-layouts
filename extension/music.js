@@ -29,6 +29,17 @@ class Music {
         this.musicData.value.connected = false;
         if (config.enabled) {
             this.setup();
+            // Listen to OBS transitions to play/pause correctly.
+            this.obs.conn.on('TransitionBegin', (data) => {
+                if (data['to-scene']) {
+                    if (data['to-scene'].includes('[M]')) {
+                        this.play();
+                    }
+                    else {
+                        this.pause();
+                    }
+                }
+            });
         }
     }
     /**
@@ -134,17 +145,6 @@ class Music {
                 }
             }
             setTimeout(() => this.setup(), 5 * 1000);
-            // Listen to OBS transitions to play/pause correctly.
-            this.obs.conn.on('TransitionBegin', (data) => {
-                if (data['to-scene']) {
-                    if (data['to-scene'].includes('[M]')) {
-                        this.play();
-                    }
-                    else {
-                        this.pause();
-                    }
-                }
-            });
         }
         catch (err) {
             this.musicData.value.connected = false;
