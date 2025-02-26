@@ -32,7 +32,7 @@
   border-radius: 15px;
 }
 
-.WarOther[data-v-9f980b7c]{--mask: linear-gradient(to right, rgba(0,0,0, 1) 0, rgba(0,0,0, 1) 40%, rgba(0,0,0, 1) 98%, rgba(0,0,0, 0) 100% ) 100% 50% / 100% 100% repeat-y;-webkit-mask:var(--mask);mask:var(--mask)}.Option[data-v-9f980b7c]{display:flex;align-items:center;height:100%;padding:0 12px;font-size:25px}
+.WarOther[data-v-4a27cda1]{--mask: linear-gradient(to right, rgba(0,0,0, 1) 0, rgba(0,0,0, 1) 40%, rgba(0,0,0, 1) 98%, rgba(0,0,0, 0) 100% ) 100% 50% / 100% 100% repeat-y;-webkit-mask:var(--mask);mask:var(--mask)}.Option[data-v-4a27cda1]{display:flex;align-items:center;height:100%;padding:0 12px;font-size:25px}.Option[data-v-4a27cda1]:last-of-type{margin-right:10px}
 
 .BarText[data-v-9135af88] {
   background-color: rgba(0, 0, 0, 0.4);
