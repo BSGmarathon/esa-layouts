@@ -1,10 +1,7 @@
-import { BigbuttonPlayerMap } from '@esa-layouts/types/schemas';
 import clone from 'clone';
-import * as mqLogging from './util/mq-logging';
 import { get as nodecg } from './util/nodecg';
 import obs from './util/obs';
-import { mq } from './util/rabbitmq';
-import { bigbuttonPlayerMap, currentRunDelay, delayedTimer, taskmasterTimestamps } from './util/replicants';
+import { currentRunDelay, delayedTimer } from './util/replicants';
 import { sc } from './util/speedcontrol';
 
 const config = nodecg().bundleConfig;
@@ -47,49 +44,20 @@ sc.timer.on('change', (val) => {
   }
 });
 
-// Controls the nodecg-speedcontrol timer when the big buttons are pressed.
-mq.evt.on('bigbuttonPressed', async (data) => {
-  // For stream 2, the buttons are offset by 4.
-  const buttonId = config.event.thisEvent === 2
-    ? data.button_id - 4
-    : data.button_id;
-  if (buttonId < 1 || (config.event.thisEvent === 1 && buttonId > 4)) return;
-
-  // If the button was pressed more than 10s ago, ignore it.
-  if (data.time.unix < (Date.now() / 1000) - 10) return;
-
-  // Stop/log warning if timestamp happens to be in the future.
-  if (data.time.unix > (Date.now() / 1000) + 10) {
-    nodecg().log.warn('[Timer] Big button unix timestamp is in the future, this is bad!');
-    return;
-  }
-
+nodecg().listenFor('buttonPressed', async (buttonId: number, ack) => {
   const run = sc.getCurrentRun();
 
-  // Hardcoded different timer for Taskmaster.
-  if (run?.game?.toLowerCase() === 'taskmaster') {
-    if (taskmasterTimestamps.value.start === null) { // Start
-      taskmasterTimestamps.value.start = Date.now();
-    } else if (taskmasterTimestamps.value.end === null) { // End
-      taskmasterTimestamps.value.end = Date.now();
-    } else {
-      taskmasterTimestamps.value = { start: null, end: null }; // Reset
-    }
+  if (!run) {
     return;
   }
 
-  let id = 0;
+  const teamIndex = Math.max(0, Math.min(buttonId - 1, run.teams.length - 1));
 
-  // If more than 1 team, uses the big button player mapping to find out what team to stop.
-  if (run && run.teams.length > 1) {
-    const userTag = bigbuttonPlayerMap.value[buttonId] as BigbuttonPlayerMap[0] | undefined;
-    const teamIndex = run.teams.findIndex((t) => t.players.find((p) => userTag
-      ?.find((u) => u.user.displayName.toLowerCase() === p.name.toLowerCase())));
-    if (teamIndex >= 0) id = teamIndex;
-    else id = -1;
+  // Just in case
+  if (teamIndex < 0) {
+    return;
   }
 
-  if (id < 0) return;
   try {
     // Note: the nodecg-speedcontrol bundle will check if it *can* do these actions,
     // we do not need to check that here.
@@ -101,14 +69,32 @@ mq.evt.on('bigbuttonPressed', async (data) => {
       case 'running':
         // Only allow stop command to work if timer is more than 10s.
         if (sc.timer.value.milliseconds > 10 * 1000) {
-          await sc.stopTimer(id);
+          await sc.stopTimer(teamIndex);
         }
         break;
       default:
         break;
     }
   } catch (err) {
-    nodecg().log.debug('[Timer] Error changing timer state on bigbuttonPressed event:', err);
+    nodecg().log.error('[Timer] Error changing timer state on buttonPressed event:', err);
+  }
+
+  if (ack && !ack.handled) {
+    ack(null);
+  }
+});
+
+nodecg().listenFor('resetTimer', async (data, ack) => {
+  try {
+    await sc.resetTimer();
+
+    if (ack && !ack.handled) {
+      ack(null);
+    }
+  } catch (e) {
+    if (ack && !ack.handled) {
+      ack(e);
+    }
   }
 });
 
@@ -122,14 +108,3 @@ obs.on('currentSceneChanged', (current) => {
     }
   }
 });
-
-// Logs changes to the timer using helper function in logging.ts
-// TODO: This may be changed!
-sc.on('timerStarted', () => mqLogging.logTimerChange('started'));
-sc.on('timerPaused', () => mqLogging.logTimerChange('paused'));
-sc.on('timerResumed', () => mqLogging.logTimerChange('resumed'));
-sc.on('timerStopped', () => mqLogging.logTimerChange('finished'));
-sc.on('timerReset', () => mqLogging.logTimerChange('reset'));
-sc.on('timerEdited', () => mqLogging.logTimerChange('edited'));
-sc.on('timerTeamStopped', (id) => mqLogging.logTimerChange('team_finished', id));
-sc.on('timerTeamUndone', (id) => mqLogging.logTimerChange('team_undid_finish', id));

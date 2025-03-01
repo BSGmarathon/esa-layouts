@@ -255,10 +255,10 @@
       },
       {
         "name": "bigbutton-tag-scan-control",
-        "title": "Big Button Tag Scan Control",
+        "title": "Button tester",
         "width": 3,
         "file": "bigbutton-tag-scan-control.html",
-        "workspace": "ESA",
+        "workspace": "Z9 - Debug",
         "headerColor": "#c49215"
       },
       {
