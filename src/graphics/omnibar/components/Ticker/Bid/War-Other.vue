@@ -63,7 +63,6 @@
         </div>
         <div
           v-if="bid.allowUserOptions"
-          style="margin-right: 10px;"
           class="Option"
           :ref="`Option${options.length + 1}`"
         >
@@ -252,5 +251,9 @@ export default class extends Vue {
     height: 100%;
     padding: 0 12px;
     font-size: 25px;
+
+    &:last-of-type {
+      margin-right: 10px;
+    }
   }
 </style>

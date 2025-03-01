@@ -3,13 +3,14 @@
     class="Flex"
     :style="{
       padding: '0 17px',
+      'padding-top': '10px',
       height: '100%',
       'font-weight': 500,
       'flex-direction': 'column',
       'align-items': 'flex-start',
     }"
   >
-    <div :style="{ 'font-size': '26px' }">
+    <div :style="{ 'font-size': '35px' }">
       Prize Available: {{ prize.name }}
     </div>
     <div :style="{ 'font-size': '20px' }">
