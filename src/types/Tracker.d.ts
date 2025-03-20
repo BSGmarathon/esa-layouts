@@ -84,15 +84,13 @@ export namespace Tracker {
 
   // The object from the tracker API.
   interface Donation {
-    pk: number;
-    model: string;
-    fields: {
-      visible_donor_name: string;
-      amount: string;
-      comment: string; // Can be empty
-      commentstate: string;
-      timereceived: string;
-    }
+    id: number;
+    type: string;
+    donor_name: string;
+    amount: number;
+    comment: string; // Can be empty
+    commentstate: string;
+    timereceived: string;
   }
 
   interface FormattedDonation {
