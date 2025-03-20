@@ -242,7 +242,7 @@
         "title": "Donation Alert Control",
         "width": 3,
         "file": "donation-alert-control.html",
-        "workspace": "Z2 - ESA Advanced",
+        "workspace": "ESA",
         "headerColor": "#c49215"
       },
       {
@@ -258,7 +258,7 @@
         "title": "Button tester",
         "width": 3,
         "file": "bigbutton-tag-scan-control.html",
-        "workspace": "Z9 - Debug",
+        "workspace": "ESA",
         "headerColor": "#c49215"
       },
       {
@@ -290,7 +290,7 @@
         "title": "RabbitMQ Test",
         "width": 3,
         "file": "rabbitmq-test.html",
-        "workspace": "Z9 - Debug",
+        "workspace": "ESA",
         "headerColor": "#c49215"
       },
       {
@@ -305,7 +305,7 @@
         "title": "Additional Donations Control",
         "width": 3,
         "file": "additional-donations-control.html",
-        "workspace": "Z2 - ESA Advanced",
+        "workspace": "ESA",
         "headerColor": "#c49215"
       }
     ],
