@@ -12,14 +12,14 @@ const refreshTime = 60 * 1000; // Get prizes every 60s.
 function processRawPrizes(rawPrizes: Tracker.Prize[]): Tracker.FormattedPrize[] {
   // Somehow the the state is gone LMAO
   return rawPrizes/* .filter((prize) => prize.fields.state === 'ACCEPTED') */.map((prize) => {
-    const startTime = prize.fields.startrun__starttime || prize.fields.starttime;
-    const endTime = prize.fields.endrun__endtime || prize.fields.endtime;
+    const startTime = prize.starttime;
+    const endTime = prize.endtime;
     return {
-      id: prize.pk,
-      name: prize.fields.name,
-      provided: prize.fields.provider || undefined,
-      minimumBid: parseFloat(prize.fields.minimumbid),
-      image: prize.fields.altimage || prize.fields.image || undefined,
+      id: prize.id,
+      name: prize.name,
+      provided: prize.provider || undefined,
+      minimumBid: prize.minimumbid,
+      image: prize.altimage || prize.image || undefined,
       startTime: startTime ? Date.parse(startTime) : undefined,
       endTime: endTime ? Date.parse(endTime) : undefined,
     };
@@ -32,27 +32,34 @@ async function updatePrizes(): Promise<void> {
   try {
     const resp = await needle(
       'get',
-      trackerUrl(`/search/?event=${eventInfo[0].id}&type=prize&feed=current`),
+      // trackerUrl(`/search/?event=${eventInfo[0].id}&type=prize&feed=current`),
+      trackerUrl(`/api/v2/events/${eventInfo[0].id}/prizes/?feed=current`),
       {
         cookies: getCookies(),
       },
     );
+
     if (!resp.statusCode || resp.statusCode >= 300 || resp.statusCode < 200) {
       throw new Error(`status code ${resp.statusCode ?? 'unknown'}`);
     }
-    if (!Array.isArray(resp.body)) {
+
+    if (!Array.isArray(resp.body.results)) {
       throw new Error('received non-array type');
     }
-    const currentPrizes = processRawPrizes(resp.body);
+
+    const currentPrizes = processRawPrizes(resp.body.results);
+
     if (!Array.isArray(currentPrizes)) {
       throw new Error('currentPrizes result was non-array type');
     }
+
     prizes.value = currentPrizes;
   } catch (err) {
     nodecg().log.warn('[Tracker] Error updating prizes');
     nodecg().log.debug('[Tracker] Error updating prizes:', err);
     prizes.value.length = 0; // Clear the array so we do not display incorrect information.
   }
+
   setTimeout(updatePrizes, refreshTime);
 }
 
