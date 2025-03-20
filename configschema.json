@@ -301,6 +301,10 @@
                 "interview": {
                   "type": "string",
                   "default": "Interview"
+                },
+                "fullScreenPlayer": {
+                  "type": "string",
+                  "default": "Fullscreen Video Player"
                 }
               },
               "required": [
@@ -311,7 +315,8 @@
                 "intermissionPlayer",
                 "intermissionCrowd",
                 "countdown",
-                "interview"
+                "interview",
+                "fullScreenPlayer"
               ]
             },
             "sources": {
@@ -384,6 +389,10 @@
                   "type": "string",
                   "default": "Video Player Source"
                 },
+                "fullScreenVideoPlayer": {
+                  "type": "string",
+                  "default": "Fullscreen Video Player Source"
+                },
                 "donationSound": {
                   "type": "string",
                   "default": "Donation Sound"
@@ -394,7 +403,8 @@
                 "cameraSources",
                 "twitchSources",
                 "videoPlayer",
-                "donationSound"
+                "donationSound",
+                "fullScreenVideoPlayer"
               ]
             },
             "groups": {

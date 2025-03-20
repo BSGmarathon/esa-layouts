@@ -60,6 +60,7 @@ export interface Configschema {
 				intermissionCrowd: string;
 				countdown: string;
 				interview: string;
+				fullScreenPlayer: string;
 			};
 			sources: {
 				gameSources: string | [string, ...string[]];
@@ -67,6 +68,7 @@ export interface Configschema {
 				cameraSourceCrowd?: string | null;
 				twitchSources: string | [string] | [string, string];
 				videoPlayer: string;
+				fullScreenVideoPlayer: string;
 				donationSound: string;
 			};
 			groups: {

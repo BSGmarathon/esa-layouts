@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "playlist": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sum": {
+            "type": "string"
+          },
+          "length": {
+            "type": "number"
+          },
+          "commercial": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "length",
+          "commercial"
+        ]
+      },
+      "default": []
+    },
+    "current": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "playing": {
+      "type": "boolean",
+      "default": false
+    },
+    "estimatedFinishTimestamp": {
+      "type": "number",
+      "default": 0
+    },
+    "finishScene": {
+      "type": "string",
+      "default": null
+    },
+    "plays": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number",
+        "default": 0
+      }
+    }
+  },
+  "required": [
+    "playlist",
+    "current",
+    "playing",
+    "estimatedFinishTimestamp",
+    "plays",
+    "finishScene"
+  ]
+}

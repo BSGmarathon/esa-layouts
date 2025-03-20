@@ -80,6 +80,7 @@ export const reps: {
   ttsVoices: NodeCGTypes.ClientReplicant<TtsVoices>;
   upcomingRunID: NodeCGTypes.ClientReplicant<UpcomingRunID>;
   videoPlayer: NodeCGTypes.ClientReplicant<VideoPlayer>;
+  fullScreenVideoPlayer: NodeCGTypes.ClientReplicant<VideoPlayer>;
   [k: string]: NodeCGTypes.ClientReplicant<unknown>;
 } = {
   additionalDonations: nodecg.Replicant('additionalDonations'),
@@ -119,6 +120,7 @@ export const reps: {
   ttsVoices: nodecg.Replicant('ttsVoices'),
   upcomingRunID: nodecg.Replicant('upcomingRunID'),
   videoPlayer: nodecg.Replicant('videoPlayer'),
+  fullScreenVideoPlayer: nodecg.Replicant('fullScreenVideoPlayer'),
 };
 
 // All the replicant types.
@@ -160,6 +162,7 @@ export interface ReplicantTypes {
   ttsVoices: TtsVoices;
   upcomingRunID: UpcomingRunID;
   videoPlayer: VideoPlayer;
+  fullScreenVideoPlayer: VideoPlayer;
 }
 
 @Module({ name: 'ReplicantModule', namespaced: true })

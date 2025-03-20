@@ -1,8 +1,8 @@
 import { VideoPlayer } from '@esa-layouts/types/schemas';
 import type NodeCGTypes from '@nodecg/types';
-import Player from './util/video-player';
 import { TwitchCommercialTimer } from 'speedcontrol-util/types/schemas';
 import { v4 as uuid } from 'uuid';
+import Player from './util/video-player';
 import { logError } from './util/helpers';
 import * as mqLogging from './util/mq-logging';
 import { get as nodecg } from './util/nodecg';
@@ -12,6 +12,7 @@ import { sc } from './util/speedcontrol';
 
 const config = nodecg().bundleConfig;
 export const player = new Player(nodecg(), config.obs, obs);
+export const fullScreenPlayer = new Player(nodecg(), config.obs, obs, config.obs.names.sources.fullScreenVideoPlayer);
 
 // Reset replicant values on startup.
 videoPlayer.value.playing = false;
@@ -38,13 +39,15 @@ async function waitForCommercialEnd(): Promise<void> {
   });
 }
 
-// Converts our current playlist to shared format.
-function generatePlaylist(): {
+export type Playlist = {
   id: string,
   video?: NodeCGTypes.AssetFile,
   length?: number,
   commercial?: boolean,
-}[] {
+}[];
+
+// Converts our current playlist to shared format.
+function generatePlaylist(): Playlist {
   return videoPlayer.value.playlist.map(({ sum, length, commercial }) => ({
     id: uuid(),
     video: assetsVideos.value.find((v) => v.sum === sum),
