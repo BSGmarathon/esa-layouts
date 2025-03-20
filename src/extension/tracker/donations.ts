@@ -36,7 +36,7 @@ async function updateToReadDonations(): Promise<void> {
       'get',
       // trackerUrl(`/search/?event=${eventInfo[eventConfig.thisEvent - 1].id}`
       //   + '&type=donation&feed=toread'),
-      trackerUrl(`/api/v2/events/${eventInfo[eventConfig.thisEvent - 1].id}/donations/unread`),
+      trackerUrl(`/api/v2/events/${eventInfo[eventConfig.thisEvent - 1].id}/donations/unread/`),
       {
         cookies: getCookies(),
       },

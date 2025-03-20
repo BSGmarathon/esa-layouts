@@ -32,7 +32,7 @@ export function getCookies(): NeedleResponse['cookies'] {
 async function getEventIDFromShort(short: string): Promise<number> {
   const resp = await needle(
     'get',
-    trackerUrl(`/api/v2/events?short=${short}`),
+    trackerUrl(`/api/v2/events/?short=${short}`),
     cookies,
   );
 
