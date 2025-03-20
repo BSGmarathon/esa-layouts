@@ -30,7 +30,7 @@ function processRawBids(rawBids: Tracker.Bid[]): Tracker.FormattedBid[] {
         id: bid.id,
         name: bid.name,
         total: bid.total,
-        game: '', // TODO: fetch these?
+        game: 'missingno', // TODO: fetch these
         category: '',
         endTime: bid.close_at
           ? Date.parse(bid.close_at) : undefined,
@@ -107,8 +107,7 @@ async function updateBids(): Promise<void> {
   try {
     const resp = await needle(
       'get',
-      trackerUrl(`/api/v2/events/${eventInfo[eventConfig.thisEvent - 1].id}/bids`
-        + '?state=OPENED'),
+      trackerUrl(`/api/v2/events/${eventInfo[eventConfig.thisEvent - 1].id}/bids?state=OPENED`),
       {
         cookies: getCookies(),
       },

@@ -56,24 +56,20 @@ export namespace Tracker {
 
   // The object from the tracker API.
   interface Prize {
-    pk: number;
-    model: string;
-    fields: {
-      name: string;
-      description: string; // Can be empty
-      shortdescription: string; // Can be empty
-      provider: string; // Can be empty
-      minimumbid: string;
-      image: string; // Can be empty
-      altimage: string; // Can be empty
-      startrun: number | null;
-      endrun: number | null;
-      startrun__starttime?: string;
-      endrun__endtime?: string;
-      starttime: string | null;
-      endtime: string | null;
-      state: string;
-    }
+    id: number;
+    type: string;
+    name: string;
+    description: string; // Can be empty
+    shortdescription: string; // Can be empty
+    provider: string; // Can be empty
+    minimumbid: number;
+    image: string; // Can be empty
+    altimage: string; // Can be empty
+    startrun: number | null;
+    endrun: number | null;
+    starttime: string | null;
+    endtime: string | null;
+    state: string;
   }
 
   interface FormattedPrize {
