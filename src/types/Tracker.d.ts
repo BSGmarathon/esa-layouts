@@ -1,18 +1,19 @@
 // The object from the tracker API.
 interface BidFields {
-  state: string;
+  bid_type: 'challenge' | 'choice' | 'option';
+  name: string;
+  speedrun: number;
   parent: number | null;
   description: string; // Can be empty
   shortdescription: string; // Can be empty
-  name: string;
-  total: string;
-  speedrun__name?: string;
-  speedrun__category?: string;
-  speedrun__endtime?: string;
   istarget: boolean;
-  allowuseroptions: boolean;
-  goal: string | null;
+  allowuseroptions?: boolean;
+  goal: number | null;
+  state: string;
+  total: number;
+  close_at: string | null;
 }
+
 interface BidChildFields extends BidFields {
   parent: number;
 }
@@ -25,15 +26,13 @@ export namespace Tracker {
   }
 
   // The object(s) from the tracker API.
-  interface Bid {
-    pk: number;
-    model: string;
-    fields: BidFields;
+  interface Bid extends BidFields {
+    id: number;
+    type: string;
   }
-  interface BidChild {
-    pk: number;
-    model: string;
-    fields: BidChildFields;
+  interface BidChild extends BidChildFields {
+    id: number;
+    type: string;
   }
 
   interface FormattedBid {
