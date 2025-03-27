@@ -1,3 +1,130 @@
+<script setup lang="ts">
+import { NameCycle } from '@esa-layouts/types/schemas';
+import fitty, { FittyInstance } from 'fitty';
+import { RunDataPlayer, RunDataTeam } from 'speedcontrol-util/types';
+import { useReplicant } from 'nodecg-vue-composable';
+import { computed, ref, onMounted, onUnmounted, useTemplateRef, watch, nextTick } from 'vue';
+import { runDataActiveRun } from '@esa-layouts/browser_shared/replicant_store';
+
+const { slotNo } = defineProps<{ slotNo?: number }>();
+
+const playerElem = useTemplateRef<HTMLElement>('Player');
+const nameCycleServer = useReplicant<NameCycle>('nameCycle', 'esa-layouts')!;
+const runData = computed(() => runDataActiveRun.value);
+const team = ref<RunDataTeam | null>(null);
+const player = ref<RunDataPlayer | null>(null);
+const playerIndex = ref(0);
+const nameCycle = ref(0);
+let fittyPlayer: FittyInstance | undefined; // "Local" name cycle used so we can let flags load.
+const pronouns = computed(() => player.value?.pronouns);
+const coop = computed(
+  () => (runData.value && runData.value.teams.length === 1 && runData.value.teams[0].players.length > 1)
+    || false,
+);
+
+function updateTeam(): void {
+  // Makes a fake team with just 1 player in it for coop/relay.
+  if (runData.value?.relay) {
+    const localTeam = runData.value?.teams[slotNo ?? 0];
+    const localPlayer = localTeam?.players.find((p) => p.id === localTeam.relayPlayerID);
+
+    team.value = localPlayer ? { name: localTeam.name, id: localPlayer.id, players: [localPlayer] } : null;
+  } else if (typeof slotNo === 'number' && coop.value) {
+    const localTeam = runData.value?.teams[0];
+    const localPlayer = localTeam?.players[slotNo];
+
+    team.value = localTeam && localPlayer ? { name: localTeam.name, id: localPlayer.id, players: [localPlayer] } : null;
+  } else {
+    team.value = runData.value?.teams[slotNo || 0] || null;
+  }
+}
+
+async function preloadFlag(targetPlayer: RunDataPlayer | null): Promise<void> {
+  if (!targetPlayer || !targetPlayer.country) {
+    return;
+  }
+
+  await new Promise<void>((res) => {
+    const img = new Image();
+    const setAsLoaded = (): void => {
+      img.removeEventListener('load', setAsLoaded);
+      img.removeEventListener('error', setAsLoaded);
+      res();
+    };
+    img.addEventListener('load', setAsLoaded);
+    img.addEventListener('error', setAsLoaded);
+    img.src = `/bundles/esa-layouts/flags/${targetPlayer.country}.png`;
+  });
+}
+
+async function updatePlayer(): Promise<void> {
+  const localPlayer = (team.value ? team.value.players[playerIndex.value] : null) || null;
+  await preloadFlag(localPlayer);
+  nameCycle.value = nameCycleServer.data!;
+  player.value = localPlayer;
+}
+
+function fit(): void {
+  const elem = playerElem.value;
+
+  if (elem) {
+    [fittyPlayer] = fitty('.PlayerText', {
+      minSize: 1,
+      maxSize: parseInt(elem.style.fontSize, 10),
+      multiLine: false,
+    });
+  }
+}
+
+watch(() => runData.value, async (newVal, oldVal) => {
+  const newPlayers = newVal?.teams[slotNo || 0]?.players;
+  const oldPlayers = oldVal?.teams[slotNo || 0]?.players;
+
+  if (newVal?.id !== oldVal?.id || newPlayers?.length !== oldPlayers?.length) {
+    playerIndex.value = 0;
+  }
+
+  updateTeam();
+  updatePlayer();
+  await nextTick();
+  fit();
+});
+
+watch(() => nameCycleServer.data!, async (newVal, oldVal) => {
+  // If the name cycle resets, we need to move to the next player if applicable.
+  if (newVal < oldVal) {
+    if (team.value && team.value.players.length - 1 > playerIndex.value) {
+      playerIndex.value += 1;
+    } else {
+      playerIndex.value = 0;
+    }
+    updatePlayer();
+  } else if (oldVal < newVal) {
+    nameCycle.value = newVal; // Set "local" name cycle if cycle has only progressed.
+  }
+
+  await nextTick();
+  fit();
+});
+
+onMounted(() => {
+  fit();
+});
+
+onUnmounted(() => {
+  if (fittyPlayer) {
+    fittyPlayer.unsubscribe();
+  }
+});
+
+/*
+created(): void { // TODO: what's this in vue3 again?
+  this.updateTeam();
+  this.updatePlayer();
+}
+*/
+</script>
+
 <template>
   <div
     v-if="player"
@@ -193,160 +320,40 @@
   </div>
 </template>
 
-<script lang="ts">
-import { NameCycle } from '@esa-layouts/types/schemas';
-import fitty, { FittyInstance } from 'fitty';
-import { RunDataActiveRun, RunDataPlayer, RunDataTeam } from 'speedcontrol-util/types';
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'; // eslint-disable-line object-curly-newline, max-len
-import { State } from 'vuex-class';
-
-@Component
-export default class extends Vue {
-  @State('runDataActiveRun') runData!: RunDataActiveRun;
-  @State('nameCycle') nameCycleServer!: NameCycle;
-  @State coop!: boolean;
-  @Prop(Number) slotNo!: number;
-  team: RunDataTeam | null = null;
-  player: RunDataPlayer | null = null;
-  playerIndex = 0;
-  nameCycle = 0; // "Local" name cycle used so we can let flags load.
-  fittyPlayer: FittyInstance | undefined;
-
-  get pronouns(): string | undefined {
-    return this.player?.pronouns;
-  }
-
-  updateTeam(): void {
-    // Makes a fake team with just 1 player in it for coop/relay.
-    if (this.runData?.relay) {
-      const team = this.runData?.teams[this.slotNo ?? 0];
-      const player = team?.players.find((p) => p.id === team.relayPlayerID);
-      this.team = player ? { name: team.name, id: player.id, players: [player] } : null;
-    } else if (typeof this.slotNo === 'number' && this.coop) {
-      const team = this.runData?.teams[0];
-      const player = team?.players[this.slotNo];
-      this.team = team && player ? { name: team.name, id: player.id, players: [player] } : null;
-    } else {
-      this.team = this.runData?.teams[this.slotNo || 0] || null;
-    }
-  }
-
-  async preloadFlag(player: RunDataPlayer | null): Promise<void> {
-    if (!player || !player.country) {
-      return;
-    }
-    await new Promise<void>((res) => {
-      const img = new Image();
-      const setAsLoaded = (): void => {
-        img.removeEventListener('load', setAsLoaded);
-        img.removeEventListener('error', setAsLoaded);
-        res();
-      };
-      img.addEventListener('load', setAsLoaded);
-      img.addEventListener('error', setAsLoaded);
-      img.src = `/bundles/esa-layouts/flags/${player.country}.png`;
-    });
-  }
-
-  async updatePlayer(): Promise<void> {
-    const player = (this.team ? this.team.players[this.playerIndex] : null) || null;
-    await this.preloadFlag(player);
-    this.nameCycle = this.nameCycleServer;
-    this.player = player;
-  }
-
-  fit(): void {
-    const elem = this.$refs.Player as HTMLElement;
-    if (elem) {
-      [this.fittyPlayer] = fitty('.PlayerText', {
-        minSize: 1,
-        maxSize: parseInt(elem.style.fontSize, 10),
-        multiLine: false,
-      });
-    }
-  }
-
-  created(): void {
-    this.updateTeam();
-    this.updatePlayer();
-  }
-
-  mounted(): void {
-    this.fit();
-  }
-
-  destroyed(): void {
-    if (this.fittyPlayer) {
-      this.fittyPlayer.unsubscribe();
-    }
-  }
-
-  @Watch('runData')
-  async onRunDataChange(newVal: RunDataActiveRun, oldVal?: RunDataActiveRun): Promise<void> {
-    // Only reset the player if run is changed or player length is different.
-    const newPlayers = newVal?.teams[this.slotNo || 0]?.players;
-    const oldPlayers = oldVal?.teams[this.slotNo || 0]?.players;
-    if (newVal?.id !== oldVal?.id || newPlayers?.length !== oldPlayers?.length) {
-      this.playerIndex = 0;
-    }
-    this.updateTeam();
-    this.updatePlayer();
-    await Vue.nextTick();
-    this.fit();
-  }
-
-  @Watch('nameCycleServer')
-  async onNameCycleChange(newVal: NameCycle, oldVal: NameCycle): Promise<void> {
-    // If the name cycle resets, we need to move to the next player if applicable.
-    if (newVal < oldVal) {
-      if (this.team && this.team.players.length - 1 > this.playerIndex) {
-        this.playerIndex += 1;
-      } else {
-        this.playerIndex = 0;
-      }
-      this.updatePlayer();
-    } else if (oldVal < newVal) {
-      this.nameCycle = newVal; // Set "local" name cycle if cycle has only progressed.
-    }
-    await Vue.nextTick();
-    this.fit();
-  }
-}
-</script>
-
 <style scoped>
-  .Icon {
-    height: 100%;
-    position: absolute;
-  }
+.Icon {
+  height: 100%;
+  position: absolute;
+}
 
-  .TextWrapper {
-    width: auto;
-    height: 100%;
-    position: absolute;
-  }
+.TextWrapper {
+  width: auto;
+  height: 100%;
+  position: absolute;
+}
 
-  .PlayerText {
-    height: 30px;
-  }
+.PlayerText {
+  height: 30px;
+}
 
-  .Player .Pronouns,
-  .Pronouns {
-    display: inline;
-    font-size: 12pt;
-    height: 19px;
-  }
+.Player .Pronouns,
+.Pronouns {
+  display: inline;
+  font-size: 12pt;
+  height: 19px;
+}
 
-  .PlayerAudioLive {
-    position: absolute;
-    left: 460px;
-    /*margin-right: 10px;*/
-  }
+.PlayerAudioLive {
+  position: absolute;
+  left: 460px;
+  /*margin-right: 10px;*/
+}
 
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity 1s;
-  }
-  .fade-enter, .fade-leave-to {
-    opacity: 0;
-  }
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
 </style>

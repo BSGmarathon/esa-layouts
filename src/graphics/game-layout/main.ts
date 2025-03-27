@@ -145,7 +145,7 @@ function checkCoop(runData: RunDataActiveRun): boolean {
 
 waitForReplicants().then(async (store) => {
   await setUpReplicantsMediabox();
-  store.commit('updateList', getAvailable());
+  store.commit('updateList', getAvailable()); // TODO: implement this
   window.addEventListener('beforeunload', () => {
     store.commit('clearList');
   });
@@ -161,6 +161,7 @@ waitForReplicants().then(async (store) => {
   });
 });
 
+// TODO: do we still need to wait for replicants?
 const app = createApp(App);
 app.use(router);
 app.mount('#app');
