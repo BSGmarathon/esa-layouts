@@ -2,7 +2,6 @@ import type {
   AdditionalDonations,
   Bids,
   BigbuttonPlayerMap,
-  LowerThird,
   Commentators,
   CommentatorsNew,
   Countdown,
@@ -10,11 +9,13 @@ import type {
   DonationAlerts,
   DonationReader,
   DonationReaderNew,
+  DonationsToRead,
   DonationTotal,
   DonationTotalMilestones,
-  DonationsToRead,
   GameLayouts,
   IntermissionSlides,
+  LowerThird,
+  MediaBox,
   MusicData,
   ObsData,
   Omnibar,
@@ -26,177 +27,50 @@ import type {
   TtsVoices,
   UpcomingRunID,
   VideoPlayer,
-  MediaBox,
 } from '@esa-layouts/types/schemas';
-import type NodeCGTypes from '@nodecg/types';
-import clone from 'clone';
 import { SpeedcontrolUtilBrowser } from 'speedcontrol-util';
-import { RunDataActiveRun, RunDataArray, Timer } from 'speedcontrol-util/types';
-import { RunDataActiveRunSurrounding } from 'speedcontrol-util/types/schemas';
-import Vue from 'vue';
-import type { Store } from 'vuex';
-import { namespace } from 'vuex-class';
-import { Module, Mutation, VuexModule, getModule } from 'vuex-module-decorators';
-import { soloedBidID } from '@esa-layouts/extension/util/replicants';
 import { SoloedBidID } from '@esa-layouts/types/schemas/soloedBidID';
+import { useAssetReplicant, useReplicant } from 'nodecg-vue-composable';
 
 const sc = new SpeedcontrolUtilBrowser(nodecg);
 
-// Declaring replicants.
-export const reps: {
-  additionalDonations: NodeCGTypes.ClientReplicant<AdditionalDonations>;
-  assetsDonationAlertAssets: NodeCGTypes.ClientReplicant<NodeCGTypes.AssetFile[]>;
-  assetsIntermissionSlides: NodeCGTypes.ClientReplicant<NodeCGTypes.AssetFile[]>;
-  assetsMediaBoxImages: NodeCGTypes.ClientReplicant<NodeCGTypes.AssetFile[]>;
-  assetsReaderIntroductionImages: NodeCGTypes.ClientReplicant<NodeCGTypes.AssetFile[]>;
-  bids: NodeCGTypes.ClientReplicant<Bids>;
-  bigbuttonPlayerMap: NodeCGTypes.ClientReplicant<BigbuttonPlayerMap>;
-  commentators: NodeCGTypes.ClientReplicant<Commentators>;
-  commentatorsNew: NodeCGTypes.ClientReplicant<CommentatorsNew>;
-  countdown: NodeCGTypes.ClientReplicant<Countdown>;
-  currentRunDelay: NodeCGTypes.ClientReplicant<CurrentRunDelay>;
-  donationAlerts: NodeCGTypes.ClientReplicant<DonationAlerts>;
-  donationReader: NodeCGTypes.ClientReplicant<DonationReader>;
-  donationReaderNew: NodeCGTypes.ClientReplicant<DonationReaderNew>;
-  donationsToRead: NodeCGTypes.ClientReplicant<DonationsToRead>;
-  donationTotal: NodeCGTypes.ClientReplicant<DonationTotal>;
-  donationTotalMilestones: NodeCGTypes.ClientReplicant<DonationTotalMilestones>;
-  gameLayouts: NodeCGTypes.ClientReplicant<GameLayouts>;
-  intermissionSlides: NodeCGTypes.ClientReplicant<IntermissionSlides>;
-  lowerThird: NodeCGTypes.ClientReplicant<LowerThird>;
-  mediaBox: NodeCGTypes.ClientReplicant<MediaBox>;
-  musicData: NodeCGTypes.ClientReplicant<MusicData>;
-  obsData: NodeCGTypes.ClientReplicant<ObsData>;
-  omnibar: NodeCGTypes.ClientReplicant<Omnibar>;
-  otherStreamData: NodeCGTypes.ClientReplicant<OtherStreamData>;
-  prizes: NodeCGTypes.ClientReplicant<Prizes>;
-  readerIntroduction: NodeCGTypes.ClientReplicant<ReaderIntroduction>;
-  runDataActiveRun: NodeCGTypes.ClientReplicant<RunDataActiveRun>;
-  runDataActiveRunSurrounding: NodeCGTypes.ClientReplicant<RunDataActiveRunSurrounding>;
-  runDataArray: NodeCGTypes.ClientReplicant<RunDataArray>;
-  serverTimestamp: NodeCGTypes.ClientReplicant<ServerTimestamp>;
-  streamDeckData: NodeCGTypes.ClientReplicant<StreamDeckData>;
-  timer: NodeCGTypes.ClientReplicant<Timer>;
-  ttsVoices: NodeCGTypes.ClientReplicant<TtsVoices>;
-  upcomingRunID: NodeCGTypes.ClientReplicant<UpcomingRunID>;
-  videoPlayer: NodeCGTypes.ClientReplicant<VideoPlayer>;
-  [k: string]: NodeCGTypes.ClientReplicant<unknown>;
-} = {
-  additionalDonations: nodecg.Replicant('additionalDonations'),
-  assetsDonationAlertAssets: nodecg.Replicant('assets:donation-alert-assets'),
-  assetsIntermissionSlides: nodecg.Replicant('assets:intermission-slides'),
-  assetsMediaBoxImages: nodecg.Replicant('assets:media-box-images'),
-  assetsReaderIntroductionImages: nodecg.Replicant('assets:reader-introduction-images'),
-  bids: nodecg.Replicant('bids'),
-  bigbuttonPlayerMap: nodecg.Replicant('bigbuttonPlayerMap'),
-  commentators: nodecg.Replicant('commentators'),
-  commentatorsNew: nodecg.Replicant('commentatorsNew'),
-  countdown: nodecg.Replicant('countdown'),
-  currentRunDelay: nodecg.Replicant('currentRunDelay'),
-  donationAlerts: nodecg.Replicant('donationAlerts'),
-  donationReader: nodecg.Replicant('donationReader'),
-  donationReaderNew: nodecg.Replicant('donationReaderNew'),
-  donationsToRead: nodecg.Replicant('donationsToRead'),
-  donationTotal: nodecg.Replicant('donationTotal'),
-  donationTotalMilestones: nodecg.Replicant('donationTotalMilestones'),
-  gameLayouts: nodecg.Replicant('gameLayouts'),
-  intermissionSlides: nodecg.Replicant('intermissionSlides'),
-  lowerThird: nodecg.Replicant('lowerThird'),
-  mediaBox: nodecg.Replicant('mediaBox'),
-  musicData: nodecg.Replicant('musicData'),
-  obsData: nodecg.Replicant('obsData'),
-  omnibar: nodecg.Replicant('omnibar'),
-  otherStreamData: nodecg.Replicant('otherStreamData'),
-  prizes: nodecg.Replicant('prizes'),
-  readerIntroduction: nodecg.Replicant('readerIntroduction'),
-  runDataActiveRun: sc.runDataActiveRun,
-  runDataActiveRunSurrounding: sc.runDataActiveRunSurrounding,
-  runDataArray: sc.runDataArray,
-  serverTimestamp: nodecg.Replicant('serverTimestamp'),
-  soloedBidID: nodecg.Replicant('soloedBidID'),
-  streamDeckData: nodecg.Replicant('streamDeckData'),
-  timer: sc.timer,
-  ttsVoices: nodecg.Replicant('ttsVoices'),
-  upcomingRunID: nodecg.Replicant('upcomingRunID'),
-  videoPlayer: nodecg.Replicant('videoPlayer'),
-};
+export const additionalDonations = useReplicant<AdditionalDonations>('additionalDonations', 'esa-layouts');
+export const assetsDonationAlertAssets = useAssetReplicant('donation-alert-assets', 'esa-layouts');
+export const assetsIntermissionSlides = useAssetReplicant('intermission-slides', 'esa-layouts');
+export const assetsMediaBoxImages = useAssetReplicant('media-box-images', 'esa-layouts');
+export const assetsReaderIntroductionImages = useAssetReplicant('reader-introduction-images', 'esa-layouts');
+export const bids = useReplicant<Bids>('bids', 'esa-layouts');
+export const bigbuttonPlayerMap = useReplicant<BigbuttonPlayerMap>('bigbuttonPlayerMap', 'esa-layouts');
+export const commentators = useReplicant<Commentators>('commentators', 'esa-layouts');
+export const commentatorsNew = useReplicant<CommentatorsNew>('commentatorsNew', 'esa-layouts');
+export const countdown = useReplicant<Countdown>('countdown', 'esa-layouts');
+export const currentRunDelay = useReplicant<CurrentRunDelay>('currentRunDelay', 'esa-layouts');
+export const donationAlerts = useReplicant<DonationAlerts>('donationAlerts', 'esa-layouts');
+export const donationReader = useReplicant<DonationReader>('donationReader', 'esa-layouts');
+export const donationReaderNew = useReplicant<DonationReaderNew>('donationReaderNew', 'esa-layouts');
+export const donationsToRead = useReplicant<DonationsToRead>('donationsToRead', 'esa-layouts');
+export const donationTotal = useReplicant<DonationTotal>('donationTotal', 'esa-layouts');
+export const donationTotalMilestones = useReplicant<DonationTotalMilestones>('donationTotalMilestones', 'esa-layouts');
+export const gameLayouts = useReplicant<GameLayouts>('gameLayouts', 'esa-layouts');
+export const intermissionSlides = useReplicant<IntermissionSlides>('intermissionSlides', 'esa-layouts');
+export const lowerThird = useReplicant<LowerThird>('lowerThird', 'esa-layouts');
+export const mediaBox = useReplicant<MediaBox>('mediaBox', 'esa-layouts');
+export const musicData = useReplicant<MusicData>('musicData', 'esa-layouts');
+export const obsData = useReplicant<ObsData>('obsData', 'esa-layouts');
+export const omnibar = useReplicant<Omnibar>('omnibar', 'esa-layouts');
+export const otherStreamData = useReplicant<OtherStreamData>('otherStreamData', 'esa-layouts');
+export const prizes = useReplicant<Prizes>('prizes', 'esa-layouts');
+export const readerIntroduction = useReplicant<ReaderIntroduction>('readerIntroduction', 'esa-layouts');
+export const { runDataActiveRun, runDataActiveRunSurrounding, runDataArray, timer } = sc;
+export const serverTimestamp = useReplicant<ServerTimestamp>('serverTimestamp', 'esa-layouts');
+export const soloedBidID = useReplicant<SoloedBidID>('soloedBidID', 'esa-layouts');
+export const streamDeckData = useReplicant<StreamDeckData>('streamDeckData', 'esa-layouts');
+export const ttsVoices = useReplicant<TtsVoices>('ttsVoices', 'esa-layouts');
+export const upcomingRunID = useReplicant<UpcomingRunID>('upcomingRunID', 'esa-layouts');
+export const videoPlayer = useReplicant<VideoPlayer>('videoPlayer', 'esa-layouts');
 
-// All the replicant types.
-export interface ReplicantTypes {
-  additionalDonations: AdditionalDonations;
-  assetsDonationAlertAssets: NodeCGTypes.AssetFile[];
-  assetsIntermissionSlides: NodeCGTypes.AssetFile[];
-  assetsMediaBoxImages: NodeCGTypes.AssetFile[];
-  assetsReaderIntroductionImages: NodeCGTypes.AssetFile[];
-  bids: Bids;
-  bigbuttonPlayerMap: BigbuttonPlayerMap;
-  commentators: Commentators;
-  commentatorsNew: CommentatorsNew;
-  countdown: Countdown;
-  currentRunDelay: CurrentRunDelay;
-  donationAlerts: DonationAlerts;
-  donationReader: DonationReader;
-  donationReaderNew: DonationReaderNew;
-  donationsToRead: DonationsToRead;
-  donationTotal: DonationTotal;
-  donationTotalMilestones: DonationTotalMilestones;
-  gameLayouts: GameLayouts;
-  intermissionSlides: IntermissionSlides;
-  lowerThird: LowerThird;
-  mediaBox: MediaBox;
-  musicData: MusicData;
-  obsData: ObsData;
-  omnibar: Omnibar;
-  otherStreamData: OtherStreamData;
-  prizes: Prizes;
-  readerIntroduction: ReaderIntroduction;
-  runDataActiveRun: RunDataActiveRun;
-  runDataActiveRunSurrounding: RunDataActiveRunSurrounding;
-  runDataArray: RunDataArray;
-  serverTimestamp: ServerTimestamp;
-  soloedBidID: SoloedBidID;
-  streamDeckData: StreamDeckData;
-  timer: Timer;
-  ttsVoices: TtsVoices;
-  upcomingRunID: UpcomingRunID;
-  videoPlayer: VideoPlayer;
-}
-
-@Module({ name: 'ReplicantModule', namespaced: true })
-export class ReplicantModule extends VuexModule {
-  // Replicant values are stored here.
-  reps: { [k: string]: unknown } = {};
-
-  get repsTyped(): ReplicantTypes {
-    return this.reps as unknown as ReplicantTypes;
-  }
-
-  // This sets the state object above when a replicant sends an update.
-  @Mutation
-  setState({ name, val }: { name: string, val: unknown }): void {
-    Vue.set(this.reps, name, clone(val));
-  }
-
-  // This is a generic mutation to update a named replicant.
-  @Mutation
-  setReplicant<K>({ name, val }: { name: string, val: K }): void {
-    Vue.set(this.reps, name, clone(val)); // Also update local copy, although no schema validation!
-    reps[name].value = clone(val);
-  }
-}
-
-// eslint-disable-next-line import/no-mutable-exports
-export let replicantModule!: ReplicantModule;
-export const replicantNS = namespace('ReplicantModule');
-
-export async function setUpReplicants(store: Store<unknown>): Promise<void> {
-  // Listens for each declared replicants "change" event, and updates the state.
-  Object.keys(reps).forEach((name) => {
-    reps[name].on('change', (val) => {
-      store.commit('ReplicantModule/setState', { name, val });
-    });
-  });
-  // We should make sure the replicant are ready to be read, needs to be done in browser context.
-  await NodeCG.waitForReplicants(...Object.keys(reps).map((key) => reps[key]));
-  replicantModule = getModule(ReplicantModule, store);
-}
+// export const useLayoutStore = defineStore('esa-layouts', () => {
+//   return {
+//     //
+//   };
+// });

@@ -1,3 +1,15 @@
+<script setup lang="ts">
+import { useHead } from '@vueuse/head';
+import { getZoomAmountCSS } from '@esa-layouts/_misc/helpers';
+import MusicTrack from '@esa-layouts/graphics/intermission/components/MusicTrack.vue';
+import Countdown from './components/Countdown.vue';
+import Game from './game/game.vue';
+
+useHead({ title: 'Countdown' });
+
+const zoom = getZoomAmountCSS();
+</script>
+
 <template>
   <div id="Countdown" class="Flex" :style="{ zoom }">
     <div id="Background" />
@@ -9,41 +21,18 @@
         height: '100%',
       }"
     >
-      <countdown class="textOrangeShadow" :style="{ 'margin-top': '50px' }" />
+      <Countdown class="textOrangeShadow" :style="{ 'margin-top': '50px' }" />
 
       <div class="game-container">
-        <game/>
+        <Game />
       </div>
 
       <div class="musicContainer">
-        <music-track hide-icon class="music" />
+        <MusicTrack hide-icon class="music" />
       </div>
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { Countdown as CountdownType } from '@esa-layouts/types/schemas';
-import MusicTrack from '@esa-layouts/graphics/intermission/components/MusicTrack.vue';
-import { State } from 'vuex-class';
-import Countdown from './components/Countdown.vue';
-import Game from './game/game.vue';
-import { getZoomAmountCSS } from '../_misc/helpers';
-
-@Component({
-  components: {
-    Countdown,
-    MusicTrack,
-    Game,
-  },
-})
-export default class extends Vue {
-  @State countdown!: CountdownType;
-
-  zoom = getZoomAmountCSS();
-}
-</script>
 
 <style lang="scss">
 #Countdown {
