@@ -125,6 +125,86 @@ class Music {
    */
   private async setup(): Promise<void> {
     try {
+      this.nodecg.log.info('[Music] Attempting connection');
+      const resp = await this.request(
+        'get',
+        '/query/updates?player=true&trcolumns=%artist%,%title%',
+      );
+      this.musicData.value.connected = true;
+      this.nodecg.log.info('[Music] Connection successful');
+
+      const readable = resp.body;
+
+      if (!readable) {
+        throw new Error('body was null');
+      }
+
+      readable.on('data', (chunk: Buffer) => {
+        let msg: Foobar2000.UpdateMsg | undefined;
+        try {
+          const cleaned = chunk.toString().slice(6).replace(/(\r\n|\n|\r)/gm, '');
+          msg = JSON.parse(cleaned);
+        } catch (err) {
+          this.nodecg.log.warn('[Music] Error parsing message on connection');
+          this.nodecg.log.debug('[Music] Error parsing message on connection:', err);
+        }
+
+        if (!msg || !msg.player) {
+          return;
+        }
+
+        if (this.positionInterval) {
+          clearInterval(this.positionInterval);
+        }
+
+        const isPlaying = msg.player.playbackState === 'playing';
+
+        this.musicData.value.playing = isPlaying;
+
+        if (msg.player.playbackState === 'stopped') {
+          delete this.musicData.value.track;
+          return;
+        }
+
+        if (msg.player.activeItem.duration > 0) {
+          this.musicData.value.track = {
+            artist: msg.player.activeItem.columns[0] || undefined,
+            title: msg.player.activeItem.columns[1] || undefined,
+            position: msg.player.activeItem.position,
+            duration: msg.player.activeItem.duration,
+          };
+
+          if (isPlaying) {
+            this.positionInitial = msg.player.activeItem.position;
+            this.positionTimestamp = Date.now();
+            this.positionInterval = setInterval(() => this.updatePosition(), 1000);
+          }
+        }
+      });
+
+      readable.on('close', () => {
+        this.nodecg.log.warn('[Music] Connection closed');
+      });
+
+      readable.on('error', (err) => {
+        this.nodecg.log.warn('[Music] Connection error');
+        this.nodecg.log.debug('[Music] Connection error:', err);
+      });
+
+      readable.on('end', () => {
+        this.musicData.value.connected = false;
+        this.nodecg.log.warn('[Music] Connection ended, retrying in 5 seconds');
+        setTimeout(() => this.setup(), 5 * 1000);
+      });
+    } catch (err) {
+      this.musicData.value.connected = false;
+      this.nodecg.log.warn('[Music] Connection failed, retrying in 5 seconds');
+      this.nodecg.log.debug('[Music] Connection failed, retrying in 5 seconds:', err);
+      setTimeout(() => this.setup(), 5 * 1000);
+    }
+
+    /*
+    try {
       this.nodecg.log.debug('[Music] Attempting update');
       const fetchResp = await this.request(
         'get',
@@ -179,6 +259,7 @@ class Music {
       this.nodecg.log.debug('[Music] Connection failed, retrying in 5 seconds:', err);
       setTimeout(() => this.setup(), 5 * 1000);
     }
+    */
   }
 }
 
