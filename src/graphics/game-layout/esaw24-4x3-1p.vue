@@ -1,5 +1,9 @@
+<script setup lang="ts">
+import LayoutBase from './esaw24-base.vue';
+</script>
+
 <template>
-  <layout-base
+  <LayoutBase
     game-left="796px"
     game-width="1124px"
     game-height="843px"
@@ -16,17 +20,3 @@
     donation-bar-box-font-size="25px"
   />
 </template>
-
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import LayoutBase from './esaw24-base.vue';
-
-@Component({
-  components: {
-    LayoutBase,
-  },
-})
-export default class extends Vue {
-  // code
-}
-</script>

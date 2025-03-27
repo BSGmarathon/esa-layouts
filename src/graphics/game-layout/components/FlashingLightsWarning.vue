@@ -1,3 +1,20 @@
+<script setup lang="ts">
+import { computed, defineEmits, watch } from 'vue';
+import { runDataActiveRun } from '@esa-layouts/browser_shared/replicant_store';
+
+const emit = defineEmits<{
+  'flashing-lights-updated': [newVal: boolean],
+}>();
+
+const hasFlashingLights = computed(
+  () => runDataActiveRun.value?.customData?.flashingLights === 'true',
+);
+
+watch(() => hasFlashingLights.value, (newVal) => {
+  emit('flashing-lights-updated', newVal);
+}, { immediate: true });
+</script>
+
 <template>
   <div class="flashingLightsWarning"
        v-if="hasFlashingLights"
@@ -5,26 +22,6 @@
     This game contains flashing lights
   </div>
 </template>
-
-<script lang="ts">
-import { Vue, Component, Watch } from 'vue-property-decorator';
-import { State } from 'vuex-class';
-import { RunDataActiveRun } from 'speedcontrol-util/types';
-
-@Component
-export default class extends Vue {
-  @State('runDataActiveRun') runData!: RunDataActiveRun;
-
-  get hasFlashingLights(): boolean {
-    return this.runData?.customData?.flashingLights === 'true';
-  }
-
-  @Watch('hasFlashingLights', { immediate: true })
-  onFlashingLightsChanged(newValue: boolean) {
-    this.$emit('flashing-lights-updated', newValue);
-  }
-}
-</script>
 
 <style scoped>
 .flashingLightsWarning {

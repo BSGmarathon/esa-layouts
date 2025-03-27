@@ -1,7 +1,17 @@
+<script setup lang="ts">
+import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
+import GameCapture from './components/GameCapture.vue';
+import Player from './components/Player.vue';
+import RunInfo from './components/RunInfo.vue';
+import Timer from './components/Timer.vue';
+import DonationBar from './components/DonationBar.vue';
+import CommentatorsReader from './components/CommentatorsReader.vue';
+</script>
+
 <template>
   <div>
     <!-- Game Captures -->
-    <game-capture
+    <GameCapture
       id="GameCapture1"
       class="BorderRight BorderBottom"
       :slot-no="0"
@@ -13,7 +23,7 @@
         height: '470px',
       }"
     />
-    <game-capture
+    <GameCapture
       id="GameCapture2"
       class="BorderLeft BorderBottom"
       :slot-no="1"
@@ -25,7 +35,7 @@
         height: '470px',
       }"
     />
-    <game-capture
+    <GameCapture
       id="GameCapture3"
       class="BorderRight"
       :slot-no="2"
@@ -36,7 +46,7 @@
         height: '470px',
       }"
     />
-    <game-capture
+    <GameCapture
       id="GameCapture4"
       class="BorderLeft"
       :slot-no="3"
@@ -71,7 +81,7 @@
         height: '308px',
       }"
     >
-      <comm-and-reader />
+      <CommentatorsReader />
 
       <!-- Run Game Info/Timer -->
       <div
@@ -81,8 +91,8 @@
           width: '100%',
         }"
       >
-        <run-info :style="{ 'font-size': '40px' }" />
-        <timer font-size="90px" />
+        <RunInfo :style="{ 'font-size': '40px' }" />
+        <Timer font-size="90px" />
       </div>
 
       <!-- Player 1/2 -->
@@ -90,12 +100,12 @@
         class="Flex"
         :style="{ width: '100%' }"
       >
-        <player
+        <Player
           :slot-no="0"
           class="Player"
           :style="{ 'margin-right': '3px' }"
         />
-        <player
+        <Player
           :slot-no="1"
           class="Player"
           :style="{ 'margin-left': '3px' }"
@@ -112,12 +122,12 @@
         width: '668px',
       }"
     >
-      <player
+      <Player
         :slot-no="2"
         class="Player"
         :style="{ 'margin-right': '3px' }"
       />
-      <player
+      <Player
         :slot-no="3"
         class="Player"
         :style="{ 'margin-left': '3px' }"
@@ -125,7 +135,7 @@
     </div>
 
     <!-- Media Box -->
-    <media-box
+    <MediaBox
       :font-size="35"
       :style="{
         left: '626px',
@@ -136,7 +146,7 @@
     />
 
     <!-- Donation Bar -->
-    <donation-bar
+    <DonationBar
       :style="{
         left: '0px',
         top: '940px',
@@ -146,30 +156,6 @@
     />
   </div>
 </template>
-
-<script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
-import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
-import GameCapture from './components/GameCapture.vue';
-import Player from './components/Player.vue';
-import CommAndReader from './components/CommAndReader.vue';
-import RunInfo from './components/RunInfo.vue';
-import Timer from './components/Timer.vue';
-import DonationBar from './components/DonationBar.vue';
-
-@Component({
-  components: {
-    GameCapture,
-    Player,
-    CommAndReader,
-    RunInfo,
-    Timer,
-    MediaBox,
-    DonationBar,
-  },
-})
-export default class extends Vue {}
-</script>
 
 <style scoped>
   .Player {

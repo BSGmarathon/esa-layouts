@@ -1,7 +1,24 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import GameCapture from './components/GameCapture.vue';
+import Player from './components/Player.vue';
+import CommentatorsReader from './components/CommentatorsReader.vue';
+import MediaBoxBox from './components/MediaBoxBox.vue';
+import RunInfo from './components/RunInfo.vue';
+import Timer from './components/Timer.vue';
+import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
+
+const infoIsRow = ref(false);
+
+function flashingLightsUpdated(newVal: boolean): void {
+  infoIsRow.value = newVal;
+}
+</script>
+
 <template>
   <div class="bsglayout _gb_2p">
     <!-- Game Captures -->
-    <game-capture
+    <GameCapture
       id="GameCapture1"
       class=""
       :slot-no="0"
@@ -13,7 +30,7 @@
       }"
     />
 
-    <game-capture
+    <GameCapture
       id="GameCapture2"
       :slot-no="1"
       finish-time-pos="bottomright"
@@ -47,7 +64,7 @@
       height: '45px'
       }"
     >
-      <player :slot-no="0"/>
+      <Player :slot-no="0"/>
     </div>
 
     <div
@@ -60,7 +77,7 @@
       height: '96px',
     }"
     >
-      <timer line-left line-right/>
+      <Timer line-left line-right/>
     </div>
 
     <!-- Player 2 -->
@@ -73,7 +90,7 @@
       height: '45px'
       }"
     >
-      <player :slot-no="1"/>
+      <Player :slot-no="1"/>
     </div>
 
     <!-- Run Game Info/warning -->
@@ -86,10 +103,10 @@
         height: '216px',
         }"
     >
-      <run-info line-right text-align="flex-start" :info-is-row="runInfoIsRow" />
-      <flashing-lights-warning
+      <RunInfo line-right text-align="flex-start" :info-is-row="runInfoIsRow" />
+      <FlashingLightsWarning
         class="Flex"
-        @flashing-lights-updated="flashingLightsChanged"
+        @flashing-lights-updated="flashingLightsUpdated"
         style="align-self: flex-end"/>
     </div>
 
@@ -102,47 +119,15 @@
         height: '216px',
         }"
     >
-      <media-box-box
+      <MediaBoxBox
         line-left
         :style="{
           width: '710px',
           height: '100%',
         }"
       />
-      <commentators-reader line-top />
-      <commentators-reader line-top show-reader/>
+      <CommentatorsReader line-top />
+      <CommentatorsReader line-top show-reader />
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
-import { Component, Vue } from 'vue-property-decorator';
-import GameCapture from './components/GameCapture.vue';
-import Player from './components/Player.vue';
-import CommentatorsReader from './components/CommentatorsReader.vue';
-import MediaBoxBox from './components/MediaBoxBox.vue';
-import RunInfo from './components/RunInfo.vue';
-import Timer from './components/Timer.vue';
-import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
-
-@Component({
-  components: {
-    GameCapture,
-    Player,
-    CommentatorsReader,
-    RunInfo,
-    Timer,
-    MediaBox,
-    MediaBoxBox,
-    FlashingLightsWarning,
-  },
-})
-export default class extends Vue {
-  runInfoIsRow = false;
-
-  flashingLightsChanged(newVal: boolean): void {
-    this.runInfoIsRow = newVal;
-  }
-}
-</script>

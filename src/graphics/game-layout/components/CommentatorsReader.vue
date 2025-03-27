@@ -1,3 +1,30 @@
+<script setup lang="ts">
+import fitty, { FittyInstance } from 'fitty';
+import { defineProps, useTemplateRef, onMounted, onUnmounted, computed } from 'vue';
+import { commentatorsNew, donationReaderNew } from '@esa-layouts/browser_shared/replicant_store';
+
+const props = defineProps<{
+  showReader: boolean;
+  lineTop: boolean;
+}>();
+const toFit = useTemplateRef<HTMLElement>('Fit');
+const show = computed(() => !!(props.showReader ? donationReaderNew.data : commentatorsNew.data?.length));
+
+let fittyInstance: FittyInstance;
+
+onMounted(() => {
+  fittyInstance = fitty(toFit.value!, {
+    minSize: 1,
+    maxSize: 30,
+    multiLine: false,
+  });
+});
+
+onUnmounted(() => {
+  fittyInstance.unsubscribe();
+});
+</script>
+
 <template>
   <div
     v-show="show"
@@ -55,14 +82,15 @@
           }"
         >
           <template v-if="showReader">
-            <template v-if="reader">{{ reader.name }}</template><span
-              v-if="reader && reader.pronouns" class="Pronouns">{{ reader.pronouns }}</span>
+            <template v-if="donationReaderNew">{{ donationReaderNew.name }}</template><span
+              v-if="donationReaderNew && donationReaderNew.pronouns"
+              class="Pronouns">{{ donationReaderNew.pronouns }}</span>
           </template>
 
           <template v-else>
             <!-- weird html? I know -->
             <!-- new lines are taken as extra spacing here -->
-            <span v-for="({ name, pronouns }, i) in comms" :key="i">
+            <span v-for="({ name, pronouns }, i) in commentatorsNew" :key="i">
               {{ name }}
               <span
                 v-if="pronouns"
@@ -75,51 +103,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { CommentatorsNew, DonationReaderNew } from '@esa-layouts/types/schemas';
-import { Component, Prop, Ref, Vue } from 'vue-property-decorator';
-import { State } from 'vuex-class';
-import fitty, { FittyInstance } from 'fitty';
-
-@Component
-export default class extends Vue {
-  @Prop(Boolean) readonly showReader!: boolean;
-  @Prop(Boolean) readonly lineTop!: boolean;
-  @State readonly commentatorsNew!: CommentatorsNew;
-  @State readonly donationReaderNew!: DonationReaderNew;
-  @Ref('Fit') toFit!: HTMLElement;
-  fittyInstance!: FittyInstance;
-
-  get show(): boolean {
-    return !!(this.showReader ? this.reader : this.comms.length);
-  }
-
-  get comms(): CommentatorsNew {
-    return this.commentatorsNew;
-  }
-
-  get reader(): DonationReaderNew | undefined {
-    return this.donationReaderNew;
-  }
-
-  get borderLocation(): string {
-    return this.lineTop ? 'border-top' : 'border-bottom';
-  }
-
-  mounted(): void {
-    this.fittyInstance = fitty(this.toFit, {
-      minSize: 1,
-      maxSize: 30,
-      multiLine: false,
-    });
-  }
-
-  destroyed(): void {
-    this.fittyInstance.unsubscribe();
-  }
-}
-</script>
 
 <style scoped lang="scss">
   .Pronouns {

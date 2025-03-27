@@ -3,15 +3,13 @@
 import type { GameLayouts } from '@esa-layouts/types/schemas';
 import { setUpReplicantsComponent as setUpReplicantsMediabox } from '@esa-layouts/graphics/_misc/components/mediabox';
 import { RunDataActiveRun } from 'speedcontrol-util/types';
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import Vue, { createApp } from 'vue';
+import { createWebHashHistory, createRouter } from 'vue-router';
 import '../_misc/common.css';
 import '../_misc/theme';
 import * as List from './list';
 import App from './main.vue';
 import waitForReplicants from './store';
-
-Vue.use(VueRouter);
 
 const routes = [
   {
@@ -120,7 +118,8 @@ const routes = [
   },
 ];
 
-const router = new VueRouter({
+const router = createRouter({
+  history: createWebHashHistory(),
   routes,
 });
 
@@ -161,3 +160,7 @@ waitForReplicants().then(async (store) => {
     render: (h) => h(App),
   });
 });
+
+const app = createApp(App);
+app.use(router);
+app.mount('#app');
