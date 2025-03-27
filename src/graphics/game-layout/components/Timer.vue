@@ -1,3 +1,67 @@
+<script setup lang="ts">
+import { Timer } from 'speedcontrol-util/types';
+import { DelayedTimer } from '@esa-layouts/types/schemas';
+import { computed, ref, watch } from 'vue';
+import { timer as originalTimer } from '@esa-layouts/browser_shared/replicant_store';
+import { useReplicant } from 'nodecg-vue-composable';
+import { msToTimeStr } from '../../_misc/helpers';
+
+interface TimerProps {
+  topMargin: string;
+  fontSize: string;
+  lineLeft: boolean;
+  lineRight: boolean;
+  borderTop: boolean;
+  lineBottom: boolean;
+}
+
+withDefaults(defineProps<TimerProps>(), {
+  topMargin: '0em',
+  fontSize: '65pt',
+  lineLeft: false,
+  lineRight: false,
+  borderTop: false,
+  lineBottom: true,
+});
+
+const timer = useReplicant<DelayedTimer>('delayedTimer', 'esa-layouts')!;
+const timeStr = ref('00:00:00');
+const backupTimerTO = ref<number | undefined>(undefined);
+// const borderLocation = computed(() => (props.borderTop ? 'border-top' : 'border-bottom'));
+const timerState = computed(() => {
+  if (!timer.data) {
+    return 'Stopped';
+  }
+
+  return timer.data.state.charAt(0).toUpperCase() + timer.data.state.slice(1);
+});
+
+/**
+ * Backup timer that takes over if the connection to the server is lost.
+ * Based on the last timestamp that was received.
+ * When the connection is restored, the server timer will recover and take over again.
+ */
+function backupTimer(): void {
+  backupTimerTO.value = window.setTimeout(() => backupTimer(), 200);
+
+  if (timer.data!.state === 'running') {
+    const missedTime = Date.now() - timer.data!.timestamp;
+    const timeOffset = timer.data!.milliseconds + missedTime;
+    timeStr.value = msToTimeStr(timeOffset);
+  }
+}
+
+watch(() => originalTimer.value, () => {
+  // Backup timer (see above).
+  clearTimeout(backupTimerTO.value);
+  backupTimerTO.value = window.setTimeout(() => backupTimer(), 1000);
+}, { immediate: true });
+
+watch(() => timer.data!, (newTimer: Timer) => {
+  timeStr.value = newTimer.time;
+}, { immediate: true });
+</script>
+
 <template>
   <div
     class="TimerParent Flex"
@@ -54,67 +118,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Vue, Component, Watch, Prop } from 'vue-property-decorator';
-import { State } from 'vuex-class';
-import { Timer } from 'speedcontrol-util/types';
-import { DelayedTimer } from '@esa-layouts/types/schemas';
-import { msToTimeStr } from '../../_misc/helpers';
-
-@Component
-export default class extends Vue {
-  @Prop({ type: String, default: '0em' }) topMargin!: string;
-  @Prop({ type: String, default: '65pt' }) fontSize!: string;
-  @Prop({ type: Boolean, default: false }) lineLeft!: string;
-  @Prop({ type: Boolean, default: false }) lineRight!: string;
-  // TODO: better border properties for v2
-  @Prop({ type: Boolean, default: false }) borderTop!: string;
-  @Prop({ type: Boolean, default: true }) lineBottom!: string;
-  @State('timer') originalTimer!: Timer;
-  @State('delayedTimer') timer!: DelayedTimer;
-  timeStr = '00:00:00';
-  backupTimerTO: number | undefined;
-
-  /**
-   * Backup timer that takes over if the connection to the server is lost.
-   * Based on the last timestamp that was received.
-   * When the connection is restored, the server timer will recover and take over again.
-   */
-  backupTimer(): void {
-    this.backupTimerTO = window.setTimeout(() => this.backupTimer(), 200);
-    if (this.timer.state === 'running') {
-      const missedTime = Date.now() - this.timer.timestamp;
-      const timeOffset = this.timer.milliseconds + missedTime;
-      this.timeStr = msToTimeStr(timeOffset);
-    }
-  }
-
-  // Use original non-delayed timer to keep track of if we need to run the backup.
-  @Watch('originalTimer', { immediate: true })
-  onOriginalTimerChange(): void {
-    // Backup timer (see above).
-    clearTimeout(this.backupTimerTO);
-    this.backupTimerTO = window.setTimeout(() => this.backupTimer(), 1000);
-  }
-
-  get borderLocation(): string {
-    return this.borderTop ? 'border-top' : 'border-bottom';
-  }
-
-  @Watch('timer', { immediate: true })
-  onTimerChange(val: Timer): void {
-    this.timeStr = val.time;
-  }
-
-  get timerState(): string {
-    if (!this.timer) {
-      return 'Stopped';
-    }
-    return this.timer.state.charAt(0).toUpperCase() + this.timer.state.slice(1);
-  }
-}
-</script>
 
 <style lang="scss" scoped>
 span {
