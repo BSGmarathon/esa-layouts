@@ -62,7 +62,13 @@ export const omnibar = useReplicant<Omnibar>('omnibar', 'esa-layouts')!;
 export const otherStreamData = useReplicant<OtherStreamData>('otherStreamData', 'esa-layouts')!;
 export const prizes = useReplicant<Prizes>('prizes', 'esa-layouts')!;
 export const readerIntroduction = useReplicant<ReaderIntroduction>('readerIntroduction', 'esa-layouts')!;
-export const { runDataActiveRun, runDataActiveRunSurrounding, runDataArray, timer, twitchCommercialTimer } = speedControl;
+export const {
+  runDataActiveRun,
+  runDataActiveRunSurrounding,
+  runDataArray,
+  timer,
+  twitchCommercialTimer,
+} = speedControl;
 export const serverTimestamp = useReplicant<ServerTimestamp>('serverTimestamp', 'esa-layouts')!;
 export const soloedBidID = useReplicant<SoloedBidID>('soloedBidID', 'esa-layouts')!;
 export const streamDeckData = useReplicant<StreamDeckData>('streamDeckData', 'esa-layouts')!;

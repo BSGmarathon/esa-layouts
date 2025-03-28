@@ -1,3 +1,27 @@
+<script setup lang="ts">
+import { donationReaderNew } from '@esa-layouts/browser_shared/replicant_store';
+import { SpeedcontrolUtilBrowser } from 'speedcontrol-util';
+import { RunData } from 'speedcontrol-util/types';
+import { computed } from 'vue';
+import { useHead } from '@vueuse/head';
+import ParticipantInfo from '../_misc/components/ParticipantInfo.vue';
+import { getZoomAmountCSS } from '../_misc/helpers';
+
+useHead({ title: 'Intermission Hosts' });
+
+const { getRunTotalPlayers } = SpeedcontrolUtilBrowser;
+const zoom = getZoomAmountCSS();
+
+const donationReader = computed(() => donationReaderNew.data);
+const nextRun: RunData | null = null;
+
+function formPlayerNamesStr(runData: RunData): string {
+  return runData.teams.map((team) => (
+    team.name || team.players.map((player) => player.name).join(', ')
+  )).join(' vs. ') || 'N/A';
+}
+</script>
+
 <template>
   <div
     id="IntermissionHosts"
@@ -12,7 +36,7 @@
       zoom,
     }"
   >
-    <participant-info
+    <ParticipantInfo
       v-if="donationReader"
       type="reader"
       :name="donationReader.name"
@@ -88,38 +112,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { replicantModule } from '@esa-layouts/browser_shared/replicant_store';
-import { SpeedcontrolUtilBrowser } from 'speedcontrol-util';
-import { RunData } from 'speedcontrol-util/types';
-import { Component, Vue } from 'vue-property-decorator';
-import ParticipantInfo from '../_misc/components/ParticipantInfo.vue';
-import { getZoomAmountCSS } from '../_misc/helpers';
-import { storeModule } from './store';
-
-@Component({
-  components: {
-    ParticipantInfo,
-  },
-})
-export default class extends Vue {
-  getRunTotalPlayers = SpeedcontrolUtilBrowser.getRunTotalPlayers;
-  zoom = getZoomAmountCSS();
-
-  get donationReader() {
-    return replicantModule.repsTyped.donationReaderNew;
-  }
-
-  get nextRun(): RunData | null { return storeModule.nextRun; }
-
-  formPlayerNamesStr(runData: RunData): string {
-    return runData.teams.map((team) => (
-      team.name || team.players.map((player) => player.name).join(', ')
-    )).join(' vs. ') || 'N/A';
-  }
-}
-</script>
 
 <style>
   @import url('../_misc/themes/esaw24.theme.css');
