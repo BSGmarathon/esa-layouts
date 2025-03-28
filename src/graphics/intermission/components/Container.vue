@@ -1,3 +1,7 @@
+<script setup lang="ts">
+// ehhhh, yeah nothing to see here xD
+</script>
+
 <template>
   <div
     class="FlexColumn"
@@ -28,10 +32,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
-
-@Component
-export default class extends Vue {}
-</script>

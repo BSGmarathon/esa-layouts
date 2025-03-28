@@ -8,6 +8,9 @@ import { generateClipPath } from '../_misc/cut-background';
 import { defaultCode } from './list';
 import type { GameLayouts } from '@esa-layouts/types/schemas';
 import { sleep } from '@esa-layouts/browser_shared/helpers';
+import { useHead } from '@vueuse/head';
+
+useHead({ title: 'Game Layout' });
 
 const clipPath = ref('unset');
 const zoom = getZoomAmountCSS();

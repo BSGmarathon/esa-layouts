@@ -4,6 +4,7 @@ import '../_misc/common.css';
 import '../_misc/theme';
 import * as List from './list';
 import App from './main.vue';
+import { createHead } from '@vueuse/head';
 
 const routes = [
   {
@@ -112,6 +113,7 @@ const routes = [
   },
 ];
 
+const head = createHead();
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
@@ -120,4 +122,5 @@ const router = createRouter({
 // TODO: do we still need to wait for replicants?
 const app = createApp(App);
 app.use(router);
+app.use(head);
 app.mount('#app');

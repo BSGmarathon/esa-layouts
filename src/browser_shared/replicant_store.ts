@@ -32,7 +32,7 @@ import { SpeedcontrolUtilBrowser } from 'speedcontrol-util';
 import { SoloedBidID } from '@esa-layouts/types/schemas/soloedBidID';
 import { useAssetReplicant, useReplicant } from 'nodecg-vue-composable';
 
-const sc = new SpeedcontrolUtilBrowser(nodecg);
+export const speedControl = new SpeedcontrolUtilBrowser(nodecg);
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 export const additionalDonations = useReplicant<AdditionalDonations>('additionalDonations', 'esa-layouts')!;
@@ -62,7 +62,7 @@ export const omnibar = useReplicant<Omnibar>('omnibar', 'esa-layouts')!;
 export const otherStreamData = useReplicant<OtherStreamData>('otherStreamData', 'esa-layouts')!;
 export const prizes = useReplicant<Prizes>('prizes', 'esa-layouts')!;
 export const readerIntroduction = useReplicant<ReaderIntroduction>('readerIntroduction', 'esa-layouts')!;
-export const { runDataActiveRun, runDataActiveRunSurrounding, runDataArray, timer } = sc;
+export const { runDataActiveRun, runDataActiveRunSurrounding, runDataArray, timer, twitchCommercialTimer } = speedControl;
 export const serverTimestamp = useReplicant<ServerTimestamp>('serverTimestamp', 'esa-layouts')!;
 export const soloedBidID = useReplicant<SoloedBidID>('soloedBidID', 'esa-layouts')!;
 export const streamDeckData = useReplicant<StreamDeckData>('streamDeckData', 'esa-layouts')!;
