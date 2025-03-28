@@ -1,3 +1,32 @@
+<script setup lang="ts">
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import { ref } from 'vue';
+
+dayjs.extend(timezone);
+
+const time = ref('00:00');
+const date = ref('00/00/0000');
+
+function setTime(): void {
+  const timer = dayjs().tz('Europe/Amsterdam');
+
+  time.value = timer.format('HH:mm').trim();
+  date.value = timer.format('DD/MM/YYYY').trim();
+}
+
+setTime();
+const now = new Date().getSeconds();
+const secondsUntilNextMinute = 60 - now;
+
+// Sync the time with the PC clock
+setTimeout(() => {
+  setTime();
+
+  setInterval(() => setTime(), 1000);
+}, secondsUntilNextMinute * 1000);
+</script>
+
 <template>
   <div
     class="Clock"
@@ -10,32 +39,6 @@
     <span>{{ date }}</span>
   </div>
 </template>
-
-<script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
-import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
-
-dayjs.extend(timezone);
-
-@Component
-export default class extends Vue {
-  time = '00:00';
-  date = '00/00/0000';
-
-  setTime(): void {
-    const timer = dayjs().tz('Europe/Amsterdam');
-
-    this.time = timer.format('HH:mm').trim();
-    this.date = timer.format('DD/MM/YYYY').trim();
-  }
-
-  created(): void {
-    this.setTime();
-    setInterval(() => { this.setTime(); }, 1000);
-  }
-}
-</script>
 
 <style scoped lang="scss">
 .Clock {
