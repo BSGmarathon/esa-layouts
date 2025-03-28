@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
+import { useHead } from '@vueuse/head';
+
+useHead({ title: 'Media box only' });
+</script>
+
 <template>
   <div>
     <div id="Background" />
@@ -9,7 +16,7 @@
       }"
     >
       <!-- Media Box -->
-      <media-box
+      <MediaBox
         :font-size="130"
         :style="{
           left: '0px',
@@ -23,15 +30,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
-import { Component, Vue } from 'vue-property-decorator';
-
-@Component({
-  components: {
-    MediaBox,
-  },
-})
-export default class extends Vue {}
-</script>

@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import { mediaBox } from '@esa-layouts/browser_shared/replicant_store';
+import { computed } from 'vue';
+
+defineProps<{
+  vertical: boolean;
+}>();
+
+const subscription = computed(
+  () => mediaBox.data?.alertQueue.find((a) => a.id === mediaBox.data?.current?.mediaUUID)?.data,
+);
+</script>
+
 <template>
   <!-- todo: locally store class CSS properties for safety -->
   <div
@@ -38,20 +51,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import { MediaBox as MediaBoxRep } from '@esa-layouts/types/schemas';
-import { MediaBox } from '@esa-layouts/types';
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-
-@Component
-export default class extends Vue {
-  @replicantNS.State((s) => s.reps.mediaBox) readonly mediaBox!: MediaBoxRep;
-  @Prop(Boolean) vertical!: boolean;
-
-  get subscription(): MediaBox.AlertElem['data'] | undefined {
-    return this.mediaBox.alertQueue.find((a) => a.id === this.mediaBox.current?.mediaUUID)?.data;
-  }
-}
-</script>
