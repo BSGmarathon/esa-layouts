@@ -26,3 +26,7 @@ export function msToTimeStr(ms: number): string {
 export function formatUSD(amount: number): string {
   return `€${amount.toFixed(2)}`;
 }
+
+export function sleep(length: number) {
+  return new Promise((res) => { window.setTimeout(res, length); });
+}

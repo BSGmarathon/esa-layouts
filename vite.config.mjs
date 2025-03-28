@@ -22,7 +22,7 @@ export default defineConfig({
     NodeCGPlugin({
       inputs: {
         'graphics/*/main.ts': './src/graphics/template.html',
-        'dashboard/*/main.ts': './src/dashboard/template.html',
+        // 'dashboard/*/main.ts': './src/dashboard/template.html', // exclude dashboard for now, until we're ready to convert those
       },
     }),
   ],

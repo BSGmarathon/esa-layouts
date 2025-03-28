@@ -40,6 +40,7 @@ module.exports = {
     'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
   },
   rules: {
+    'no-await-in-loop': 'off',
     // Everything is compiled for the browser so dev dependencies are fine.
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     // max-len set to ignore "import" lines (as they usually get long and messy).

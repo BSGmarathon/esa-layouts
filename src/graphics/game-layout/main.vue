@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { watch, nextTick, onMounted, ref } from 'vue';
+import { watch, nextTick, onMounted, onBeforeUnmount, ref } from 'vue';
 import { RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { getZoomAmountCSS } from '@esa-layouts/_misc/helpers';
 import { updateCapturePositionData } from '@esa-layouts/_misc/update-capture-position-data';
 import { gameLayouts } from '@esa-layouts/browser_shared/replicant_store';
 import { generateClipPath } from '../_misc/cut-background';
 import { defaultCode } from './list';
+import type { GameLayouts } from '@esa-layouts/types/schemas';
+import { sleep } from '@esa-layouts/browser_shared/helpers';
 
 const clipPath = ref('unset');
 const zoom = getZoomAmountCSS();
@@ -48,7 +50,28 @@ function layoutChanged(route: RouteLocationNormalized): void {
   updateCapturePositionData(document.title);
 }
 
-onMounted(() => {
+// Collect list of available game layouts to add to replicant.
+function getAvailable(): GameLayouts['available'] {
+  return router.getRoutes().reduce((prev, route) => {
+    if (typeof route.name === 'string') {
+      prev.push({
+        name: route.name,
+        code: route.path.replace('/', ''),
+      });
+    }
+    return prev;
+  }, [] as GameLayouts['available']);
+}
+
+onMounted(async () => {
+  // Wait for replicant to become ready.
+  while (!gameLayouts?.data) {
+    await sleep(100);
+  }
+
+  gameLayouts.data.available = getAvailable();
+  gameLayouts.save();
+
   const route = useRoute();
 
   layoutChanged(route);
@@ -61,6 +84,11 @@ onMounted(() => {
       // Not sure if this will error but better be safe
     }
   });
+});
+
+onBeforeUnmount(() => {
+  gameLayouts.data!.available = [];
+  gameLayouts.save();
 });
 </script>
 

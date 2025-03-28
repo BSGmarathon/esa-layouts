@@ -126,7 +126,7 @@
     "vuedraggable": "^2.24.3"
   },
   "nodecg": {
-    "compatibleRange": "^1.9.0||^2",
+    "compatibleRange": "^2",
     "bundleDependencies": {
       "nodecg-speedcontrol": "^2.4.0"
     },

@@ -1,3 +1,85 @@
+<script setup lang="ts">
+import fitty, { FittyInstance } from 'fitty';
+import { computed, defineProps, nextTick, onMounted, onUnmounted, ref, useTemplateRef } from 'vue';
+import { runDataActiveRun } from '@esa-layouts/browser_shared/replicant_store';
+
+interface RunInfoProps {
+  noWrap: boolean;
+  infoIsRow: boolean;
+  textAlign: string;
+  lineLeft: boolean;
+  lineRight: boolean;
+}
+
+const { textAlign, noWrap } = withDefaults(defineProps<RunInfoProps>(), {
+  textAlign: 'center',
+});
+
+const lineHeight = ref<string | null>(null);
+let fittyGame: FittyInstance | undefined;
+let fittyInfoExtra: FittyInstance | undefined;
+const runInfoElem = useTemplateRef<HTMLElement>('RunInfo');
+const gameNameUpper = computed(() => runDataActiveRun.value?.game?.toUpperCase() ?? 'N/A');
+const textAlignCss = computed(() => (textAlign === 'center' ? 'center' : 'left'));
+const cssPositionProps = computed(() => ({
+  '--prop-text-align': textAlignCss.value,
+  '--prop-justify-content': textAlign,
+}));
+
+function fit(): void {
+  // TODO: do we use this?
+  if (noWrap) {
+    if (!runInfoElem.value) {
+      return;
+    }
+
+    // If there is no horizontal fitting, will crudely attempt to
+    // reduce line height if needed, just in case.
+    const scale = runInfoElem.value.clientHeight / runInfoElem.value.scrollHeight;
+    if (scale < 1) {
+      lineHeight.value = `${(scale - 0.1) * 100}%`;
+    } else {
+      lineHeight.value = null;
+    }
+
+    return;
+  }
+
+  [fittyGame] = fitty('#gameNameParent', {
+    minSize: 1,
+    maxSize: 23.5,
+  });
+  [fittyInfoExtra] = fitty('.RunInfoExtra', {
+    minSize: 10,
+    maxSize: 30,
+  });
+}
+
+onMounted(() => {
+  fit();
+});
+
+onUnmounted(() => {
+  if (fittyGame) {
+    fittyGame.unsubscribe();
+  }
+  if (fittyInfoExtra) {
+    fittyInfoExtra.unsubscribe();
+  }
+});
+
+// TODO: is it better to use this or a watch?
+runDataActiveRun.on('change', async (newVal, oldVal) => {
+  // Re-fit the elements if run data becomes definded (as elements do no exist before this).
+  if ((newVal && !oldVal) || noWrap) {
+    lineHeight.value = null;
+  }
+
+  await nextTick();
+  fit();
+});
+</script>
+
 <template>
   <div class="Flex runInfoRoot">
     <div
@@ -56,96 +138,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'; // eslint-disable-line object-curly-newline, max-len
-import { State } from 'vuex-class';
-import { RunDataActiveRun } from 'speedcontrol-util/types';
-import fitty, { FittyInstance } from 'fitty';
-
-@Component
-export default class extends Vue {
-  @State('runDataActiveRun') runData!: RunDataActiveRun;
-  @Prop(Boolean) readonly noWrap!: boolean;
-  @Prop(Boolean) readonly infoIsRow!: boolean;
-  @Prop({ type: String, default: 'center' }) readonly textAlign!: string;
-  @Prop({ type: Boolean, default: false }) lineLeft!: string;
-  @Prop({ type: Boolean, default: false }) lineRight!: string;
-  lineHeight: string | null = null;
-  fittyGame: FittyInstance | undefined;
-  fittyInfoExtra: FittyInstance | undefined;
-
-  get gameNameUpper(): string {
-    return this.runData?.game?.toUpperCase() ?? 'N/A';
-  }
-
-  fit(): void {
-    // TODO: do we use this?
-    if (this.noWrap) {
-      const runInfoElem = this.$refs.RunInfo as HTMLElement;
-
-      if (!runInfoElem) {
-        return;
-      }
-
-      // If there is no horizontal fitting, will crudely attempt to
-      // reduce line height if needed, just in case.
-      const scale = runInfoElem.clientHeight / runInfoElem.scrollHeight;
-      if (scale < 1) {
-        this.lineHeight = `${(scale - 0.1) * 100}%`;
-      } else {
-        this.lineHeight = null;
-      }
-
-      return;
-    }
-
-    [this.fittyGame] = fitty('#gameNameParent', {
-      minSize: 1,
-      maxSize: 23.5,
-    });
-    [this.fittyInfoExtra] = fitty('.RunInfoExtra', {
-      minSize: 10,
-      maxSize: 30,
-    });
-  }
-
-  mounted(): void {
-    this.fit();
-  }
-
-  destroyed(): void {
-    if (this.fittyGame) {
-      this.fittyGame.unsubscribe();
-    }
-    if (this.fittyInfoExtra) {
-      this.fittyInfoExtra.unsubscribe();
-    }
-  }
-
-  get textAlignCss(): string {
-    return this.textAlign === 'center' ? 'center' : 'left';
-  }
-
-  get cssPositionProps() {
-    return {
-      '--prop-text-align': this.textAlignCss,
-      '--prop-justify-content': this.textAlign,
-    };
-  }
-
-  @Watch('runData', { deep: true })
-  async onRunDataChange(newVal: RunDataActiveRun, oldVal?: RunDataActiveRun): Promise<void> {
-    // Re-fit the elements if run data becomes definded (as elements do no exist before this).
-    if ((newVal && !oldVal) || this.noWrap) {
-      this.lineHeight = null;
-    }
-
-    await Vue.nextTick();
-    this.fit();
-  }
-}
-</script>
 
 <style scoped lang="scss">
 .runInfoRoot {

@@ -7,10 +7,12 @@ import { delayedTimer } from '@esa-layouts/extension/util/replicants';
 
 const x32GameAudio = useReplicant<ChanData[]>('x32-game-channel-status', 'esa-layouts')!;
 
-const { slotNo } = defineProps<{
+const { slotNo } = withDefaults(defineProps<{
   slotNo: number;
-  finishTimePos: 'topleft' | 'topright' | 'bottomleft' | 'bottomright';
-}>();
+  finishTimePos?: 'topleft' | 'topright' | 'bottomleft' | 'bottomright';
+}>(), {
+  finishTimePos: 'bottomleft',
+});
 
 const showSpeakerIcon = ref(false);
 const player = computed(() => {

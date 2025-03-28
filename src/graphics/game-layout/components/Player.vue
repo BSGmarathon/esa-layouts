@@ -107,7 +107,10 @@ watch(() => nameCycleServer.data!, async (newVal, oldVal) => {
   fit();
 });
 
-onMounted(() => {
+onMounted(async () => {
+  updateTeam();
+  await updatePlayer();
+
   fit();
 });
 
@@ -116,13 +119,6 @@ onUnmounted(() => {
     fittyPlayer.unsubscribe();
   }
 });
-
-/*
-created(): void { // TODO: what's this in vue3 again?
-  this.updateTeam();
-  this.updatePlayer();
-}
-*/
 </script>
 
 <template>
