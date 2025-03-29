@@ -1,3 +1,58 @@
+<script setup lang="ts">
+import { donationTotal } from '@esa-layouts/browser_shared/replicant_store';
+import { formatUSD, wait } from '@esa-layouts/graphics/_misc/helpers';
+import { DonationTotalMilestones } from '@esa-layouts/types/schemas';
+import gsap from 'gsap';
+import { computed, onMounted, ref, watch } from 'vue';
+
+interface MilstoneProps {
+  seconds: number;
+  milestone: DonationTotalMilestones[0];
+}
+
+const { milestone, seconds } = withDefaults(defineProps<MilstoneProps>(), {
+  seconds: 25,
+});
+const emit = defineEmits<{ end: [] }>();
+const tweenedValues = ref({ progressTweened: 0, totalTweened: 0 });
+const name = computed(() => milestone.name);
+const amount = computed(() => formatUSD(milestone.amount || 0));
+const amountLeft = computed(() => formatUSD(Math.max((milestone.amount || 0) - tweenedValues.value.totalTweened, 0)));
+const isMet = computed(() => !!(milestone.amount
+  && tweenedValues.value.totalTweened && milestone.amount <= tweenedValues.value.totalTweened));
+
+function getProgress(): number {
+  if (!milestone.amount || !donationTotal.data) return 0;
+  const lower = milestone.addition ? milestone.amount - milestone.addition : 0;
+  return Math.min((donationTotal.data - lower) / (milestone.amount - lower), 1) * 100;
+}
+
+function tweenValues(): void {
+  gsap.to(tweenedValues.value, {
+    progressTweened: getProgress(),
+    totalTweened: donationTotal.data!,
+    duration: 2.5,
+  });
+}
+
+watch(() => donationTotal.data, () => {
+  tweenValues();
+});
+
+function end(): void {
+  emit('end');
+}
+
+onMounted(async () => {
+  tweenValues();
+
+  if (seconds >= 0) {
+    await wait(seconds * 1000); // Wait the specified length.
+    end();
+  }
+});
+</script>
+
 <template>
   <div
     class="Flex Milestone"
@@ -22,7 +77,7 @@
         :style="{
           position: 'absolute',
           'z-index': 0,
-          width: `${progressTweened}%`,
+          width: `${tweenedValues.progressTweened}%`,
           height: '100%',
           'background-color': '#6DD47E',
         }"
@@ -71,74 +126,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { formatUSD, wait } from '@esa-layouts/graphics/_misc/helpers';
-import { DonationTotal, DonationTotalMilestones } from '@esa-layouts/types/schemas';
-import gsap from 'gsap';
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-
-@Component({
-  name: 'Milestone',
-})
-export default class extends Vue {
-  @Prop({ type: Number, default: 25 }) readonly seconds!: number;
-  @Prop({ type: Object, required: true }) readonly milestone!: DonationTotalMilestones[0];
-  @replicantNS.State((s) => s.reps.donationTotal) readonly donationTotal!: DonationTotal;
-  progressTweened = 0;
-  totalTweened = 0;
-
-  get name(): string {
-    return this.milestone.name;
-  }
-
-  get amount(): string {
-    return formatUSD(this.milestone.amount || 0);
-  }
-
-  get amountLeft(): string {
-    return formatUSD(Math.max((this.milestone.amount || 0) - this.totalTweened, 0));
-  }
-
-  getProgress(): number {
-    if (!this.milestone.amount || !this.donationTotal) return 0;
-    const lower = this.milestone.addition ? this.milestone.amount - this.milestone.addition : 0;
-    return Math.min((this.donationTotal - lower) / (this.milestone.amount - lower), 1) * 100;
-  }
-
-  get isMet(): boolean {
-    return !!(this.milestone.amount
-      && this.totalTweened && this.milestone.amount <= this.totalTweened);
-  }
-
-  tweenValues(): void {
-    gsap.to(this, {
-      progressTweened: this.getProgress(),
-      totalTweened: this.donationTotal,
-      duration: 2.5,
-    });
-  }
-
-  end(): void {
-    this.$emit('end');
-  }
-
-  async created(): Promise<void> {
-    this.tweenValues();
-    if (this.seconds >= 0) {
-      await wait(this.seconds * 1000); // Wait the specified length.
-      this.end();
-    }
-  }
-
-  // Update tween values if donation total is changed while milestone is being displayed.
-  @Watch('donationTotal')
-  onAmountLeftChange(): void {
-    this.tweenValues();
-  }
-}
-</script>
 
 <style scoped>
   .BarText {

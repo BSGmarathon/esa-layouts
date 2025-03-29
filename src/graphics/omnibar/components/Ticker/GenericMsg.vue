@@ -1,3 +1,25 @@
+<script setup lang="ts">
+import { wait } from '@esa-layouts/graphics/_misc/helpers';
+import { computed, onMounted } from 'vue';
+
+interface GenericMsgProps {
+  msg: string;
+  seconds: number;
+}
+
+const { seconds, msg } = withDefaults(defineProps<GenericMsgProps>(), {
+  msg: 'Message?',
+  seconds: 25,
+});
+const emit = defineEmits(['end']);
+const lines = computed(() => msg.split('\n').length);
+
+onMounted(async () => {
+  await wait(seconds * 1000); // Wait the specified length.
+  emit('end');
+});
+</script>
+
 <template>
   <div
     class="Flex"
@@ -12,29 +34,3 @@
     <span :style="{ 'white-space': 'pre' }">{{ msg }}</span>
   </div>
 </template>
-
-<script lang="ts">
-import { wait } from '@esa-layouts/graphics/_misc/helpers';
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import TickerDisplay from './Abstract/TickerDisplay.vue';
-
-@Component({
-  name: 'GenericMsg',
-  components: {
-    TickerDisplay,
-  },
-})
-export default class extends Vue {
-  @Prop({ type: String, default: 'Message?' }) readonly msg!: string;
-  @Prop({ type: Number, default: 25 }) readonly seconds!: number;
-
-  get lines(): number {
-    return this.msg.split('\n').length;
-  }
-
-  async created(): Promise<void> {
-    await wait(this.seconds * 1000); // Wait the specified length.
-    this.$emit('end');
-  }
-}
-</script>
