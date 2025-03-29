@@ -47,7 +47,7 @@ onMounted(async () => {
 <template>
   <div id="omnibar">
     <div id="information" :class="{ 'no-dash': !dashInfo }" :style="{
-      width: dashInfo && infoWidth,
+      width: dashInfo ? infoWidth : undefined,
     }">
       <Ticker @set-dash="updateDash"/>
     </div>

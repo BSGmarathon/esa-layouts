@@ -42,7 +42,7 @@ onMounted(async () => {
       // 'line-height': '100%',
     }"
   >
-    <span v-if="musicData.playing" :style="{ 'white-space': 'pre' }">🎵 {{ trackInformation }}</span>
+    <span v-if="musicData.data?.playing" :style="{ 'white-space': 'pre' }">🎵 {{ trackInformation }}</span>
     <span v-else :style="{ 'white-space': 'pre' }">⏸ {{ trackInformation }}</span>
   </div>
 </template>

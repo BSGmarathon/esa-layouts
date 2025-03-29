@@ -95,7 +95,7 @@ onMounted(async () => {
         <div :style="{ width: '30%', 'font-size': '0px', }">
           <span class="BarText" :style="{ 'font-size': '20px' }">
             <span
-              v-if="bid.goal <= bid.total"
+              v-if="bid.goal! <= bid.total"
               :style="{
                 'color': '#42ff38', // Basic green, no need to use theme
                 'font-weight': 700,

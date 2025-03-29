@@ -90,10 +90,10 @@ watch(() => omnibar.data, (newVal, oldVal) => onOmnibarChange(newVal, oldVal));
   >
     <transition name="ticker">
       <component
-        v-if="omnibar.current && mayShow"
-        :is="omnibarTypes[omnibar.current.type]"
-        :key="`${omnibar.current.type}${JSON.stringify(omnibar.current.props)}`"
-        v-bind="omnibar.current.props"
+        v-if="omnibar.data?.current && mayShow"
+        :is="omnibarTypes[omnibar.data.current.type]"
+        :key="`${omnibar.data.current.type}${JSON.stringify(omnibar.data.current.props)}`"
+        v-bind="omnibar.data.current.props"
         @end="showNext"
       />
     </transition>

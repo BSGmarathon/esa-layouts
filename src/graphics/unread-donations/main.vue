@@ -7,7 +7,7 @@ import Donation from './components/Donation.vue';
   <div>
     <h1>Unread Donations</h1>
     <div
-      v-if="!donationsToRead.data.length"
+      v-if="!donationsToRead.data?.length"
       :style="{ 'font-size': '30px', 'font-style': 'italic' }"
     >
       None right now!

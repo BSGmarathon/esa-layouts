@@ -227,7 +227,7 @@ onBeforeUnmount(() => {
             'background-color': option.winning ? '#6DD47E' : '#B37BA4',
             'margin-left': i > 0 ? '5px' : '0',
           }"
-          :ref="(el: HTMLElement) => { optionList[i] = el }"
+          :ref="(el: HTMLElement) => { optionDivs[i] = el }"
         >
           <span :style="{ 'font-weight': 600 }">
             {{ option.name }}
@@ -236,7 +236,7 @@ onBeforeUnmount(() => {
         <div
           v-if="bid.allowUserOptions"
           class="Option"
-          :ref="(el: HTMLElement) => { optionList[options.length] = el }"
+          :ref="(el) => { optionDivs[options.length] = el }"
         >
           <template v-if="!options.length">No options submitted yet, be the first!</template>
           <template v-else>...or submit your own!</template>
