@@ -234,9 +234,6 @@ importers:
       nodecg-cli:
         specifier: ^8.6.0
         version: 8.7.0(@types/node@20.17.28)
-      nodecg-types:
-        specifier: ^1.9.0
-        version: 1.9.0
       nodecg-vue-composable:
         specifier: ^1.1.0
         version: 1.1.0(vue@3.5.13(typescript@4.9.5))
@@ -1162,9 +1159,6 @@ packages:
   '@types/debug@0.0.31':
     resolution: {integrity: sha512-LS1MCPaQKqspg7FvexuhmDbWUhE2yIJ+4AgVIyObfc06/UKZ8REgxGNjZc82wPLWmbeOm7S+gSsLgo75TanG4A==}
 
-  '@types/engine.io@3.1.10':
-    resolution: {integrity: sha512-tmuKBF+q3h0nZ075osSKJ55nmvL5lWDjU8+QS/8XZT1YQ4xrxNSW3wXbjeMs8RugGxVpHAEnf9kXiRf7G94acw==}
-
   '@types/eslint-scope@3.7.7':
     resolution: {integrity: sha512-MzMFlSLBqNF2gcHWO0G1vP/YQyfvrxZ0bF+u7mzUdZ1/xK4A4sru+nraZz5i3iEIk1l1uyicaDVTB4QbbEkAYg==}
 
@@ -1240,9 +1234,6 @@ packages:
   '@types/node@14.18.63':
     resolution: {integrity: sha512-fAtCfv4jJg+ExtXhvCkCqUKZ+4ok/JQk01qDKhL5BDDoS3AxKXhV5/MAVUZyQnSEd2GT92fkgZl0pz0Q0AzcIQ==}
 
-  '@types/node@16.18.126':
-    resolution: {integrity: sha512-OTcgaiwfGFBKacvfwuHzzn1KLxH/er8mluiy8/uM3sGXHaRe73RrSIj01jow9t4kJEW633Ov+cOexXeiApTyAw==}
-
   '@types/node@18.19.17':
     resolution: {integrity: sha512-SzyGKgwPzuWp2SHhlpXKzCX0pIOfcI4V2eF37nNBJOhwlegQ83omtVQ1XxZpDE06V/d6AQvfQdPfnw0tRC//Ng==}
 
@@ -1275,16 +1266,6 @@ packages:
 
   '@types/sharp@0.31.1':
     resolution: {integrity: sha512-5nWwamN9ZFHXaYEincMSuza8nNfOof8nmO+mcI+Agx1uMUk4/pQnNIcix+9rLPXzKrm1pS34+6WRDbDV0Jn7ag==}
-
-  '@types/socket.io-client@1.4.36':
-    resolution: {integrity: sha512-ZJWjtFBeBy1kRSYpVbeGYTElf6BqPQUkXDlHHD4k/42byCN5Rh027f4yARHCink9sKAkbtGZXEAmR0ZCnc2/Ag==}
-
-  '@types/socket.io-parser@3.0.0':
-    resolution: {integrity: sha512-Ry/rbTE6HQNL9eu3LpL1Ocup5VexXu1bSSGlSho/IR5LuRc8YvxwSNJ3JxqTltVJEATLbZkMQETSbxfKNgp4Ew==}
-    deprecated: This is a stub types definition. socket.io-parser provides its own type definitions, so you do not need this installed.
-
-  '@types/socket.io@2.1.13':
-    resolution: {integrity: sha512-JRgH3nCgsWel4OPANkhH8TelpXvacAJ9VeryjuqCDiaVDMpLysd6sbt0dr6Z15pqH3p2YpOT3T1C5vQ+O/7uyg==}
 
   '@types/soundjs@0.6.31':
     resolution: {integrity: sha512-5bditJi7P1YbRIRa1UFxIr+8vKJYEc6nTZb5NL0647rWGqGf8Ih4GD+0aDWteWIG17EXPw+VTOQE/8LHitnn4A==}
@@ -3274,9 +3255,6 @@ packages:
     resolution: {integrity: sha512-RcoE8PhtivBz1dtKDmgBh3MTozckwymcPr9UC1oiagYMlDLoTvLC1Bqssef5h+rNNK/aBeVB33leySFEQWNbjQ==}
     engines: {node: ^18.17.0 || ^20.9.0 || ^22.11.0}
     hasBin: true
-
-  nodecg-types@1.9.0:
-    resolution: {integrity: sha512-1pMrvN5ZJvAFj0LyixNoxkFpvFYd4qeANkJ24Aviqdf5FUnWXoX3ocrf3whyUVuRzUfOqAGGiAmp38TUO70+7A==}
 
   nodecg-vue-composable@1.1.0:
     resolution: {integrity: sha512-MS3IFaGK3cuc9NV+2apAV/rb4wZn/ImP5En+SzWOzePMvDGfAeexYSTUCUc9PkUH4QgRYYh082Zz+sgR2H1U1g==}
@@ -5556,10 +5534,6 @@ snapshots:
 
   '@types/debug@0.0.31': {}
 
-  '@types/engine.io@3.1.10':
-    dependencies:
-      '@types/node': 20.17.28
-
   '@types/eslint-scope@3.7.7':
     dependencies:
       '@types/eslint': 8.56.2
@@ -5647,8 +5621,6 @@ snapshots:
 
   '@types/node@14.18.63': {}
 
-  '@types/node@16.18.126': {}
-
   '@types/node@18.19.17':
     dependencies:
       undici-types: 5.26.5
@@ -5687,22 +5659,6 @@ snapshots:
   '@types/sharp@0.31.1':
     dependencies:
       '@types/node': 20.17.28
-
-  '@types/socket.io-client@1.4.36': {}
-
-  '@types/socket.io-parser@3.0.0':
-    dependencies:
-      socket.io-parser: 4.2.4
-    transitivePeerDependencies:
-      - supports-color
-
-  '@types/socket.io@2.1.13':
-    dependencies:
-      '@types/engine.io': 3.1.10
-      '@types/node': 20.17.28
-      '@types/socket.io-parser': 3.0.0
-    transitivePeerDependencies:
-      - supports-color
 
   '@types/soundjs@0.6.31':
     dependencies:
@@ -7811,16 +7767,6 @@ snapshots:
       tar: 7.4.3
     transitivePeerDependencies:
       - '@types/node'
-
-  nodecg-types@1.9.0:
-    dependencies:
-      '@types/express': 4.17.21
-      '@types/node': 16.18.126
-      '@types/socket.io': 2.1.13
-      '@types/socket.io-client': 1.4.36
-      '@types/soundjs': 0.6.31
-    transitivePeerDependencies:
-      - supports-color
 
   nodecg-vue-composable@1.1.0(vue@3.5.13(typescript@4.9.5)):
     dependencies:

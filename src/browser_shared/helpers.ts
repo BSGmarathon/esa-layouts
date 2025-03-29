@@ -1,3 +1,5 @@
+import { useReplicant } from 'nodecg-vue-composable';
+
 /**
  * Checks if number needs a 0 adding to the start and does so if needed.
  * @param num Number which you want to turn into a padded string.
@@ -29,4 +31,10 @@ export function formatUSD(amount: number): string {
 
 export function sleep(length: number) {
   return new Promise((res) => { window.setTimeout(res, length); });
+}
+
+export async function waitForReplicant(replicant: { data: unknown | undefined }) {
+  while (!replicant.data) {
+    await sleep(100);
+  }
 }

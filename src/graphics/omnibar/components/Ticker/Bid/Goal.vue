@@ -1,3 +1,58 @@
+<script setup lang="ts">
+import { Bids } from '@esa-layouts/types/schemas';
+import gsap from 'gsap';
+import { formatUSD, wait } from '@esa-layouts/graphics/_misc/helpers';
+import { bids as allBids } from '@esa-layouts/browser_shared/replicant_store';
+import { getBid } from '@esa-layouts/omnibar/utils/bidwars';
+import { computed, onMounted, ref, watch } from 'vue';
+import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
+
+const emit = defineEmits<{ end: [] }>();
+const { bidId, seconds } = defineProps<{
+  seconds: number;
+  bidId: number;
+}>();
+const tweened = ref({ progress: 0, total: 0 });
+const bid = ref<Bids[0]>({
+  id: -1,
+  goal: 69,
+  game: '',
+  name: '',
+  options: [],
+  war: true,
+  allowUserOptions: false,
+  total: 0,
+});
+const amountLeft = computed(() => formatUSD(Math.max((bid.value.goal ?? 0) - tweened.value.total, 0)));
+
+function tweenValues(): void {
+  gsap.to(tweened.value, {
+    progress: (bid.value.total / (bid.value.goal ?? 0)) * 100,
+    total: bid.value.total,
+    duration: 2.5,
+  });
+}
+
+watch(() => allBids.data, (newVal) => {
+  if (!newVal) return;
+
+  bid.value = getBid(newVal, bidId);
+  tweenValues();
+}, { deep: true, immediate: true });
+
+onMounted(async () => {
+  await waitForReplicant(allBids);
+
+  bid.value = getBid(allBids.data!, bidId);
+  tweenValues();
+
+  if (seconds >= 0) {
+    await wait(seconds * 1000); // Wait the specified length.
+    emit('end');
+  }
+});
+</script>
+
 <template>
   <div
     class="Goal"
@@ -76,65 +131,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Bids } from '@esa-layouts/types/schemas';
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
-import gsap from 'gsap';
-import { formatUSD, wait } from '@esa-layouts/graphics/_misc/helpers';
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { getBid } from '@esa-layouts/omnibar/utils/bidwars';
-
-@Component
-export default class extends Vue {
-  @Prop({ type: Number, required: true }) readonly seconds!: number;
-  @Prop({ type: Number, required: true }) readonly bidId!: number;
-  // @Prop({ type: Object, required: true }) readonly bid!: Bids[0];
-  bid: Bids[0] = {
-    id: -1,
-    goal: 69,
-    game: '',
-    name: '',
-    options: [],
-    war: true,
-    allowUserOptions: false,
-    total: 0,
-  };
-  formatUSD = formatUSD;
-  tweened = { progress: 0, total: 0 };
-  @replicantNS.State(
-    (s) => s.reps.bids,
-  ) readonly allBids!: Bids;
-
-  get amountLeft(): string {
-    return formatUSD(Math.max((this.bid.goal ?? 0) - this.tweened.total, 0));
-  }
-
-  tweenValues(): void {
-    gsap.to(this.tweened, {
-      progress: (this.bid.total / (this.bid.goal ?? 0)) * 100,
-      total: this.bid.total,
-      duration: 2.5,
-    });
-  }
-
-  // We watch all the bids so we can watch for changes. Props in pinned stuff do not change.
-  @Watch('allBids', { deep: true, immediate: true })
-  onBidRepChange(newVal: Bids): void {
-    this.bid = getBid(newVal, this.bidId);
-    this.tweenValues();
-  }
-
-  async created(): Promise<void> {
-    this.bid = getBid(this.allBids, this.bidId);
-    this.tweenValues();
-    if (this.seconds >= 0) {
-      await wait(this.seconds * 1000); // Wait the specified length.
-      this.$emit('end');
-    }
-  }
-}
-</script>
 
 <style scoped>
   .BarText {
