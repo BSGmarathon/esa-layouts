@@ -299,58 +299,58 @@
     ],
     "graphics": [
       {
-        "file": "omnibar.html",
+        "file": "omnibar/main.html",
         "width": 1920,
         "height": 82,
         "singleInstance": true
       },
       {
-        "file": "countdown.html",
+        "file": "countdown/main.html",
         "width": 1920,
         "height": 1080
       },
       {
-        "file": "intermission.html",
+        "file": "intermission/main.html",
         "width": 1920,
         "height": 1080
       },
       {
-        "file": "intermission-hosts.html",
+        "file": "intermission-hosts/main.html",
         "width": 1920,
         "height": 1080
       },
       {
-        "file": "intermission-player.html",
+        "file": "intermission-player/main.html",
         "width": 1920,
         "height": 1080
       },
       {
-        "file": "game-layout.html",
+        "file": "game-layout/main.html",
         "width": 1920,
         "height": 1080
       },
       {
-        "file": "unread-donations.html",
+        "file": "unread-donations/main.html",
         "width": 1920,
         "height": 1080
       },
       {
-        "file": "tts-player.html",
+        "file": "tts-player/main.html",
         "width": 1920,
         "height": 1080
       },
       {
-        "file": "player-hud.html",
+        "file": "player-hud/main.html",
         "width": 800,
         "height": 480
       },
       {
-        "file": "lower-third.html",
+        "file": "lower-third/main.html",
         "width": 1920,
         "height": 1080
       },
       {
-        "file": "media-box-only.html",
+        "file": "media-box-only/main.html",
         "width": 1920,
         "height": 1080
       }

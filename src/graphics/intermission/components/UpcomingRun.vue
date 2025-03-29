@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
 import { computed } from 'vue';
-import { useIntermissionStore } from '@esa-layouts/intermission/store';
+import { useIntermissionStore } from '@esa-layouts/graphics/intermission/store';
 import Container from './Container.vue';
 
 dayjs.extend(relativeTime);

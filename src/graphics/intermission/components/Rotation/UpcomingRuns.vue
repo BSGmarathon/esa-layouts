@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useIntermissionStore } from '@esa-layouts/intermission/store';
+import { useIntermissionStore } from '@esa-layouts/graphics/intermission/store';
 import { defineEmits, onMounted } from 'vue';
 import UpcomingRun from '../UpcomingRun.vue';
 import Container from '../Container.vue';

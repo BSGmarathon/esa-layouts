@@ -5,7 +5,7 @@ import gsap from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { orderBy } from 'lodash';
 import { bids as allBids } from '@esa-layouts/browser_shared/replicant_store';
-import { getBid } from '@esa-layouts/omnibar/utils/bidwars';
+import { getBid } from '@esa-layouts/graphics/omnibar/utils/bidwars';
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, useTemplateRef, watch } from 'vue';
 import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
 

@@ -3,7 +3,7 @@ import { Bids } from '@esa-layouts/types/schemas';
 import gsap from 'gsap';
 import { formatUSD, wait } from '@esa-layouts/graphics/_misc/helpers';
 import { bids as allBids } from '@esa-layouts/browser_shared/replicant_store';
-import { getBid } from '@esa-layouts/omnibar/utils/bidwars';
+import { getBid } from '@esa-layouts/graphics/omnibar/utils/bidwars';
 import { computed, onMounted, ref, watch } from 'vue';
 import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
 

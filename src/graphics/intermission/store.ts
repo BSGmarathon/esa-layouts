@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { computed } from 'vue';
 import { speedControl, upcomingRunID } from '@esa-layouts/browser_shared/replicant_store';
 
+// eslint-disable-next-line import/prefer-default-export
 export const useIntermissionStore = defineStore('intermission', () => {
   const nextRuns = computed(() => {
     const id = upcomingRunID.data!;

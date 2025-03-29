@@ -3,10 +3,13 @@ import fitty, { FittyInstance } from 'fitty';
 import { defineProps, useTemplateRef, onMounted, onUnmounted, computed } from 'vue';
 import { commentatorsNew, donationReaderNew } from '@esa-layouts/browser_shared/replicant_store';
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   showReader: boolean;
   lineTop: boolean;
-}>();
+}>(), {
+  showReader: false,
+  lineTop: false,
+});
 const toFit = useTemplateRef<HTMLElement>('Fit');
 const show = computed(() => !!(props.showReader ? donationReaderNew.data : commentatorsNew.data?.length));
 
