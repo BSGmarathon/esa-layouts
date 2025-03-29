@@ -1,7 +1,16 @@
+<script setup lang="ts">
+import GameCapture from './components/GameCapture.vue';
+import Player from './components/Player.vue';
+import CommentatorsReader from './components/CommentatorsReader.vue';
+import RunInfo from './components/RunInfo.vue';
+import Timer from './components/Timer.vue';
+import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
+</script>
+
 <template>
   <div class="bsglayout _ds_2p">
     <!-- Game Captures -->
-    <game-capture
+    <GameCapture
       id="GameCapture1"
       :slot-no="0"
       :style="{
@@ -11,7 +20,7 @@
         height: '497px',
       }"
     />
-    <game-capture
+    <GameCapture
       id="GameCapture3"
       :slot-no="0"
       :style="{
@@ -21,7 +30,7 @@
         height: '496px',
       }"
     />
-    <game-capture
+    <GameCapture
       id="GameCapture2"
       finish-time-pos="bottomright"
       :slot-no="1"
@@ -32,7 +41,7 @@
         height: '497px',
       }"
     />
-    <game-capture
+    <GameCapture
       id="GameCapture4"
       :slot-no="1"
       finish-time-pos="bottomright"
@@ -66,7 +75,7 @@
       height: '44px'
       }"
     >
-      <player :slot-no="0"/>
+      <Player :slot-no="0" />
     </div>
 
     <!-- Player 2 -->
@@ -79,7 +88,7 @@
       height: '44px'
       }"
     >
-      <player :slot-no="1"/>
+      <Player :slot-no="1" />
     </div>
 
     <!-- Run Game Info/Commentators/Reader -->
@@ -92,9 +101,9 @@
         height: '309px',
       }"
     >
-      <run-info line-right line-left/>
-      <commentators-reader line-top show-reader/>
-      <commentators-reader line-top/>
+      <RunInfo line-right line-left />
+      <CommentatorsReader line-top show-reader />
+      <CommentatorsReader line-top />
     </div>
 
     <!-- Run Game Info/Commentators/Reader -->
@@ -107,7 +116,7 @@
         height: '90px',
       }"
     >
-      <flashing-lights-warning/>
+      <FlashingLightsWarning />
     </div>
 
     <div
@@ -119,34 +128,7 @@
           height: '101px',
         }"
     >
-      <timer line-left line-right />
+      <Timer line-left line-right />
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
-import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
-import GameCapture from './components/GameCapture.vue';
-import Player from './components/Player.vue';
-import CommentatorsReader from './components/CommentatorsReader.vue';
-import RunInfo from './components/RunInfo.vue';
-import Timer from './components/Timer.vue';
-import DonationBar from './components/DonationBar.vue';
-import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
-
-@Component({
-  components: {
-    GameCapture,
-    Player,
-    CommentatorsReader,
-    RunInfo,
-    Timer,
-    MediaBox,
-    DonationBar,
-    FlashingLightsWarning,
-  },
-})
-export default class extends Vue {
-}
-</script>

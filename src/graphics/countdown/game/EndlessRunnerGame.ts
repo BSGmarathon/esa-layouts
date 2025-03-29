@@ -1,8 +1,8 @@
-import { DifficultyOptions, PlayerOptions, SpawnerOptions } from '@esa-layouts/countdown/game/types/options';
-import RunnerPlayer from '@esa-layouts/countdown/game/RunnerPlayer';
-import Background from '@esa-layouts/countdown/game/Background';
-import Spawner from '@esa-layouts/countdown/game/Spawner';
-import InputHandler from '@esa-layouts/countdown/game/InputHandler';
+import { DifficultyOptions, PlayerOptions, SpawnerOptions } from './types/options';
+import RunnerPlayer from './RunnerPlayer';
+import Background from './Background';
+import Spawner from './Spawner';
+import InputHandler from './InputHandler';
 
 export default class EndlessRunnerGame {
   private readonly ctx: CanvasRenderingContext2D;

@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import { Tracker } from '@esa-layouts/types';
+
+interface DonationItemProps {
+  data: Tracker.FormattedDonation;
+  index: number;
+}
+
+withDefaults(defineProps<DonationItemProps>(), {
+  index: 0,
+});
+</script>
+
 <template>
   <div :style="{ padding: '20px 0', 'border-top': '3px solid white' }">
     <div :style="{ 'font-size': '35px' }">
@@ -11,14 +24,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import { Tracker } from '@esa-layouts/types';
-
-@Component
-export default class extends Vue {
-  @Prop(Object) readonly data!: Tracker.FormattedDonation;
-  @Prop({ default: 0 }) readonly index!: number;
-}
-</script>

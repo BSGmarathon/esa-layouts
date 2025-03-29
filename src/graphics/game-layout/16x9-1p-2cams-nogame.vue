@@ -1,3 +1,17 @@
+<script setup lang="ts">
+import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
+import { computed } from 'vue';
+import { gameLayouts } from '@esa-layouts/browser_shared/replicant_store';
+import CommentatorsReader from './components/CommentatorsReader.vue';
+import DonationBar from './components/DonationBar.vue';
+import Player from './components/Player.vue';
+import RunInfo from './components/RunInfo.vue';
+import Timer from './components/Timer.vue';
+
+const { online } = nodecg.bundleConfig.event;
+const crowdCam = computed(() => gameLayouts.data?.crowdCamera ?? false);
+</script>
+
 <template>
   <div>
     <!-- Crowd Camera Capture -->
@@ -45,7 +59,7 @@
         height: '160px',
       }"
     >
-      <run-info
+      <RunInfo
         class="BorderLeft"
         :style="{
           'font-size': '45px',
@@ -53,7 +67,7 @@
           height: '100%',
         }"
       />
-      <timer
+      <Timer
         class="BorderLeft"
         :style="{
           'width': '387px',
@@ -71,13 +85,13 @@
         width: '533px',
       }"
     >
-      <player />
-      <commentators-reader />
-      <commentators-reader show-reader />
+      <Player />
+      <CommentatorsReader />
+      <CommentatorsReader show-reader />
     </div>
 
     <!-- Media Box -->
-    <media-box
+    <MediaBox
       vertical
       :font-size="36"
       :style="{
@@ -89,7 +103,7 @@
     />
 
     <!-- Donation Bar -->
-    <donation-bar
+    <DonationBar
       :style="{
         left: '0px',
         top: '940px',
@@ -99,29 +113,3 @@
     />
   </div>
 </template>
-
-<script lang="ts">
-import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
-import { Component, Vue } from 'vue-property-decorator';
-import { State } from 'vuex-class';
-import CommentatorsReader from './components/CommentatorsReader.vue';
-import DonationBar from './components/DonationBar.vue';
-import Player from './components/Player.vue';
-import RunInfo from './components/RunInfo.vue';
-import Timer from './components/Timer.vue';
-
-@Component({
-  components: {
-    Player,
-    CommentatorsReader,
-    RunInfo,
-    Timer,
-    MediaBox,
-    DonationBar,
-  },
-})
-export default class extends Vue {
-  @State((s) => s.gameLayouts.crowdCamera) readonly crowdCam!: boolean;
-  online = nodecg.bundleConfig.event.online;
-}
-</script>

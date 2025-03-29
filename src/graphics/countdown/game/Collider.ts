@@ -1,5 +1,5 @@
-import Point2D from '@esa-layouts/countdown/game/Point2D';
-import { IObstacle } from '@esa-layouts/countdown/game/types/options';
+import Point2D from './Point2D';
+import { IObstacle } from './types/options';
 
 export default class Collider {
   constructor(

@@ -1,3 +1,24 @@
+<script setup lang="ts">
+import { wait } from '@esa-layouts/graphics/_misc/helpers';
+import { onMounted } from 'vue';
+
+interface CrowdControlProps {
+  msg: string;
+  seconds: number;
+}
+
+const props = withDefaults(defineProps<CrowdControlProps>(), {
+  msg: 'Message?',
+  seconds: 25,
+});
+const emit = defineEmits(['end']);
+
+onMounted(async () => {
+  await wait(props.seconds * 1000); // Wait the specified length.
+  emit('end');
+});
+</script>
+
 <template>
   <div
     class="Flex Alert"
@@ -31,21 +52,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { wait } from '@esa-layouts/graphics/_misc/helpers';
-import { Vue, Component, Prop } from 'vue-property-decorator';
-
-@Component({
-  name: 'CrowdControl',
-})
-export default class extends Vue {
-  @Prop({ type: String, default: 'Message?' }) readonly msg!: string;
-  @Prop({ type: Number, default: 25 }) readonly seconds!: number;
-
-  async created(): Promise<void> {
-    await wait(this.seconds * 1000); // Wait the specified length.
-    this.$emit('end');
-  }
-}
-</script>

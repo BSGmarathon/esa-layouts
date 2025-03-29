@@ -1,9 +1,55 @@
+<script setup lang="ts">
+import { omnibar } from '@esa-layouts/browser_shared/replicant_store';
+import { onMounted, ref } from 'vue';
+import { wait } from '@esa-layouts/graphics/_misc/helpers';
+import { useHead } from '@vueuse/head';
+import Total from './components/Total.vue';
+import Ticker from './components/Ticker.vue';
+import Clock from './components/Clock.vue';
+import { DashProps } from '../../types/schemas';
+
+useHead({ title: 'Omnibar' });
+
+const dashInfo = ref<DashProps | null | undefined>(null);
+const infoWidth = ref('981px');
+
+function updateInfoWidth(newTotal: number): void {
+  if (newTotal < 1000) {
+    // this.infoWidth = '1045px';
+    infoWidth.value = '1070px';
+    return;
+  }
+
+  if (newTotal < 10000) {
+    // this.infoWidth = '1015px';
+    infoWidth.value = '1040px';
+    return;
+  }
+
+  if (newTotal < 100000) {
+    infoWidth.value = '986px';
+  }
+}
+
+function updateDash(newDashText: DashProps | null | undefined): void {
+  dashInfo.value = newDashText;
+}
+
+onMounted(async () => {
+  while (!omnibar.data) {
+    await wait(100);
+  }
+
+  dashInfo.value = omnibar.data.current?.props?.dash;
+});
+</script>
+
 <template>
   <div id="omnibar">
     <div id="information" :class="{ 'no-dash': !dashInfo }" :style="{
-      width: dashInfo && infoWidth,
+      width: dashInfo ? infoWidth : undefined,
     }">
-      <ticker @set-dash="updateDash"/>
+      <Ticker @set-dash="updateDash"/>
     </div>
     <div id="left">
       <transition name="omnibar-dash">
@@ -21,13 +67,13 @@
         </div>
       </transition>
       <div class="box">
-        <clock class="clock"/>
+        <Clock class="clock"/>
       </div>
     </div>
         <div id="right">
           <div class="dashContainer">
             <div class="dash">
-              <total :style="{
+              <Total :style="{
                 'margin-right': '3px',
                 'text-align': 'right',
                 'font-family': 'Bahnschrift',
@@ -44,57 +90,9 @@
     </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { replicantModule } from '@esa-layouts/browser_shared/replicant_store';
-import Total from './components/Total.vue';
-import Ticker from './components/Ticker.vue';
-import Clock from './components/Clock.vue';
-import { DashProps, Omnibar } from '../../types/schemas';
-
-@Component({
-  components: {
-    Total,
-    Ticker,
-    Clock,
-  },
-})
-export default class extends Vue {
-  dashInfo?: DashProps | null | undefined = null;
-  infoWidth = '981px';
-
-  updateInfoWidth(newTotal: number): void {
-    if (newTotal < 1000) {
-      // this.infoWidth = '1045px';
-      this.infoWidth = '1070px';
-      return;
-    }
-
-    if (newTotal < 10000) {
-      // this.infoWidth = '1015px';
-      this.infoWidth = '1040px';
-      return;
-    }
-
-    if (newTotal < 100000) {
-      this.infoWidth = '986px';
-    }
-  }
-
-  updateDash(newDashText: DashProps | null | undefined): void {
-    this.dashInfo = newDashText;
-  }
-
-  created(): void {
-    const omnibar = replicantModule.reps.omnibar as Omnibar;
-    this.dashInfo = omnibar?.current?.props?.dash;
-  }
-}
-</script>
-
 <style lang="scss">
-@import "~animate.css";
-@import "dash-helpers";
+@use "dash-helpers";
+@import "animate.css";
 
 * {
   --dash-left-width: 160px;

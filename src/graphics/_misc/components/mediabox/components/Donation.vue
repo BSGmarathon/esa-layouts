@@ -1,7 +1,23 @@
+<script setup lang="ts">
+import { formatUSD } from '@esa-layouts/browser_shared/helpers';
+import { mediaBox } from '@esa-layouts/browser_shared/replicant_store';
+import { computed } from 'vue';
+
+defineProps<{
+  vertical: boolean;
+}>();
+
+type Donation = { name: string; amount: number; comment?: string | undefined; } | null;
+
+const donation = computed<Donation>(
+  () => mediaBox.data?.alertQueue.find((a) => a.id === mediaBox.data?.current?.mediaUUID)?.data as Donation,
+);
+</script>
+
 <template>
   <!-- todo: locally store class CSS properties for safety -->
   <div
-    v-show="donation"
+    v-if="donation"
     ref="Donation"
     :class="vertical ? 'FlexColumn' : 'Flex'"
     :style="{
@@ -47,22 +63,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import { MediaBox as MediaBoxRep } from '@esa-layouts/types/schemas';
-import { MediaBox } from '@esa-layouts/types';
-import { formatUSD } from '@esa-layouts/browser_shared/helpers';
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-
-@Component
-export default class extends Vue {
-  @replicantNS.State((s) => s.reps.mediaBox) readonly mediaBox!: MediaBoxRep;
-  @Prop(Boolean) vertical!: boolean;
-  formatUSD = formatUSD;
-
-  get donation(): MediaBox.AlertElem['data'] | undefined {
-    return this.mediaBox.alertQueue.find((a) => a.id === this.mediaBox.current?.mediaUUID)?.data;
-  }
-}
-</script>

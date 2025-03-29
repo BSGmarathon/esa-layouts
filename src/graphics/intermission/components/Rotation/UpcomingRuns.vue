@@ -1,25 +1,36 @@
+<script setup lang="ts">
+import { useIntermissionStore } from '@esa-layouts/graphics/intermission/store';
+import { defineEmits, onMounted } from 'vue';
+import UpcomingRun from '../UpcomingRun.vue';
+import Container from '../Container.vue';
+
+const emit = defineEmits<{
+  end: [],
+}>();
+const intermissionStore = useIntermissionStore();
+
+onMounted(() => {
+  window.setTimeout(() => emit('end'), 20 * 1000);
+});
+</script>
+
 <template>
-  <!-- Transition group example if I choose to change one day. -->
-  <!--<transition-group
-    tag="div"
-    name="runs"
-  >-->
   <div
-    v-if="nextRuns.slice(1).length"
+    v-if="intermissionStore.nextRuns.slice(1).length"
     class="Flex"
     :style="{
       'flex-direction': 'column',
       'justify-content': 'space-around',
     }"
   >
-    <upcoming-run
-      v-for="(run, i) in nextRuns.slice(1)"
+    <UpcomingRun
+      v-for="(run, i) in intermissionStore.nextRuns.slice(1)"
       :key="run.id"
       :run-data="run"
       :slot-no="i + 1"
     />
   </div>
-  <container v-else>
+  <Container v-else>
     <template v-slot:header>
       ...And that's the end!
     </template>
@@ -32,27 +43,5 @@
         >
       </span>
     </template>
-  </container>
+  </Container>
 </template>
-
-<script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
-import { State } from 'vuex-class';
-import { RunData } from 'speedcontrol-util/types';
-import UpcomingRun from '../UpcomingRun.vue';
-import Container from '../Container.vue';
-
-@Component({
-  components: {
-    UpcomingRun,
-    Container,
-  },
-})
-export default class extends Vue {
-  @State nextRuns!: RunData[];
-
-  mounted(): void {
-    window.setTimeout(() => this.$emit('end'), 20 * 1000);
-  }
-}
-</script>

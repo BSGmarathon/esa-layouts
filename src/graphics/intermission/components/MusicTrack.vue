@@ -1,3 +1,22 @@
+<script setup lang="ts">
+import { musicData } from '@esa-layouts/browser_shared/replicant_store';
+import { computed } from 'vue';
+
+const { hideIcon } = defineProps<{
+  hideIcon: boolean;
+}>();
+
+const trackInformation = computed(() => {
+  const currData = musicData?.data;
+  const info = [
+    currData?.track?.title,
+    currData?.track?.artist,
+  ].filter(Boolean);
+
+  return info.length ? info.join(' - ') : undefined;
+});
+</script>
+
 <template>
   <div
     v-if="true"
@@ -26,23 +45,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import { State } from 'vuex-class';
-import { MusicData } from '@esa-layouts/types/schemas';
-
-@Component
-export default class extends Vue {
-  @State musicData!: MusicData;
-  @Prop({ type: Boolean, required: false }) hideIcon!: boolean;
-
-  get trackInformation(): string | undefined {
-    const info = [
-      this.musicData.track?.title,
-      this.musicData.track?.artist,
-    ].filter(Boolean);
-    return info.length ? info.join(' - ') : undefined;
-  }
-}
-</script>

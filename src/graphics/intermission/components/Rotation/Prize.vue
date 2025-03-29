@@ -1,5 +1,56 @@
+<script setup lang="ts">
+import { IntermissionSlides } from '@esa-layouts/types/schemas';
+import dayjs from 'dayjs';
+import en from 'dayjs/locale/en-gb';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import utc from 'dayjs/plugin/utc';
+import { computed, defineEmits, defineProps, onMounted } from 'vue';
+import { prizes } from '@esa-layouts/browser_shared/replicant_store';
+import { formatUSD } from '../../../_misc/helpers';
+import Container from '../Container.vue';
+
+dayjs.extend(relativeTime);
+dayjs.extend(utc);
+
+// Sets up custom locale (used later) to tweak some relativeTime strings.
+dayjs.locale({
+  ...en,
+  name: 'en-prizes',
+  relativeTime: {
+    ...en.relativeTime,
+    s: 'few seconds',
+    m: 'minute',
+    h: 'hour',
+    d: 'day',
+    M: 'month',
+    y: 'year',
+  },
+}, {}, true);
+
+const props = defineProps<{
+  current: IntermissionSlides['current'],
+}>();
+const emit = defineEmits<{
+  end: [],
+}>();
+
+const prize = computed(() => prizes.data!.find((p) => p.id === props.current?.prizeId));
+const etaUntil = computed(() => (prize.value?.endTime
+  ? dayjs.unix(prize.value.endTime / 1000).utc().locale('en-prizes').fromNow(true)
+  : undefined));
+
+onMounted(() => {
+  // We should always have a prize, this is just a backup in case.
+  if (!prize.value) {
+    emit('end');
+  } else {
+    window.setTimeout(() => emit('end'), 20 * 1000);
+  }
+});
+</script>
+
 <template>
-  <container v-if="prize">
+  <Container v-if="prize">
     <template v-slot:header>
       Prize Available
     </template>
@@ -28,66 +79,5 @@
         Donate in the next {{ etaUntil }}
       </div>
     </template>
-  </container>
+  </Container>
 </template>
-
-<script lang="ts">
-import { IntermissionSlides, Prizes } from '@esa-layouts/types/schemas';
-import { Tracker } from '@esa-layouts/types';
-import dayjs from 'dayjs';
-import en from 'dayjs/locale/en-gb';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import utc from 'dayjs/plugin/utc';
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { State } from 'vuex-class';
-import { formatUSD } from '../../../_misc/helpers';
-import Container from '../Container.vue';
-
-dayjs.extend(relativeTime);
-dayjs.extend(utc);
-
-// Sets up custom locale (used later) to tweak some relativeTime strings.
-dayjs.locale({
-  ...en,
-  name: 'en-prizes',
-  relativeTime: {
-    ...en.relativeTime,
-    s: 'few seconds',
-    m: 'minute',
-    h: 'hour',
-    d: 'day',
-    M: 'month',
-    y: 'year',
-  },
-}, {}, true);
-
-@Component({
-  components: {
-    Container,
-  },
-})
-export default class extends Vue {
-  @State prizes!: Prizes;
-  @Prop({ type: Object, required: true }) readonly current!: IntermissionSlides['current'];
-  formatUSD = formatUSD;
-
-  get prize(): Tracker.FormattedPrize | undefined {
-    return this.prizes.find((p) => p.id === this.current?.prizeId);
-  }
-
-  get etaUntil(): string | undefined {
-    return this.prize?.endTime
-      ? dayjs.unix(this.prize.endTime / 1000).utc().locale('en-prizes').fromNow(true)
-      : undefined;
-  }
-
-  mounted(): void {
-    // We should always have a prize, this is just a backup in case.
-    if (!this.prize) {
-      this.$emit('end');
-    } else {
-      window.setTimeout(() => this.$emit('end'), 20 * 1000);
-    }
-  }
-}
-</script>
