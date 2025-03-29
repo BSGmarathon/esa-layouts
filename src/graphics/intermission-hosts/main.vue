@@ -2,7 +2,7 @@
 import { donationReaderNew } from '@esa-layouts/browser_shared/replicant_store';
 import { SpeedcontrolUtilBrowser } from 'speedcontrol-util';
 import { RunData } from 'speedcontrol-util/types';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useHead } from '@vueuse/head';
 import ParticipantInfo from '../_misc/components/ParticipantInfo.vue';
 import { getZoomAmountCSS } from '../_misc/helpers';
@@ -13,7 +13,7 @@ const { getRunTotalPlayers } = SpeedcontrolUtilBrowser;
 const zoom = getZoomAmountCSS();
 
 const donationReader = computed(() => donationReaderNew.data);
-const nextRun: RunData | null = null;
+const nextRun = ref<RunData | null>(null);
 
 function formPlayerNamesStr(runData: RunData): string {
   return runData.teams.map((team) => (

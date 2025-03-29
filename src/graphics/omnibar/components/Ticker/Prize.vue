@@ -31,9 +31,7 @@ interface PrizeProps {
 }
 
 const emit = defineEmits<{ end: [] }>();
-const { seconds, prize } = withDefaults(defineProps<PrizeProps>(), {
-  seconds: 25,
-});
+const { seconds = 25, prize } = defineProps<PrizeProps>();
 const timeUntilString = computed(() => (prize.endTime
   ? dayjs.unix(prize.endTime / 1000).utc().locale('en-prizes').fromNow(true)
   : ''));

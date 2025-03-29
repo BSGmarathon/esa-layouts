@@ -14,7 +14,7 @@ gsap.registerPlugin(ScrollToPlugin);
 type Option = { id: number, name: string, total: number, winning: boolean };
 
 // I really hope this works LMAO
-const optionDivs = ref<Array<InstanceType<typeof HTMLElement>>>([]);
+const optionDivs = ref<{ [key: number]: HTMLElement }>({});
 
 const emit = defineEmits<{ end: [] }>();
 const { bidId, seconds } = defineProps<{
@@ -48,6 +48,7 @@ function getOptions(): Option[] {
 }
 
 function killTimeline(): void {
+  optionDivs.value = {};
   timeline?.kill();
   timeline = undefined;
 }
@@ -227,7 +228,7 @@ onBeforeUnmount(() => {
             'background-color': option.winning ? '#6DD47E' : '#B37BA4',
             'margin-left': i > 0 ? '5px' : '0',
           }"
-          :ref="(el: HTMLElement) => { optionDivs[i] = el }"
+          :ref="(el) => { optionDivs[i] = el }"
         >
           <span :style="{ 'font-weight': 600 }">
             {{ option.name }}

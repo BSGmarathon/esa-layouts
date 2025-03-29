@@ -177,7 +177,7 @@ emit('totalUpdate', total.value);
 </template>
 
 <style scoped lang="scss">
-@import "../dash-helpers";
+@use "../dash-helpers";
 
 #Total {
   font-variant-numeric: tabular-nums;

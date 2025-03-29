@@ -7,5 +7,6 @@ import LayoutBase from './esaw24-base.vue';
     game-left="750px"
     game-width="1170px"
     camera-width="750px"
+    participants-border-bottom="0px"
   />
 </template>

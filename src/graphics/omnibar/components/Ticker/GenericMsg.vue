@@ -7,10 +7,7 @@ interface GenericMsgProps {
   seconds: number;
 }
 
-const { seconds, msg } = withDefaults(defineProps<GenericMsgProps>(), {
-  msg: 'Message?',
-  seconds: 25,
-});
+const { seconds = 25, msg = 'Message?' } = defineProps<GenericMsgProps>();
 const emit = defineEmits(['end']);
 const lines = computed(() => msg.split('\n').length);
 

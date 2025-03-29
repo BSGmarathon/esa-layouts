@@ -16,7 +16,7 @@ import type {
   IntermissionSlides,
   LowerThird,
   MediaBox,
-  MusicData,
+  MusicData, NotableDonations,
   ObsData,
   Omnibar,
   OtherStreamData,
@@ -57,6 +57,7 @@ export const intermissionSlides = useReplicant<IntermissionSlides>('intermission
 export const lowerThird = useReplicant<LowerThird>('lowerThird', 'esa-layouts')!;
 export const mediaBox = useReplicant<MediaBox>('mediaBox', 'esa-layouts')!;
 export const musicData = useReplicant<MusicData>('musicData', 'esa-layouts')!;
+export const notableDonations = useReplicant<NotableDonations>('notableDonations', 'esa-layouts')!;
 export const obsData = useReplicant<ObsData>('obsData', 'esa-layouts')!;
 export const omnibar = useReplicant<Omnibar>('omnibar', 'esa-layouts')!;
 export const otherStreamData = useReplicant<OtherStreamData>('otherStreamData', 'esa-layouts')!;

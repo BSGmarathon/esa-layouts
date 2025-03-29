@@ -106,7 +106,7 @@ onMounted(async () => {
           </div>
           <transition name="names">
             <div class="names" v-if="showNames">
-          <span v-for="(name, i) in lowerThird.names"
+          <span v-for="(name, i) in lowerThird.data!.names"
                 :key="i">{{ name }}</span>
             </div>
           </transition>

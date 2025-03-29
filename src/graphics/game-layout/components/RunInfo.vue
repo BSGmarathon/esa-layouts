@@ -11,7 +11,7 @@ interface RunInfoProps {
   lineRight: boolean;
 }
 
-const { textAlign, noWrap } = withDefaults(defineProps<RunInfoProps>(), {
+const props = withDefaults(defineProps<RunInfoProps>(), {
   textAlign: 'center',
   infoIsRow: false,
   noWrap: false,
@@ -19,20 +19,21 @@ const { textAlign, noWrap } = withDefaults(defineProps<RunInfoProps>(), {
   lineRight: false,
 });
 
+const runData = computed(() => runDataActiveRun.value);
 const lineHeight = ref<string | null>(null);
 let fittyGame: FittyInstance | undefined;
 let fittyInfoExtra: FittyInstance | undefined;
 const runInfoElem = useTemplateRef<HTMLElement>('RunInfo');
 const gameNameUpper = computed(() => runDataActiveRun.value?.game?.toUpperCase() ?? 'N/A');
-const textAlignCss = computed(() => (textAlign === 'center' ? 'center' : 'left'));
+const textAlignCss = computed(() => (props.textAlign === 'center' ? 'center' : 'left'));
 const cssPositionProps = computed(() => ({
   '--prop-text-align': textAlignCss.value,
-  '--prop-justify-content': textAlign,
+  '--prop-justify-content': props.textAlign,
 }));
 
 function fit(): void {
   // TODO: do we use this?
-  if (noWrap) {
+  if (props.noWrap) {
     if (!runInfoElem.value) {
       return;
     }
@@ -75,7 +76,7 @@ onUnmounted(() => {
 // TODO: is it better to use this or a watch?
 runDataActiveRun.on('change', async (newVal, oldVal) => {
   // Re-fit the elements if run data becomes definded (as elements do no exist before this).
-  if ((newVal && !oldVal) || noWrap) {
+  if ((newVal && !oldVal) || props.noWrap) {
     lineHeight.value = null;
   }
 

@@ -5,9 +5,7 @@ import { computed, onMounted } from 'vue';
 import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
 
 const emit = defineEmits<{ end: [] }>();
-const { seconds } = withDefaults(defineProps<{ seconds: number }>(), {
-  seconds: 25,
-});
+const { seconds = 25 } = defineProps<{ seconds: number }>();
 const trackInformation = computed(() => {
   const info = [
     musicData.data?.track?.title,

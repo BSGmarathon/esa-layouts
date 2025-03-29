@@ -16,7 +16,7 @@ import LayoutBase from './esaw24-base.vue';
     donation-bar-top="798px"
     donation-bar-width="796px"
     donation-bar-height="45px"
-    :donation-bar-box-padding="7"
+    donation-bar-box-padding="7"
     donation-bar-box-font-size="25px"
   />
 </template>

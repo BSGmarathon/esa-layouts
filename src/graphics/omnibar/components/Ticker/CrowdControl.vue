@@ -7,14 +7,14 @@ interface CrowdControlProps {
   seconds: number;
 }
 
-const { seconds } = withDefaults(defineProps<CrowdControlProps>(), {
+const props = withDefaults(defineProps<CrowdControlProps>(), {
   msg: 'Message?',
   seconds: 25,
 });
 const emit = defineEmits(['end']);
 
 onMounted(async () => {
-  await wait(seconds * 1000); // Wait the specified length.
+  await wait(props.seconds * 1000); // Wait the specified length.
   emit('end');
 });
 </script>

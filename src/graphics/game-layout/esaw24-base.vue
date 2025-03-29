@@ -16,7 +16,7 @@ defineProps<{
   cameraHeight?: string;
   participantsHeight?: string;
   participantsZoom?: string;
-  participantsBorderBottom: string;
+  participantsBorderBottom: string | boolean;
   gameInfoMediaBoxTop?: string;
   gameInfoMediaBoxHeight?: string;
   donationBarTop?: string;
@@ -106,14 +106,14 @@ const players = computed(() => {
           to the bottom (more on bottom than on top) we actually add the elements
           in reverse order -->
           <ParticipantInfo
-            v-if="donationReaderNew"
+            v-if="donationReaderNew.data"
             type="reader"
-            :name="donationReaderNew.name"
-            :pronouns="donationReaderNew.pronouns"
-            :country="donationReaderNew.country"
+            :name="donationReaderNew.data.name"
+            :pronouns="donationReaderNew.data.pronouns"
+            :country="donationReaderNew.data.country"
           />
           <ParticipantInfo
-            v-for="commentator of commentatorsNew.slice(0).reverse()"
+            v-for="commentator of commentatorsNew.data!.slice(0).reverse()"
             :key="commentator.name"
             type="commentator"
             :name="commentator.name"

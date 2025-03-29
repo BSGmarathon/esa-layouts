@@ -40,6 +40,7 @@ const zoom = getZoomAmountCSS();
   top: 0;
   left: 0;
   height: 100%;
+  color: var(--text-color);
   #Layout {
     position: relative;
     justify-content: center;

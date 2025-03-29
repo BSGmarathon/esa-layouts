@@ -8,16 +8,17 @@ import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
 
 const x32GameAudio = useReplicant<ChanData[]>('x32-game-channel-status', 'esa-layouts')!;
 
-const { slotNo } = withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   slotNo: number;
   finishTimePos?: 'topleft' | 'topright' | 'bottomleft' | 'bottomright';
 }>(), {
   finishTimePos: 'bottomleft',
+  slotNo: 0,
 });
 
 const showSpeakerIcon = ref(false);
 const player = computed(() => {
-  const team = runDataActiveRun.value?.teams[slotNo || 0] || null;
+  const team = runDataActiveRun.value?.teams[props.slotNo || 0] || null;
 
   return (team ? team.players[0] : null) || null;
 });
@@ -29,7 +30,7 @@ const teamFinishTime = computed(() => {
     return undefined;
   }
 
-  const teamID = runData?.teams[slotNo]?.id;
+  const teamID = runData?.teams[props.slotNo]?.id;
   return teamID ? timer.teamFinishTimes[teamID] : undefined;
 });
 
@@ -39,7 +40,7 @@ function onX32GameAudioChange(newVal: ChanData[]) {
     return;
   }
 
-  let chosenSlot = slotNo || 0;
+  let chosenSlot = props.slotNo || 0;
   const playerVal = player.value;
 
   if (playerVal && playerVal.customData.audioChannelOverride) {

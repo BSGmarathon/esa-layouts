@@ -13,6 +13,7 @@ import TherunggMsg from './components/TherunggMsg.vue';
 
 withDefaults(defineProps<{ vertical: boolean, fontSize: number }>(), {
   fontSize: 50,
+  vertical: false,
 });
 
 const type = computed(() => {

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { notableDonations } from '@esa-layouts/extension/util/replicants';
+import { notableDonations } from '@esa-layouts/browser_shared/replicant_store';
 import DonationBox from './DonationBar/DonationBox.vue';
 
 defineProps<{
-  padding: number;
+  padding?: number | string | undefined;
 }>();
 </script>
 
@@ -18,7 +18,7 @@ defineProps<{
     }"
   >
     <DonationBox
-      v-for="donation in notableDonations"
+      v-for="donation in notableDonations.data"
       :key="donation._id"
       :donation="donation"
       :padding="padding"

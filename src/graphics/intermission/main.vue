@@ -13,6 +13,7 @@ import DonationTotal from './components/DonationTotal.vue';
 useHead({ title: 'Intermission' });
 
 const zoom = getZoomAmountCSS();
+const clipPath = 'unset';
 
 const intermissionStore = useIntermissionStore();
 </script>
@@ -68,7 +69,7 @@ const intermissionStore = useIntermissionStore();
 
       <!-- Upcoming Run -->
       <UpcomingRun
-        slot-no="0"
+        :slot-no="0"
         class="Fixed"
         :run-data="intermissionStore.nextRuns[0]"
         :style="{

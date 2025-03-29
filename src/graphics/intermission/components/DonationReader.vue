@@ -8,7 +8,7 @@ const pronouns = computed(() => donationReaderNew.data?.pronouns);
 
 <template>
   <div
-    v-if="donationReader"
+    v-if="donationReaderNew.data"
     class="FlexI DonationReader"
     :style="{ height: '100%' }"
   >

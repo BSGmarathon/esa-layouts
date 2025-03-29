@@ -12,6 +12,7 @@ const props = withDefaults(defineProps<{
 });
 const toFit = useTemplateRef<HTMLElement>('Fit');
 const show = computed(() => !!(props.showReader ? donationReaderNew.data : commentatorsNew.data?.length));
+const borderLocation = computed(() => (props.lineTop ? 'border-top' : 'border-bottom'));
 
 let fittyInstance: FittyInstance;
 
@@ -85,20 +86,20 @@ onUnmounted(() => {
           }"
         >
           <template v-if="showReader">
-            <template v-if="donationReaderNew">{{ donationReaderNew.name }}</template><span
-              v-if="donationReaderNew && donationReaderNew.pronouns"
-              class="Pronouns">{{ donationReaderNew.pronouns }}</span>
+            <template v-if="donationReaderNew.data">{{ donationReaderNew.data.name }}</template><span
+              v-if="donationReaderNew.data && donationReaderNew.data.pronouns"
+              class="Pronouns">{{ donationReaderNew.data.pronouns }}</span>
           </template>
 
           <template v-else>
             <!-- weird html? I know -->
             <!-- new lines are taken as extra spacing here -->
-            <span v-for="({ name, pronouns }, i) in commentatorsNew" :key="i">
+            <span v-for="({ name, pronouns }, i) in commentatorsNew.data" :key="i">
               {{ name }}
               <span
                 v-if="pronouns"
                 class="Pronouns">{{ pronouns }}</span><template
-              v-if="i < comms.length - 1">,</template>
+              v-if="i < commentatorsNew.data!.length - 1">,</template>
             </span>
           </template>
         </span>

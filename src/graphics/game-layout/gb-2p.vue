@@ -103,7 +103,7 @@ function flashingLightsUpdated(newVal: boolean): void {
         height: '216px',
         }"
     >
-      <RunInfo line-right text-align="flex-start" :info-is-row="runInfoIsRow" />
+      <RunInfo line-right text-align="flex-start" :info-is-row="infoIsRow" />
       <FlashingLightsWarning
         class="Flex"
         @flashing-lights-updated="flashingLightsUpdated"

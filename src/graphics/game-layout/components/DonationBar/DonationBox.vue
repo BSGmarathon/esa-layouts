@@ -4,7 +4,7 @@ import { computed, defineProps } from 'vue';
 
 const props = defineProps<{
   donation: NotableDonations[0],
-  padding?: number,
+  padding?: number | string | undefined,
 }>();
 
 const tierClass = computed(() => {

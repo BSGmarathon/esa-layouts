@@ -147,6 +147,7 @@ import CommentatorsReader from './components/CommentatorsReader.vue';
 
     <!-- Donation Bar -->
     <DonationBar
+      padding="0px"
       :style="{
         left: '0px',
         top: '940px',

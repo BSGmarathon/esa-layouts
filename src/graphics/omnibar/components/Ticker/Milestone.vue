@@ -10,9 +10,7 @@ interface MilstoneProps {
   milestone: DonationTotalMilestones[0];
 }
 
-const { milestone, seconds } = withDefaults(defineProps<MilstoneProps>(), {
-  seconds: 25,
-});
+const { milestone, seconds = 25 } = defineProps<MilstoneProps>();
 const emit = defineEmits<{ end: [] }>();
 const tweenedValues = ref({ progressTweened: 0, totalTweened: 0 });
 const name = computed(() => milestone.name);

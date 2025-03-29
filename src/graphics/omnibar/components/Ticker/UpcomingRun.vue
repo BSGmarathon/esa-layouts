@@ -17,9 +17,7 @@ dayjs.extend(utc);
 
 const emit = defineEmits<{ end: [] }>();
 const { getRunTotalPlayers } = SpeedcontrolUtilBrowser;
-const { seconds, run } = withDefaults(defineProps<UpcomingRunProps>(), {
-  seconds: 25,
-});
+const { seconds = 25, run } = defineProps<UpcomingRunProps>();
 const when = computed(() => (run.scheduledS && run.scheduledS > (Date.now() / 1000)
   ? `in about ${dayjs.utc().to(dayjs.unix(run.scheduledS), true)}`
   : 'soon'));

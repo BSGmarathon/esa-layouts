@@ -7,6 +7,7 @@ const { thisEvent } = nodecg.bundleConfig.event;
 <template>
   <LayoutBase
     :camera-height="thisEvent === 2 ? `550px` : undefined"
-    :participants-zoom="0.85"
+    participants-zoom="0.85"
+    participants-border-bottom="0px"
   />
 </template>
