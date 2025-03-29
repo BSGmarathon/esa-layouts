@@ -6,15 +6,17 @@ defineProps<{
   vertical: boolean;
 }>();
 
-const merch = computed(
-  () => mediaBox.data?.alertQueue.find((a) => a.id === mediaBox.data?.current?.mediaUUID)?.data,
+type Merch = { user: string; productName: string; imgURL: string; } | null;
+
+const merch = computed<Merch>(
+  () => mediaBox.data?.alertQueue.find((a) => a.id === mediaBox.data?.current?.mediaUUID)?.data as Merch,
 );
 </script>
 
 <template>
   <!-- todo: locally store class CSS properties for safety -->
   <div
-    v-show="merch"
+    v-if="merch"
     :class="vertical ? 'FlexColumn' : 'Flex'"
     :style="{
       'font-size': '0.8em', // move to prop?

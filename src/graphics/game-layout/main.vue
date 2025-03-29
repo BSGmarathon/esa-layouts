@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { watch, nextTick, onMounted, onBeforeUnmount, ref } from 'vue';
 import { RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { getZoomAmountCSS } from '@esa-layouts/_misc/helpers';
-import { updateCapturePositionData } from '@esa-layouts/_misc/update-capture-position-data';
+import { getZoomAmountCSS } from '@esa-layouts/graphics/_misc/helpers';
+import { updateCapturePositionData } from '@esa-layouts/graphics/_misc/update-capture-position-data';
 import { gameLayouts } from '@esa-layouts/browser_shared/replicant_store';
 import { generateClipPath } from '../_misc/cut-background';
 import { defaultCode } from './list';

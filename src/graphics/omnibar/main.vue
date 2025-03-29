@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { omnibar } from '@esa-layouts/browser_shared/replicant_store';
 import { onMounted, ref } from 'vue';
-import { wait } from '@esa-layouts/_misc/helpers';
+import { wait } from '@esa-layouts/graphics/_misc/helpers';
 import { useHead } from '@vueuse/head';
 import Total from './components/Total.vue';
 import Ticker from './components/Ticker.vue';
@@ -91,8 +91,8 @@ onMounted(async () => {
 </template>
 
 <style lang="scss">
-@import "~animate.css";
-@import "dash-helpers";
+@use "dash-helpers";
+@import "animate.css";
 
 * {
   --dash-left-width: 160px;

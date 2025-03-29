@@ -7,13 +7,13 @@ import Donation from './components/Donation.vue';
   <div>
     <h1>Unread Donations</h1>
     <div
-      v-if="!donationsToRead.length"
+      v-if="!donationsToRead.data.length"
       :style="{ 'font-size': '30px', 'font-style': 'italic' }"
     >
       None right now!
     </div>
     <Donation
-      v-for="(donation, index) in donationsToRead"
+      v-for="(donation, index) in donationsToRead.data"
       :key="donation.id"
       :data="donation"
       :index="index"

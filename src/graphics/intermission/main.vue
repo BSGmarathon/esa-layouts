@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
 import { useHead } from '@vueuse/head';
-import { useIntermissionStore } from '@esa-layouts/intermission/store';
+import { useIntermissionStore } from './store';
 import UpcomingRun from './components/UpcomingRun.vue';
 import Rotation from './components/Rotation.vue';
 import { getZoomAmountCSS } from '../_misc/helpers';
@@ -68,6 +68,7 @@ const intermissionStore = useIntermissionStore();
 
       <!-- Upcoming Run -->
       <UpcomingRun
+        slot-no="0"
         class="Fixed"
         :run-data="intermissionStore.nextRuns[0]"
         :style="{

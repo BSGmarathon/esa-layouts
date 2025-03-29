@@ -6,15 +6,17 @@ defineProps<{
   vertical: boolean;
 }>();
 
-const cheer = computed(
-  () => mediaBox.data?.alertQueue.find((a) => a.id === mediaBox.data?.current?.mediaUUID)?.data,
+type Cheer = { name: string; amount: number; message: string; } | undefined;
+
+const cheer = computed<Cheer>(
+  () => mediaBox.data?.alertQueue.find((a) => a.id === mediaBox.data?.current?.mediaUUID)?.data as Cheer,
 );
 </script>
 
 <template>
   <!-- todo: locally store class CSS properties for safety -->
   <div
-    v-show="cheer"
+    v-if="cheer"
     :class="vertical ? 'FlexColumn' : 'Flex'"
     :style="{
       'font-size': '0.75em',

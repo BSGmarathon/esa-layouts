@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { RunData } from 'speedcontrol-util/types';
 import { SpeedcontrolUtilBrowser } from 'speedcontrol-util';
-import { useIntermissionStore } from '@esa-layouts/intermission/store';
 import { computed } from 'vue';
 import { useHead } from '@vueuse/head';
+import { useIntermissionStore } from '@esa-layouts/graphics/intermission/store';
 import { getZoomAmountCSS } from '../_misc/helpers';
 
 useHead({ title: 'Intermission Player' });

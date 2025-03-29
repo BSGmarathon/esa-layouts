@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useHead } from '@vueuse/head';
-import { getZoomAmountCSS } from '@esa-layouts/_misc/helpers';
+import { getZoomAmountCSS } from '@esa-layouts/graphics/_misc/helpers';
 import MusicTrack from '@esa-layouts/graphics/intermission/components/MusicTrack.vue';
 import Countdown from './components/Countdown.vue';
 import Game from './game/game.vue';

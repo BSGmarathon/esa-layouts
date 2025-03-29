@@ -13,6 +13,10 @@ interface RunInfoProps {
 
 const { textAlign, noWrap } = withDefaults(defineProps<RunInfoProps>(), {
   textAlign: 'center',
+  infoIsRow: false,
+  noWrap: false,
+  lineLeft: false,
+  lineRight: false,
 });
 
 const lineHeight = ref<string | null>(null);

@@ -15,7 +15,7 @@ const prize = computed(
 <template>
   <!-- todo: locally store class CSS properties for safety -->
   <div
-    v-show="prize"
+    v-if="prize"
     :class="vertical ? 'FlexColumn' : 'Flex'"
     :style="{
       'font-size': '1em', // move to prop?

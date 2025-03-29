@@ -44,6 +44,7 @@ const type = computed(() => {
 <template>
   <div class="Fixed"> <!-- todo: locally store class CSS properties for safety -->
     <div
+      v-if="mediaBox.data?.current?.id"
       ref="MediaBox"
       :style="{
         position: 'relative',
@@ -55,53 +56,53 @@ const type = computed(() => {
       <transition name="fade">
         <ImageComp
           v-if="type === 0"
-          :key="mediaBox.current.id"
+          :key="mediaBox.data.current.id"
           class="Slide"
         />
         <Prize
           v-else-if="type === 1"
-          :key="mediaBox.current.id"
+          :key="mediaBox.data.current.id"
           class="Slide"
           :vertical="vertical"
         />
         <PrizeGeneric
           v-else-if="type === 2"
-          :key="mediaBox.current.id"
+          :key="mediaBox.data.current.id"
           class="Slide"
           :vertical="vertical"
         />
         <TextElem
           v-else-if="type === 3"
-          :key="mediaBox.current.id"
+          :key="mediaBox.data.current.id"
           class="Slide"
         />
         <Donation
           v-else-if="type === 4"
-          :key="mediaBox.current.id"
+          :key="mediaBox.data.current.id"
           class="Slide"
           :vertical="vertical"
         />
         <Subscription
           v-else-if="type === 5"
-          :key="mediaBox.current.id"
+          :key="mediaBox.data.current.id"
           class="Slide"
           :vertical="vertical"
         />
         <Cheer
           v-else-if="type === 6"
-          :key="mediaBox.current.id"
+          :key="mediaBox.data.current.id"
           class="Slide"
           :vertical="vertical"
         />
         <Merch
           v-else-if="type === 7"
-          :key="mediaBox.current.id"
+          :key="mediaBox.data.current.id"
           class="Slide"
           :vertical="vertical"
         />
         <TherunggMsg
           v-else-if="type === 8"
-          :key="mediaBox.current.id"
+          :key="mediaBox.data.current.id"
           class="Slide"
           :vertical="vertical"
         />

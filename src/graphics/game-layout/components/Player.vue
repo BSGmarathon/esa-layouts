@@ -159,7 +159,7 @@ onUnmounted(() => {
         >
         <img
           v-else-if="nameCycle === 1 && player.social.youtube"
-          key="twitch"
+          key="youtube"
           class="Icon NormalIcon"
           :style="{
             //

@@ -120,7 +120,7 @@ onMounted(async () => {
 </template>
 
 <style lang="scss">
-@import "~animate.css";
+@import "animate.css";
 
 html, body {
   padding: 0;

@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
 
-defineProps<{
+withDefaults(defineProps<{
   vertical: boolean;
   lineLeft: boolean;
   lineRight: boolean;
-}>();
+}>(), {
+  vertical: false,
+  lineLeft: false,
+  lineRight: false,
+});
 </script>
 
 <template>

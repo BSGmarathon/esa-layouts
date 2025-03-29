@@ -3,15 +3,21 @@ import { formatUSD } from '@esa-layouts/browser_shared/helpers';
 import { mediaBox } from '@esa-layouts/browser_shared/replicant_store';
 import { computed } from 'vue';
 
-const donation = computed(
-  () => mediaBox.data?.alertQueue.find((a) => a.id === mediaBox.data?.current?.mediaUUID)?.data,
+defineProps<{
+  vertical: boolean;
+}>();
+
+type Donation = { name: string; amount: number; comment?: string | undefined; } | null;
+
+const donation = computed<Donation>(
+  () => mediaBox.data?.alertQueue.find((a) => a.id === mediaBox.data?.current?.mediaUUID)?.data as Donation,
 );
 </script>
 
 <template>
   <!-- todo: locally store class CSS properties for safety -->
   <div
-    v-show="donation"
+    v-if="donation"
     ref="Donation"
     :class="vertical ? 'FlexColumn' : 'Flex'"
     :style="{

@@ -6,15 +6,17 @@ defineProps<{
   vertical: boolean;
 }>();
 
-const subscription = computed(
-  () => mediaBox.data?.alertQueue.find((a) => a.id === mediaBox.data?.current?.mediaUUID)?.data,
+type Sub = { systemMsg: string; message?: string | undefined; } | null;
+
+const subscription = computed<Sub>(
+  () => mediaBox.data?.alertQueue.find((a) => a.id === mediaBox.data?.current?.mediaUUID)?.data as Sub,
 );
 </script>
 
 <template>
   <!-- todo: locally store class CSS properties for safety -->
   <div
-    v-show="subscription"
+    v-if="subscription"
     :class="vertical ? 'FlexColumn' : 'Flex'"
     :style="{
       'font-size': '0.75em',

@@ -4,6 +4,7 @@ import { defineProps, ref, onMounted, computed, watch } from 'vue';
 import { gameLayouts, runDataActiveRun } from '@esa-layouts/browser_shared/replicant_store';
 import { useReplicant } from 'nodecg-vue-composable';
 import { delayedTimer } from '@esa-layouts/extension/util/replicants';
+import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
 
 const x32GameAudio = useReplicant<ChanData[]>('x32-game-channel-status', 'esa-layouts')!;
 
@@ -58,7 +59,9 @@ function onX32GameAudioChange(newVal: ChanData[]) {
 
 watch(() => x32GameAudio.data!, (newVal: ChanData[]) => onX32GameAudioChange(newVal));
 
-onMounted(() => {
+onMounted(async () => {
+  await waitForReplicant(x32GameAudio);
+
   onX32GameAudioChange(x32GameAudio.data!);
 });
 </script>
