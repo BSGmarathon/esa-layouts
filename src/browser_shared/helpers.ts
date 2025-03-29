@@ -33,8 +33,8 @@ export function sleep(length: number) {
   return new Promise((res) => { window.setTimeout(res, length); });
 }
 
-export async function waitForReplicant(replicant: { data: unknown | undefined }) {
-  while (!replicant.data) {
+export async function waitForReplicant(...replicants: { data: unknown | undefined }[]) {
+  while (!replicants.every((r) => r.data)) {
     await sleep(100);
   }
 }

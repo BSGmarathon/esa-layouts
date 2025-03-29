@@ -299,11 +299,6 @@
     ],
     "graphics": [
       {
-        "file": "transition.html",
-        "width": 1920,
-        "height": 1000
-      },
-      {
         "file": "omnibar.html",
         "width": 1920,
         "height": 82,
