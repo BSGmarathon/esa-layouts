@@ -13,9 +13,6 @@ gsap.registerPlugin(ScrollToPlugin);
 
 type Option = { id: number, name: string, total: number, winning: boolean };
 
-// I really hope this works LMAO
-const optionDivs = ref<{ [key: number]: HTMLElement }>({});
-
 const emit = defineEmits<{ end: [] }>();
 const { bidId, seconds } = defineProps<{
   seconds: number;
@@ -48,7 +45,6 @@ function getOptions(): Option[] {
 }
 
 function killTimeline(): void {
-  optionDivs.value = {};
   timeline?.kill();
   timeline = undefined;
 }
@@ -97,13 +93,13 @@ async function createTimeline(): Promise<void> {
   // Check how many times we need to scroll along to fit everything in.
   let scrollCount = 0;
   for (let i = 1; i < loopLength; i += 1) {
-    const rep = optionDivs.value[i];
+    const rep = document.getElementById(`Option${i + 1}`)!;
     if (endPos > rep.offsetLeft) scrollCount += 1;
   }
 
   // Add animations to timeline to scroll correctly.
   for (let i = 1; i < loopLength; i += 1) {
-    const rep = optionDivs.value[i];
+    const rep = document.getElementById(`Option${i + 1}`)!;
     const insertionPosition = i > 1
       ? `+=${Math.max((seconds - 8) / (scrollCount + 1), 2)}`
       : undefined;
@@ -228,7 +224,7 @@ onBeforeUnmount(() => {
             'background-color': option.winning ? '#6DD47E' : '#B37BA4',
             'margin-left': i > 0 ? '5px' : '0',
           }"
-          :ref="(el) => { optionDivs[i] = el }"
+          :id="`Option${i + 1}`"
         >
           <span :style="{ 'font-weight': 600 }">
             {{ option.name }}
@@ -237,7 +233,7 @@ onBeforeUnmount(() => {
         <div
           v-if="bid.allowUserOptions"
           class="Option"
-          :ref="(el) => { optionDivs[options.length] = el }"
+          :id="`Option${options.length + 1}`"
         >
           <template v-if="!options.length">No options submitted yet, be the first!</template>
           <template v-else>...or submit your own!</template>
