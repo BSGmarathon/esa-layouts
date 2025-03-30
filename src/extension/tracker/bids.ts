@@ -1,5 +1,6 @@
 import type { Tracker } from '@esa-layouts/types';
 import needle from 'needle';
+import { getSpeedrun } from '@esa-layouts/tracker/speedruns';
 import { eventInfo, getCookies } from '.';
 import { get as nodecg } from '../util/nodecg';
 import { bids } from '../util/replicants';
@@ -11,27 +12,30 @@ const refreshTime = 30 * 1000; // Get bids every 30s.
 
 // TODO: /bids/tree helps with option mapping
 // Processes the response from the API.
-function processRawBids(rawBids: Tracker.Bid[]): Tracker.FormattedBid[] {
+async function processRawBids(rawBids: Tracker.Bid[]): Promise<Tracker.FormattedBid[]> {
   const parentBids: { [k: string]: Tracker.FormattedBid } = {};
   const childBids: Tracker.BidChild[] = [];
 
-  rawBids.forEach((bid) => {
+  for (const bid of rawBids) {
     // Ignore denied/pending entries.
     if (bid.state === 'DENIED' || bid.state === 'PENDING') {
-      return;
+      // eslint-disable-next-line no-continue
+      continue;
     }
 
     // If parent is set, this is an option for a bid war.
     if (bid.parent) {
       childBids.push(bid as Tracker.BidChild);
     } else {
+      const speedrunForBid = await getSpeedrun(bid.speedrun);
+
       parentBids[bid.id] = {
         description: bid.shortdescription || bid.description || undefined,
         id: bid.id,
         name: bid.name,
         total: bid.total,
-        game: 'missingno', // TODO: fetch these
-        category: '',
+        game: speedrunForBid.name,
+        category: speedrunForBid.category,
         endTime: bid.close_at
           ? Date.parse(bid.close_at) : undefined,
         war: !bid.istarget,
@@ -40,7 +44,7 @@ function processRawBids(rawBids: Tracker.Bid[]): Tracker.FormattedBid[] {
         goal: bid.goal || undefined,
       };
     }
-  });
+  }
 
   childBids.forEach((bid) => {
     // If we have a parent for this child, add it to the parent.
@@ -121,7 +125,7 @@ async function updateBids(): Promise<void> {
       throw new Error('received non-array type');
     }
 
-    const currentBids = processRawBids(resp.body.results);
+    const currentBids = await processRawBids(resp.body.results);
 
     if (!Array.isArray(currentBids)) {
       throw new Error('currentBids result was non-array type');

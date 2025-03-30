@@ -25,6 +25,14 @@ export namespace Tracker {
     total: number;
   }
 
+  interface Speedrun {
+    type: 'speedrun';
+    id: number;
+    name: string;
+    display_nane: string;
+    category: string;
+  }
+
   // The object(s) from the tracker API.
   interface Bid extends BidFields {
     id: number;
