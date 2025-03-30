@@ -31,8 +31,8 @@ async function updateSpeedrunCache(): Promise<void> {
       speedrunCache[speedrun.id] = speedrun;
     });
   } catch (err) {
-    nodecg().log.warn('[Tracker] Error updating bids');
-    nodecg().log.debug('[Tracker] Error updating bids:', err);
+    nodecg().log.warn('[Tracker] Error updating speedrun cache');
+    nodecg().log.debug('[Tracker] Error updating speedrun cache:', err);
   }
 }
 
