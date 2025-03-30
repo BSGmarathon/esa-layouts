@@ -1,8 +1,10 @@
 import { createApp } from 'vue';
 import { createWebHashHistory, createRouter } from 'vue-router';
+import { createHead } from '@vueuse/head';
 import * as List from './list';
 import App from './main.vue';
-import { createHead } from '@vueuse/head';
+import '../_misc/common.css';
+import '../_misc/theme';
 
 const routes = [
   {

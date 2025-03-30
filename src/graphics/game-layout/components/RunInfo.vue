@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import fitty, { FittyInstance } from 'fitty';
-import { computed, defineProps, nextTick, onMounted, onUnmounted, ref, useTemplateRef } from 'vue';
+import { computed, defineProps, nextTick, onMounted, onUnmounted, ref, useTemplateRef, watch } from 'vue';
 import { runDataActiveRun } from '@esa-layouts/browser_shared/replicant_store';
 import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
 
@@ -24,7 +24,8 @@ const lineHeight = ref<string | null>(null);
 let fittyGame: FittyInstance | undefined;
 let fittyInfoExtra: FittyInstance | undefined;
 const runInfoElem = useTemplateRef<HTMLElement>('RunInfo');
-const gameNameUpper = computed(() => runDataActiveRun.value?.game?.toUpperCase() ?? 'N/A');
+const runData = computed(() => runDataActiveRun.data);
+const gameNameUpper = computed(() => runDataActiveRun.data?.game?.toUpperCase() ?? 'N/A');
 const textAlignCss = computed(() => (props.textAlign === 'center' ? 'center' : 'left'));
 const cssPositionProps = computed(() => ({
   '--prop-text-align': textAlignCss.value,
@@ -61,7 +62,7 @@ function fit(): void {
 }
 
 onMounted(async () => {
-  await NodeCG.waitForReplicants(runDataActiveRun);
+  await waitForReplicant(runDataActiveRun);
 
   fit();
 });
@@ -75,8 +76,7 @@ onUnmounted(() => {
   }
 });
 
-// TODO: is it better to use this or a watch?
-runDataActiveRun.on('change', async (newVal, oldVal) => {
+watch(() => runDataActiveRun.data, async (newVal, oldVal) => {
   // Re-fit the elements if run data becomes definded (as elements do no exist before this).
   if ((newVal && !oldVal) || props.noWrap) {
     lineHeight.value = null;

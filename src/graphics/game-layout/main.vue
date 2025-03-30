@@ -10,7 +10,7 @@ import { useHead } from '@vueuse/head';
 import { generateClipPath } from '../_misc/cut-background';
 import { defaultCode } from './list';
 
-useHead({ title: 'Game Layout' });
+useHead({ title: 'game-layout' });
 
 const clipPath = ref('unset');
 const zoom = getZoomAmountCSS();
@@ -69,7 +69,7 @@ function getAvailable(): GameLayouts['available'] {
 const route = useRoute();
 
 onMounted(async () => {
-  await waitForReplicant(gameLayouts, );
+  await waitForReplicant(gameLayouts);
 
   gameLayouts.data!.available = getAvailable();
   gameLayouts.save();
@@ -105,12 +105,3 @@ onBeforeUnmount(() => {
     <RouterView id="Layout" />
   </div>
 </template>
-
-<style lang="css">
-/*
-  Workaround for CSS ordering being incorrect on build.
-  https://github.com/vitejs/vite/issues/3924#issuecomment-1185919568
-*/
-@import url('../_misc/common.css') layer(layer-1);
-@import url('../_misc/themes/bsg.theme.css') layer(layer-1);
-</style>

@@ -1,3 +1,4 @@
+import './themes/default.theme.css';
 import './themes/bsg.theme.css';
 
 // const { theme } = nodecg.bundleConfig.event;

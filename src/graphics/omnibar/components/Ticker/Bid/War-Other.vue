@@ -50,17 +50,21 @@ function killTimeline(): void {
 }
 
 async function resetForBidUpdate() {
-  killTimeline();
+  try {
+    killTimeline();
 
-  bid.value = getBid(allBids.data!, bidId);
-  optionCache.value = getOptions();
+    bid.value = getBid(allBids.data!, bidId);
+    optionCache.value = getOptions();
 
-  // Do we need this wait? IDK
-  // Do I feel more comfy having it here? YES!!!!
-  await nextTick();
+    // Do we need this wait? IDK
+    // Do I feel more comfy having it here? YES!!!!
+    await nextTick();
 
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  await mountedCallback();
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    await mountedCallback();
+  } catch {
+    emit('end');
+  }
 }
 
 async function createTimeline(): Promise<void> {
@@ -155,11 +159,15 @@ watch(() => allBids.data, (newVal) => {
 onMounted(async () => {
   await waitForReplicant(allBids);
 
-  // Copied in case the prop changes and ruins the animations.
-  bid.value = getBid(allBids.data!, bidId);
-  optionCache.value = getOptions();
+  try {
+    // Copied in case the prop changes and ruins the animations.
+    bid.value = getBid(allBids.data!, bidId);
+    optionCache.value = getOptions();
 
-  mountedCallback();
+    mountedCallback();
+  } catch {
+    emit('end');
+  }
 });
 
 onBeforeUnmount(() => {

@@ -1,30 +1,30 @@
 <script setup lang="ts">
-import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
-import { ref } from 'vue';
-
-dayjs.extend(timezone);
+import { onMounted, ref } from 'vue';
 
 const time = ref('00:00');
 const date = ref('00/00/0000');
 
 function setTime(): void {
-  const timer = dayjs().tz('Europe/Amsterdam');
+  const timer = new Date();
 
-  time.value = timer.format('HH:mm').trim();
-  date.value = timer.format('DD/MM/YYYY').trim();
+  time.value = new Intl.DateTimeFormat('en-NL', {
+    hour: 'numeric', minute: 'numeric', timeZone: 'Europe/Amsterdam',
+  }).format(timer);
+  date.value = new Intl.DateTimeFormat('en-NL', { timeZone: 'Europe/Amsterdam' }).format(timer);
 }
 
-setTime();
-const now = new Date().getSeconds();
-const secondsUntilNextMinute = 60 - now;
-
-// Sync the time with the PC clock
-setTimeout(() => {
+onMounted(() => {
   setTime();
+  const now = new Date().getSeconds();
+  const secondsUntilNextMinute = 60 - now;
 
-  setInterval(() => setTime(), 1000);
-}, secondsUntilNextMinute * 1000);
+  // Sync the time with the PC clock
+  setTimeout(() => {
+    setTime();
+
+    setInterval(() => setTime(), 1000);
+  }, secondsUntilNextMinute * 1000);
+});
 </script>
 
 <template>

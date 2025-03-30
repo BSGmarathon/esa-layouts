@@ -27,7 +27,7 @@ defineProps<{
 }>();
 
 const players = computed(() => {
-  const runData = runDataActiveRun.value;
+  const runData = runDataActiveRun.data;
 
   if (!runData) return [];
 

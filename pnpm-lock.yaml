@@ -187,8 +187,8 @@ importers:
         specifier: ^6.9.1
         version: 6.10.0(webpack@5.90.2)
       dayjs:
-        specifier: ^1.11.10
-        version: 1.11.10
+        specifier: ^1.11.13
+        version: 1.11.13
       deepmerge:
         specifier: ^4.3.1
         version: 4.3.1
@@ -2153,8 +2153,8 @@ packages:
     resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
     engines: {node: '>=0.11'}
 
-  dayjs@1.11.10:
-    resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
+  dayjs@1.11.13:
+    resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
 
   de-indent@1.0.2:
     resolution: {integrity: sha512-e/1zu3xH5MQryN2zdVaF0OrdNLUbvWxzMbi+iNA6Bky7l1RoP8a2fIbRocyHclXt/arDrrR6lL3TqFD9pMQTsg==}
@@ -6550,7 +6550,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.23.9
 
-  dayjs@1.11.10: {}
+  dayjs@1.11.13: {}
 
   de-indent@1.0.2: {}
 

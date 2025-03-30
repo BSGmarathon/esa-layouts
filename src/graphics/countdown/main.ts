@@ -1,4 +1,3 @@
-// TODO: this breaks shit, find out why
 import '../_misc/common.css';
 import '../_misc/theme';
 import { createHead } from '@vueuse/head';

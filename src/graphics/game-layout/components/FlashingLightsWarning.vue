@@ -7,7 +7,7 @@ const emit = defineEmits<{
 }>();
 
 const hasFlashingLights = computed(
-  () => runDataActiveRun.value?.customData?.flashingLights === 'true',
+  () => runDataActiveRun.data?.customData?.flashingLights === 'true',
 );
 
 watch(() => hasFlashingLights.value, (newVal) => {

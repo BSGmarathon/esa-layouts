@@ -8,7 +8,7 @@ import GameCapture from './components/GameCapture.vue';
 import RunInfo from './components/RunInfo.vue';
 import Timer from './components/Timer.vue';
 
-const players = computed(() => runDataActiveRun.value?.teams.map((t) => t.players).flat(1) ?? []);
+const players = computed(() => runDataActiveRun.data?.teams.map((t) => t.players).flat(1) ?? []);
 </script>
 
 <template>

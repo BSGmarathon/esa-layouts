@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
 import { gameLayouts, runDataActiveRun } from '@esa-layouts/browser_shared/replicant_store';
+import { computed } from 'vue';
 import CommentatorsReader from './components/CommentatorsReader.vue';
 import DonationBar from './components/DonationBar.vue';
 import GameCapture from './components/GameCapture.vue';
 import Player from './components/Player.vue';
 import RunInfo from './components/RunInfo.vue';
 import Timer from './components/Timer.vue';
-import { computed } from 'vue';
 
 const { online } = nodecg.bundleConfig.event;
 const crowdCam = computed(() => gameLayouts.data?.crowdCamera ?? false);
 
 const extraPlayers = computed<{ name: string, pronouns?: string }[]>(() => {
-  if (!runDataActiveRun.value?.relay) return [];
+  if (!runDataActiveRun.data?.relay) return [];
 
-  return (runDataActiveRun.value?.teams[0]?.players || []).slice(2).map((p) => ({
+  return (runDataActiveRun.data?.teams[0]?.players || []).slice(2).map((p) => ({
     name: p.name,
     pronouns: p.pronouns,
   }));
