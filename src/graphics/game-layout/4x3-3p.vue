@@ -1,7 +1,17 @@
+<script setup lang="ts">
+import CommentatorsReader from './components/CommentatorsReader.vue';
+import GameCapture from './components/GameCapture.vue';
+import Player from './components/Player.vue';
+import RunInfo from './components/RunInfo.vue';
+import Timer from './components/Timer.vue';
+import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
+import MediaBoxBox from './components/MediaBoxBox.vue';
+</script>
+
 <template>
   <div class="bsglayout _4x3_3p">
     <!-- Game Captures -->
-    <game-capture
+    <GameCapture
       id="GameCapture1"
       class=" BlockRed"
       :slot-no="0"
@@ -12,7 +22,7 @@
         height: '496px',
       }"
     />
-    <game-capture
+    <GameCapture
       id="GameCapture2"
       class=" BlockRed"
       finish-time-pos="bottomright"
@@ -24,7 +34,7 @@
         height: '496px',
       }"
     />
-    <game-capture
+    <GameCapture
       id="GameCapture3"
       class="BlockRed"
       :slot-no="2"
@@ -60,7 +70,7 @@
       height: '44px',
       }"
     >
-      <player :slot-no="0"/>
+      <Player :slot-no="0" />
     </div>
 
     <div
@@ -72,7 +82,7 @@
       height: '44px',
       }"
     >
-      <player :slot-no="1"/>
+      <Player :slot-no="1" />
     </div>
 
     <div
@@ -84,7 +94,7 @@
       height: '44px',
       }"
     >
-      <player :slot-no="2"/>
+      <Player :slot-no="2" />
     </div>
 
     <!-- Run Game Info/host/comms -->
@@ -97,9 +107,9 @@
         height: '333px',
       }"
     >
-      <run-info line-left line-right />
-      <commentators-reader line-top show-reader/>
-      <commentators-reader line-top/>
+      <RunInfo line-left line-right />
+      <CommentatorsReader line-top show-reader />
+      <CommentatorsReader line-top />
     </div>
 
     <!-- Timer/Media Box -->
@@ -112,9 +122,9 @@
         height: '317px',
       }"
     >
-      <timer line-right line-left/>
-      <flashing-lights-warning/>
-      <media-box-box
+      <Timer line-right line-left />
+      <FlashingLightsWarning />
+      <MediaBoxBox
         line-left
         line-right
         :style="{
@@ -125,28 +135,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import CommentatorsReader from './components/CommentatorsReader.vue';
-import GameCapture from './components/GameCapture.vue';
-import Player from './components/Player.vue';
-import RunInfo from './components/RunInfo.vue';
-import Timer from './components/Timer.vue';
-import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
-import MediaBoxBox from './components/MediaBoxBox.vue';
-
-@Component({
-  components: {
-    GameCapture,
-    Player,
-    CommentatorsReader,
-    RunInfo,
-    Timer,
-    MediaBoxBox,
-    FlashingLightsWarning,
-  },
-})
-export default class extends Vue {
-}
-</script>

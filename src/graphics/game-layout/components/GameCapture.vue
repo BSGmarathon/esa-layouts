@@ -1,3 +1,71 @@
+<script setup lang="ts">
+import { ChannelDataReplicant as ChanData } from '@esa-layouts/types/replicant-types';
+import { defineProps, ref, onMounted, computed, watch } from 'vue';
+import { delayedTimer, gameLayouts, runDataActiveRun } from '@esa-layouts/browser_shared/replicant_store';
+import { useReplicant } from 'nodecg-vue-composable';
+import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
+
+const x32GameAudio = useReplicant<ChanData[]>('x32-game-channel-status', 'esa-layouts')!;
+
+const props = withDefaults(defineProps<{
+  slotNo: number;
+  finishTimePos?: 'topleft' | 'topright' | 'bottomleft' | 'bottomright';
+}>(), {
+  finishTimePos: 'bottomleft',
+  slotNo: 0,
+});
+
+const showSpeakerIcon = ref(false);
+const player = computed(() => {
+  const team = runDataActiveRun.data?.teams[props.slotNo || 0] || null;
+
+  return (team ? team.players[0] : null) || null;
+});
+const teamFinishTime = computed(() => {
+  const timer = delayedTimer.data;
+  const runData = runDataActiveRun.data;
+
+  if (!timer || (runData?.teams.length || 0) < 2) {
+    return undefined;
+  }
+
+  const teamID = runData?.teams[props.slotNo]?.id;
+  return teamID ? timer.teamFinishTimes[teamID] : undefined;
+});
+
+function onX32GameAudioChange(newVal: ChanData[]) {
+  if (gameLayouts.data?.selected?.includes('-1p')) {
+    showSpeakerIcon.value = false;
+    return;
+  }
+
+  let chosenSlot = props.slotNo || 0;
+  const playerVal = player.value;
+
+  if (playerVal && playerVal.customData.audioChannelOverride) {
+    let overrideChannel = parseInt(playerVal.customData.audioChannelOverride, 10);
+
+    if (overrideChannel > 0) {
+      overrideChannel -= 1;
+    }
+
+    chosenSlot = Math.max(0, Math.min(3, overrideChannel));
+  }
+
+  const mixerConfig = newVal[chosenSlot];
+
+  showSpeakerIcon.value = !mixerConfig.muted && mixerConfig.faderUp;
+}
+
+watch(() => x32GameAudio.data!, (newVal: ChanData[]) => onX32GameAudioChange(newVal));
+
+onMounted(async () => {
+  await waitForReplicant(x32GameAudio, delayedTimer, runDataActiveRun);
+
+  onX32GameAudioChange(x32GameAudio.data!);
+});
+</script>
+
 <template>
   <div
     class="Capture GameCapture Flex"
@@ -48,78 +116,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { CurrentRunDelay, DelayedTimer, GameLayouts } from '@esa-layouts/types/schemas';
-import { RunDataActiveRun, RunDataPlayer, TeamFinishTime } from 'speedcontrol-util/types';
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { State } from 'vuex-class';
-import { ChannelDataReplicant as ChanData } from '@esa-layouts/types/replicant-types';
-
-@Component
-export default class extends Vue {
-  @State('runDataActiveRun') runData!: RunDataActiveRun | undefined;
-  @State('delayedTimer') timer!: DelayedTimer;
-  @State('gameLayouts') gameLayouts!: GameLayouts;
-  @State('x32GameAudio') x32GameAudio!: ChanData[];
-  @State currentRunDelay!: CurrentRunDelay;
-  @Prop(Number) slotNo!: number;
-  @Prop({
-    default: 'bottomleft',
-    validator: (v: string) => ['topleft', 'topright', 'bottomleft', 'bottomright'].includes(v),
-  }) finishTimePos!: 'topleft' | 'topright' | 'bottomleft' | 'bottomright';
-  showSpeakerIcon = false;
-
-  get teamFinishTime(): TeamFinishTime | undefined {
-    if (!this.timer || (this.runData?.teams.length || 0) < 2) {
-      return undefined;
-    }
-    const teamID = this.runData?.teams[this.slotNo]?.id;
-    return teamID ? this.timer.teamFinishTimes[teamID] : undefined;
-  }
-
-  get player(): RunDataPlayer | null {
-    const team = this.runData?.teams[this.slotNo || 0] || null;
-
-    return (team ? team.players[0] : null) || null;
-  }
-
-  created() {
-    // initial setting of the icon
-    this.onX32GameAudioChange(this.x32GameAudio);
-  }
-
-  @Watch('x32GameAudio')
-  onX32GameAudioChange(newVal: ChanData[]): void {
-    if (this.gameLayouts?.selected?.includes('-1p')) {
-      this.showSpeakerIcon = false;
-      return;
-    }
-
-    let chosenSlot = this.slotNo || 0;
-
-    if (this.player && this.player.customData.audioChannelOverride) {
-      let overrideChannel = parseInt(this.player.customData.audioChannelOverride, 10);
-
-      if (overrideChannel > 0) {
-        overrideChannel -= 1;
-      }
-
-      chosenSlot = Math.max(0, Math.min(3, overrideChannel));
-    }
-
-    const mixerConfig = newVal[chosenSlot];
-
-    this.showSpeakerIcon = !mixerConfig.muted && mixerConfig.faderUp;
-  }
-
-  @Watch('runData')
-  async onRunDataChange(): Promise<void> {
-    await Vue.nextTick();
-    this.onX32GameAudioChange(this.x32GameAudio);
-  }
-}
-</script>
 
 <style scoped>
 .fade-enter-active, .fade-leave-active {

@@ -1,3 +1,34 @@
+<script setup lang="ts">
+import { musicData } from '@esa-layouts/browser_shared/replicant_store';
+import { wait } from '@esa-layouts/graphics/_misc/helpers';
+import { computed, onMounted } from 'vue';
+import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
+
+const emit = defineEmits<{ end: [] }>();
+const { seconds = 25 } = defineProps<{ seconds: number }>();
+const trackInformation = computed(() => {
+  const info = [
+    musicData.data?.track?.title,
+    musicData.data?.track?.artist,
+  ].filter(Boolean);
+
+  return info.length ? info.join(' - ') : undefined;
+});
+
+onMounted(async () => {
+  await waitForReplicant(musicData);
+
+  // Skip display if no track is playing
+  if (!musicData.data!.playing || !trackInformation.value) {
+    emit('end');
+    return;
+  }
+
+  await wait(seconds * 1000); // Wait the specified length.
+  emit('end');
+});
+</script>
+
 <template>
   <div
     class="Flex"
@@ -9,41 +40,7 @@
       // 'line-height': '100%',
     }"
   >
-    <span v-if="musicData.playing" :style="{ 'white-space': 'pre' }">🎵 {{ trackInformation }}</span>
+    <span v-if="musicData.data?.playing" :style="{ 'white-space': 'pre' }">🎵 {{ trackInformation }}</span>
     <span v-else :style="{ 'white-space': 'pre' }">⏸ {{ trackInformation }}</span>
   </div>
 </template>
-
-<script lang="ts">
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { wait } from '@esa-layouts/graphics/_misc/helpers';
-import { MusicData } from '@esa-layouts/types/schemas';
-import { Component, Prop, Vue } from 'vue-property-decorator';
-
-@Component({
-  name: 'MusicTrack',
-})
-export default class extends Vue {
-  @replicantNS.State((s) => s.reps.musicData) readonly musicData!: MusicData;
-  @Prop({ type: Number, default: 25 }) readonly seconds!: number;
-
-  get trackInformation(): string | undefined {
-    const info = [
-      this.musicData?.track?.title,
-      this.musicData?.track?.artist,
-    ].filter(Boolean);
-    return info.length ? info.join(' - ') : undefined;
-  }
-
-  async created(): Promise<void> {
-    // Skip display if no track is playing
-    if (!this.trackInformation || !this.musicData.playing) {
-      this.$emit('end');
-      return;
-    }
-
-    await wait(this.seconds * 1000); // Wait the specified length.
-    this.$emit('end');
-  }
-}
-</script>

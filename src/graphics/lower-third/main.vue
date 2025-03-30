@@ -1,3 +1,97 @@
+<script setup lang="ts">
+import { lowerThird } from '@esa-layouts/browser_shared/replicant_store';
+import gsap from 'gsap';
+import { onMounted, ref } from 'vue';
+import { useHead } from '@vueuse/head';
+import { wait } from '../_misc/helpers';
+
+useHead({ title: 'Lower third' });
+
+const showNames = ref(true);
+const barVisible = ref(true);
+const barWidth = ref(90);
+const barOpenState = 90;
+const barClosedState = 9;
+
+function setTransitioning(state: boolean): void {
+  lowerThird.data!.transitioning = state;
+  lowerThird.save();
+}
+
+function setVisible(state: boolean): void {
+  lowerThird.data!.visible = state;
+  lowerThird.save();
+}
+
+async function show(): Promise<void> {
+  setTransitioning(true);
+  barVisible.value = true;
+  await wait(500); // --lt-up-down-anim-dur
+  gsap.to(barWidth, {
+    value: barOpenState,
+    duration: 1,
+    ease: 'back.out(1.7)',
+  });
+  // little shorter here cuz it looks cool
+  await wait(800);
+  showNames.value = true;
+  await wait(250); // --lt-names-show-hide-anim-dur
+  setTransitioning(false);
+  setVisible(true);
+}
+
+async function hide(): Promise<void> {
+  setTransitioning(true);
+  showNames.value = false;
+  await wait(100); // --lt-names-show-hide-anim-dur - 150 cuz looks cool
+  // docs: https://greensock.com/ease-visualizer/
+  gsap.to(barWidth, {
+    value: barClosedState,
+    duration: 1,
+    ease: 'back.in(1.7)',
+  });
+  await wait(1050);
+  barVisible.value = false;
+  await wait(500); // --lt-up-down-anim-dur
+  setTransitioning(false);
+  setVisible(false);
+}
+
+function toggle(): void {
+  if (barVisible.value) {
+    hide();
+  } else {
+    show();
+  }
+}
+
+onMounted(async () => {
+  while (!lowerThird?.data) {
+    await wait(100);
+  }
+
+  if (lowerThird.data.visible) {
+    barVisible.value = true;
+    showNames.value = true;
+    barWidth.value = barOpenState;
+  } else {
+    barVisible.value = false;
+    showNames.value = false;
+    barWidth.value = barClosedState;
+  }
+
+  nodecg.listenFor('lower-third:show', async ({ autoHide, showForSecs }) => {
+    await show();
+
+    if (autoHide) {
+      await wait(showForSecs * 1000);
+      await hide();
+    }
+  });
+  nodecg.listenFor('lower-third:hide', () => hide());
+});
+</script>
+
 <template>
   <div>
     <transition name="lower-third">
@@ -12,7 +106,7 @@
           </div>
           <transition name="names">
             <div class="names" v-if="showNames">
-          <span v-for="(name, i) in lowerThird.names"
+          <span v-for="(name, i) in lowerThird.data!.names"
                 :key="i">{{ name }}</span>
             </div>
           </transition>
@@ -25,94 +119,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { LowerThird } from '@esa-layouts/types/schemas';
-import gsap from 'gsap';
-import { storeModule } from './store';
-import { wait } from '../_misc/helpers';
-
-@Component
-export default class extends Vue {
-  @replicantNS.State((s) => s.reps.lowerThird) readonly lowerThird!: LowerThird;
-  showNames = true;
-  barVisible = true;
-  barWidth = 90;
-  barOpenState = 90;
-  barClosedState = 9;
-  setTransitioning = storeModule.setTransitioning;
-  setVisible = storeModule.setVisible;
-
-  toggle(): void {
-    if (this.barVisible) {
-      this.hide();
-    } else {
-      this.show();
-    }
-  }
-
-  async show(): Promise<void> {
-    this.setTransitioning(true);
-    this.barVisible = true;
-    await wait(500); // --lt-up-down-anim-dur
-    gsap.to(this, {
-      barWidth: this.barOpenState,
-      duration: 1,
-      ease: 'back.out(1.7)',
-    });
-    // little shorter here cuz it looks cool
-    await wait(800);
-    this.showNames = true;
-    await wait(250); // --lt-names-show-hide-anim-dur
-    this.setTransitioning(false);
-    this.setVisible(true);
-  }
-
-  async hide(): Promise<void> {
-    this.setTransitioning(true);
-    this.showNames = false;
-    await wait(100); // --lt-names-show-hide-anim-dur - 150 cuz looks cool
-    // docs: https://greensock.com/ease-visualizer/
-    gsap.to(this, {
-      barWidth: this.barClosedState,
-      duration: 1,
-      ease: 'back.in(1.7)',
-    });
-    await wait(1050);
-    this.barVisible = false;
-    await wait(500); // --lt-up-down-anim-dur
-    this.setTransitioning(false);
-    this.setVisible(false);
-  }
-
-  // initial state
-  created(): void {
-    if (this.lowerThird.visible) {
-      this.barVisible = true;
-      this.showNames = true;
-      this.barWidth = this.barOpenState;
-    } else {
-      this.barVisible = false;
-      this.showNames = false;
-      this.barWidth = this.barClosedState;
-    }
-
-    nodecg.listenFor('lower-third:show', async ({ autoHide, showForSecs }) => {
-      await this.show();
-
-      if (autoHide) {
-        await wait(showForSecs * 1000);
-        await this.hide();
-      }
-    });
-    nodecg.listenFor('lower-third:hide', () => this.hide());
-  }
-}
-</script>
-
 <style lang="scss">
-@import "~animate.css";
+@import "animate.css";
 
 html, body {
   padding: 0;

@@ -1,7 +1,17 @@
+<script setup lang="ts">
+import GameCapture from './components/GameCapture.vue';
+import Player from './components/Player.vue';
+import CommentatorsReader from './components/CommentatorsReader.vue';
+import RunInfo from './components/RunInfo.vue';
+import Timer from './components/Timer.vue';
+import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
+import MediaBoxBox from './components/MediaBoxBox.vue';
+</script>
+
 <template>
   <div class="bsglayout _16x9_1p_largecam">
     <!-- Game Capture -->
-    <game-capture
+    <GameCapture
       id="GameCapture1"
       :style="{
       left: '483px',
@@ -33,7 +43,7 @@
         height: '176px',
       }"
     >
-      <run-info text-align="left" line-right info-is-row/>
+      <RunInfo text-align="left" line-right info-is-row />
     </div>
 
     <!-- Timer -->
@@ -46,7 +56,7 @@
         height: '176px',
       }"
     >
-      <media-box-box
+      <MediaBoxBox
         line-left
         line-right
         :style="{
@@ -66,7 +76,7 @@
         height: '44px',
       }"
     >
-      <player/>
+      <Player />
     </div>
 
     <!-- Media Box/Commentator/Reader -->
@@ -79,38 +89,13 @@
         height: '260px',
       }"
     >
-      <flashing-lights-warning/>
-      <timer
+      <FlashingLightsWarning />
+      <Timer
         line-left
         line-right
       />
-      <commentators-reader show-reader/>
-      <commentators-reader/>
+      <CommentatorsReader show-reader />
+      <CommentatorsReader />
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
-import GameCapture from './components/GameCapture.vue';
-import Player from './components/Player.vue';
-import CommentatorsReader from './components/CommentatorsReader.vue';
-import RunInfo from './components/RunInfo.vue';
-import Timer from './components/Timer.vue';
-import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
-import MediaBoxBox from './components/MediaBoxBox.vue';
-
-@Component({
-  components: {
-    GameCapture,
-    Player,
-    CommentatorsReader,
-    RunInfo,
-    Timer,
-    MediaBoxBox,
-    FlashingLightsWarning,
-  },
-})
-export default class extends Vue {
-}
-</script>

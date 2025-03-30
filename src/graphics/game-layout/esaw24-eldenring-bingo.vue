@@ -1,7 +1,20 @@
+<script setup lang="ts">
+import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
+import { computed } from 'vue';
+import { runDataActiveRun, commentatorsNew, donationReaderNew } from '@esa-layouts/browser_shared/replicant_store';
+import ParticipantInfo from '../_misc/components/ParticipantInfo.vue';
+import DonationBar from './components/DonationBar.vue';
+import GameCapture from './components/GameCapture.vue';
+import RunInfo from './components/RunInfo.vue';
+import Timer from './components/Timer.vue';
+
+const players = computed(() => runDataActiveRun.data?.teams.map((t) => t.players).flat(1) ?? []);
+</script>
+
 <template>
   <div>
     <!-- Game Captures -->
-    <game-capture
+    <GameCapture
       id="GameCapture1"
       class="BorderLeft BorderBottom"
       :style="{
@@ -11,7 +24,7 @@
         height: '780px',
       }"
     />
-    <game-capture
+    <GameCapture
       id="GameCapture2"
       :style="{
         left: '0px',
@@ -73,22 +86,22 @@
           <!-- So that we can style it so that participant names are properly weighted
           to the bottom (more on bottom than on top) we actually add the elements
           in reverse order -->
-          <participant-info
-            v-if="donationReaderNew"
+          <ParticipantInfo
+            v-if="donationReaderNew.data"
             type="reader"
-            :name="donationReaderNew.name"
-            :pronouns="donationReaderNew.pronouns"
-            :country="donationReaderNew.country"
+            :name="donationReaderNew.data.name"
+            :pronouns="donationReaderNew.data.pronouns"
+            :country="donationReaderNew.data.country"
           />
-          <participant-info
-            v-for="commentator of commentatorsNew.slice(0).reverse()"
+          <ParticipantInfo
+            v-for="commentator of commentatorsNew.data!.slice(0).reverse()"
             :key="commentator.name"
             type="commentator"
             :name="commentator.name"
             :pronouns="commentator.pronouns"
             :country="commentator.country"
           />
-          <participant-info
+          <ParticipantInfo
             v-for="player of players.slice(0).reverse()"
             :key="player.id"
             type="player"
@@ -110,14 +123,14 @@
         height: '160px',
       }"
     >
-      <run-info
+      <RunInfo
         :style="{
           'font-size': '45px',
           'width': '580px',
           height: '100%',
         }"
       />
-      <timer
+      <Timer
         :style="{
           'width': '387px',
           height: '100%',
@@ -126,7 +139,7 @@
     </div>
 
     <!-- Media Box -->
-    <media-box
+    <MediaBox
       class="BorderLeft"
       :font-size="40"
       :style="{
@@ -138,7 +151,7 @@
     />
 
     <!-- Donation Bar -->
-    <donation-bar
+    <DonationBar
       :padding="15"
       :style="{
         left: '0px',
@@ -150,40 +163,6 @@
     />
   </div>
 </template>
-
-<script lang="ts">
-import { CommentatorsNew, DonationReaderNew } from '@esa-layouts/types/schemas';
-import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
-import { RunDataActiveRun } from 'speedcontrol-util/types';
-import { Component, Vue } from 'vue-property-decorator';
-import { State } from 'vuex-class';
-import ParticipantInfo from '../_misc/components/ParticipantInfo.vue';
-import DonationBar from './components/DonationBar.vue';
-import GameCapture from './components/GameCapture.vue';
-import RunInfo from './components/RunInfo.vue';
-import Timer from './components/Timer.vue';
-
-@Component({
-  components: {
-    GameCapture,
-    RunInfo,
-    Timer,
-    MediaBox,
-    DonationBar,
-    ParticipantInfo,
-  },
-})
-export default class extends Vue {
-  @State('runDataActiveRun') runData!: RunDataActiveRun;
-  @State readonly commentatorsNew!: CommentatorsNew;
-  @State readonly donationReaderNew!: DonationReaderNew;
-
-  get players() {
-    if (!this.runData) return [];
-    return this.runData.teams.map((t) => t.players).flat(1);
-  }
-}
-</script>
 
 <style>
   @import url('../_misc/themes/esaw24.theme.css');

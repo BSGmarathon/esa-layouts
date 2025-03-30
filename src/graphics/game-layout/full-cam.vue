@@ -1,3 +1,6 @@
+<script setup lang="ts">
+</script>
+
 <template>
   <div>
     <!-- Crowd Camera Capture -->
@@ -32,15 +35,3 @@
     </div>-->
   </div>
 </template>
-
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import Player from './components/Player.vue';
-
-@Component({
-  components: {
-    Player,
-  },
-})
-export default class extends Vue {}
-</script>

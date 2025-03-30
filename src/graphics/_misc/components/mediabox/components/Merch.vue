@@ -1,7 +1,22 @@
+<script setup lang="ts">
+import { mediaBox } from '@esa-layouts/browser_shared/replicant_store';
+import { computed } from 'vue';
+
+defineProps<{
+  vertical: boolean;
+}>();
+
+type Merch = { user: string; productName: string; imgURL: string; } | null;
+
+const merch = computed<Merch>(
+  () => mediaBox.data?.alertQueue.find((a) => a.id === mediaBox.data?.current?.mediaUUID)?.data as Merch,
+);
+</script>
+
 <template>
   <!-- todo: locally store class CSS properties for safety -->
   <div
-    v-show="merch"
+    v-if="merch"
     :class="vertical ? 'FlexColumn' : 'Flex'"
     :style="{
       'font-size': '0.8em', // move to prop?
@@ -38,20 +53,3 @@
     >
   </div>
 </template>
-
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import { MediaBox } from '@esa-layouts/types/schemas';
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { MediaBox as MediaBoxType } from '@esa-layouts/types';
-
-@Component
-export default class extends Vue {
-  @replicantNS.State((s) => s.reps.mediaBox) readonly mediaBox!: MediaBox;
-  @Prop(Boolean) vertical!: boolean;
-
-  get merch(): MediaBoxType.AlertElem['data'] | undefined {
-    return this.mediaBox.alertQueue.find((a) => a.id === this.mediaBox.current?.mediaUUID)?.data;
-  }
-}
-</script>

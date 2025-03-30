@@ -1,3 +1,17 @@
+<script setup lang="ts">
+import { mediaBox } from '@esa-layouts/browser_shared/replicant_store';
+import { computed } from 'vue';
+
+defineProps<{
+  vertical: boolean;
+}>();
+
+const msg = computed(
+  () => (mediaBox.data?.alertQueue
+    .find((a) => a.id === mediaBox.data?.current?.mediaUUID)?.data as any).msg,
+);
+</script>
+
 <template>
   <!-- todo: locally store class CSS properties for safety -->
   <div
@@ -25,20 +39,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { MediaBox as MediaBoxRep } from '@esa-layouts/types/schemas';
-
-@Component
-export default class extends Vue {
-  @replicantNS.State((s) => s.reps.mediaBox) readonly mediaBox!: MediaBoxRep;
-  @Prop(Boolean) vertical!: boolean;
-
-  get msg(): string | undefined {
-    return (this.mediaBox.alertQueue
-      .find((a) => a.id === this.mediaBox.current?.mediaUUID)?.data as any).msg;
-  }
-}
-</script>
