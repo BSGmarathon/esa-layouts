@@ -1,41 +1,42 @@
 <script setup lang="ts">
 import { NameCycle } from '@esa-layouts/types/schemas';
 import fitty, { FittyInstance } from 'fitty';
-import { RunDataPlayer, RunDataTeam } from 'speedcontrol-util/types';
+import type { RunDataPlayer, RunDataTeam } from 'speedcontrol-util/types';
 import { useReplicant } from 'nodecg-vue-composable';
 import { computed, ref, onMounted, onUnmounted, useTemplateRef, watch, nextTick } from 'vue';
 import { runDataActiveRun } from '@esa-layouts/browser_shared/replicant_store';
+import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
 
 const { slotNo } = defineProps<{ slotNo?: number }>();
 
 const playerElem = useTemplateRef<HTMLElement>('Player');
 const nameCycleServer = useReplicant<NameCycle>('nameCycle', 'esa-layouts')!;
-const runData = computed(() => runDataActiveRun.value);
 const team = ref<RunDataTeam | null>(null);
 const player = ref<RunDataPlayer | null>(null);
 const playerIndex = ref(0);
 const nameCycle = ref(0);
 let fittyPlayer: FittyInstance | undefined; // "Local" name cycle used so we can let flags load.
 const pronouns = computed(() => player.value?.pronouns);
-const coop = computed(
-  () => (runData.value && runData.value.teams.length === 1 && runData.value.teams[0].players.length > 1)
-    || false,
-);
+const coop = computed(() => {
+  const runData = runDataActiveRun.data;
+
+  return (runData && runData.teams.length === 1 && runData.teams[0].players.length > 1) || false;
+});
 
 function updateTeam(): void {
   // Makes a fake team with just 1 player in it for coop/relay.
-  if (runData.value?.relay) {
-    const localTeam = runData.value?.teams[slotNo ?? 0];
+  if (runDataActiveRun.data?.relay) {
+    const localTeam = runDataActiveRun.data?.teams[slotNo ?? 0];
     const localPlayer = localTeam?.players.find((p) => p.id === localTeam.relayPlayerID);
 
     team.value = localPlayer ? { name: localTeam.name, id: localPlayer.id, players: [localPlayer] } : null;
   } else if (typeof slotNo === 'number' && coop.value) {
-    const localTeam = runData.value?.teams[0];
+    const localTeam = runDataActiveRun.data?.teams[0];
     const localPlayer = localTeam?.players[slotNo];
 
     team.value = localTeam && localPlayer ? { name: localTeam.name, id: localPlayer.id, players: [localPlayer] } : null;
   } else {
-    team.value = runData.value?.teams[slotNo || 0] || null;
+    team.value = runDataActiveRun.data?.teams[slotNo || 0] || null;
   }
 }
 
@@ -76,7 +77,7 @@ function fit(): void {
   }
 }
 
-watch(() => runData.value, async (newVal, oldVal) => {
+watch(() => runDataActiveRun.data, async (newVal, oldVal) => {
   const newPlayers = newVal?.teams[slotNo || 0]?.players;
   const oldPlayers = oldVal?.teams[slotNo || 0]?.players;
 
@@ -108,6 +109,8 @@ watch(() => nameCycleServer.data!, async (newVal, oldVal) => {
 });
 
 onMounted(async () => {
+  await waitForReplicant(runDataActiveRun);
+
   updateTeam();
   await updatePlayer();
 

@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { ChannelDataReplicant as ChanData } from '@esa-layouts/types/replicant-types';
 import { defineProps, ref, onMounted, computed, watch } from 'vue';
-import { gameLayouts, runDataActiveRun } from '@esa-layouts/browser_shared/replicant_store';
+import { delayedTimer, gameLayouts, runDataActiveRun } from '@esa-layouts/browser_shared/replicant_store';
 import { useReplicant } from 'nodecg-vue-composable';
-import { delayedTimer } from '@esa-layouts/extension/util/replicants';
 import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
 
 const x32GameAudio = useReplicant<ChanData[]>('x32-game-channel-status', 'esa-layouts')!;
@@ -18,13 +17,13 @@ const props = withDefaults(defineProps<{
 
 const showSpeakerIcon = ref(false);
 const player = computed(() => {
-  const team = runDataActiveRun.value?.teams[props.slotNo || 0] || null;
+  const team = runDataActiveRun.data?.teams[props.slotNo || 0] || null;
 
   return (team ? team.players[0] : null) || null;
 });
 const teamFinishTime = computed(() => {
-  const timer = delayedTimer.value;
-  const runData = runDataActiveRun.value;
+  const timer = delayedTimer.data;
+  const runData = runDataActiveRun.data;
 
   if (!timer || (runData?.teams.length || 0) < 2) {
     return undefined;
@@ -61,7 +60,7 @@ function onX32GameAudioChange(newVal: ChanData[]) {
 watch(() => x32GameAudio.data!, (newVal: ChanData[]) => onX32GameAudioChange(newVal));
 
 onMounted(async () => {
-  await waitForReplicant(x32GameAudio);
+  await waitForReplicant(x32GameAudio, delayedTimer, runDataActiveRun);
 
   onX32GameAudioChange(x32GameAudio.data!);
 });

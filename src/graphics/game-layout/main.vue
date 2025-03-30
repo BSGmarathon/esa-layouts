@@ -4,11 +4,11 @@ import { RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { getZoomAmountCSS } from '@esa-layouts/graphics/_misc/helpers';
 import { updateCapturePositionData } from '@esa-layouts/graphics/_misc/update-capture-position-data';
 import { gameLayouts } from '@esa-layouts/browser_shared/replicant_store';
+import type { GameLayouts } from '@esa-layouts/types/schemas';
+import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
+import { useHead } from '@vueuse/head';
 import { generateClipPath } from '../_misc/cut-background';
 import { defaultCode } from './list';
-import type { GameLayouts } from '@esa-layouts/types/schemas';
-import { sleep } from '@esa-layouts/browser_shared/helpers';
-import { useHead } from '@vueuse/head';
 
 useHead({ title: 'Game Layout' });
 
@@ -66,18 +66,19 @@ function getAvailable(): GameLayouts['available'] {
   }, [] as GameLayouts['available']);
 }
 
-onMounted(async () => {
-  // Wait for replicant to become ready.
-  while (!gameLayouts?.data) {
-    await sleep(100);
-  }
+const route = useRoute();
 
-  gameLayouts.data.available = getAvailable();
+onMounted(async () => {
+  await waitForReplicant(gameLayouts, );
+
+  gameLayouts.data!.available = getAvailable();
   gameLayouts.save();
 
-  const route = useRoute();
+  if (route) {
+    console.log(route);
 
-  layoutChanged(route);
+    layoutChanged(route);
+  }
 
   router.afterEach(async (to) => {
     try {
@@ -104,3 +105,12 @@ onBeforeUnmount(() => {
     <RouterView id="Layout" />
   </div>
 </template>
+
+<style lang="css">
+/*
+  Workaround for CSS ordering being incorrect on build.
+  https://github.com/vitejs/vite/issues/3924#issuecomment-1185919568
+*/
+@import url('../_misc/common.css') layer(layer-1);
+@import url('../_misc/themes/bsg.theme.css') layer(layer-1);
+</style>

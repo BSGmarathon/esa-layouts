@@ -57,8 +57,10 @@ watch(() => originalTimer.value, () => {
   backupTimerTO.value = window.setTimeout(() => backupTimer(), 1000);
 }, { immediate: true });
 
-watch(() => timer.data!, (newTimer: Timer) => {
-  timeStr.value = newTimer.time;
+watch(() => timer.data!, (newTimer?: Timer) => {
+  if (newTimer) {
+    timeStr.value = newTimer.time;
+  }
 }, { immediate: true });
 </script>
 

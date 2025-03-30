@@ -1,7 +1,5 @@
 import { createApp } from 'vue';
 import { createWebHashHistory, createRouter } from 'vue-router';
-import '../_misc/common.css';
-import '../_misc/theme';
 import * as List from './list';
 import App from './main.vue';
 import { createHead } from '@vueuse/head';
@@ -108,7 +106,7 @@ const routes = [
     component: List.L_FullCam,
   },
   {
-    path: '*',
+    path: '/:pathMatch(.*)*',
     redirect: '/4x3-1p',
   },
 ];

@@ -5,7 +5,7 @@ import type {
   Commentators,
   CommentatorsNew,
   Countdown,
-  CurrentRunDelay,
+  CurrentRunDelay, DelayedTimer,
   DonationAlerts,
   DonationReader,
   DonationReaderNew,
@@ -29,53 +29,58 @@ import type {
   VideoPlayer,
 } from '@esa-layouts/types/schemas';
 import { SpeedcontrolUtilBrowser } from 'speedcontrol-util';
+import type { RunDataActiveRun, RunDataActiveRunSurrounding, RunDataArray, Timer } from 'speedcontrol-util/types/schemas';
 import { SoloedBidID } from '@esa-layouts/types/schemas/soloedBidID';
 import { useAssetReplicant, useReplicant } from 'nodecg-vue-composable';
+
+const bundleName = 'esa-layouts';
+const sc = 'nodecg-speedcontrol';;
 
 export const speedControl = new SpeedcontrolUtilBrowser(nodecg);
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-export const additionalDonations = useReplicant<AdditionalDonations>('additionalDonations', 'esa-layouts')!;
-export const assetsDonationAlertAssets = useAssetReplicant('donation-alert-assets', 'esa-layouts')!;
-export const assetsIntermissionSlides = useAssetReplicant('intermission-slides', 'esa-layouts')!;
-export const assetsMediaBoxImages = useAssetReplicant('media-box-images', 'esa-layouts')!;
-export const assetsReaderIntroductionImages = useAssetReplicant('reader-introduction-images', 'esa-layouts')!;
-export const bids = useReplicant<Bids>('bids', 'esa-layouts')!;
-export const bigbuttonPlayerMap = useReplicant<BigbuttonPlayerMap>('bigbuttonPlayerMap', 'esa-layouts')!;
-export const commentators = useReplicant<Commentators>('commentators', 'esa-layouts')!;
-export const commentatorsNew = useReplicant<CommentatorsNew>('commentatorsNew', 'esa-layouts')!;
-export const countdown = useReplicant<Countdown>('countdown', 'esa-layouts')!;
-export const currentRunDelay = useReplicant<CurrentRunDelay>('currentRunDelay', 'esa-layouts')!;
-export const donationAlerts = useReplicant<DonationAlerts>('donationAlerts', 'esa-layouts')!;
-export const donationReader = useReplicant<DonationReader>('donationReader', 'esa-layouts')!;
-export const donationReaderNew = useReplicant<DonationReaderNew>('donationReaderNew', 'esa-layouts')!;
-export const donationsToRead = useReplicant<DonationsToRead>('donationsToRead', 'esa-layouts')!;
-export const donationTotal = useReplicant<DonationTotal>('donationTotal', 'esa-layouts')!;
-export const donationTotalMilestones = useReplicant<DonationTotalMilestones>('donationTotalMilestones', 'esa-layouts')!;
-export const gameLayouts = useReplicant<GameLayouts>('gameLayouts', 'esa-layouts')!;
-export const intermissionSlides = useReplicant<IntermissionSlides>('intermissionSlides', 'esa-layouts')!;
-export const lowerThird = useReplicant<LowerThird>('lowerThird', 'esa-layouts')!;
-export const mediaBox = useReplicant<MediaBox>('mediaBox', 'esa-layouts')!;
-export const musicData = useReplicant<MusicData>('musicData', 'esa-layouts')!;
-export const notableDonations = useReplicant<NotableDonations>('notableDonations', 'esa-layouts')!;
-export const obsData = useReplicant<ObsData>('obsData', 'esa-layouts')!;
-export const omnibar = useReplicant<Omnibar>('omnibar', 'esa-layouts')!;
-export const otherStreamData = useReplicant<OtherStreamData>('otherStreamData', 'esa-layouts')!;
-export const prizes = useReplicant<Prizes>('prizes', 'esa-layouts')!;
-export const readerIntroduction = useReplicant<ReaderIntroduction>('readerIntroduction', 'esa-layouts')!;
+export const additionalDonations = useReplicant<AdditionalDonations>('additionalDonations', bundleName)!;
+export const assetsDonationAlertAssets = useAssetReplicant('donation-alert-assets', bundleName)!;
+export const assetsIntermissionSlides = useAssetReplicant('intermission-slides', bundleName)!;
+export const assetsMediaBoxImages = useAssetReplicant('media-box-images', bundleName)!;
+export const assetsReaderIntroductionImages = useAssetReplicant('reader-introduction-images', bundleName)!;
+export const bids = useReplicant<Bids>('bids', bundleName)!;
+export const bigbuttonPlayerMap = useReplicant<BigbuttonPlayerMap>('bigbuttonPlayerMap', bundleName)!;
+export const commentators = useReplicant<Commentators>('commentators', bundleName)!;
+export const commentatorsNew = useReplicant<CommentatorsNew>('commentatorsNew', bundleName)!;
+export const countdown = useReplicant<Countdown>('countdown', bundleName)!;
+export const currentRunDelay = useReplicant<CurrentRunDelay>('currentRunDelay', bundleName)!;
+export const delayedTimer = useReplicant<DelayedTimer>('delayedTimer', bundleName)!;
+export const donationAlerts = useReplicant<DonationAlerts>('donationAlerts', bundleName)!;
+export const donationReader = useReplicant<DonationReader>('donationReader', bundleName)!;
+export const donationReaderNew = useReplicant<DonationReaderNew>('donationReaderNew', bundleName)!;
+export const donationsToRead = useReplicant<DonationsToRead>('donationsToRead', bundleName)!;
+export const donationTotal = useReplicant<DonationTotal>('donationTotal', bundleName)!;
+export const donationTotalMilestones = useReplicant<DonationTotalMilestones>('donationTotalMilestones', bundleName)!;
+export const gameLayouts = useReplicant<GameLayouts>('gameLayouts', bundleName)!;
+export const intermissionSlides = useReplicant<IntermissionSlides>('intermissionSlides', bundleName)!;
+export const lowerThird = useReplicant<LowerThird>('lowerThird', bundleName)!;
+export const mediaBox = useReplicant<MediaBox>('mediaBox', bundleName)!;
+export const musicData = useReplicant<MusicData>('musicData', bundleName)!;
+export const notableDonations = useReplicant<NotableDonations>('notableDonations', bundleName)!;
+export const obsData = useReplicant<ObsData>('obsData', bundleName)!;
+export const omnibar = useReplicant<Omnibar>('omnibar', bundleName)!;
+export const otherStreamData = useReplicant<OtherStreamData>('otherStreamData', bundleName)!;
+export const prizes = useReplicant<Prizes>('prizes', bundleName)!;
+export const readerIntroduction = useReplicant<ReaderIntroduction>('readerIntroduction', bundleName)!;
+export const runDataActiveRun = useReplicant<RunDataActiveRun>('runDataActiveRun', sc)!;
 export const {
-  runDataActiveRun,
   runDataActiveRunSurrounding,
   runDataArray,
   timer,
   twitchCommercialTimer,
 } = speedControl;
-export const serverTimestamp = useReplicant<ServerTimestamp>('serverTimestamp', 'esa-layouts')!;
-export const soloedBidID = useReplicant<SoloedBidID>('soloedBidID', 'esa-layouts')!;
-export const streamDeckData = useReplicant<StreamDeckData>('streamDeckData', 'esa-layouts')!;
-export const ttsVoices = useReplicant<TtsVoices>('ttsVoices', 'esa-layouts')!;
-export const upcomingRunID = useReplicant<UpcomingRunID>('upcomingRunID', 'esa-layouts')!;
-export const videoPlayer = useReplicant<VideoPlayer>('videoPlayer', 'esa-layouts')!;
+export const serverTimestamp = useReplicant<ServerTimestamp>('serverTimestamp', bundleName)!;
+export const soloedBidID = useReplicant<SoloedBidID>('soloedBidID', bundleName)!;
+export const streamDeckData = useReplicant<StreamDeckData>('streamDeckData', bundleName)!;
+export const ttsVoices = useReplicant<TtsVoices>('ttsVoices', bundleName)!;
+export const upcomingRunID = useReplicant<UpcomingRunID>('upcomingRunID', bundleName)!;
+export const videoPlayer = useReplicant<VideoPlayer>('videoPlayer', bundleName)!;
 
 // export const useLayoutStore = defineStore('esa-layouts', () => {
 //   return {

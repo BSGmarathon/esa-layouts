@@ -2,6 +2,7 @@
 import fitty, { FittyInstance } from 'fitty';
 import { computed, defineProps, nextTick, onMounted, onUnmounted, ref, useTemplateRef } from 'vue';
 import { runDataActiveRun } from '@esa-layouts/browser_shared/replicant_store';
+import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
 
 interface RunInfoProps {
   noWrap: boolean;
@@ -19,7 +20,6 @@ const props = withDefaults(defineProps<RunInfoProps>(), {
   lineRight: false,
 });
 
-const runData = computed(() => runDataActiveRun.value);
 const lineHeight = ref<string | null>(null);
 let fittyGame: FittyInstance | undefined;
 let fittyInfoExtra: FittyInstance | undefined;
@@ -60,7 +60,9 @@ function fit(): void {
   });
 }
 
-onMounted(() => {
+onMounted(async () => {
+  await NodeCG.waitForReplicants(runDataActiveRun);
+
   fit();
 });
 

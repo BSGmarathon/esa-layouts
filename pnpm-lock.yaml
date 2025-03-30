@@ -255,6 +255,9 @@ importers:
       ts-loader:
         specifier: ^9.5.1
         version: 9.5.1(typescript@4.9.5)(webpack@5.90.2)
+      types:
+        specifier: link:@esamarathon/mq-events/types
+        version: link:@esamarathon/mq-events/types
       typescript:
         specifier: ^4.9.5
         version: 4.9.5
