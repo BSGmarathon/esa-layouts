@@ -32,13 +32,15 @@ export function getCookies(): NeedleResponse['cookies'] {
 async function getEventIDFromShort(short: string): Promise<number> {
   const resp = await needle(
     'get',
-    trackerUrl(`/search/?short=${short}&type=event`),
+    trackerUrl(`/api/v2/events/?short=${short}`),
     cookies,
   );
-  if (!resp.body.length) {
+
+  if (!resp.body.results.length) {
     throw new Error(`Event "${short}" does not exist on the tracker`);
   }
-  return resp.body[0].pk;
+
+  return resp.body.results[0].id;
 }
 
 /**
@@ -55,6 +57,7 @@ async function updateDonationTotalFromAPI(init = false): Promise<void> {
         total += eventTotal;
       }
     }
+
     if (init || donationTotal.value < total) {
       total = round(total, 2);
       nodecg().log.info('[Tracker] API donation total changed: $%s', total);
@@ -202,6 +205,7 @@ async function loginToTracker(): Promise<void> {
   try {
     // Access login page to get CSRF token.
     const resp1 = await needle('get', loginURL);
+
     if (resp1.statusCode !== 200) {
       throw new Error('Could not access the tracker log in page');
     }
