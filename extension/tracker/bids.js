@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setup = void 0;
 const needle_1 = __importDefault(require("needle"));
+const speedruns_1 = require("@esa-layouts/tracker/speedruns");
 const _1 = require(".");
 const nodecg_1 = require("../util/nodecg");
 const replicants_1 = require("../util/replicants");
@@ -12,44 +13,48 @@ const utils_1 = require("./utils");
 const eventConfig = (0, nodecg_1.get)().bundleConfig.event;
 const { useTestData } = (0, nodecg_1.get)().bundleConfig;
 const refreshTime = 30 * 1000; // Get bids every 30s.
+// TODO: /bids/tree helps with option mapping
 // Processes the response from the API.
-function processRawBids(rawBids) {
+async function processRawBids(rawBids) {
+    var _a;
     const parentBids = {};
     const childBids = [];
-    rawBids.forEach((bid) => {
+    for (const bid of rawBids) {
         // Ignore denied/pending entries.
-        if (bid.fields.state === 'DENIED' || bid.fields.state === 'PENDING') {
-            return;
+        if (bid.state === 'DENIED' || bid.state === 'PENDING') {
+            // eslint-disable-next-line no-continue
+            continue;
         }
         // If parent is set, this is an option for a bid war.
-        if (bid.fields.parent) {
+        if (bid.parent) {
             childBids.push(bid);
         }
         else {
-            parentBids[bid.pk] = {
-                description: bid.fields.shortdescription || bid.fields.description || undefined,
-                id: bid.pk,
-                name: bid.fields.name,
-                total: parseFloat(bid.fields.total),
-                game: bid.fields.speedrun__name,
-                category: bid.fields.speedrun__category || '',
-                endTime: bid.fields.speedrun__endtime
-                    ? Date.parse(bid.fields.speedrun__endtime) : undefined,
-                war: !bid.fields.istarget,
-                allowUserOptions: !bid.fields.istarget && bid.fields.allowuseroptions,
+            const speedrunForBid = await (0, speedruns_1.getSpeedrun)(bid.speedrun);
+            parentBids[bid.id] = {
+                description: bid.shortdescription || bid.description || undefined,
+                id: bid.id,
+                name: bid.name,
+                total: bid.total,
+                game: speedrunForBid.name,
+                category: speedrunForBid.category,
+                endTime: bid.close_at
+                    ? Date.parse(bid.close_at) : undefined,
+                war: !bid.istarget,
+                allowUserOptions: !bid.istarget && ((_a = bid.allowuseroptions) !== null && _a !== void 0 ? _a : false),
                 options: [],
-                goal: (bid.fields.goal) ? parseFloat(bid.fields.goal) : undefined,
+                goal: bid.goal || undefined,
             };
         }
-    });
+    }
     childBids.forEach((bid) => {
         // If we have a parent for this child, add it to the parent.
-        if (parentBids[bid.fields.parent]) {
-            parentBids[bid.fields.parent].options.push({
-                id: bid.pk,
-                parent: bid.fields.parent,
-                name: bid.fields.name,
-                total: parseFloat(bid.fields.total),
+        if (parentBids[bid.parent]) {
+            parentBids[bid.parent].options.push({
+                id: bid.id,
+                parent: bid.parent,
+                name: bid.name,
+                total: bid.total,
             });
         }
     });
@@ -96,17 +101,16 @@ function processRawBids(rawBids) {
 async function updateBids() {
     var _a;
     try {
-        const resp = await (0, needle_1.default)('get', (0, utils_1.trackerUrl)(`/search/?event=${_1.eventInfo[eventConfig.thisEvent - 1].id}`
-            + '&type=allbids&state=OPENED'), {
+        const resp = await (0, needle_1.default)('get', (0, utils_1.trackerUrl)(`/api/v2/events/${_1.eventInfo[eventConfig.thisEvent - 1].id}/bids/?state=OPENED`), {
             cookies: (0, _1.getCookies)(),
         });
         if (!resp.statusCode || resp.statusCode >= 300 || resp.statusCode < 200) {
             throw new Error(`status code ${(_a = resp.statusCode) !== null && _a !== void 0 ? _a : 'unknown'}`);
         }
-        if (!Array.isArray(resp.body)) {
+        if (!Array.isArray(resp.body.results)) {
             throw new Error('received non-array type');
         }
-        const currentBids = processRawBids(resp.body);
+        const currentBids = await processRawBids(resp.body.results);
         if (!Array.isArray(currentBids)) {
             throw new Error('currentBids result was non-array type');
         }

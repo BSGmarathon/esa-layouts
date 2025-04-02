@@ -15,14 +15,14 @@ const refreshTime = 60 * 1000; // Get prizes every 60s.
 function processRawPrizes(rawPrizes) {
     // Somehow the the state is gone LMAO
     return rawPrizes /* .filter((prize) => prize.fields.state === 'ACCEPTED') */.map((prize) => {
-        const startTime = prize.fields.startrun__starttime || prize.fields.starttime;
-        const endTime = prize.fields.endrun__endtime || prize.fields.endtime;
+        const startTime = prize.starttime;
+        const endTime = prize.endtime;
         return {
-            id: prize.pk,
-            name: prize.fields.name,
-            provided: prize.fields.provider || undefined,
-            minimumBid: parseFloat(prize.fields.minimumbid),
-            image: prize.fields.altimage || prize.fields.image || undefined,
+            id: prize.id,
+            name: prize.name,
+            provided: prize.provider || undefined,
+            minimumBid: prize.minimumbid,
+            image: prize.altimage || prize.image || undefined,
             startTime: startTime ? Date.parse(startTime) : undefined,
             endTime: endTime ? Date.parse(endTime) : undefined,
         };
@@ -33,16 +33,18 @@ function processRawPrizes(rawPrizes) {
 async function updatePrizes() {
     var _a;
     try {
-        const resp = await (0, needle_1.default)('get', (0, utils_1.trackerUrl)(`/search/?event=${_1.eventInfo[0].id}&type=prize&feed=current`), {
+        const resp = await (0, needle_1.default)('get', 
+        // trackerUrl(`/search/?event=${eventInfo[0].id}&type=prize&feed=current`),
+        (0, utils_1.trackerUrl)(`/api/v2/events/${_1.eventInfo[0].id}/prizes/?feed=current`), {
             cookies: (0, _1.getCookies)(),
         });
         if (!resp.statusCode || resp.statusCode >= 300 || resp.statusCode < 200) {
             throw new Error(`status code ${(_a = resp.statusCode) !== null && _a !== void 0 ? _a : 'unknown'}`);
         }
-        if (!Array.isArray(resp.body)) {
+        if (!Array.isArray(resp.body.results)) {
             throw new Error('received non-array type');
         }
-        const currentPrizes = processRawPrizes(resp.body);
+        const currentPrizes = processRawPrizes(resp.body.results);
         if (!Array.isArray(currentPrizes)) {
             throw new Error('currentPrizes result was non-array type');
         }

@@ -30,11 +30,11 @@ exports.getCookies = getCookies;
  * @param short Short event name in the tracker.
  */
 async function getEventIDFromShort(short) {
-    const resp = await (0, needle_1.default)('get', (0, utils_1.trackerUrl)(`/search/?short=${short}&type=event`), cookies);
-    if (!resp.body.length) {
+    const resp = await (0, needle_1.default)('get', (0, utils_1.trackerUrl)(`/api/v2/events/?short=${short}`), cookies);
+    if (!resp.body.results.length) {
         throw new Error(`Event "${short}" does not exist on the tracker`);
     }
-    return resp.body[0].pk;
+    return resp.body.results[0].id;
 }
 /**
  * Updates donation total from the API as a backup for the RabbitMQ messages.

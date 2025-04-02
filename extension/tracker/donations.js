@@ -15,11 +15,11 @@ const refreshTime = 10 * 1000; // Get donations every 10s.
 let updateTimeout;
 function processToReadDonations(donations) {
     return donations.map((donation) => ({
-        id: donation.pk,
-        name: donation.fields.visible_donor_name,
-        amount: parseFloat(donation.fields.amount),
-        comment: (donation.fields.commentstate === 'APPROVED') ? donation.fields.comment : undefined,
-        timestamp: Date.parse(donation.fields.timereceived),
+        id: donation.id,
+        name: donation.donor_name,
+        amount: donation.amount,
+        comment: (donation.commentstate === 'APPROVED') ? donation.comment : undefined,
+        timestamp: Date.parse(donation.timereceived),
     })).sort((a, b) => {
         if (a.timestamp < b.timestamp) {
             return -1;
@@ -35,17 +35,19 @@ async function updateToReadDonations() {
     var _a;
     clearTimeout(updateTimeout); // Clear timeout in case this is triggered from a message.
     try {
-        const resp = await (0, needle_1.default)('get', (0, utils_1.trackerUrl)(`/search/?event=${index_1.eventInfo[eventConfig.thisEvent - 1].id}`
-            + '&type=donation&feed=toread'), {
+        const resp = await (0, needle_1.default)('get', 
+        // trackerUrl(`/search/?event=${eventInfo[eventConfig.thisEvent - 1].id}`
+        //   + '&type=donation&feed=toread'),
+        (0, utils_1.trackerUrl)(`/api/v2/events/${index_1.eventInfo[eventConfig.thisEvent - 1].id}/donations/unread/`), {
             cookies: (0, index_1.getCookies)(),
         });
         if (!resp.statusCode || resp.statusCode >= 300 || resp.statusCode < 200) {
             throw new Error(`status code ${(_a = resp.statusCode) !== null && _a !== void 0 ? _a : 'unknown'}`);
         }
-        if (!Array.isArray(resp.body)) {
+        if (!Array.isArray(resp.body.results)) {
             throw new Error('received non-array type');
         }
-        const currentDonations = processToReadDonations(resp.body);
+        const currentDonations = processToReadDonations(resp.body.results);
         if (!Array.isArray(currentDonations)) {
             throw new Error('currentDonations result was non-array type');
         }
@@ -62,6 +64,8 @@ async function updateToReadDonations() {
 /**
  * Attempts to mark the supplied donation ID as read in the tracker.
  * @param donationID ID of the donation in the tracker.
+ *
+ * TODO: this needs to be updated to use the new API, when BSG starts using it LOL
  */
 async function markDonationAsRead(donationID) {
     try {

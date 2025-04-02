@@ -1,5 +1,6 @@
 import type { Tracker } from '@esa-layouts/types';
 import needle from 'needle';
+import { getSpeedrun } from '@esa-layouts/tracker/speedruns';
 import { eventInfo, getCookies } from '.';
 import { get as nodecg } from '../util/nodecg';
 import { bids } from '../util/replicants';
@@ -9,46 +10,50 @@ const eventConfig = nodecg().bundleConfig.event;
 const { useTestData } = nodecg().bundleConfig;
 const refreshTime = 30 * 1000; // Get bids every 30s.
 
+// TODO: /bids/tree helps with option mapping
 // Processes the response from the API.
-function processRawBids(rawBids: Tracker.Bid[]): Tracker.FormattedBid[] {
+async function processRawBids(rawBids: Tracker.Bid[]): Promise<Tracker.FormattedBid[]> {
   const parentBids: { [k: string]: Tracker.FormattedBid } = {};
   const childBids: Tracker.BidChild[] = [];
 
-  rawBids.forEach((bid) => {
+  for (const bid of rawBids) {
     // Ignore denied/pending entries.
-    if (bid.fields.state === 'DENIED' || bid.fields.state === 'PENDING') {
-      return;
+    if (bid.state === 'DENIED' || bid.state === 'PENDING') {
+      // eslint-disable-next-line no-continue
+      continue;
     }
 
     // If parent is set, this is an option for a bid war.
-    if (bid.fields.parent) {
+    if (bid.parent) {
       childBids.push(bid as Tracker.BidChild);
     } else {
-      parentBids[bid.pk] = {
-        description: bid.fields.shortdescription || bid.fields.description || undefined,
-        id: bid.pk,
-        name: bid.fields.name,
-        total: parseFloat(bid.fields.total),
-        game: bid.fields.speedrun__name,
-        category: bid.fields.speedrun__category || '',
-        endTime: bid.fields.speedrun__endtime
-          ? Date.parse(bid.fields.speedrun__endtime) : undefined,
-        war: !bid.fields.istarget,
-        allowUserOptions: !bid.fields.istarget && bid.fields.allowuseroptions,
+      const speedrunForBid = await getSpeedrun(bid.speedrun);
+
+      parentBids[bid.id] = {
+        description: bid.shortdescription || bid.description || undefined,
+        id: bid.id,
+        name: bid.name,
+        total: bid.total,
+        game: speedrunForBid.name,
+        category: speedrunForBid.category,
+        endTime: bid.close_at
+          ? Date.parse(bid.close_at) : undefined,
+        war: !bid.istarget,
+        allowUserOptions: !bid.istarget && (bid.allowuseroptions ?? false),
         options: [],
-        goal: (bid.fields.goal) ? parseFloat(bid.fields.goal) : undefined,
+        goal: bid.goal || undefined,
       };
     }
-  });
+  }
 
   childBids.forEach((bid) => {
     // If we have a parent for this child, add it to the parent.
-    if (parentBids[bid.fields.parent]) {
-      parentBids[bid.fields.parent].options.push({
-        id: bid.pk,
-        parent: bid.fields.parent,
-        name: bid.fields.name,
-        total: parseFloat(bid.fields.total),
+    if (parentBids[bid.parent]) {
+      parentBids[bid.parent].options.push({
+        id: bid.id,
+        parent: bid.parent,
+        name: bid.name,
+        total: bid.total,
       });
     }
   });
@@ -106,8 +111,7 @@ async function updateBids(): Promise<void> {
   try {
     const resp = await needle(
       'get',
-      trackerUrl(`/search/?event=${eventInfo[eventConfig.thisEvent - 1].id}`
-        + '&type=allbids&state=OPENED'),
+      trackerUrl(`/api/v2/events/${eventInfo[eventConfig.thisEvent - 1].id}/bids/?state=OPENED`),
       {
         cookies: getCookies(),
       },
@@ -117,11 +121,11 @@ async function updateBids(): Promise<void> {
       throw new Error(`status code ${resp.statusCode ?? 'unknown'}`);
     }
 
-    if (!Array.isArray(resp.body)) {
+    if (!Array.isArray(resp.body.results)) {
       throw new Error('received non-array type');
     }
 
-    const currentBids = processRawBids(resp.body);
+    const currentBids = await processRawBids(resp.body.results);
 
     if (!Array.isArray(currentBids)) {
       throw new Error('currentBids result was non-array type');

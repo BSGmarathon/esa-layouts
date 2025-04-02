@@ -1,18 +1,19 @@
 // The object from the tracker API.
 interface BidFields {
-  state: string;
+  bid_type: 'challenge' | 'choice' | 'option';
+  name: string;
+  speedrun: number;
   parent: number | null;
   description: string; // Can be empty
   shortdescription: string; // Can be empty
-  name: string;
-  total: string;
-  speedrun__name?: string;
-  speedrun__category?: string;
-  speedrun__endtime?: string;
   istarget: boolean;
-  allowuseroptions: boolean;
-  goal: string | null;
+  allowuseroptions?: boolean;
+  goal: number | null;
+  state: string;
+  total: number;
+  close_at: string | null;
 }
+
 interface BidChildFields extends BidFields {
   parent: number;
 }
@@ -24,16 +25,22 @@ export namespace Tracker {
     total: number;
   }
 
-  // The object(s) from the tracker API.
-  interface Bid {
-    pk: number;
-    model: string;
-    fields: BidFields;
+  interface Speedrun {
+    type: 'speedrun';
+    id: number;
+    name: string;
+    display_nane: string;
+    category: string;
   }
-  interface BidChild {
-    pk: number;
-    model: string;
-    fields: BidChildFields;
+
+  // The object(s) from the tracker API.
+  interface Bid extends BidFields {
+    id: number;
+    type: string;
+  }
+  interface BidChild extends BidChildFields {
+    id: number;
+    type: string;
   }
 
   interface FormattedBid {
@@ -57,24 +64,20 @@ export namespace Tracker {
 
   // The object from the tracker API.
   interface Prize {
-    pk: number;
-    model: string;
-    fields: {
-      name: string;
-      description: string; // Can be empty
-      shortdescription: string; // Can be empty
-      provider: string; // Can be empty
-      minimumbid: string;
-      image: string; // Can be empty
-      altimage: string; // Can be empty
-      startrun: number | null;
-      endrun: number | null;
-      startrun__starttime?: string;
-      endrun__endtime?: string;
-      starttime: string | null;
-      endtime: string | null;
-      state: string;
-    }
+    id: number;
+    type: string;
+    name: string;
+    description: string; // Can be empty
+    shortdescription: string; // Can be empty
+    provider: string; // Can be empty
+    minimumbid: number;
+    image: string; // Can be empty
+    altimage: string; // Can be empty
+    startrun: number | null;
+    endrun: number | null;
+    starttime: string | null;
+    endtime: string | null;
+    state: string;
   }
 
   interface FormattedPrize {
@@ -89,15 +92,13 @@ export namespace Tracker {
 
   // The object from the tracker API.
   interface Donation {
-    pk: number;
-    model: string;
-    fields: {
-      visible_donor_name: string;
-      amount: string;
-      comment: string; // Can be empty
-      commentstate: string;
-      timereceived: string;
-    }
+    id: number;
+    type: string;
+    donor_name: string;
+    amount: number;
+    comment: string; // Can be empty
+    commentstate: string;
+    timereceived: string;
   }
 
   interface FormattedDonation {
