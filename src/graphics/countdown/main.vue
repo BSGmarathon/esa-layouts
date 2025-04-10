@@ -21,7 +21,7 @@ const zoom = getZoomAmountCSS();
         height: '100%',
       }"
     >
-      <Countdown class="textOrangeShadow" :style="{ 'margin-top': '50px' }" />
+      <Countdown class="textOrangeShadow" />
 
       <div class="game-container">
         <Game />

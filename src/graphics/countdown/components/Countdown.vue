@@ -33,6 +33,7 @@ const currentCountdown = computed(() => {
       </span>
     </div>
     <div
+      class="eventTimer"
       :style="{
         'font-size': '200px',
         'margin-top': '-0.2em',
@@ -41,7 +42,31 @@ const currentCountdown = computed(() => {
         opacity: remaining > 0 ? 1 : 0,
       }"
     >
-      {{ currentCountdown }}
+      <span
+        v-for="(char, i) in currentCountdown"
+        :key="i"
+        :class="{
+          'dot': i === 2,
+        }"
+      >
+        {{ char }}
+      </span>
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.eventTimer {
+  text-align: center;
+
+  span {
+    width: 110px;
+    display: inline-block;
+    font-variant-numeric: tabular-nums;
+
+    &.dot {
+      width: unset;
+    }
+  }
+}
+</style>
