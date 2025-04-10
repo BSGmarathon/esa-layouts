@@ -131,7 +131,7 @@ async function mountedCallback(): Promise<void> {
   if (optionsBar.value!.scrollWidth <= optionsBar.value!.clientWidth) {
     if (seconds >= 0) {
       await wait(seconds * 1000);
-      emit('end');
+      // emit('end');
     }
 
     return;
@@ -164,8 +164,11 @@ onMounted(async () => {
     bid.value = getBid(allBids.data!, bidId);
     optionCache.value = getOptions();
 
-    mountedCallback();
-  } catch {
+    await nextTick();
+
+    await mountedCallback();
+  } catch (e: unknown) {
+    console.error(e);
     emit('end');
   }
 });
