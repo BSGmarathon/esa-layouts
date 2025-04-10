@@ -1,0 +1,7 @@
+onlyBuiltDependencies:
+  - '@vaadin/vaadin-usage-statistics'
+  - better-sqlite3
+  - esbuild
+  - iframe-resizer
+  - vue-demi
+  - vuex-module-decorators
