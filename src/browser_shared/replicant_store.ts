@@ -68,10 +68,13 @@ export const omnibar = useReplicant<Omnibar>('omnibar', bundleName)!;
 export const otherStreamData = useReplicant<OtherStreamData>('otherStreamData', bundleName)!;
 export const prizes = useReplicant<Prizes>('prizes', bundleName)!;
 export const readerIntroduction = useReplicant<ReaderIntroduction>('readerIntroduction', bundleName)!;
+export const runDataArray = useReplicant<RunDataArray>('runDataArray', sc)!;
 export const runDataActiveRun = useReplicant<RunDataActiveRun>('runDataActiveRun', sc)!;
+export const runDataActiveRunSurrounding = useReplicant<RunDataActiveRunSurrounding>(
+  'runDataActiveRunSurrounding',
+  sc,
+)!;
 export const {
-  runDataActiveRunSurrounding,
-  runDataArray,
   timer,
   twitchCommercialTimer,
 } = speedControl;

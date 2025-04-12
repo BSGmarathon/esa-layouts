@@ -4,7 +4,10 @@ import { Bids } from '@esa-layouts/types/schemas';
 import { sortBy } from 'lodash';
 import { computed, onMounted, ref } from 'vue';
 import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
+import { useHead } from '@vueuse/head';
 import Bid from './components/Bid.vue';
+
+useHead({ title: 'Bids control' });
 
 const currentPin = computed(() => omnibar.data?.pin);
 
