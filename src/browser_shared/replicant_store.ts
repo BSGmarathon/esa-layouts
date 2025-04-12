@@ -34,7 +34,7 @@ import { SoloedBidID } from '@esa-layouts/types/schemas/soloedBidID';
 import { useAssetReplicant, useReplicant } from 'nodecg-vue-composable';
 
 const bundleName = 'esa-layouts';
-const sc = 'nodecg-speedcontrol';;
+const sc = 'nodecg-speedcontrol';
 
 export const speedControl = new SpeedcontrolUtilBrowser(nodecg);
 

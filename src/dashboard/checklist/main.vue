@@ -1,3 +1,141 @@
+<script setup lang="ts">
+import Pusher from 'pusher-js';
+import { useHead } from '@vueuse/head';
+import { onMounted, ref } from 'vue';
+import { Configschema } from '../../types/schemas';
+
+useHead({ title: 'Tech checklist' });
+
+Pusher.logToConsole = false;
+
+// const pusher = new Pusher('2c53693ab820e678c32e', {
+//   cluster: 'eu',
+// });
+//
+// const channel = pusher.subscribe('bsg-checklist');
+
+type ChecklistItem = {
+  title: string;
+  checked: boolean;
+  defaultState?: boolean;
+};
+
+const obsConfig = (nodecg.bundleConfig as Configschema).obs;
+const unchecking = ref(false);
+// const audioReady = ref(false);
+const checks = ref<ChecklistItem[]>([
+  {
+    title: 'Write down end time and any tech problems',
+    checked: false,
+  },
+  {
+    title: 'Press Next Game in Run Player',
+    checked: false,
+  },
+  {
+    title: '(automated) Tweet about the run WITH a picture',
+    checked: true,
+    defaultState: true,
+  },
+  {
+    title: 'Set up runner & get image on capcard',
+    checked: false,
+  },
+  {
+    title: 'Crop game if necessary',
+    checked: false,
+  },
+  {
+    title: 'Set Host and Commentators',
+    checked: false,
+  },
+  {
+    title: 'Verify run-info is correct',
+    checked: false,
+  },
+  {
+    title: 'Verify Game Layout (with the runner)',
+    checked: false,
+  },
+  {
+    title: '(2+ runners) Make sure names and game feeds align with runner seats',
+    checked: false,
+  },
+  {
+    title: 'Check if online notifications are off',
+    checked: false,
+  },
+  {
+    title: 'Check if Runner cam needs adjustment',
+    checked: false,
+  },
+  {
+    title: 'Stay hydrated',
+    checked: false,
+  },
+  {
+    title: 'Final Check (remember to write down the start time)',
+    checked: false,
+  },
+]);
+
+function sendUncheckAll(): void {
+  nodecg.sendMessage('changeCheckUncheckAll');
+}
+
+function setChecked(index: number, checked: boolean): void {
+  nodecg.sendMessage('changeCheckStatus', {
+    i: index,
+    checked,
+  });
+}
+
+function resetChecks(): void {
+  if (unchecking.value) {
+    return;
+  }
+
+  // Skip if nothing is checked
+  if (!checks.value.find((c) => !c.defaultState || c.checked)) {
+    return;
+  }
+
+  unchecking.value = true;
+
+  for (const check of checks.value) {
+    check.checked = check.defaultState || false;
+  }
+
+  setTimeout(() => {
+    unchecking.value = false;
+  }, 550);
+}
+
+onMounted(() => {
+  nodecg.listenFor('obsChangeScene', ({ scene }) => {
+    // reset the checkmarks if we change to the game layout
+    if (scene === obsConfig.names.scenes.gameLayout) {
+      resetChecks();
+      // fetch('https://pusher.bsg.duncte123.nl/sendUncheck.php', {
+      //   mode: 'no-cors',
+      // })
+      //   .catch(console.log);
+    }
+  });
+
+  // channel.bind('audio-ready', (data: { ready: boolean }) => {
+  //   this.audioReady = data.ready;
+  // });
+
+  nodecg.listenFor('changeCheckStatus', ({ i, checked }) => {
+    checks.value[i].checked = checked;
+  });
+  nodecg.listenFor('changeCheckUncheckAll', () => {
+    resetChecks();
+  });
+});
+</script>
+
 <template>
   <v-app>
     <v-btn
@@ -26,143 +164,6 @@
   </v-app>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import Pusher from 'pusher-js';
-import { Configschema } from '../../types/schemas';
-
-type ChecklistItem = {
-  title: string;
-  checked: boolean;
-  defaultState?: boolean;
-};
-
-Pusher.logToConsole = false;
-
-// const pusher = new Pusher('2c53693ab820e678c32e', {
-//   cluster: 'eu',
-// });
-//
-// const channel = pusher.subscribe('bsg-checklist');
-
-@Component
-export default class extends Vue {
-  obsConfig = (nodecg.bundleConfig as Configschema).obs;
-  unchecking = false;
-  audioReady = false;
-  checks: ChecklistItem[] = [
-    {
-      title: 'Write down end time and any tech problems',
-      checked: false,
-    },
-    {
-      title: 'Press Next Game in Run Player',
-      checked: false,
-    },
-    {
-      title: '(automated) Tweet about the run WITH a picture',
-      checked: true,
-      defaultState: true,
-    },
-    {
-      title: 'Set up runner & get image on capcard',
-      checked: false,
-    },
-    {
-      title: 'Crop game if necessary',
-      checked: false,
-    },
-    {
-      title: 'Set Host and Commentators',
-      checked: false,
-    },
-    {
-      title: 'Verify run-info is correct',
-      checked: false,
-    },
-    {
-      title: 'Verify Game Layout (with the runner)',
-      checked: false,
-    },
-    {
-      title: '(2+ runners) Make sure names and game feeds align with runner seats',
-      checked: false,
-    },
-    {
-      title: 'Check if online notifications are off',
-      checked: false,
-    },
-    {
-      title: 'Check if Runner cam needs adjustment',
-      checked: false,
-    },
-    {
-      title: 'Stay hydrated',
-      checked: false,
-    },
-    {
-      title: 'Final Check (remember to write down the start time)',
-      checked: false,
-    },
-  ];
-
-  mounted(): void {
-    nodecg.listenFor('obsChangeScene', ({ scene }) => {
-      // reset the checkmarks if we change to the game layout
-      if (scene === this.obsConfig.names.scenes.gameLayout) {
-        this.resetChecks();
-        // fetch('https://pusher.bsg.duncte123.nl/sendUncheck.php', {
-        //   mode: 'no-cors',
-        // })
-        //   .catch(console.log);
-      }
-    });
-
-    // channel.bind('audio-ready', (data: { ready: boolean }) => {
-    //   this.audioReady = data.ready;
-    // });
-
-    nodecg.listenFor('changeCheckStatus', ({ i, checked }) => {
-      this.checks[i].checked = checked;
-    });
-    nodecg.listenFor('changeCheckUncheckAll', () => {
-      this.resetChecks();
-    });
-  }
-
-  setChecked(index: number, checked: boolean): void {
-    nodecg.sendMessage('changeCheckStatus', {
-      i: index,
-      checked,
-    });
-  }
-
-  sendUncheckAll(): void {
-    nodecg.sendMessage('changeCheckUncheckAll');
-  }
-
-  resetChecks(): void {
-    if (this.unchecking) {
-      return;
-    }
-
-    // Skip if nothing is checked
-    if (!this.checks.find((c) => !c.defaultState || c.checked)) {
-      return;
-    }
-
-    this.unchecking = true;
-
-    for (const check of this.checks) {
-      check.checked = check.defaultState || false;
-    }
-
-    setTimeout(() => {
-      this.unchecking = false;
-    }, 550);
-  }
-}
-</script>
 <style scoped>
   ul {
     border: 2px solid black;
