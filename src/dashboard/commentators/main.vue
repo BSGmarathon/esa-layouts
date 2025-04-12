@@ -1,3 +1,40 @@
+<script setup lang="ts">
+import { commentatorsNew } from '@esa-layouts/browser_shared/replicant_store';
+import { ref } from 'vue';
+import { useHead } from '@vueuse/head';
+
+useHead({ title: 'Commentators' });
+
+const nameEntry = ref('');
+const disable = ref(false);
+
+async function add(): Promise<void> {
+  disable.value = true;
+  try {
+    await nodecg.sendMessage('commentatorAdd', nameEntry.value);
+  } catch (err) {
+    // catch
+  }
+  disable.value = false;
+  nameEntry.value = '';
+}
+
+async function del(index: number): Promise<void> {
+  disable.value = true;
+  try {
+    await nodecg.sendMessage('commentatorRemove', index);
+  } catch (err) {
+    // catch
+  }
+  disable.value = false;
+}
+
+function clear() {
+  commentatorsNew.data = [];
+  commentatorsNew.save();
+}
+</script>
+
 <template>
   <v-app>
     <v-card
@@ -64,39 +101,3 @@
     </v-btn>
   </v-app>
 </template>
-
-<script lang="ts">
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { CommentatorsNew } from '@esa-layouts/types/schemas';
-import { Component, Vue } from 'vue-property-decorator';
-import { storeModule } from './store';
-
-@Component
-export default class extends Vue {
-  nameEntry = '';
-  disable = false;
-  @replicantNS.State((s) => s.reps.commentatorsNew) readonly commentators!: CommentatorsNew;
-  clear = storeModule.clearCommentators;
-
-  async add(): Promise<void> {
-    this.disable = true;
-    try {
-      await nodecg.sendMessage('commentatorAdd', this.nameEntry);
-    } catch (err) {
-      // catch
-    }
-    this.disable = false;
-    this.nameEntry = '';
-  }
-
-  async del(index: number): Promise<void> {
-    this.disable = true;
-    try {
-      await nodecg.sendMessage('commentatorRemove', index);
-    } catch (err) {
-      // catch
-    }
-    this.disable = false;
-  }
-}
-</script>
