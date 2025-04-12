@@ -2,7 +2,10 @@
 import { additionalDonations } from '@esa-layouts/browser_shared/replicant_store';
 import { computed, onMounted } from 'vue';
 import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
+import { useHead } from '@vueuse/head';
 import Donation from './components/Donation.vue';
+
+useHead({ title: 'Additional donations control' });
 
 const additionalDonationsCfg = nodecg.bundleConfig.additionalDonations;
 const additionalDonationsMapped = computed(

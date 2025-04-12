@@ -1,3 +1,44 @@
+<script setup lang="ts">
+import { bids, omnibar } from '@esa-layouts/browser_shared/replicant_store';
+import { Bids } from '@esa-layouts/types/schemas';
+import { sortBy } from 'lodash';
+import { computed, onMounted, ref } from 'vue';
+import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
+import Bid from './components/Bid.vue';
+
+const currentPin = computed(() => omnibar.data?.pin);
+
+const sortOpt = ref(1);
+const searchTerm = ref<string | null>(null);
+
+const pinnedBid = computed<Bids[0] | undefined>(
+  () => (currentPin.value?.type === 'Bid'
+    ? bids.data!.find((b) => b.id === currentPin.value?.id)
+    : undefined),
+);
+const bidsSorted = computed<Bids>(() => sortBy(bids.data, [sortOpt.value === 1 ? 'endTime' : 'game']));
+const bidsFiltered = computed<Partial<Bids[0]>[]>(() => {
+  const filtered: Partial<Bids[0]>[] = [];
+
+  if (!pinnedBid.value && currentPin.value?.type === 'Bid') {
+    filtered.push({ name: 'Pinned bid no longer available!', id: currentPin.value.id as number });
+  }
+
+  // It works so we don't touch it
+  filtered.push(...bidsSorted.value.filter((b) => {
+    const str = searchTerm.value ? searchTerm.value.toLowerCase() : '';
+    return !str || (str && (b.game?.toLowerCase().includes(str)
+      || b.name.toLowerCase().includes(str)));
+  }));
+
+  return filtered;
+});
+
+onMounted(async () => {
+  await waitForReplicant(bids, omnibar);
+});
+</script>
+
 <template>
   <v-app>
     <div v-if="!bidsSorted.length" class="pa-3 font-italic">
@@ -21,7 +62,7 @@
         :messages="`${bidsFiltered.length} bid${bidsFiltered.length === 1 ? '' : 's'} found.`"
       />
       <div :style="{ height: '350px', 'overflow-y': 'scroll' }">
-        <bid
+        <Bid
           v-for="(bid, i) in bidsFiltered"
           :key="bid.id"
           :bid="bid"
@@ -31,49 +72,3 @@
     </template>
   </v-app>
 </template>
-
-<script lang="ts">
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { Bids, Omnibar } from '@esa-layouts/types/schemas';
-import { sortBy } from 'lodash';
-import { Vue, Component } from 'vue-property-decorator';
-import Bid from './components/Bid.vue';
-
-@Component({
-  components: {
-    Bid,
-  },
-})
-export default class extends Vue {
-  @replicantNS.State((s) => s.reps.bids) readonly bids!: Bids;
-  @replicantNS.State((s) => s.reps.omnibar.pin) readonly currentPin!: Omnibar['pin'];
-  sortOpt = 1;
-  searchTerm: string | null = null;
-
-  get pinnedBid(): Bids[0] | undefined {
-    return this.currentPin?.type === 'Bid'
-      ? this.bids.find((b) => b.id === this.currentPin?.id)
-      : undefined;
-  }
-
-  get bidsSorted(): Bids {
-    if (this.sortOpt === 1) {
-      return sortBy(this.bids, ['endTime']);
-    }
-    return sortBy(this.bids, ['game']);
-  }
-
-  get bidsFiltered(): Partial<Bids[0]>[] {
-    const filtered: Partial<Bids[0]>[] = [];
-    if (!this.pinnedBid && this.currentPin?.type === 'Bid') {
-      filtered.push({ name: 'Pinned bid no longer available!', id: this.currentPin.id as number });
-    }
-    filtered.push(...this.bidsSorted.filter((b) => {
-      const str = (this.searchTerm) ? this.searchTerm.toLowerCase() : '';
-      return !str || (str && (b.game?.toLowerCase().includes(str)
-        || b.name.toLowerCase().includes(str)));
-    }));
-    return filtered;
-  }
-}
-</script>
