@@ -1,5 +1,134 @@
+<script setup lang="ts">
+import MediaCard from '@esa-layouts/dashboard/_misc/components/MediaCard.vue';
+import { DonationTotalMilestones } from '@esa-layouts/types/schemas';
+import { donationTotal as total, omnibar, donationTotalMilestones } from '@esa-layouts/browser_shared/replicant_store';
+import { computed, ref } from 'vue';
+import clone from 'clone';
+
+interface MilestoneProps {
+  milestone: DonationTotalMilestones[0];
+  index: number;
+}
+
+const props = defineProps<MilestoneProps>();
+
+const dialog = ref(false);
+const nameEdit = ref('');
+const additionToggleEdit = ref(false);
+const additionEdit = ref('0');
+const amountEdit = ref('0');
+const isFormValid = ref(false);
+
+const currentPin = computed(() => omnibar.data?.pin);
+const toggle = computed({
+  get: () => props.milestone.enabled,
+  set: (val: boolean) => {
+    const items = donationTotalMilestones.data;
+
+    if (!items) {
+      return;
+    }
+
+    const item = items.find((i) => i.id === props.milestone.id);
+
+    if (item && (item.addition || item.amount)) {
+      item.enabled = val;
+
+      if (item.addition) {
+        item.amount = val
+          ? (total.data ?? 0) + item.addition
+          : undefined;
+      }
+    }
+
+    donationTotalMilestones.save();
+  },
+});
+
+// const disableSave = computed(() => !(nameEdit.value
+//   && ((additionToggleEdit.value && additionEdit.value)
+//     || (!additionToggleEdit.value && amountEdit.value))));
+
+const isMet = computed(() => !!(props.milestone.amount && (total.data ?? 0) >= props.milestone.amount));
+const isPinned = computed(() => currentPin.value?.type === 'Milestone' && currentPin.value?.id === props.milestone.id);
+
+function isRequired(val: string): boolean | string {
+  return !!val || 'Required';
+}
+
+function isNumber(val: string): boolean | string {
+  return !Number.isNaN(Number(val)) || 'Must be a number';
+}
+
+function isBiggerThanZero(val: string): boolean | string {
+  const num = Number(val);
+  return (!!num && num > 0) || 'Must be bigger than 0';
+}
+
+function formatAmount(val: number): string {
+  return val.toLocaleString('en-US', { maximumFractionDigits: 0 });
+}
+
+function pin(): void {
+  const newPin = !isPinned.value;
+
+  omnibar.data!.pin = newPin ? { type: 'Milestone', id: props.milestone.id } : null;
+  omnibar.save();
+}
+
+function edit(): void {
+  dialog.value = true;
+  nameEdit.value = props.milestone.name;
+  additionToggleEdit.value = !!props.milestone.addition;
+  additionEdit.value = props.milestone.addition?.toString() ?? '0';
+  amountEdit.value = props.milestone.amount?.toString() ?? '0';
+}
+
+function save(): void {
+  if (!donationTotalMilestones.data) {
+    return;
+  }
+
+  const item: DonationTotalMilestones[0] = {
+    id: props.milestone.id,
+    name: nameEdit.value,
+    enabled: props.milestone.enabled,
+  };
+
+  if (props.milestone.enabled) {
+    item.addition = props.milestone.addition;
+    item.amount = props.milestone.amount;
+  } else {
+    item.addition = additionToggleEdit.value ? Number(additionEdit.value) : undefined;
+    item.amount = !additionToggleEdit.value ? Number(amountEdit.value) : undefined;
+  }
+
+  const itemIndex = donationTotalMilestones.data.findIndex((i) => i.id === item.id);
+
+  if (itemIndex > -1) {
+    donationTotalMilestones.data[itemIndex] = clone(item);
+    donationTotalMilestones.save();
+  }
+
+  dialog.value = false;
+}
+
+function remove(): void {
+  if (!donationTotalMilestones.data) {
+    return;
+  }
+
+  const itemIndex = donationTotalMilestones.data.findIndex((i) => i.id === props.milestone.id);
+
+  if (itemIndex > -1) {
+    donationTotalMilestones.data.splice(itemIndex, 1);
+    donationTotalMilestones.save();
+  }
+}
+</script>
+
 <template>
-  <media-card
+  <MediaCard
     class="d-flex align-center px-2"
     :style="{ 'text-align': 'unset', height: '40px', 'margin-top': index > 0 ? '10px' : 0 }"
   >
@@ -46,7 +175,7 @@
           </v-form>
         </v-card-text>
         <v-card-actions>
-          <v-spacer />
+          <v-spacer/>
           <v-btn @click="save" :disabled="!isFormValid">Save</v-btn>
           <v-btn @click="dialog = false">Cancel</v-btn>
         </v-card-actions>
@@ -81,102 +210,5 @@
     <v-icon @click="remove" :disabled="milestone.enabled">
       mdi-delete
     </v-icon>
-  </media-card>
+  </MediaCard>
 </template>
-
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import MediaCard from '@esa-layouts/dashboard/_misc/components/MediaCard.vue';
-import { DonationTotal, DonationTotalMilestones, Omnibar } from '@esa-layouts/types/schemas';
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { storeModule } from '../store';
-
-@Component({
-  components: {
-    MediaCard,
-  },
-})
-export default class extends Vue {
-  @Prop({ type: Object, required: true }) readonly milestone!: DonationTotalMilestones[0];
-  @Prop({ type: Number, required: true }) readonly index!: number;
-  @replicantNS.State((s) => s.reps.donationTotal) readonly total!: DonationTotal;
-  @replicantNS.State((s) => s.reps.omnibar.pin) readonly currentPin!: Omnibar['pin'];
-  dialog = false;
-  nameEdit = '';
-  additionToggleEdit = false;
-  additionEdit = '0';
-  amountEdit = '0';
-  isFormValid = false;
-
-  get toggle(): boolean {
-    return this.milestone.enabled;
-  }
-  set toggle(val: boolean) {
-    storeModule.toggleItem({ id: this.milestone.id, enabled: val });
-  }
-
-  isRequired(val: string): boolean | string {
-    return !!val || 'Required';
-  }
-
-  isNumber(val: string): boolean | string {
-    return !Number.isNaN(Number(val)) || 'Must be a number';
-  }
-
-  isBiggerThanZero(val: string): boolean | string {
-    const num = Number(val);
-    return (!!num && num > 0) || 'Must be bigger than 0';
-  }
-
-  formatAmount(val: number): string {
-    return val.toLocaleString('en-US', { maximumFractionDigits: 0 });
-  }
-
-  get disableSave(): boolean {
-    return !(this.nameEdit
-    && ((this.additionToggleEdit && this.additionEdit)
-    || (!this.additionToggleEdit && this.amountEdit)));
-  }
-
-  get isMet(): boolean {
-    return !!(this.milestone.amount && this.total >= this.milestone.amount);
-  }
-
-  get isPinned(): boolean {
-    return this.currentPin?.type === 'Milestone' && this.currentPin.id === this.milestone.id;
-  }
-
-  pin(): void {
-    storeModule.pinItem({ id: this.milestone.id, pinned: !this.isPinned });
-  }
-
-  edit(): void {
-    this.dialog = true;
-    this.nameEdit = this.milestone.name;
-    this.additionToggleEdit = !!this.milestone.addition;
-    this.additionEdit = this.milestone.addition?.toString() ?? '0';
-    this.amountEdit = this.milestone.amount?.toString() ?? '0';
-  }
-
-  save(): void {
-    const item: DonationTotalMilestones[0] = {
-      id: this.milestone.id,
-      name: this.nameEdit,
-      enabled: this.milestone.enabled,
-    };
-    if (this.milestone.enabled) {
-      item.addition = this.milestone.addition;
-      item.amount = this.milestone.amount;
-    } else {
-      item.addition = this.additionToggleEdit ? Number(this.additionEdit) : undefined;
-      item.amount = !this.additionToggleEdit ? Number(this.amountEdit) : undefined;
-    }
-    storeModule.editItem(item);
-    this.dialog = false;
-  }
-
-  remove(): void {
-    storeModule.removeItem(this.milestone.id);
-  }
-}
-</script>
