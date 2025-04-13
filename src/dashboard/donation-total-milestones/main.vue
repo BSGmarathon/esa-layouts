@@ -25,7 +25,7 @@ const milestonesSorted = computed(() => {
 });
 
 function formatAmount(val: number): string {
-  return val.toLocaleString('en-US', { maximumFractionDigits: 0 });
+  return val.toLocaleString('en-US', { maximumFractionDigits: 2 });
 }
 
 function addBlank(): void {

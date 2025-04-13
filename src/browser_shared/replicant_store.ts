@@ -44,6 +44,7 @@ export const assetsDonationAlertAssets = useAssetReplicant('donation-alert-asset
 export const assetsIntermissionSlides = useAssetReplicant('intermission-slides', bundleName)!;
 export const assetsMediaBoxImages = useAssetReplicant('media-box-images', bundleName)!;
 export const assetsReaderIntroductionImages = useAssetReplicant('reader-introduction-images', bundleName)!;
+export const assetsVideos = useAssetReplicant('videos', bundleName)!;
 export const bids = useReplicant<Bids>('bids', bundleName)!;
 export const bigbuttonPlayerMap = useReplicant<BigbuttonPlayerMap>('bigbuttonPlayerMap', bundleName)!;
 // export const commentators = useReplicant<Commentators>('commentators', bundleName)!;
