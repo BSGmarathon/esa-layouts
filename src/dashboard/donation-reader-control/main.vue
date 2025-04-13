@@ -1,3 +1,39 @@
+<script setup lang="ts">
+import { donationReaderNew } from '@esa-layouts/browser_shared/replicant_store';
+import { DonationReaderNew } from '@esa-layouts/types/schemas';
+import { ref, watch } from 'vue';
+import { useHead } from '@vueuse/head';
+
+useHead({ title: 'Donation reader control' });
+
+const disable = ref(false);
+const entry = ref('Loading...');
+
+function formatDonationReader(val: DonationReaderNew | undefined) {
+  const tmp = val?.pronouns ? `${val.name} (${val.pronouns})` : (val?.name || '');
+
+  entry.value = val?.country
+    ? `${tmp} (${val.country})`
+    : tmp;
+}
+
+watch(() => donationReaderNew.data, formatDonationReader, { immediate: true, deep: true });
+
+async function modify(clear = false): Promise<void> {
+  disable.value = true;
+
+  try {
+    await nodecg.sendMessage('readerModify', clear ? null : entry.value);
+  } catch (err) {
+    // catch
+  }
+
+  // TODO: is this needed?
+  formatDonationReader(donationReaderNew.data);
+  disable.value = false;
+}
+</script>
+
 <template>
   <v-app>
     <div class="d-flex">
@@ -28,40 +64,3 @@
     </v-btn>
   </v-app>
 </template>
-
-<script lang="ts">
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { DonationReaderNew } from '@esa-layouts/types/schemas';
-import { Component, Vue, Watch } from 'vue-property-decorator';
-
-@Component
-export default class extends Vue {
-  @replicantNS.State((s) => s.reps.donationReaderNew) readonly donationReader!: DonationReaderNew;
-  entry = '';
-  disable = false;
-
-  @Watch('donationReader', { immediate: true })
-  onDonationReaderChanged(val: DonationReaderNew): void {
-    this.entry = val?.pronouns ? `${val.name} (${val.pronouns})` : (val?.name || '');
-    this.entry = val?.country
-      ? `${this.entry} (${val.country})`
-      : this.entry;
-  }
-
-  async modify(clear = false): Promise<void> {
-    this.disable = true;
-    try {
-      await nodecg.sendMessage('readerModify', clear ? null : this.entry);
-    } catch (err) {
-      // catch
-    }
-    this.entry = this.donationReader?.pronouns
-      ? `${this.donationReader.name} (${this.donationReader.pronouns})`
-      : (this.donationReader?.name || '');
-    this.entry = this.donationReader?.country
-      ? `${this.entry} (${this.donationReader.country})`
-      : this.entry;
-    this.disable = false;
-  }
-}
-</script>
