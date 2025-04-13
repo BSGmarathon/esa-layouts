@@ -1,5 +1,97 @@
+<script setup lang="ts">
+import { assetsDonationAlertAssets as assets, donationAlerts } from '@esa-layouts/browser_shared/replicant_store';
+import MediaCard from '@esa-layouts/dashboard/_misc/components/MediaCard.vue';
+import { DonationAlerts } from '@esa-layouts/types/schemas';
+import { ref } from 'vue';
+import clone from 'clone';
+
+interface AlertProps {
+  alert: DonationAlerts[0];
+  index: number;
+}
+
+const props = defineProps<AlertProps>();
+
+const dialog = ref(false);
+const thresholdEdit = ref('0');
+const soundEdit = ref('');
+const volumeEdit = ref('0');
+const isFormValid = ref(false);
+
+function isRequired(val: string): boolean | string {
+  return !!val || 'Required';
+}
+
+function isNumber(val: string): boolean | string {
+  return !Number.isNaN(Number(val)) || 'Must be a number';
+}
+
+function isZeroOrBigger(val: string): boolean | string {
+  const num = Number(val);
+  return (num >= 0) || 'Must be equal to or bigger than 0';
+}
+
+function isZeroOrSmaller(val: string): boolean | string {
+  const num = Number(val);
+  return (num <= 0) || 'Must be equal to or smaller than 0';
+}
+
+function isValidAsset(val: string): boolean | string {
+  const soundAsset = assets.value.find((v) => v.name === val);
+  return !!soundAsset || 'Asset name must match a file uploaded';
+}
+
+function test(): void {
+  nodecg.sendMessage('omnibarPlaySound', { amount: props.alert.threshold });
+}
+
+function edit(): void {
+  dialog.value = true;
+  thresholdEdit.value = props.alert.threshold.toString() ?? '0';
+  soundEdit.value = props.alert.sound ?? '';
+  volumeEdit.value = props.alert.volume.toString() ?? '0';
+}
+
+function save(): void {
+  if (!donationAlerts.data) {
+    return;
+  }
+
+  const item: DonationAlerts[0] = {
+    id: props.alert.id,
+    threshold: Number(thresholdEdit.value),
+    sound: soundEdit.value,
+    volume: Number(volumeEdit.value),
+    graphic: props.alert.graphic, // TODO
+    graphicDisplayTime: props.alert.graphicDisplayTime, // TODO
+  };
+
+  const foundIndex = donationAlerts.data.findIndex((i) => i.id === item.id);
+
+  if (foundIndex > -1) {
+    donationAlerts.data[foundIndex] = clone(item);
+    donationAlerts.save();
+  }
+
+  dialog.value = false;
+}
+
+function remove(): void {
+  if (!donationAlerts.data) {
+    return;
+  }
+
+  const foundIndex = donationAlerts.data.findIndex((i) => i.id === props.alert.id);
+
+  if (foundIndex > -1) {
+    donationAlerts.data.splice(foundIndex, 1);
+    donationAlerts.save();
+  }
+}
+</script>
+
 <template>
-  <media-card
+  <MediaCard
     class="d-flex align-center px-2"
     :style="{ 'text-align': 'unset', height: '40px', 'margin-top': index > 0 ? '10px' : 0  }"
   >
@@ -56,83 +148,5 @@
     <v-icon @click="remove">
       mdi-delete
     </v-icon>
-  </media-card>
+  </MediaCard>
 </template>
-
-<script lang="ts">
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import MediaCard from '@esa-layouts/dashboard/_misc/components/MediaCard.vue';
-import { DonationAlerts } from '@esa-layouts/types/schemas';
-import type NodeCGTypes from '@nodecg/types';
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { storeModule } from '../store';
-
-@Component({
-  components: {
-    MediaCard,
-  },
-})
-export default class extends Vue {
-  @Prop({ type: Object, required: true }) readonly alert!: DonationAlerts[0];
-  @Prop({ type: Number, required: true }) readonly index!: number;
-  @replicantNS.State(
-    (s) => s.reps.assetsDonationAlertAssets,
-  ) readonly assets!: NodeCGTypes.AssetFile[];
-  dialog = false;
-  thresholdEdit = '0';
-  soundEdit = '';
-  volumeEdit = '0';
-  isFormValid = false;
-
-  isRequired(val: string): boolean | string {
-    return !!val || 'Required';
-  }
-
-  isNumber(val: string): boolean | string {
-    return !Number.isNaN(Number(val)) || 'Must be a number';
-  }
-
-  isZeroOrBigger(val: string): boolean | string {
-    const num = Number(val);
-    return (num >= 0) || 'Must be equal to or bigger than 0';
-  }
-
-  isZeroOrSmaller(val: string): boolean | string {
-    const num = Number(val);
-    return (num <= 0) || 'Must be equal to or smaller than 0';
-  }
-
-  isValidAsset(val: string): boolean | string {
-    const soundAsset = this.assets.find((v) => v.name === val);
-    return !!soundAsset || 'Asset name must match a file uploaded';
-  }
-
-  test(): void {
-    nodecg.sendMessage('omnibarPlaySound', { amount: this.alert.threshold });
-  }
-
-  edit(): void {
-    this.dialog = true;
-    this.thresholdEdit = this.alert.threshold.toString() ?? '0';
-    this.soundEdit = this.alert.sound ?? '';
-    this.volumeEdit = this.alert.volume.toString() ?? '0';
-  }
-
-  save(): void {
-    const item: DonationAlerts[0] = {
-      id: this.alert.id,
-      threshold: Number(this.thresholdEdit),
-      sound: this.soundEdit,
-      volume: Number(this.volumeEdit),
-      graphic: this.alert.graphic, // TODO
-      graphicDisplayTime: this.alert.graphicDisplayTime, // TODO
-    };
-    storeModule.editItem(item);
-    this.dialog = false;
-  }
-
-  remove(): void {
-    storeModule.removeItem(this.alert.id);
-  }
-}
-</script>
