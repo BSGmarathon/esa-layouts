@@ -191,11 +191,11 @@ function remove(): void {
     <div v-if="isMet" class="light-green--text accent-3 font-weight-bold pr-2">MET!</div>
     <div v-if="milestone.amount" class="d-flex pr-2">
       <v-icon class="pr-1">mdi-cash</v-icon>
-      <div>${{ formatAmount(milestone.amount) }}</div>
+      <div>€{{ formatAmount(milestone.amount) }}</div>
     </div>
     <div v-if="milestone.addition" class="d-flex pr-2">
       <v-icon class="pr-1">mdi-cash-plus</v-icon>
-      ${{ formatAmount(milestone.addition) }}
+      €{{ formatAmount(milestone.addition) }}
     </div>
     <v-icon
       @click="pin"

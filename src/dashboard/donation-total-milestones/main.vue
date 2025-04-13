@@ -43,7 +43,7 @@ function addBlank(): void {
     <div class="mb-2 d-flex">
       <div>
         <span class="font-weight-bold">Donation Total:</span>
-        ${{ formatAmount(total) }}
+        €{{ formatAmount(total) }}
       </div>
       <v-spacer />
       <div>
