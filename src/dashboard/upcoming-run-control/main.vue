@@ -1,3 +1,28 @@
+<script setup lang="ts">
+import { runDataActiveRunSurrounding, runDataArray, upcomingRunID } from '@esa-layouts/browser_shared/replicant_store';
+import { useHead } from '@vueuse/head';
+
+useHead({ title: 'Upcomming run control' });
+
+function forceUpcomingRun(id?: string): void {
+  nodecg.sendMessage('forceUpcomingRun', id);
+}
+
+function getRunStr(id: string): string {
+  const run = runDataArray.data?.find((r) => r.id === id);
+
+  if (run) {
+    const arr = [
+      run.game || '?',
+      run.category,
+    ].filter(Boolean);
+    return arr.join(' - ');
+  }
+
+  return '?';
+}
+</script>
+
 <template>
   <v-app>
     <div :style="{ 'font-style': 'italic', 'margin-bottom': '5px' }">
@@ -8,10 +33,10 @@
         Currently Set:
       </span>
       <span
-        v-if="upcomingRunID"
-        :title="getRunStr(upcomingRunID)"
+        v-if="upcomingRunID.data"
+        :title="getRunStr(upcomingRunID.data)"
       >
-        {{ getRunStr(upcomingRunID) }}
+        {{ getRunStr(upcomingRunID.data) }}
       </span>
       <span v-else>
         none
@@ -23,19 +48,19 @@
       :style="{ 'margin-top': '5px' }"
     >
       <v-btn
-        v-if="runDataActiveRunSurrounding[type]"
+        v-if="runDataActiveRunSurrounding.data[type]"
         class="ForceUpcomingRunBtn"
         width="100%"
         block
-        :title="getRunStr(runDataActiveRunSurrounding[type])"
-        @click="forceUpcomingRun(runDataActiveRunSurrounding[type])"
+        :title="getRunStr(runDataActiveRunSurrounding.data[type])"
+        @click="forceUpcomingRun(runDataActiveRunSurrounding.data[type])"
       >
         <div
           class="d-flex justify-center"
           :style="{ width: '100%' }"
         >
           <div :style="{ overflow: 'hidden' }">
-            Force to {{ type }} ({{ getRunStr(runDataActiveRunSurrounding[type]) }})
+            Force to {{ type }} ({{ getRunStr(runDataActiveRunSurrounding.data[type]) }})
           </div>
         </div>
       </v-btn>
@@ -56,37 +81,6 @@
     </v-btn>
   </v-app>
 </template>
-
-<script lang="ts">
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { UpcomingRunID } from '@esa-layouts/types/schemas';
-import { RunDataActiveRunSurrounding, RunDataArray } from 'speedcontrol-util/types/schemas';
-import { Component, Vue } from 'vue-property-decorator';
-
-@Component
-export default class UpcomingRunControl extends Vue {
-  @replicantNS.State((s) => s.reps.runDataArray) readonly runDataArray!: RunDataArray;
-  @replicantNS.State((s) => s.reps.runDataActiveRunSurrounding)
-  readonly runDataActiveRunSurrounding!: RunDataActiveRunSurrounding;
-  @replicantNS.State((s) => s.reps.upcomingRunID) readonly upcomingRunID!: UpcomingRunID;
-
-  forceUpcomingRun(id?: string): void {
-    nodecg.sendMessage('forceUpcomingRun', id);
-  }
-
-  getRunStr(id: string): string {
-    const run = this.runDataArray.find((r) => r.id === id);
-    if (run) {
-      const arr = [
-        run.game || '?',
-        run.category,
-      ].filter(Boolean);
-      return arr.join(' - ');
-    }
-    return '?';
-  }
-}
-</script>
 
 <style>
   .ForceUpcomingRunBtn > .v-btn__content {

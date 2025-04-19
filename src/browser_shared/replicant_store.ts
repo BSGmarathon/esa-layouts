@@ -78,7 +78,7 @@ export const runDataActiveRunSurrounding = useReplicant<RunDataActiveRunSurround
 export const {
   timer,
   twitchCommercialTimer,
-} = speedControl;
+} = speedControl; // TODO: convert to normal useReplicants
 export const serverTimestamp = useReplicant<ServerTimestamp>('serverTimestamp', bundleName)!;
 export const soloedBidID = useReplicant<SoloedBidID>('soloedBidID', bundleName)!;
 export const streamDeckData = useReplicant<StreamDeckData>('streamDeckData', bundleName)!;
