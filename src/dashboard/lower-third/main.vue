@@ -1,13 +1,68 @@
+<script setup lang="ts">
+import { lowerThird } from '@esa-layouts/browser_shared/replicant_store';
+import { computed, ref } from 'vue';
+import { useHead } from '@vueuse/head';
+
+useHead({ title: 'Lower-third control' });
+
+const nameEntry = ref('');
+const updatingName = ref(false);
+const autoHide = ref(true);
+const autoHideSeconds = ref('10');
+const toggleButtonsDisabled = computed(() => lowerThird.data?.transitioning || updatingName.value);
+const inputsDisabled = computed(() => toggleButtonsDisabled.value || lowerThird.data?.visible);
+
+function showLowerThird(): void {
+  let finalAutoHide = autoHide.value;
+  const afterSecs = parseInt(autoHideSeconds.value, 10);
+
+  if (Number.isNaN(afterSecs) || afterSecs < 1) {
+    finalAutoHide = false;
+  }
+
+  nodecg.sendMessage('lower-third:show', {
+    autoHide: finalAutoHide, showForSecs: afterSecs,
+  });
+}
+
+function hideLowerThird(): void {
+  nodecg.sendMessage('lower-third:hide');
+}
+
+function removeName(name: string) {
+  const currentLt = lowerThird.data!.names;
+  const nameIndex = currentLt.indexOf(name);
+
+  if (nameIndex > -1) {
+    currentLt.splice(nameIndex, 1);
+  }
+
+  lowerThird.save();
+}
+
+async function add(): Promise<void> {
+  updatingName.value = true;
+  try {
+    await nodecg.sendMessage('lower-third:add-name', nameEntry.value);
+  } catch (err) {
+    // catch
+  }
+  updatingName.value = false;
+  nameEntry.value = '';
+}
+
+</script>
+
 <template>
-  <v-app>
+  <v-app v-if="lowerThird.data">
     <v-card
       :style="{ 'margin-bottom': '10px' }"
       tile
     >
       <v-list dense>
-        <v-list-item-group>
+        <v-list-group>
           <v-list-item
-            v-for="(name, i) in lowerThird.names"
+            v-for="(name, i) in lowerThird.data.names"
             :key="i"
             inactive
             selectable
@@ -15,11 +70,11 @@
             <v-list-item-action>
               <v-icon @click="removeName(name)">mdi-delete</v-icon>
             </v-list-item-action>
-            <v-list-item-content>
+            <v-list-item-title>
               {{ name }}
-            </v-list-item-content>
+            </v-list-item-title>
           </v-list-item>
-        </v-list-item-group>
+        </v-list-group>
       </v-list>
     </v-card>
     <div class="d-flex">
@@ -46,14 +101,14 @@
         height="56px"
         :style="{ 'margin-left': '5px' }"
         @click="showLowerThird"
-        :disabled="toggleButtonsDisabled || lowerThird.visible">
+        :disabled="toggleButtonsDisabled || lowerThird.data.visible">
         Show
       </v-btn>
       <v-btn
         height="56px"
         :style="{ 'margin-left': '5px' }"
         @click="hideLowerThird"
-        :disabled="autoHide || toggleButtonsDisabled || !lowerThird.visible">
+        :disabled="autoHide || toggleButtonsDisabled || !lowerThird.data.visible">
         Hide
       </v-btn>
     </div>
@@ -78,56 +133,3 @@
     </div>
   </v-app>
 </template>
-
-<script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { LowerThird } from '@esa-layouts/types/schemas';
-import { storeModule } from './store';
-
-@Component
-export default class extends Vue {
-  nameEntry = '';
-  updatingName = false;
-  autoHide = true;
-  autoHideSeconds = '10';
-  @replicantNS.State((s) => s.reps.lowerThird) readonly lowerThird!: LowerThird;
-  removeName = storeModule.removeName;
-
-  showLowerThird(): void {
-    let finalAutoHide = this.autoHide;
-    const afterSecs = parseInt(this.autoHideSeconds, 10);
-
-    if (afterSecs < 1) {
-      finalAutoHide = false;
-    }
-
-    nodecg.sendMessage('lower-third:show', {
-      autoHide: finalAutoHide, showForSecs: afterSecs,
-    });
-  }
-
-  hideLowerThird(): void {
-    nodecg.sendMessage('lower-third:hide');
-  }
-
-  get toggleButtonsDisabled(): boolean {
-    return this.lowerThird.transitioning || this.updatingName;
-  }
-
-  get inputsDisabled(): boolean {
-    return this.toggleButtonsDisabled || this.lowerThird.visible;
-  }
-
-  async add(): Promise<void> {
-    this.updatingName = true;
-    try {
-      await nodecg.sendMessage('lower-third:add-name', this.nameEntry);
-    } catch (err) {
-      // catch
-    }
-    this.updatingName = false;
-    this.nameEntry = '';
-  }
-}
-</script>
