@@ -190,7 +190,7 @@ onMounted(async () => {
       <br><span class="font-weight-bold">{{ currentItem.secondsStr }}:</span>
       {{ currentItem.seconds }} -
       <span class="font-weight-bold">Position:</span>
-      {{ (currentItem.index + 1) || '?' }}/{{ omnibar.rotation.length }}
+      {{ (currentItem.index + 1) || '?' }}/{{ omnibar.data.rotation.length }}
       <template v-if="currentItem.type === 'GenericMsg'">
         <br><span class="font-weight-bold">Message:</span>
         {{ currentItem.msg }}

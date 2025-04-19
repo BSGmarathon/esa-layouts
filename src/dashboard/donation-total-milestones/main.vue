@@ -43,7 +43,7 @@ function addBlank(): void {
     <div class="mb-2 d-flex">
       <div>
         <span class="font-weight-bold">Donation Total:</span>
-        €{{ formatAmount(total) }}
+        €{{ formatAmount(total.data!) }}
       </div>
       <v-spacer />
       <div>
@@ -55,7 +55,7 @@ function addBlank(): void {
       </div>
     </div>
     <v-btn @click="addBlank">Add New Milestone</v-btn>
-    <div v-if="!milestonesSorted.length" class="pa-3 font-italic">
+    <div v-if="!milestonesSorted?.length" class="pa-3 font-italic">
       No milestones created, add a new one with the button above.
     </div>
     <div v-else :style="{ height: '350px', 'overflow-y': 'scroll', 'margin-top': '10px' }">

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{ isApplicable: boolean }>();
+defineProps<{ isApplicable: boolean | undefined }>();
 </script>
 
 <template>
@@ -7,8 +7,8 @@ defineProps<{ isApplicable: boolean }>();
     v-if="isApplicable"
     right
   >
-    <template v-slot:activator="{ on }">
-      <v-icon v-on="on">
+    <template v-slot:activator="{ targetRef }">
+      <v-icon v-on="targetRef">
         mdi-check
       </v-icon>
     </template>
@@ -18,8 +18,8 @@ defineProps<{ isApplicable: boolean }>();
     v-else-if="!isApplicable"
     right
   >
-    <template v-slot:activator="{ on }">
-      <v-icon v-on="on">
+    <template v-slot:activator="{ targetRef }">
+      <v-icon v-on="targetRef">
         mdi-close
       </v-icon>
     </template>
@@ -29,8 +29,8 @@ defineProps<{ isApplicable: boolean }>();
     v-else
     right
   >
-    <template v-slot:activator="{ on }">
-      <v-icon v-on="on">
+    <template v-slot:activator="{ targetRef }">
+      <v-icon v-on="targetRef">
         mdi-help
       </v-icon>
     </template>

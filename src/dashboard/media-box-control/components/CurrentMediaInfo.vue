@@ -30,9 +30,9 @@ function position(media: MediaBox.ActiveElem): number {
       >
         No media currently displaying.
       </span>
-      <template v-else-if="settings.current">
+      <template v-else-if="settings.data.current">
         <span class="font-weight-bold">Current:</span>
-        <template v-if="isAlertType(settings.current.type)">
+        <template v-if="isAlertType(settings.data!.current.type)">
           <span :style="{ 'text-transform': 'capitalize' }">
             {{ settings.data.current.type }}
           </span> Alert

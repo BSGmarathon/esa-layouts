@@ -60,11 +60,11 @@ async function save() {
         Save
       </v-btn>
       <v-tooltip left>
-        <template v-slot:activator="{ on }">
+        <template v-slot:activator="{ targetRef }">
           <v-btn
             :style="{ 'margin-left': '5px' }"
             @click="resetLocalPlaylist()"
-            v-on="on"
+            v-on="targetRef"
           >
             <v-icon>
               mdi-refresh

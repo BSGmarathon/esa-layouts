@@ -27,7 +27,7 @@ function cloneGeneric(): MediaBox.RotationElem {
       }"
     >
       <MediaCard
-        v-if="!prizes.length"
+        v-if="!prizes.data?.length"
         :style="{ 'font-style': 'italic' }"
       >
         No prizes available from the tracker.

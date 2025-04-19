@@ -2,9 +2,11 @@
 import NodeCGTypes from '@nodecg/types';
 import { assetsIntermissionSlides as media } from '@esa-layouts/browser_shared/replicant_store';
 import { IntermissionSlides } from '@esa-layouts/types/schemas';
-import MediaCard from '@esa-layouts/_misc/components/MediaCard.vue';
+import MediaCard from '@esa-layouts/dashboard/_misc/components/MediaCard.vue';
 import { v4 as uuid } from 'uuid';
 import Draggable from 'vuedraggable';
+
+const { bundleName } = nodecg;
 
 function clone(original: NodeCGTypes.AssetFile): IntermissionSlides['rotation'][0] {
   return {
@@ -27,23 +29,23 @@ function clone(original: NodeCGTypes.AssetFile): IntermissionSlides['rotation'][
       }"
     >
       <MediaCard
-        v-if="!media.value.length"
+        v-if="!media.length"
         :style="{
           'font-style': 'italic',
           'white-space': 'unset',
         }"
       >
-        Add images/videos under "Assets" > "{{ nodecg.bundleName }}" > "Intermission Slide Images/Videos".
+        Add images/videos under "Assets" > "{{ bundleName }}" > "Intermission Slide Images/Videos".
       </MediaCard>
       <Draggable
         v-else
-        :list="media.value"
+        :list="media"
         :group="{ name: 'intermission', pull: 'clone', put: false }"
         :sort="false"
         :clone="clone"
       >
         <MediaCard
-          v-for="asset in media.value"
+          v-for="asset in media"
           :key="asset.sum"
           :title="asset.name"
         >

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { IntermissionSlides } from '@esa-layouts/types/schemas';
-import MediaCard from '@esa-layouts/_misc/components/MediaCard.vue';
+import MediaCard from '@esa-layouts/dashboard/_misc/components/MediaCard.vue';
 import Draggable from 'vuedraggable';
 import { computed } from 'vue';
 import { assetsIntermissionSlides } from '@esa-layouts/browser_shared/replicant_store';

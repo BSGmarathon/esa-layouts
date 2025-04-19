@@ -88,7 +88,7 @@ watch(() => store.editDialog, (isOpen) => {
         <v-form v-model="isFormValid">
           <!-- Length (seconds) -->
           <v-text-field
-            :value="item.props.seconds"
+            :value="item.props!.seconds"
             @change="secondsChanged"
             :label="secondsStr"
             prepend-icon="mdi-timer"

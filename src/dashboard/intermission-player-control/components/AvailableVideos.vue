@@ -2,7 +2,7 @@
 import type NodeCGTypes from '@nodecg/types';
 import { assetsVideos as videos, videoPlayer } from '@esa-layouts/browser_shared/replicant_store';
 import { computed, ref } from 'vue';
-import { useIntermissionPlayerStore } from '@esa-layouts/intermission-player-control/store';
+import { useIntermissionPlayerStore } from '@esa-layouts/dashboard/intermission-player-control/store';
 
 const playerStore = useIntermissionPlayerStore();
 const searchTerm = ref<string | null>(null);
@@ -28,7 +28,7 @@ const filteredVideos = computed(() => videos.value
     </v-toolbar-title>
     <div :style="{ 'margin-top': '10px' }">
       <span
-        v-if="!videos.value?.length"
+        v-if="!videos?.length"
         :style="{ 'font-style': 'italic' }"
       >
         Add videos under "Assets" > "esa-layouts" > "Videos".

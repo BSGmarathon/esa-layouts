@@ -5,7 +5,7 @@ import { assetsIntermissionSlides, intermissionSlides } from '@esa-layouts/brows
 const current = computed(() => intermissionSlides.data?.current);
 const rotationLength = computed(() => intermissionSlides.data?.rotation.length);
 const currentPosition = computed(
-  () => intermissionSlides.data?.rotation.findIndex((r) => r.id === current.value?.id),
+  () => intermissionSlides.data?.rotation.findIndex((r) => r.id === current.value?.id) ?? -1,
 );
 const name = computed(() => {
   const curr = current.value;

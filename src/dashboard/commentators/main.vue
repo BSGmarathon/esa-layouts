@@ -36,7 +36,7 @@ function clear() {
 </script>
 
 <template>
-  <v-app>
+  <v-app v-if="commentatorsNew.data">
     <v-card
       :style="{ 'margin-bottom': '10px' }"
       tile
@@ -45,9 +45,9 @@ function clear() {
         dense
       >
         <v-list-item-group>
-          <template v-if="commentators.length">
+          <template v-if="commentatorsNew.data.length">
             <v-list-item
-              v-for="({ name, country, pronouns }, i) in commentators"
+              v-for="({ name, country, pronouns }, i) in commentatorsNew.data"
               :key="i"
             >
               <v-list-item-action>

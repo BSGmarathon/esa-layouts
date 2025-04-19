@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { runDataActiveRunSurrounding, runDataArray, upcomingRunID } from '@esa-layouts/browser_shared/replicant_store';
 import { useHead } from '@vueuse/head';
+import type { RunDataActiveRunSurrounding } from 'speedcontrol-util/types/schemas';
 
 useHead({ title: 'Upcomming run control' });
+
+const rundataKeys: (keyof RunDataActiveRunSurrounding)[] = ['previous', 'current', 'next'];
 
 function forceUpcomingRun(id?: string): void {
   nodecg.sendMessage('forceUpcomingRun', id);
@@ -43,7 +46,7 @@ function getRunStr(id: string): string {
       </span>
     </div>
     <div
-      v-for="(type, i) in ['previous', 'current', 'next']"
+      v-for="(type, i) in rundataKeys"
       :key="i"
       :style="{ 'margin-top': '5px' }"
     >

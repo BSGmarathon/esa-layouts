@@ -66,7 +66,7 @@ onMounted(async () => {
           }"
         >
           <v-radio
-            v-for="voice in voices.data.available"
+            v-for="voice in voices.data!.available"
             :id="voice.code"
             :key="voice.code"
             :value="voice.code"

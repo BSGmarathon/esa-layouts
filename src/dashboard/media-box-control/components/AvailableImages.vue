@@ -6,6 +6,8 @@ import { MediaBox } from '../../../types';
 import MediaCard from './MediaCard.vue';
 import { clone as cloneShared } from './shared';
 
+const { bundleName } = nodecg;
+
 function clone(original: NodeCGTypes.AssetFile): MediaBox.RotationElem {
   return cloneShared('image', original.sum);
 }
@@ -29,7 +31,7 @@ function clone(original: NodeCGTypes.AssetFile): MediaBox.RotationElem {
           'white-space': 'unset',
         }"
       >
-        Add images under "Assets" > "{{ nodecg.bundleName }}" > "Media Box Images".
+        Add images under "Assets" > "{{ bundleName }}" > "Media Box Images".
       </MediaCard>
       <Draggable
         v-else

@@ -8,7 +8,7 @@ import {
   mediaBox as settings,
   prizes,
 } from '@esa-layouts/browser_shared/replicant_store';
-import { useMediaBoxControlStore } from '@esa-layouts/media-box-control/store';
+import { useMediaBoxControlStore } from '@esa-layouts/dashboard/media-box-control/store';
 import { MediaBox } from '../../../types';
 import ApplicableIcon from './ApplicableIcon.vue';
 import MediaCard from './MediaCard.vue';
@@ -108,17 +108,17 @@ function remove(i: number): void {
       }"
     >
       <MediaCard
-        v-if="!newRotation.length"
+        v-if="!store.newRotation.length"
         :style="{ 'font-style': 'italic' }"
       >
         Drag elements from above to here to configure.
       </MediaCard>
       <Draggable
-        v-model="newRotation"
+        v-model="store.newRotation"
         group="media"
       >
         <MediaCard
-          v-for="(media, i) in newRotation"
+          v-for="(media, i) in store.newRotation"
           :key="media.id"
           class="d-flex"
         >
@@ -136,10 +136,10 @@ function remove(i: number): void {
           </div>
           <div class="d-flex">
             <v-tooltip left>
-              <template v-slot:activator="{ on }">
-                <div v-on="on">
+              <template v-slot:activator="{ targetRef }">
+                <div v-on="targetRef">
                   <v-checkbox
-                    v-on="on"
+                    v-on="targetRef"
                     v-model="media.showOnIntermission"
                     dense
                     class="ma-0 pa-0"
