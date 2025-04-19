@@ -4,6 +4,9 @@ import { gameLayouts, obsData } from '@esa-layouts/browser_shared/replicant_stor
 import { computed, onMounted, ref, watch } from 'vue';
 import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
 import RTMPFeed from './components/RTMPFeed.vue';
+import { useHead } from '@vueuse/head';
+
+useHead({ title: 'Restream viewer control' });
 
 const gameLayoutName = nodecg.bundleConfig.obs.names.scenes.gameLayout;
 const isOnline = nodecg.bundleConfig.event.online;
