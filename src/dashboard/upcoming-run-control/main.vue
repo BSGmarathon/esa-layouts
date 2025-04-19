@@ -11,7 +11,7 @@ function forceUpcomingRun(id?: string): void {
   nodecg.sendMessage('forceUpcomingRun', id);
 }
 
-function getRunStr(id: string): string {
+function getRunStr(id: string | undefined): string {
   const run = runDataArray.data?.find((r) => r.id === id);
 
   if (run) {
