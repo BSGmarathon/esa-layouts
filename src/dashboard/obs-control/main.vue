@@ -40,7 +40,7 @@ function changeScene(scene: string): void {
 </script>
 
 <template>
-  <v-app v-if="obsData.data && serverTimestamp.data">
+  <v-app v-if="obsData.data && serverTimestamp.data && videoPlayer.data">
     <div v-if="!obsConfig.enabled" :style="{ 'font-style': 'italic' }">
       This feature is not enabled.
     </div>

@@ -136,7 +136,7 @@
         "name": "game-layout-override",
         "title": "Game Layout Override",
         "width": 2,
-        "file": "game-layout-override.html",
+        "file": "game-layout-override/main.html",
         "workspace": "BSG Graphics",
         "headerColor": "#DB3A34"
       },
@@ -144,7 +144,7 @@
         "name": "video-matrix",
         "title": "Game Feed Matrix",
         "width": 5,
-        "file": "video-matrix.html",
+        "file": "video-matrix/main.html",
         "workspace": "BSG Graphics",
         "headerColor": "#DB3A34"
       },
@@ -152,7 +152,7 @@
         "name": "media-box-control",
         "title": "Media Box Control",
         "width": 3,
-        "file": "media-box-control.html",
+        "file": "media-box-control/main.html",
         "workspace": "Z - BSG Advanced",
         "headerColor": "#c49215"
       },
@@ -160,7 +160,7 @@
         "name": "intermission-slide-control",
         "title": "Intermission Slide Control",
         "width": 3,
-        "file": "intermission-slide-control.html",
+        "file": "intermission-slide-control/main.html",
         "workspace": "Z - BSG Advanced",
         "headerColor": "#c49215"
       },
@@ -168,7 +168,7 @@
         "name": "commentators",
         "title": "Commentators",
         "width": 2,
-        "file": "commentators.html",
+        "file": "commentators/main.html",
         "workspace": "BSG Graphics",
         "headerColor": "#DB3A34"
       },
@@ -176,7 +176,7 @@
         "name": "tts-control",
         "title": "Text-To-Speech Control",
         "width": 3,
-        "file": "tts-control.html",
+        "file": "tts-control/main.html",
         "workspace": "Z - BSG Advanced",
         "headerColor": "#c49215"
       },
@@ -184,7 +184,7 @@
         "name": "intermission-player-control",
         "title": "Intermission Player Control",
         "width": 3,
-        "file": "intermission-player-control.html",
+        "file": "intermission-player-control/main.html",
         "workspace": "Z - BSG Advanced",
         "headerColor": "#c49215"
       },
@@ -192,7 +192,7 @@
         "name": "upcoming-run-control",
         "title": "Upcoming Run Control",
         "width": 3,
-        "file": "upcoming-run-control.html",
+        "file": "upcoming-run-control/main.html",
         "workspace": "Z - BSG Advanced",
         "headerColor": "#c49215"
       },
@@ -200,14 +200,14 @@
         "name": "obs-control",
         "title": "OBS Control",
         "width": 3,
-        "file": "obs-control.html",
+        "file": "obs-control/main.html",
         "headerColor": "#c49215"
       },
       {
         "name": "donation-reader-control",
         "title": "Donation Reader Control",
         "width": 2,
-        "file": "donation-reader-control.html",
+        "file": "donation-reader-control/main.html",
         "workspace": "BSG Graphics",
         "headerColor": "#DB3A34"
       },
@@ -215,7 +215,7 @@
         "name": "countdown-control",
         "title": "Countdown Control",
         "width": 3,
-        "file": "countdown-control.html",
+        "file": "countdown-control/main.html",
         "workspace": "Z - BSG Advanced",
         "headerColor": "#c49215"
       },
@@ -223,7 +223,7 @@
         "name": "omnibar-ticker-control",
         "title": "Omnibar Ticker Control",
         "width": 3,
-        "file": "omnibar-ticker-control.html",
+        "file": "omnibar-ticker-control/main.html",
         "workspace": "Omnibar",
         "headerColor": "#c49215"
       },
@@ -231,7 +231,7 @@
         "name": "donation-alert-control",
         "title": "Donation Alert Control",
         "width": 3,
-        "file": "donation-alert-control.html",
+        "file": "donation-alert-control/main.html",
         "workspace": "ESA",
         "headerColor": "#c49215"
       },
@@ -239,7 +239,7 @@
         "name": "donation-total-milestones",
         "title": "Donation Total Milestones",
         "width": 4,
-        "file": "donation-total-milestones.html",
+        "file": "donation-total-milestones/main.html",
         "workspace": "Omnibar",
         "headerColor": "#87BAAB"
       },
@@ -247,7 +247,7 @@
         "name": "bigbutton-tag-scan-control",
         "title": "Button tester",
         "width": 3,
-        "file": "bigbutton-tag-scan-control.html",
+        "file": "bigbutton-tag-scan-control/main.html",
         "workspace": "ESA",
         "headerColor": "#c49215"
       },
@@ -255,7 +255,7 @@
         "name": "bids",
         "title": "Bids",
         "width": 3,
-        "file": "bids.html",
+        "file": "bids/main.html",
         "workspace": "Omnibar",
         "headerColor": "#87BAAB"
       },
@@ -263,7 +263,7 @@
         "name": "restream-viewer-tool",
         "title": "RTMP Control",
         "width": 3,
-        "file": "restream-viewer-tool.html",
+        "file": "restream-viewer-tool/main.html",
         "workspace": "BSG Graphics",
         "headerColor": "#DB3A34"
       },
@@ -271,7 +271,7 @@
         "name": "lower-third",
         "title": "Lower-third control",
         "width": 3,
-        "file": "lower-third.html",
+        "file": "lower-third/main.html",
         "workspace": "BSG Graphics",
         "headerColor": "#DB3A34"
       },
@@ -279,7 +279,7 @@
         "name": "rabbitmq-test",
         "title": "RabbitMQ Test",
         "width": 3,
-        "file": "rabbitmq-test.html",
+        "file": "rabbitmq-test/main.html",
         "workspace": "ESA",
         "headerColor": "#c49215"
       },
@@ -287,14 +287,14 @@
         "name": "checklist",
         "title": "Checklist",
         "width": 4,
-        "file": "checklist.html",
+        "file": "checklist/main.html",
         "headerColor": "#33cbcb"
       },
       {
         "name": "additional-donations-control",
         "title": "Additional Donations Control",
         "width": 3,
-        "file": "additional-donations-control.html",
+        "file": "additional-donations-control/main.html",
         "workspace": "ESA",
         "headerColor": "#c49215"
       }
