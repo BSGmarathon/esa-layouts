@@ -1,15 +1,135 @@
+<script setup lang="ts">
+import { omnibar } from '@esa-layouts/browser_shared/replicant_store';
+import { Omnibar } from '@esa-layouts/types/schemas';
+import clone from 'clone';
+import { v4 as uuid } from 'uuid';
+import Draggable from 'vuedraggable';
+import { computed, onMounted, watch } from 'vue';
+import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
+import { useHead } from '@vueuse/head';
+import Bid from './components/Bid.vue';
+import EditDialog from './components/EditDialog.vue';
+import GenericMsg from './components/GenericMsg.vue';
+import Milestone from './components/Milestone.vue';
+import Prize from './components/Prize.vue';
+import UpcomingRun from './components/UpcomingRun.vue';
+import MusicTrack from './components/MusicTrack.vue';
+import { useOmnibarStore } from './store';
+
+useHead({ title: 'Omnibar ticker control' });
+
+const omnibarTypes = {
+  GenericMsg,
+  UpcomingRun,
+  Prize,
+  Bid,
+  Milestone,
+  MusicTrack,
+};
+
+const store = useOmnibarStore();
+
+type CurrentItem = {
+  index: number,
+  type?: string,
+  name?: string,
+  seconds: number,
+  secondsStr: string,
+  msg: string,
+};
+
+const availableTypes: { key: Omnibar['rotation'][0]['type'], name: string }[] = [
+  {
+    key: 'GenericMsg',
+    name: 'Generic Message',
+  },
+  {
+    key: 'MusicTrack',
+    name: 'Current song',
+  },
+  {
+    key: 'Bid',
+    name: 'Random Bid (favours sooner)',
+  },
+  {
+    key: 'Milestone',
+    name: 'Random Milestone',
+  },
+  {
+    key: 'Prize',
+    name: 'Random Prize',
+  },
+  {
+    key: 'UpcomingRun',
+    name: 'Upcoming Run (1 of next 4)',
+  },
+];
+
+const currentItem = computed<CurrentItem>(() => ({
+  index: omnibar.data!.rotation.findIndex((r) => r.id === omnibar.data?.current?.id),
+  type: omnibar.data?.current?.type,
+  name: availableTypes.find((t) => t.key === omnibar.data?.current?.type)?.name || omnibar.data?.current?.type,
+  seconds: omnibar.data?.current?.props?.seconds || 0,
+  secondsStr: ['Bid', 'MiniCredits'].includes(omnibar.data?.current?.type || '')
+    ? 'Minimum Length (seconds)'
+    : 'Length (seconds)',
+  msg: (omnibar.data?.current?.props?.msg as string | undefined) || '',
+}));
+
+function cloneRot(original: { key: Omnibar['rotation'][0]['type'], name: string }): Omnibar['rotation'][0] {
+  return {
+    type: original.key,
+    id: uuid(),
+    props: {
+      seconds: 25,
+      msg: original.key === 'GenericMsg'
+        ? 'Message?'
+        : undefined,
+    },
+  };
+}
+
+const localRotation = computed({
+  get: () => store.localRotation,
+  set: (newRot) => {
+    store.setLocalRotation({ val: newRot, manual: true });
+  },
+});
+const isEdited = computed(() => store.localEdits);
+
+function setLocalRotationFromGlobal(val?: Omnibar['rotation']): void {
+  store.setLocalRotation({ val: clone(val || omnibar.data!.rotation) });
+}
+
+function save(): void {
+  store.storeToGlobalLocation();
+}
+
+watch(() => omnibar.data?.rotation, (newRot) => {
+  if (!store.localEdits) {
+    setLocalRotationFromGlobal(newRot);
+  }
+});
+
+onMounted(async () => {
+  await waitForReplicant(omnibar);
+
+  setLocalRotationFromGlobal();
+});
+</script>
+
 <template>
   <v-app>
     <!-- Edit Dialog -->
-    <edit-dialog />
+    <EditDialog />
 
     <!-- New Components -->
     <span class="text-h6">New Components</span>
-    <draggable
+    <Draggable
       class="d-flex flex-wrap"
       :list="availableTypes"
       :group="{ name: 'ticker', pull: 'clone', put: false }"
-      :clone="clone"
+      :clone="cloneRot"
       :sort="false"
       :style="{ gap: '0px 10px' }"
     >
@@ -20,14 +140,14 @@
       >
         {{ type.name }}
       </v-card>
-    </draggable>
+    </Draggable>
 
     <!-- Rotation -->
     <span class="text-h6 mt-4">Rotation</span>
     <v-card v-if="!localRotation.length" class="pa-2 mt-2 font-italic">
       Drag elements from above to here to add.
     </v-card>
-    <draggable
+    <Draggable
       v-model="localRotation"
       group="ticker"
       ghost-class="Ghost"
@@ -47,11 +167,11 @@
         v-for="item in localRotation"
         class="mt-2"
         :key="item.id"
-        :is="item.type"
+        :is="omnibarTypes[item.type]"
         :id="item.id"
         v-bind="item.props"
       />
-    </draggable>
+    </Draggable>
 
     <!-- Save/Revert -->
     <div class="d-flex mt-2">
@@ -78,125 +198,6 @@
     </div>
   </v-app>
 </template>
-
-<script lang="ts">
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { Omnibar } from '@esa-layouts/types/schemas';
-import clone from 'clone';
-import { v4 as uuid } from 'uuid';
-import { Component, Vue, Watch } from 'vue-property-decorator';
-import Draggable from 'vuedraggable';
-import Bid from './components/Bid.vue';
-import EditDialog from './components/EditDialog.vue';
-import GenericMsg from './components/GenericMsg.vue';
-import Milestone from './components/Milestone.vue';
-import Prize from './components/Prize.vue';
-import UpcomingRun from './components/UpcomingRun.vue';
-import MusicTrack from './components/MusicTrack.vue';
-import { storeModule } from './store';
-
-@Component({
-  components: {
-    EditDialog,
-    Draggable,
-    GenericMsg,
-    Bid,
-    Milestone,
-    Prize,
-    UpcomingRun,
-    MusicTrack,
-  },
-})
-export default class OmnibarTickerControl extends Vue {
-  @replicantNS.State((s) => s.reps.omnibar) readonly omnibar!: Omnibar;
-  availableTypes: { key: Omnibar['rotation'][0]['type'], name: string }[] = [
-    {
-      key: 'GenericMsg',
-      name: 'Generic Message',
-    },
-    {
-      key: 'MusicTrack',
-      name: 'Current song',
-    },
-    {
-      key: 'Bid',
-      name: 'Random Bid (favours sooner)',
-    },
-    {
-      key: 'Milestone',
-      name: 'Random Milestone',
-    },
-    {
-      key: 'Prize',
-      name: 'Random Prize',
-    },
-    {
-      key: 'UpcomingRun',
-      name: 'Upcoming Run (1 of next 4)',
-    },
-  ];
-
-  get localRotation(): Omnibar['rotation'] { return storeModule.localRotation; }
-  set localRotation(val: Omnibar['rotation']) {
-    storeModule.setLocalRotation({ val, manual: true });
-  }
-
-  get isEdited(): boolean {
-    return storeModule.localEdits;
-  }
-
-  get currentItem(): {
-    index: number,
-    type?: string,
-    name?: string,
-    seconds: number,
-    secondsStr: string,
-    msg: string,
-  } {
-    return {
-      index: this.omnibar.rotation.findIndex((r) => r.id === this.omnibar.current?.id),
-      type: this.omnibar.current?.type,
-      name: this.availableTypes
-        .find((t) => t.key === this.omnibar.current?.type)?.name || this.omnibar.current?.type,
-      seconds: this.omnibar.current?.props?.seconds || 0,
-      secondsStr: ['Bid', 'MiniCredits'].includes(this.omnibar.current?.type || '')
-        ? 'Minimum Length (seconds)'
-        : 'Length (seconds)',
-      msg: (this.omnibar.current?.props?.msg as string | undefined) || '',
-    };
-  }
-
-  setLocalRotationFromGlobal(val?: Omnibar['rotation']): void {
-    storeModule.setLocalRotation({ val: clone(val || this.omnibar.rotation) });
-  }
-
-  @Watch('omnibar.rotation')
-  onGlobalRotationChange(val: Omnibar['rotation']): void {
-    if (!storeModule.localEdits) this.setLocalRotationFromGlobal(val);
-  }
-
-  created(): void {
-    this.setLocalRotationFromGlobal();
-  }
-
-  clone(original: { key: Omnibar['rotation'][0]['type'], name: string }): Omnibar['rotation'][0] {
-    return {
-      type: original.key,
-      id: uuid(),
-      props: {
-        seconds: 25,
-        msg: original.key === 'GenericMsg'
-          ? 'Message?'
-          : undefined,
-      },
-    };
-  }
-
-  save(): void {
-    storeModule.setGlobalRotation(this.localRotation);
-  }
-}
-</script>
 
 <style scoped>
   .Ghost {

@@ -1,3 +1,21 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useOmnibarStore } from '../store';
+
+const { id } = defineProps<{ id: string }>();
+
+const store = useOmnibarStore();
+const fab = ref(false);
+
+function edit() {
+  store.editItemId = id;
+  store.editDialog = true;
+}
+
+function del() {
+  store.deleteItem(id);
+}
+</script>
 <template>
   <v-speed-dial v-model="fab" top right direction="left" absolute>
     <template v-slot:activator>
@@ -14,23 +32,3 @@
     </v-btn>
   </v-speed-dial>
 </template>
-
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import { storeModule } from '../store';
-
-@Component
-export default class extends Vue {
-  @Prop({ type: String, required: true }) readonly id!: string;
-  fab = false;
-
-  edit(): void {
-    storeModule.changeEditItemId(this.id);
-    storeModule.toggleEditDialog(true);
-  }
-
-  del(): void {
-    storeModule.deleteItem(this.id);
-  }
-}
-</script>
