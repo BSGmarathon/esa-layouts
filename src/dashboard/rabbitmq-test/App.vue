@@ -1,3 +1,35 @@
+<script setup lang="ts">
+defineProps<{ enabled: boolean, useTestData: boolean }>();
+
+function donation(): void {
+  nodecg.sendMessage('testRabbitMQ', { msgType: 'donationFullyProcessed' });
+}
+
+function subscription(): void {
+  nodecg.sendMessage('testRabbitMQ', { msgType: 'newScreenedSub' });
+}
+
+function cheer(): void {
+  nodecg.sendMessage('testRabbitMQ', { msgType: 'newScreenedCheer' });
+}
+
+function tweet(): void {
+  nodecg.sendMessage('testRabbitMQ', { msgType: 'newScreenedTweet' });
+}
+
+function crowdControl(): void {
+  nodecg.sendMessage('testRabbitMQ', { msgType: 'newScreenedCrowdControl' });
+}
+
+function scanTag(tag: number, id: string): void {
+  nodecg.sendMessage('testRabbitMQ', { msgType: 'bigbuttonTagScanned', data: { tag, id } });
+}
+
+function pressBtn(id: number): void {
+  nodecg.sendMessage('testRabbitMQ', { msgType: 'bigbuttonPressed', data: { id } });
+}
+</script>
+
 <template>
   <v-app
     v-if="!useTestData"
@@ -59,35 +91,3 @@
     </div>
   </v-app>
 </template>
-
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-
-@Component
-export default class extends Vue {
-  @Prop(Boolean) enabled!: boolean;
-  @Prop(Boolean) useTestData!: boolean;
-
-  donation(): void {
-    nodecg.sendMessage('testRabbitMQ', { msgType: 'donationFullyProcessed' });
-  }
-  subscription(): void {
-    nodecg.sendMessage('testRabbitMQ', { msgType: 'newScreenedSub' });
-  }
-  cheer(): void {
-    nodecg.sendMessage('testRabbitMQ', { msgType: 'newScreenedCheer' });
-  }
-  tweet(): void {
-    nodecg.sendMessage('testRabbitMQ', { msgType: 'newScreenedTweet' });
-  }
-  crowdControl(): void {
-    nodecg.sendMessage('testRabbitMQ', { msgType: 'newScreenedCrowdControl' });
-  }
-  scanTag(tag: number, id: string): void {
-    nodecg.sendMessage('testRabbitMQ', { msgType: 'bigbuttonTagScanned', data: { tag, id } });
-  }
-  pressBtn(id: number): void {
-    nodecg.sendMessage('testRabbitMQ', { msgType: 'bigbuttonPressed', data: { id } });
-  }
-}
-</script>
