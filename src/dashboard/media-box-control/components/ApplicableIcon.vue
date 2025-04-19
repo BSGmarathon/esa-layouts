@@ -1,6 +1,10 @@
+<script setup lang="ts">
+defineProps<{ isApplicable: boolean }>();
+</script>
+
 <template>
   <v-tooltip
-    v-if="isApplicable === true"
+    v-if="isApplicable"
     right
   >
     <template v-slot:activator="{ on }">
@@ -11,7 +15,7 @@
     <span>Applicable</span>
   </v-tooltip>
   <v-tooltip
-    v-else-if="isApplicable === false"
+    v-else-if="!isApplicable"
     right
   >
     <template v-slot:activator="{ on }">
@@ -33,12 +37,3 @@
     <span>Unknown</span>
   </v-tooltip>
 </template>
-
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-
-@Component
-export default class extends Vue {
-  @Prop({ type: Boolean, required: false }) isApplicable!: boolean | undefined;
-}
-</script>

@@ -1,3 +1,77 @@
+<script setup lang="ts">
+import clone from 'clone';
+import Draggable from 'vuedraggable';
+import { onMounted, ref } from 'vue';
+import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
+import {
+  assetsMediaBoxImages as images,
+  mediaBox as settings,
+  prizes,
+} from '@esa-layouts/browser_shared/replicant_store';
+import { useMediaBoxControlStore } from '@esa-layouts/media-box-control/store';
+import { MediaBox } from '../../../types';
+import ApplicableIcon from './ApplicableIcon.vue';
+import MediaCard from './MediaCard.vue';
+import { getMediaDetails, isPrizeApplicable } from './shared';
+
+const store = useMediaBoxControlStore();
+const dialog = ref(false);
+const editingElem = ref('');
+const editedText = ref('');
+
+onMounted(async () => {
+  await waitForReplicant(prizes, settings);
+
+  store.newRotation = clone(settings.data!.rotation);
+});
+
+function isApplicable(media: MediaBox.RotationElem): boolean | undefined {
+  // TODO: Check if on intermission on the dashboard size.
+  // We should probably just be loading in the server applicable rotation here.
+  if (!media.showOnIntermission) {
+    return undefined;
+  }
+
+  // Only applicable if the asset actually exists.
+  if (media.type === 'image') {
+    return !!images.value.find((i) => i.sum === media.mediaUUID);
+  }
+
+  // Generic prize element only applicable if there are applicable prizes to fill it with.
+  if (media.type === 'prize_generic') {
+    return !!prizes.data!.filter((p) => isPrizeApplicable(p)).length;
+  }
+
+  // Check if prize is applicable using other function.
+  if (media.type === 'prize') {
+    return isPrizeApplicable(prizes.data!.find((p) => p.id.toString() === media.mediaUUID));
+  }
+
+  // Text is always applicable.
+  return media.type === 'text';
+}
+
+function parseSeconds(i: number): void {
+  store.newRotation[i].seconds = Number(store.newRotation[i].seconds);
+}
+
+function save(): void {
+  const index = store.newRotation.findIndex((v) => v.id === editingElem.value);
+
+  if (index >= 0) {
+    store.newRotation[index].text = editedText.value;
+  }
+
+  editedText.value = '';
+  editingElem.value = '';
+  dialog.value = false;
+}
+
+function remove(i: number): void {
+  store.newRotation.splice(i, 1);
+}
+</script>
+
 <template>
   <div>
     <!-- Dialog for editing custom text -->
@@ -33,22 +107,22 @@
         'overflow-y': 'auto',
       }"
     >
-      <media-card
+      <MediaCard
         v-if="!newRotation.length"
         :style="{ 'font-style': 'italic' }"
       >
         Drag elements from above to here to configure.
-      </media-card>
-      <draggable
+      </MediaCard>
+      <Draggable
         v-model="newRotation"
         group="media"
       >
-        <media-card
+        <MediaCard
           v-for="(media, i) in newRotation"
           :key="media.id"
           class="d-flex"
         >
-          <applicable-icon :is-applicable="isApplicable(media)" />
+          <ApplicableIcon :is-applicable="isApplicable(media)" />
           <div
             class="d-flex align-center justify-center flex-grow-1"
             :title="getMediaDetails(media).name"
@@ -94,88 +168,8 @@
               mdi-delete
             </v-icon>
           </div>
-        </media-card>
-      </draggable>
+        </MediaCard>
+      </Draggable>
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import type NodeCGTypes from '@nodecg/types';
-import clone from 'clone';
-import { Component, Vue } from 'vue-property-decorator';
-import Draggable from 'vuedraggable';
-import { State } from 'vuex-class';
-import { State2Way } from 'vuex-class-state2way';
-import { MediaBox } from '../../../types';
-import { MediaBox as MediaBoxRep, Prizes } from '../../../types/schemas';
-import ApplicableIcon from './ApplicableIcon.vue';
-import MediaCard from './MediaCard.vue';
-import { getMediaDetails, isPrizeApplicable } from './shared';
-
-@Component({
-  components: {
-    Draggable,
-    MediaCard,
-    ApplicableIcon,
-  },
-})
-export default class extends Vue {
-  @State images!: NodeCGTypes.AssetFile[];
-  @State prizes!: Prizes;
-  @State settings!: MediaBoxRep;
-  @State2Way('updateNewRotation', 'newRotation') newRotation!: MediaBox.RotationElem[];
-  getMediaDetails = getMediaDetails;
-  isPrizeApplicable = isPrizeApplicable;
-  dialog = false;
-  editingElem = '';
-  editedText = '';
-
-  created(): void {
-    this.newRotation = clone(this.settings.rotation);
-  }
-
-  isApplicable(media: MediaBox.RotationElem): boolean | undefined {
-    // TODO: Check if on intermission on the dashboard size.
-    // We should probably just be loading in the server applicable rotation here.
-    if (!media.showOnIntermission) {
-      return undefined;
-    }
-    // Only applicable if the asset actually exists.
-    if (media.type === 'image') {
-      return !!this.images.find((i) => i.sum === media.mediaUUID);
-    }
-    // Generic prize element only applicable if there are applicable prizes to fill it with.
-    if (media.type === 'prize_generic') {
-      return !!this.prizes.filter((p) => isPrizeApplicable(p)).length;
-    }
-    // Check if prize is applicable using other function.
-    if (media.type === 'prize') {
-      return isPrizeApplicable(this.prizes.find((p) => p.id.toString() === media.mediaUUID));
-    }
-    // Text is always applicable.
-    if (media.type === 'text') {
-      return true;
-    }
-    return false;
-  }
-
-  parseSeconds(i: number): void {
-    this.newRotation[i].seconds = Number(this.newRotation[i].seconds);
-  }
-
-  save(): void {
-    const index = this.newRotation.findIndex((v) => v.id === this.editingElem);
-    if (index >= 0) {
-      this.newRotation[index].text = this.editedText;
-    }
-    this.editedText = '';
-    this.editingElem = '';
-    this.dialog = false;
-  }
-
-  remove(i: number): void {
-    this.newRotation.splice(i, 1);
-  }
-}
-</script>

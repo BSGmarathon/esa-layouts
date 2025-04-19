@@ -1,3 +1,20 @@
+<script setup lang="ts">
+import Draggable from 'vuedraggable';
+import { MediaBox, Tracker } from '@esa-layouts/types';
+import { prizes } from '@esa-layouts/browser_shared/replicant_store';
+import { clone as cloneRw, isPrizeApplicable } from './shared';
+import MediaCard from './MediaCard.vue';
+import ApplicableIcon from './ApplicableIcon.vue';
+
+function clone(original: Tracker.FormattedPrize): MediaBox.RotationElem {
+  return cloneRw('prize', original.id.toString());
+}
+
+function cloneGeneric(): MediaBox.RotationElem {
+  return cloneRw('prize_generic');
+}
+</script>
+
 <template>
   <div>
     <v-toolbar-title>
@@ -9,22 +26,22 @@
         'overflow-y': 'auto',
       }"
     >
-      <media-card
+      <MediaCard
         v-if="!prizes.length"
         :style="{ 'font-style': 'italic' }"
       >
         No prizes available from the tracker.
-      </media-card>
+      </MediaCard>
       <!-- All Prizes -->
-      <draggable
+      <Draggable
         v-else
-        :list="prizes"
+        :list="prizes.data"
         :group="{ name: 'media', pull: 'clone', put: false }"
         :sort="false"
         :clone="clone"
       >
-        <media-card
-          v-for="prize in prizes"
+        <MediaCard
+          v-for="prize in prizes.data"
           :key="prize.id"
           class="d-flex"
         >
@@ -35,61 +52,30 @@
           >
             {{ prize.name }}
           </div>
-        </media-card>
-      </draggable>
+        </MediaCard>
+      </Draggable>
 
       <!-- Generic Prize Slide -->
-      <draggable
+      <Draggable
         :list="['generic_prize']"
         :group="{ name: 'media', pull: 'clone', put: false }"
         :sort="false"
         :clone="cloneGeneric"
       >
-        <media-card
+        <MediaCard
           key="generic_prize"
           class="d-flex"
           :style="{ 'font-weight': '500' }"
         >
-          <applicable-icon :is-applicable="!!prizes.filter((p) => isPrizeApplicable(p)).length" />
+          <ApplicableIcon :is-applicable="!!prizes.data!.filter(isPrizeApplicable).length" />
           <div
             class="flex-grow-1"
             title="Generic Prize Slide"
           >
             Generic Prize Slide
           </div>
-        </media-card>
-      </draggable>
+        </MediaCard>
+      </Draggable>
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
-import { State } from 'vuex-class';
-import Draggable from 'vuedraggable';
-import { Tracker, MediaBox } from '@esa-layouts/types';
-import { Prizes } from '@esa-layouts/types/schemas';
-import { clone, isPrizeApplicable } from './shared';
-import MediaCard from './MediaCard.vue';
-import ApplicableIcon from './ApplicableIcon.vue';
-
-@Component({
-  components: {
-    Draggable,
-    MediaCard,
-    ApplicableIcon,
-  },
-})
-export default class extends Vue {
-  @State prizes!: Prizes;
-  isPrizeApplicable = isPrizeApplicable;
-
-  clone(original: Tracker.FormattedPrize): MediaBox.RotationElem {
-    return clone('prize', original.id.toString());
-  }
-
-  cloneGeneric(): MediaBox.RotationElem {
-    return clone('prize_generic');
-  }
-}
-</script>

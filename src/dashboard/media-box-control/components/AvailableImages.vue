@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import type NodeCGTypes from '@nodecg/types';
+import Draggable from 'vuedraggable';
+import { assetsMediaBoxImages as images } from '@esa-layouts/browser_shared/replicant_store';
+import { MediaBox } from '../../../types';
+import MediaCard from './MediaCard.vue';
+import { clone as cloneShared } from './shared';
+
+function clone(original: NodeCGTypes.AssetFile): MediaBox.RotationElem {
+  return cloneShared('image', original.sum);
+}
+</script>
+
 <template>
   <div>
     <v-toolbar-title>
@@ -9,55 +22,30 @@
         'overflow-y': 'auto',
       }"
     >
-      <media-card
+      <MediaCard
         v-if="!images.length"
         :style="{
           'font-style': 'italic',
           'white-space': 'unset',
         }"
       >
-        Add images under "Assets" > "{{ bundleName }}" > "Media Box Images".
-      </media-card>
-      <draggable
+        Add images under "Assets" > "{{ nodecg.bundleName }}" > "Media Box Images".
+      </MediaCard>
+      <Draggable
         v-else
         :list="images"
         :group="{ name: 'media', pull: 'clone', put: false }"
         :sort="false"
         :clone="clone"
       >
-        <media-card
+        <MediaCard
           v-for="image in images"
           :key="image.sum"
           :title="image.name"
         >
           {{ image.name }}
-        </media-card>
-      </draggable>
+        </MediaCard>
+      </Draggable>
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import type NodeCGTypes from '@nodecg/types';
-import { Component, Vue } from 'vue-property-decorator';
-import Draggable from 'vuedraggable';
-import { State } from 'vuex-class';
-import { MediaBox } from '../../../types';
-import MediaCard from './MediaCard.vue';
-import { clone } from './shared';
-
-@Component({
-  components: {
-    Draggable,
-    MediaCard,
-  },
-})
-export default class extends Vue {
-  @State images!: NodeCGTypes.AssetFile[];
-  bundleName = nodecg.bundleName;
-
-  clone(original: NodeCGTypes.AssetFile): MediaBox.RotationElem {
-    return clone('image', original.sum);
-  }
-}
-</script>
