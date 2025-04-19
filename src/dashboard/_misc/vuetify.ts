@@ -8,6 +8,6 @@ export default createVuetify({
   components,
   directives,
   theme: {
-    defaultTheme: 'light',
+    // dark: true, // FIXME: read the docs about this
   },
 });
