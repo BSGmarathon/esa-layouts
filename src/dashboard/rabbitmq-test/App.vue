@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { useHead } from '@vueuse/head';
+
+useHead({ title: 'RabbitMQ test' });
+
 defineProps<{ enabled: boolean, useTestData: boolean }>();
 
 function donation(): void {
