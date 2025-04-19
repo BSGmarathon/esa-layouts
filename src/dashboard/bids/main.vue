@@ -20,10 +20,11 @@ const pinnedBid = computed<Bids[0] | undefined>(
     : undefined),
 );
 const bidsSorted = computed<Bids>(() => sortBy(bids.data, [sortOpt.value === 1 ? 'endTime' : 'game']));
-const bidsFiltered = computed<Partial<Bids[0]>[]>(() => {
-  const filtered: Partial<Bids[0]>[] = [];
+const bidsFiltered = computed<Bids>(() => {
+  const filtered: Bids = [];
 
   if (!pinnedBid.value && currentPin.value?.type === 'Bid') {
+    // @ts-expect-error Fuck off
     filtered.push({ name: 'Pinned bid no longer available!', id: currentPin.value.id as number });
   }
 

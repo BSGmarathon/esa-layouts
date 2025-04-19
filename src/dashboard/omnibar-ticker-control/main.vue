@@ -119,7 +119,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-app>
+  <v-app v-if="omnibar.data">
     <!-- Edit Dialog -->
     <EditDialog />
 

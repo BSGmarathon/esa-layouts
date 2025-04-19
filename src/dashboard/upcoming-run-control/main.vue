@@ -51,7 +51,7 @@ function getRunStr(id: string): string {
       :style="{ 'margin-top': '5px' }"
     >
       <v-btn
-        v-if="runDataActiveRunSurrounding.data[type]"
+        v-if="runDataActiveRunSurrounding.data && runDataActiveRunSurrounding.data[type]"
         class="ForceUpcomingRunBtn"
         width="100%"
         block

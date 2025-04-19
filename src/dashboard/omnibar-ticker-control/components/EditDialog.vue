@@ -84,11 +84,11 @@ watch(() => store.editDialog, (isOpen) => {
 <template>
   <v-dialog class="Dialog" v-model="store.editDialog" persistent>
     <v-card>
-      <v-card-text v-if="item" class="pa-4 pb-0"><!-- TODO: move v-if? -->
+      <v-card-text v-if="item && item.props" class="pa-4 pb-0"><!-- TODO: move v-if? -->
         <v-form v-model="isFormValid">
           <!-- Length (seconds) -->
           <v-text-field
-            :value="item.props!.seconds"
+            :value="item.props.seconds"
             @change="secondsChanged"
             :label="secondsStr"
             prepend-icon="mdi-timer"
