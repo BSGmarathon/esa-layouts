@@ -34,7 +34,9 @@ const gameSources = computed(() => {
   return gameSourceNames.concat(cameraSources);
 });
 
-watch(selectedCaptures, async (newVal: number[], oldVal?: number[]) => {
+const selectedCapturesComputed = computed(() => JSON.parse(JSON.stringify(selectedCaptures.value)));
+
+watch(selectedCapturesComputed, async (newVal: number[], oldVal?: number[]) => {
   if (locked.value || !oldVal) {
     return;
   }
@@ -112,6 +114,7 @@ onMounted(async () => {
             </th>
           </tr>
         </thead>
+        {{ locked }}
         <tbody>
           <tr v-for="(source, si) in gameCaptures" :key="source">
             <td class="text--lighten-5">{{ source }}</td>
