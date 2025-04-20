@@ -44,33 +44,35 @@ function clear() {
       <v-list
         dense
       >
-        <v-list-item-group>
-          <template v-if="commentatorsNew.data.length">
-            <v-list-item
-              v-for="({ name, country, pronouns }, i) in commentatorsNew.data"
-              :key="i"
-            >
+        <template v-if="commentatorsNew.data.length">
+          <v-list-item
+            v-for="({ name, country, pronouns }, i) in commentatorsNew.data"
+            :key="i"
+          >
+            <template v-slot:prepend>
               <v-list-item-action>
                 <v-icon @click="del(i)">mdi-delete</v-icon>
               </v-list-item-action>
-              <v-list-item-content>
-                {{ name }}
-                <template v-if="pronouns">
-                  ({{ pronouns }})
-                </template>
-                <template v-if="country">
-                  ({{ country }})
-                </template>
-              </v-list-item-content>
-            </v-list-item>
-          </template>
-          <v-list-item
-            v-else
-            :style="{ 'font-style': 'italic' } "
-          >
-            No commentators specified
+            </template>
+            <v-list-item-title>
+              {{ name }}
+              <template v-if="pronouns">
+                ({{ pronouns }})
+              </template>
+              <template v-if="country">
+                ({{ country }})
+              </template>
+            </v-list-item-title>
           </v-list-item>
-        </v-list-item-group>
+        </template>
+        <v-list-item
+          v-else
+          :style="{ 'font-style': 'italic' } "
+        >
+          <v-list-item-title>
+            No commentators specified
+          </v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-card>
     <div class="d-flex">

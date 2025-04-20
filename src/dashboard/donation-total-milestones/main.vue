@@ -39,7 +39,7 @@ function addBlank(): void {
 </script>
 
 <template>
-  <v-app>
+  <v-app v-if="total.data && milestones.data">
     <div class="mb-2 d-flex">
       <div>
         <span class="font-weight-bold">Donation Total:</span>

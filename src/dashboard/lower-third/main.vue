@@ -59,22 +59,20 @@ async function add(): Promise<void> {
       :style="{ 'margin-bottom': '10px' }"
       tile
     >
-      <v-list dense>
-        <v-list-group>
-          <v-list-item
-            v-for="(name, i) in lowerThird.data.names"
-            :key="i"
-            inactive
-            selectable
-          >
+      <v-list density="compact">
+        <v-list-item
+          v-for="(name, i) in lowerThird.data.names"
+          :key="i"
+          inactive
+          selectable
+        >
+          <template v-slot:prepend>
             <v-list-item-action>
               <v-icon @click="removeName(name)">mdi-delete</v-icon>
             </v-list-item-action>
-            <v-list-item-title>
-              {{ name }}
-            </v-list-item-title>
-          </v-list-item>
-        </v-list-group>
+          </template>
+          <v-list-item-title>{{ name }}</v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-card>
     <div class="d-flex">

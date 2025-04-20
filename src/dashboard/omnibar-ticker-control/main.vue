@@ -131,15 +131,17 @@ onMounted(async () => {
       :group="{ name: 'ticker', pull: 'clone', put: false }"
       :clone="cloneRot"
       :sort="false"
+      item-key="key"
       :style="{ gap: '0px 10px' }"
     >
-      <v-card
-        v-for="type in availableTypes"
-        class="pa-2 mt-2"
-        :key="type.key"
-      >
-        {{ type.name }}
-      </v-card>
+      <template #item="{ element }">
+        <v-card
+          class="pa-2 mt-2"
+          :key="element.key"
+        >
+          {{ element.name }}
+        </v-card>
+      </template>
     </Draggable>
 
     <!-- Rotation -->
@@ -162,15 +164,19 @@ onMounted(async () => {
         'max-height': '400px',
         'overflow-y': 'auto',
       }"
+      item-key="id"
     >
-      <component
-        v-for="item in localRotation"
-        class="mt-2"
-        :key="item.id"
-        :is="omnibarTypes[item.type]"
-        :id="item.id"
-        v-bind="item.props"
-      />
+      <template #item="{ element }">
+        <div>
+          <component
+            class="mt-2"
+            :key="element.id"
+            :is="omnibarTypes[element.type]"
+            :id="element.id"
+            v-bind="element.props"
+          />
+        </div>
+      </template>
     </Draggable>
 
     <!-- Save/Revert -->

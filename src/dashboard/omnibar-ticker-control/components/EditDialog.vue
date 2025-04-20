@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { Omnibar } from '@esa-layouts/types/schemas';
 import clone from 'clone';
-import { Component, computed, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { VTextarea } from 'vuetify/components';
 import { ValidationRule } from 'vuetify/framework';
 import { useOmnibarStore } from '../store';
 
 type AdditionalField = {
-  elem: Component,
+  elem: any,
   name: string,
   key: string,
   icon: string,
