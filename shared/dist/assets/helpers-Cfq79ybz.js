@@ -1,0 +1,1 @@
+function e(t){return t.toString().padStart(2,"0")}function i(t){const o=Math.floor(t/1e3%60),n=Math.floor(t/(1e3*60)%60),r=Math.floor(t/(1e3*60*60));return`${e(r)}:${e(n)}:${e(o)}`}function s(t){return`€${t.toFixed(2)}`}function a(t){return new Promise(o=>{window.setTimeout(o,t)})}async function u(...t){for(;!t.every(o=>o.data);)await a(100)}export{s as f,i as m,u as w};
