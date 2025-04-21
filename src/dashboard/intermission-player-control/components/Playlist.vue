@@ -48,45 +48,46 @@ function playlistRemove(i: number) {
       Add videos using the list above.
     </MediaCard>
     <draggable v-model="newPlaylist">
-      <MediaCard
-        v-for="({ sum, length, commercial }, i) in newPlaylist"
-        :key="`${sum}_${i}`"
-        class="d-flex align-center"
-      >
-        <v-text-field
-          :value="length"
-          type="number"
-          hide-details
-          outlined
-          dense
-          spellcheck="false"
-          autocomplete="off"
-          :style="{ 'max-width': '75px' }"
-          :step="`${commercial ? '30' : '1'}`"
-          min="0"
-          @input="playlistUpdateLength(i, $event)"
-        />
-        <div
-          class="d-flex justify-center flex-grow-1"
-          :style="{
+      <template #item="{ element: { sum, length, commercial }, index: i }">
+        <MediaCard
+          :key="`${sum}_${i}`"
+          class="d-flex align-center"
+        >
+          <v-text-field
+            :value="length"
+            type="number"
+            hide-details
+            outlined
+            dense
+            spellcheck="false"
+            autocomplete="off"
+            :style="{ 'max-width': '75px' }"
+            :step="`${commercial ? '30' : '1'}`"
+            min="0"
+            @input="playlistUpdateLength(i, $event)"
+          />
+          <div
+            class="d-flex justify-center flex-grow-1"
+            :style="{
             'overflow': 'hidden',
             'font-style': !getName(sum) ? 'italic' : undefined,
           }"
-        >
-          <template v-if="sum">
-            {{ getName(sum) || 'Could not find video name.' }}
-          </template>
-          <template v-else-if="commercial">
-            Commercial w/o Video
-          </template>
-          <template v-else>
-            Wait Block
-          </template>
-        </div>
-        <v-icon @click="playlistRemove(i)" class="mr-1">
-          mdi-delete
-        </v-icon>
-      </MediaCard>
+          >
+            <template v-if="sum">
+              {{ getName(sum) || 'Could not find video name.' }}
+            </template>
+            <template v-else-if="commercial">
+              Commercial w/o Video
+            </template>
+            <template v-else>
+              Wait Block
+            </template>
+          </div>
+          <v-icon @click="playlistRemove(i)" class="mr-1">
+            mdi-delete
+          </v-icon>
+        </MediaCard>
+      </template>
     </draggable>
     <v-btn block class="mt-3" @click="playerStore.playlistAdd({ commercial: true })">
       Add Commercial w/o Video to Playlist

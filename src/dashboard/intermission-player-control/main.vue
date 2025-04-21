@@ -42,7 +42,7 @@ async function save() {
 </script>
 
 <template>
-  <v-app>
+  <v-app v-if="videoPlayer.data">
     <AvailableVideos />
     <Playlist :style="{ 'margin-top': '20px' }" />
 
