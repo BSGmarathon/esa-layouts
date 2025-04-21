@@ -18,7 +18,7 @@ import { useOmnibarStore } from './store';
 
 useHead({ title: 'Omnibar ticker control' });
 
-const omnibarTypes = {
+const omnibarTypes: { [key: string]: any } = {
   GenericMsg,
   UpcomingRun,
   Prize,
@@ -151,26 +151,18 @@ onMounted(async () => {
     </v-card>
     <Draggable
       v-model="localRotation"
+      item-key="id"
       group="ticker"
       ghost-class="Ghost"
-      tag="transition-group"
-      :animation="200"
-      :componentData="{
-        props: {
-          tag: 'div',
-        },
-      }"
       :style="{
         'max-height': '400px',
         'overflow-y': 'auto',
       }"
-      item-key="id"
     >
       <template #item="{ element }">
         <div>
           <component
             class="mt-2"
-            :key="element.id"
             :is="omnibarTypes[element.type]"
             :id="element.id"
             v-bind="element.props"

@@ -59,11 +59,14 @@ const additionalFields = computed<AdditionalField[]>(() => {
   }
 });
 
-function secondsChanged(val: string): void {
-  if (item.value?.props?.seconds && !Number.isNaN(Number(val))) {
-    item.value.props.seconds = Number(val);
-  }
-}
+const secondsValue = computed({
+  get: () => item.value?.props?.seconds,
+  set: (val: string) => {
+    if (item.value?.props?.seconds && !Number.isNaN(Number(val))) {
+      item.value.props.seconds = Number(val);
+    }
+  },
+});
 
 function save(): void {
   if (item.value) {
@@ -88,8 +91,7 @@ watch(() => store.editDialog, (isOpen) => {
         <v-form v-model="isFormValid">
           <!-- Length (seconds) -->
           <v-text-field
-            :value="item.props.seconds"
-            @change="secondsChanged"
+            v-model="secondsValue"
             :label="secondsStr"
             prepend-icon="mdi-timer"
             autocomplete="off"
