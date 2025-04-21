@@ -46,14 +46,16 @@ function clone(item: SelectionItem): IntermissionSlides['rotation'][0] {
         :group="{ name: 'intermission', pull: 'clone', put: false }"
         :sort="false"
         :clone="clone"
+        item-key="type"
       >
-        <MediaCard
-          v-for="item in selection"
-          :key="item.type"
-          :title="item.name"
-        >
-          {{ item.name }}
-        </MediaCard>
+        <template #item="{ element: item }">
+          <MediaCard
+            :key="item.type"
+            :title="item.name"
+          >
+            {{ item.name }}
+          </MediaCard>
+        </template>
       </Draggable>
     </div>
   </div>

@@ -24,7 +24,7 @@ function save(): void {
   slideStore.storeToGlobalLocation();
 }
 
-watch(() => intermissionSlides.data!.rotation, (newVal) => {
+watch(() => intermissionSlides.data?.rotation, (newVal) => {
   if (!slideStore.localEdits) {
     setLocalRotationFromGlobal(newVal);
   }
@@ -38,7 +38,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-app>
+  <v-app v-if="intermissionSlides.data">
     <AvailableImagesVideos />
     <!-- Available Prizes -->
     <!-- Available Bids -->

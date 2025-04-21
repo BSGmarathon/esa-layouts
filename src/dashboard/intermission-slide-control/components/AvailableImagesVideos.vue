@@ -43,14 +43,15 @@ function clone(original: NodeCGTypes.AssetFile): IntermissionSlides['rotation'][
         :group="{ name: 'intermission', pull: 'clone', put: false }"
         :sort="false"
         :clone="clone"
+        item-key="sum"
       >
-        <MediaCard
-          v-for="asset in media"
-          :key="asset.sum"
-          :title="asset.name"
-        >
-          {{ asset.name }}
-        </MediaCard>
+        <template #item="{ element: asset }">
+          <MediaCard
+            :title="asset.name"
+          >
+            {{ asset.name }}
+          </MediaCard>
+        </template>
       </Draggable>
     </div>
   </div>

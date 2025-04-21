@@ -58,24 +58,25 @@ function del(id: string): void {
       <Draggable
         v-model="localRotation"
         group="intermission"
+        item-key="id"
       >
-        <MediaCard
-          v-for="media in localRotation"
-          :key="media.id"
-          class="d-flex"
-        >
-          <div
-            class="d-flex align-center justify-center flex-grow-1"
-            :style="{ 'overflow': 'hidden' }"
+        <template #item="{ element: media }">
+          <MediaCard
+            class="d-flex"
           >
-            {{ name(media) }}
-          </div>
-          <div class="d-flex">
-            <v-icon @click="del(media.id)">
-              mdi-delete
-            </v-icon>
-          </div>
-        </MediaCard>
+            <div
+              class="d-flex align-center justify-center flex-grow-1"
+              :style="{ 'overflow': 'hidden' }"
+            >
+              {{ name(media) }}
+            </div>
+            <div class="d-flex">
+              <v-icon @click="del(media.id)">
+                mdi-delete
+              </v-icon>
+            </div>
+          </MediaCard>
+        </template>
       </Draggable>
     </div>
   </div>
