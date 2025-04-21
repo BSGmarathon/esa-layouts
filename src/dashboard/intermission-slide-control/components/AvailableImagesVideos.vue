@@ -46,9 +46,7 @@ function clone(original: NodeCGTypes.AssetFile): IntermissionSlides['rotation'][
         item-key="sum"
       >
         <template #item="{ element: asset }">
-          <MediaCard
-            :title="asset.name"
-          >
+          <MediaCard>
             {{ asset.name }}
           </MediaCard>
         </template>

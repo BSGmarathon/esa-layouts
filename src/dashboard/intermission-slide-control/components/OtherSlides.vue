@@ -51,7 +51,6 @@ function clone(item: SelectionItem): IntermissionSlides['rotation'][0] {
         <template #item="{ element: item }">
           <MediaCard
             :key="item.type"
-            :title="item.name"
           >
             {{ item.name }}
           </MediaCard>

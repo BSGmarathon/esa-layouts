@@ -25,9 +25,12 @@ function change(): void {
       Current Countdown: {{ currentCountdown }}
     </div>
     <v-time-picker
+      scrollable
       v-model="entry"
       format="24hr"
       full-width
+      class="mb-4 mt-0"
+      style="width: 100%; background-color: transparent"
     />
     <v-btn @click="change()">
       Apply

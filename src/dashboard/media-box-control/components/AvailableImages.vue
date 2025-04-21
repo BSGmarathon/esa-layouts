@@ -42,9 +42,7 @@ function clone(original: NodeCGTypes.AssetFile): MediaBox.RotationElem {
         item-key="sum"
       >
         <template #item="{ element: image }">
-          <MediaCard
-            :title="image.name"
-          >
+          <MediaCard>
             {{ image.name }}
           </MediaCard>
         </template>

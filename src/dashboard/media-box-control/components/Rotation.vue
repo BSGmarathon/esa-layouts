@@ -153,9 +153,10 @@ function remove(i: number): void {
                 v-model="media.seconds"
                 class="pa-0 ma-0"
                 type="number"
-                hide-details
-                dense
-                :style="{ 'width': '40px !important' }"
+                label="Seconds"
+                hide-details="auto"
+                density="compact"
+                :style="{ 'width': '90px !important' }"
                 @input="parseSeconds(i)"
               />
               <v-icon
