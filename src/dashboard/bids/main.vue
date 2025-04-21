@@ -51,7 +51,7 @@ onMounted(async () => {
     <template v-else>
       <div class="d-flex">
         <v-spacer />
-        <v-radio-group v-model="sortOpt" row class="pa-0 ma-0" hide-details label="Sort By">
+        <v-radio-group v-model="sortOpt" inline class="pa-0 ma-0" hide-details label="Sort By">
           <v-radio label="Name" :value="0" />
           <v-radio label="End Time" :value="1" class="mr-0" />
         </v-radio-group>

@@ -47,7 +47,7 @@ function addBlank(): void {
       </div>
       <v-spacer />
       <div>
-        <v-radio-group v-model="sortOpt" row class="pa-0 ma-0" hide-details label="Sort By">
+        <v-radio-group v-model="sortOpt" inline class="pa-0 ma-0" hide-details label="Sort By">
           <v-radio label="Added" :value="0" />
           <v-radio label="Name" :value="1" />
           <v-radio label="Amount" :value="2" class="mr-0" />
