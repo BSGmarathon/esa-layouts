@@ -39,12 +39,12 @@ function isApplicable(media: MediaBox.RotationElem): boolean | undefined {
 
   // Generic prize element only applicable if there are applicable prizes to fill it with.
   if (media.type === 'prize_generic') {
-    return !!prizes.data!.filter((p) => isPrizeApplicable(p)).length;
+    return !!prizes.data?.filter((p) => isPrizeApplicable(p)).length;
   }
 
   // Check if prize is applicable using other function.
   if (media.type === 'prize') {
-    return isPrizeApplicable(prizes.data!.find((p) => p.id.toString() === media.mediaUUID));
+    return isPrizeApplicable(prizes.data?.find((p) => p.id.toString() === media.mediaUUID));
   }
 
   // Text is always applicable.
@@ -73,7 +73,7 @@ function remove(i: number): void {
 </script>
 
 <template>
-  <div>
+  <div v-if="settings.data && prizes.data">
     <!-- Dialog for editing custom text -->
     <v-dialog class="Dialog" v-model="dialog" persistent>
       <v-card>
@@ -116,59 +116,60 @@ function remove(i: number): void {
       <Draggable
         v-model="store.newRotation"
         group="media"
+        item-key="id"
       >
-        <MediaCard
-          v-for="(media, i) in store.newRotation"
-          :key="media.id"
-          class="d-flex"
-        >
-          <ApplicableIcon :is-applicable="isApplicable(media)" />
-          <div
-            class="d-flex align-center justify-center flex-grow-1"
-            :title="getMediaDetails(media).name"
-            :style="{
+        <template #item="{ element: media }">
+          <MediaCard
+            class="d-flex"
+          >
+            <ApplicableIcon :is-applicable="isApplicable(media)" />
+            <div
+              class="d-flex align-center justify-center flex-grow-1"
+              :title="getMediaDetails(media).name"
+              :style="{
               'overflow': 'hidden',
               'font-weight': media.type === 'prize_generic' ? '500' : undefined,
               'font-style': !getMediaDetails(media).name ? 'italic' : undefined,
             }"
-          >
-            {{ getMediaDetails(media).name || 'Could not find media name.' }}
-          </div>
-          <div class="d-flex">
-            <v-tooltip left>
-              <template v-slot:activator="{ targetRef }">
-                <div v-on="targetRef">
-                  <v-checkbox
-                    v-on="targetRef"
-                    v-model="media.showOnIntermission"
-                    dense
-                    class="ma-0 pa-0"
-                    hide-details
-                  />
-                </div>
-              </template>
-              <span>Show On Intermission</span>
-            </v-tooltip>
-            <v-text-field
-              v-model="media.seconds"
-              class="pa-0 ma-0"
-              type="number"
-              hide-details
-              dense
-              :style="{ 'width': '40px !important' }"
-              @input="parseSeconds(i)"
-            />
-            <v-icon
-              v-if="media.type === 'text'"
-              @click="editingElem = media.id; editedText = media.text || ''; dialog = true"
             >
-              mdi-pencil
-            </v-icon>
-            <v-icon @click="remove(i)">
-              mdi-delete
-            </v-icon>
-          </div>
-        </MediaCard>
+              {{ getMediaDetails(media).name || 'Could not find media name.' }}
+            </div>
+            <div class="d-flex">
+              <v-tooltip left>
+                <template v-slot:activator="{ targetRef }">
+                  <div v-on="targetRef">
+                    <v-checkbox
+                      v-on="targetRef"
+                      v-model="media.showOnIntermission"
+                      dense
+                      class="ma-0 pa-0"
+                      hide-details
+                    />
+                  </div>
+                </template>
+                <span>Show On Intermission</span>
+              </v-tooltip>
+              <v-text-field
+                v-model="media.seconds"
+                class="pa-0 ma-0"
+                type="number"
+                hide-details
+                dense
+                :style="{ 'width': '40px !important' }"
+                @input="parseSeconds(i)"
+              />
+              <v-icon
+                v-if="media.type === 'text'"
+                @click="editingElem = media.id; editedText = media.text || ''; dialog = true"
+              >
+                mdi-pencil
+              </v-icon>
+              <v-icon @click="remove(i)">
+                mdi-delete
+              </v-icon>
+            </div>
+          </MediaCard>
+        </template>
       </Draggable>
     </div>
   </div>

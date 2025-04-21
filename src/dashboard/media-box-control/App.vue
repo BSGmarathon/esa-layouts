@@ -38,9 +38,11 @@ function cloneText(): MediaBox.RotationElem {
           :sort="false"
           :clone="cloneText"
         >
-          <MediaCard key="text" :style="{ 'font-weight': '500' }">
-            Drag to rotation to configure a custom text element.
-          </MediaCard>
+          <template #item>
+            <MediaCard key="text" :style="{ 'font-weight': '500' }">
+              Drag to rotation to configure a custom text element.
+            </MediaCard>
+          </template>
         </Draggable>
       </div>
     </div>

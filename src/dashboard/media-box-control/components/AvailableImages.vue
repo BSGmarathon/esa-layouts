@@ -39,14 +39,15 @@ function clone(original: NodeCGTypes.AssetFile): MediaBox.RotationElem {
         :group="{ name: 'media', pull: 'clone', put: false }"
         :sort="false"
         :clone="clone"
+        item-key="sum"
       >
-        <MediaCard
-          v-for="image in images"
-          :key="image.sum"
-          :title="image.name"
-        >
-          {{ image.name }}
-        </MediaCard>
+        <template #item="{ element: image }">
+          <MediaCard
+            :title="image.name"
+          >
+            {{ image.name }}
+          </MediaCard>
+        </template>
       </Draggable>
     </div>
   </div>

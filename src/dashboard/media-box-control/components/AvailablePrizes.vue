@@ -16,7 +16,7 @@ function cloneGeneric(): MediaBox.RotationElem {
 </script>
 
 <template>
-  <div>
+  <div v-if="prizes.data">
     <v-toolbar-title>
       Available Prizes
     </v-toolbar-title>
@@ -39,20 +39,21 @@ function cloneGeneric(): MediaBox.RotationElem {
         :group="{ name: 'media', pull: 'clone', put: false }"
         :sort="false"
         :clone="clone"
+        item-key="id"
       >
-        <MediaCard
-          v-for="prize in prizes.data"
-          :key="prize.id"
-          class="d-flex"
-        >
-          <applicable-icon :is-applicable="isPrizeApplicable(prize)" />
-          <div
-            class="flex-grow-1"
-            :title="prize.name"
+        <template #item="{ element: prize }">
+          <MediaCard
+            class="d-flex"
           >
-            {{ prize.name }}
-          </div>
-        </MediaCard>
+            <applicable-icon :is-applicable="isPrizeApplicable(prize)" />
+            <div
+              class="flex-grow-1"
+              :title="prize.name"
+            >
+              {{ prize.name }}
+            </div>
+          </MediaCard>
+        </template>
       </Draggable>
 
       <!-- Generic Prize Slide -->
@@ -62,19 +63,21 @@ function cloneGeneric(): MediaBox.RotationElem {
         :sort="false"
         :clone="cloneGeneric"
       >
-        <MediaCard
-          key="generic_prize"
-          class="d-flex"
-          :style="{ 'font-weight': '500' }"
-        >
-          <ApplicableIcon :is-applicable="!!prizes.data!.filter(isPrizeApplicable).length" />
-          <div
-            class="flex-grow-1"
-            title="Generic Prize Slide"
+        <template #item>
+          <MediaCard
+            key="generic_prize"
+            class="d-flex"
+            :style="{ 'font-weight': '500' }"
           >
-            Generic Prize Slide
-          </div>
-        </MediaCard>
+            <ApplicableIcon :is-applicable="!!prizes.data!.filter(isPrizeApplicable).length" />
+            <div
+              class="flex-grow-1"
+              title="Generic Prize Slide"
+            >
+              Generic Prize Slide
+            </div>
+          </MediaCard>
+        </template>
       </Draggable>
     </div>
   </div>
