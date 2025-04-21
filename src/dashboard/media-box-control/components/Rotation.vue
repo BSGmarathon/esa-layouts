@@ -118,7 +118,7 @@ function remove(i: number): void {
         group="media"
         item-key="id"
       >
-        <template #item="{ element: media }">
+        <template #item="{ element: media, index: i }">
           <MediaCard
             class="d-flex"
           >
