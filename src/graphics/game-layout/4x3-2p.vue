@@ -84,11 +84,7 @@
         height: '220px',
       }"
     >
-      <run-info text-align="left" :info-is-row="infoIsRow" line-right/>
-      <flashing-lights-warning
-        class="Flex"
-        @flashing-lights-updated="flashingLightsUpdated"
-        style="align-self: flex-end"/>
+      <run-info-canvas :width="710" :height="220" text-align="left" line-right/>
     </div>
 
     <!-- Media box / commentator / donation reader -->
@@ -100,6 +96,9 @@
           height: '221px',
         }"
     >
+      <flashing-lights-warning
+        class="Flex"
+        style="align-self: flex-end"/>
       <media-box-box
         line-left
         :style="{
@@ -119,7 +118,7 @@ import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
 import CommentatorsReader from './components/CommentatorsReader.vue';
 import GameCapture from './components/GameCapture.vue';
 import Player from './components/Player.vue';
-import RunInfo from './components/RunInfo.vue';
+import RunInfoCanvas from './components/RunInfoCanvas.vue';
 import Timer from './components/Timer.vue';
 import DonationBar from './components/DonationBar.vue';
 import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
@@ -130,7 +129,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     GameCapture,
     Player,
     CommentatorsReader,
-    RunInfo,
+    RunInfoCanvas,
     Timer,
     MediaBox,
     MediaBoxBox,
@@ -139,10 +138,6 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
   },
 })
 export default class extends Vue {
-  infoIsRow = false;
-
-  flashingLightsUpdated(newVal: boolean): void {
-    this.infoIsRow = newVal;
-  }
+  //
 }
 </script>

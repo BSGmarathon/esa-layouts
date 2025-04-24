@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Run Info tester</title>
+
+  <style>
+    body {
+      background: rebeccapurple;
+    }
+    canvas {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+<canvas id="canvas" width="710" height="176"></canvas>
+
+<script src="./jsTifierExtensionFunctions.js"></script>
+<!-- https://github.com/jbaylina/jsTifier -->
+<script src="./jsTifier.js"></script>
+<script>
+  const runInfo = {
+    game: 'Winx Club very long text bla bla there once was a man named stanly who walked through the office quite danty',
+    category: 'any%',
+    system: 'PC',
+    estimate: '00:30:00',
+  };
+
+  /**
+   * @type {HTMLCanvasElement}
+   */
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+
+  // Fill the entire canvas so we have image data
+  ctx.fillStyle = '#404040';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "cornflowerblue";
+  // ctx.shadowColor = "#cf773b";
+  // ctx.shadowBlur = 20;
+  //
+  // ctx.fillRect(0, 0, canvas.width, canvas.height / 2);
+  ctx.mlFillTextBsg(runInfo.game, 0, -15, canvas.width, canvas.height / 2, 'bottom', 'center', 30);
+
+  /**
+   * TODO: this function is broken, try to fix it
+   * @param {CanvasRenderingContext2D} context - canvas context
+   * @param {string} text
+   * @param {number} x
+   * @param {number} y
+   * @param {number} lineHeight
+   * @param {number|null} fitWidth
+   */
+  function printAtWordWrap(context, text, x, y, lineHeight, fitWidth)
+  {
+    fitWidth = fitWidth || 0;
+
+    if (fitWidth <= 0)
+    {
+      // context.fillText( text, x, y );
+      drawMainText(context, text, x, y, undefined)
+      return;
+    }
+    let words = text.split(' ');
+    let currentLine = 0;
+    let idx = 1;
+
+    while (words.length > 0 && idx <= words.length) {
+      const str = words.slice(0,idx).join(' ');
+      const w = context.measureText(str).width;
+
+      if ( w >= fitWidth ) {
+        console.log('bigger');
+        if (idx === 1) {
+          idx=2;
+        }
+
+        drawMainText(context, words.slice(0,idx-1).join(' '), x, y + (lineHeight*currentLine), fitWidth)
+        // context.fillText( words.slice(0,idx-1).join(' '), x, y + (lineHeight*currentLine) );
+        currentLine++;
+        words = words.splice(idx-1);
+        idx = 1;
+      } else {
+        idx++;
+      }
+    }
+
+    if  (idx > 0) {
+      // context.fillText( words.join(' '), x, y + (lineHeight*currentLine) );
+      drawMainText(context, words.join(' '), x, y + (lineHeight*currentLine), fitWidth)
+    }
+  }
+
+  // setupMainFont(ctx);
+  // printAtWordWrap(ctx, runInfo.game, 10, 40, 40, canvas.width - 20)
+</script>
+</body>
+</html>

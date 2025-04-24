@@ -5,24 +5,26 @@
     id="GameCapture1"
     class="BlockRed"
     :style="{
-        left: '589px',
+        left: '591px',
         top: '0px',
-        width: '1331px',
-        height: '998px',
+        width: '1329px',
+        height: '989px'
       }"
   />
 
   <!-- Camera Captures -->
   <div
     id="CameraCapture1"
-    class="Capture BlockBlue Relative"
+    class="Capture Relative Flex"
     :style="{
         left: '0px',
         top: '346px',
         width: '567px',
         height: '426px',
       }"
-  />
+  >
+    <flashing-lights-warning class="Flex" style="align-self: flex-end" />
+  </div>
 
   <!-- Player -->
   <div
@@ -47,8 +49,7 @@
           height: '281px',
         }"
   >
-    <run-info />
-    <flashing-lights-warning class="Flex" style="align-self: flex-end" />
+    <run-info-canvas :width="575" :height="281" line-right />
   </div>
 
   <!-- TIMER/media box -->
@@ -92,17 +93,17 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
 import GameCapture from './components/GameCapture.vue';
 import Player from './components/Player.vue';
 import CommentatorsReader from './components/CommentatorsReader.vue';
-import RunInfo from './components/RunInfo.vue';
 import Timer from './components/Timer.vue';
 import DonationBar from './components/DonationBar.vue';
 import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
+import RunInfoCanvas from './components/RunInfoCanvas.vue';
 
 @Component({
   components: {
+    RunInfoCanvas,
     GameCapture,
     Player,
     CommentatorsReader,
-    RunInfo,
     Timer,
     MediaBoxBox,
     DonationBar,
