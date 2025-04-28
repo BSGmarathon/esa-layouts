@@ -22,7 +22,7 @@ const filteredVideos = computed(() => videos.value
 </script>
 
 <template>
-  <div>
+  <div v-if="videoPlayer.data">
     <v-toolbar-title>
       Available Videos
     </v-toolbar-title>

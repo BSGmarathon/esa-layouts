@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import Draggable from 'vuedraggable';
+import { storeToRefs } from 'pinia';
+import { assetsVideos as videos } from '@esa-layouts/browser_shared/replicant_store';
 import MediaCard from '../../_misc/components/MediaCard.vue';
 import { useIntermissionPlayerStore } from '../store';
-import { assetsVideos as videos } from '@esa-layouts/browser_shared/replicant_store';
-import { storeToRefs } from 'pinia';
 
 const playerStore = useIntermissionPlayerStore();
 const { newPlaylist, localEdits } = storeToRefs(playerStore);
@@ -18,14 +18,9 @@ function playlistUpdateLength(i: number, length: number) {
 
 function playlistRemove(i: number) {
   playerStore.newPlaylist.splice(i, 1);
+  playerStore.onLocalEdits();
 }
 
-// TODO: implement when needed
-// watch(() => videoPlayer.data, () => {
-//   if (!playerStore.localEdits) {
-//     playlistRefresh();
-//   }
-// }, { immediate: true });
 </script>
 
 <template>

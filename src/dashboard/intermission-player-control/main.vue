@@ -10,34 +10,31 @@ import { useIntermissionPlayerStore } from './store';
 
 useHead({ title: 'Intermission Player control' });
 
-let localEditTimeout: number | undefined;
 const playerStore = useIntermissionPlayerStore();
 
 function resetLocalPlaylist() {
-  playerStore.newPlaylist = videoPlayer.data?.playlist ?? [];
-  playerStore.localEdits = false;
+  playerStore.$patch({
+    newPlaylist: videoPlayer.data?.playlist ?? [],
+    localEdits: false,
+  });
 }
 
-watch(() => playerStore.newPlaylist, () => {
-  playerStore.localEdits = true;
+// watch(() => playerStore.newPlaylist, () => {
+//   playerStore.localEdits = true;
+// }, { deep: true });
 
-  clearTimeout(localEditTimeout);
-
-  // Reset the playlist after 30 seconds
-  // we're using the window accessor here because of typescript BS
-  localEditTimeout = window.setTimeout(() => {
-    resetLocalPlaylist();
-  }, 30 * 1000);
-}, { deep: true });
+watch(() => videoPlayer.data, () => {
+  if (!playerStore.localEdits) {
+    playerStore.resetLocalPlaylist();
+  }
+}, { immediate: true });
 
 async function save() {
-  playerStore.disableSave = true;
+  if (!videoPlayer.data) {
+    return;
+  }
 
-  videoPlayer.data!.playlist = clone(playerStore.newPlaylist);
-  await new Promise((res) => { setTimeout(res, 1000); }); // Fake 1s wait
-  playerStore.disableSave = false;
-  clearTimeout(localEditTimeout);
-  playerStore.localEdits = false;
+  await playerStore.save();
 }
 </script>
 

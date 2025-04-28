@@ -11,7 +11,8 @@ function emergencyStop(): void {
 
 <template>
   <div
-    v-show="videoPlayer.data?.playing"
+    v-if="videoPlayer.data"
+    v-show="videoPlayer.data.playing"
     :style="{ 'text-align': 'center' }"
   >
     <span class="font-weight-bold">Currently Playing:</span>
