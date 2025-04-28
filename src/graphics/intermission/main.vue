@@ -59,7 +59,6 @@ const intermissionStore = useIntermissionStore();
       />
 
       <DonationTotal
-        no-background
         :style="{
           position: 'absolute',
           left: '1436px',

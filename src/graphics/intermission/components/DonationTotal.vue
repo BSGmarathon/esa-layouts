@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import { formatUSD } from '@esa-layouts/graphics/_misc/helpers';
-import { computed, defineProps } from 'vue';
+import { computed } from 'vue';
 import { donationTotal } from '@esa-layouts/browser_shared/replicant_store';
-
-defineProps<{
-  noBackground: boolean;
-}>();
 
 const totalStr = computed(() => formatUSD(donationTotal.data ?? 0));
 </script>
@@ -20,8 +16,7 @@ const totalStr = computed(() => formatUSD(donationTotal.data ?? 0));
         v-for="(char, i) in totalStr"
         :key="i"
         :class="{
-          'no-bg': !noBackground,
-          'Comma': char === ',',
+          'Comma': char === ','
         }"
       >
         {{ char }}
@@ -47,10 +42,6 @@ const totalStr = computed(() => formatUSD(donationTotal.data ?? 0));
   text-align: center;
   position: relative;
   color: white !important;
-
-  &:not(.no-bg) {
-    background: var(--slide-color);
- }
 }
 
 #Total span:first-of-type {
