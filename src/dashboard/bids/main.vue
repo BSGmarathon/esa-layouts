@@ -24,7 +24,7 @@ const bidsFiltered = computed<Bids>(() => {
   const filtered: Bids = [];
 
   if (!pinnedBid.value && currentPin.value?.type === 'Bid') {
-    // @ts-expect-error Fuck off
+    // @ts-expect-error This is allowed but the type is technically wrong
     filtered.push({ name: 'Pinned bid no longer available!', id: currentPin.value.id as number });
   }
 
