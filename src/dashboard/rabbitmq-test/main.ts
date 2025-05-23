@@ -1,18 +1,16 @@
-/* eslint no-new: off, @typescript-eslint/explicit-function-return-type: off */
-
-import Vue from 'vue';
+import { createApp } from 'vue';
+import { createHead } from '@vueuse/head';
+import vuetify from '@esa-layouts/dashboard/_misc/vuetify';
 import App from './App.vue';
-import vuetify from '../_misc/vuetify';
 
 const config = nodecg.bundleConfig;
 
-new Vue({
-  vuetify,
-  el: '#App',
-  render: (h) => h(App, {
-    props: {
-      enabled: config.rabbitmq.enabled,
-      useTestData: config.useTestData,
-    },
-  }),
+const app = createApp(App, {
+  enabled: config.rabbitmq.enabled,
+  useTestData: config.useTestData,
 });
+const head = createHead();
+
+app.use(head);
+app.use(vuetify);
+app.mount('#app');

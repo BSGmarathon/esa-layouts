@@ -1,7 +1,22 @@
+<script setup lang="ts">
+import { mediaBox } from '@esa-layouts/browser_shared/replicant_store';
+import { computed } from 'vue';
+
+defineProps<{
+  vertical: boolean;
+}>();
+
+type Sub = { systemMsg: string; message?: string | undefined; } | null;
+
+const subscription = computed<Sub>(
+  () => mediaBox.data?.alertQueue.find((a) => a.id === mediaBox.data?.current?.mediaUUID)?.data as Sub,
+);
+</script>
+
 <template>
   <!-- todo: locally store class CSS properties for safety -->
   <div
-    v-show="subscription"
+    v-if="subscription"
     :class="vertical ? 'FlexColumn' : 'Flex'"
     :style="{
       'font-size': '0.75em',
@@ -38,20 +53,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import { MediaBox as MediaBoxRep } from '@esa-layouts/types/schemas';
-import { MediaBox } from '@esa-layouts/types';
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-
-@Component
-export default class extends Vue {
-  @replicantNS.State((s) => s.reps.mediaBox) readonly mediaBox!: MediaBoxRep;
-  @Prop(Boolean) vertical!: boolean;
-
-  get subscription(): MediaBox.AlertElem['data'] | undefined {
-    return this.mediaBox.alertQueue.find((a) => a.id === this.mediaBox.current?.mediaUUID)?.data;
-  }
-}
-</script>

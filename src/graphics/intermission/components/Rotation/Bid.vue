@@ -1,5 +1,42 @@
+<script setup lang="ts">
+import { IntermissionSlides } from '@esa-layouts/types/schemas';
+import { computed, defineEmits, defineProps, onMounted } from 'vue';
+import { bids } from '@esa-layouts/browser_shared/replicant_store';
+import { formatUSD } from '../../../_misc/helpers';
+import Container from '../Container.vue';
+
+const props = defineProps<{
+  current: IntermissionSlides['current'],
+}>();
+const emit = defineEmits<{
+  end: [],
+}>();
+const bid = computed(() => bids.data!.find((b) => b.id === props.current?.bidId));
+const runTitle = computed(() => {
+  if (bid.value) {
+    const arr = [
+      bid.value.game || '?',
+      bid.value.category,
+    ].filter(Boolean);
+
+    return arr.join(' - ');
+  }
+
+  return '?';
+});
+
+onMounted(() => {
+  // We should always have a bid, this is just a backup in case.
+  if (!bid.value) {
+    emit('end');
+  } else {
+    window.setTimeout(() => emit('end'), 20 * 1000);
+  }
+});
+</script>
+
 <template>
-  <container v-if="bid">
+  <Container v-if="bid">
     <template v-slot:header>
       <template v-if="!bid.war">
         Upcoming Goal
@@ -40,52 +77,8 @@
         </template>
       </div>
     </template>
-  </container>
+  </Container>
 </template>
-
-<script lang="ts">
-import { Bids, IntermissionSlides } from '@esa-layouts/types/schemas';
-import { Tracker } from '@esa-layouts/types';
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { State } from 'vuex-class';
-import { formatUSD } from '../../../_misc/helpers';
-import Container from '../Container.vue';
-
-@Component({
-  components: {
-    Container,
-  },
-})
-export default class extends Vue {
-  @State bids!: Bids;
-  @Prop({ type: Object, required: true }) readonly current!: IntermissionSlides['current'];
-  formatUSD = formatUSD;
-
-  get bid(): Tracker.FormattedBid | undefined {
-    return this.bids.find((b) => b.id === this.current?.bidId);
-  }
-
-  get runTitle(): string {
-    if (this.bid) {
-      const arr = [
-        this.bid.game || '?',
-        this.bid.category,
-      ].filter(Boolean);
-      return arr.join(' - ');
-    }
-    return '?';
-  }
-
-  mounted(): void {
-    // We should always have a bid, this is just a backup in case.
-    if (!this.bid) {
-      this.$emit('end');
-    } else {
-      window.setTimeout(() => this.$emit('end'), 20 * 1000);
-    }
-  }
-}
-</script>
 
 <style scoped>
   .Content > * {

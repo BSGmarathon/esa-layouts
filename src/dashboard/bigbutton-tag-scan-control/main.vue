@@ -1,3 +1,49 @@
+<script setup lang="ts">
+import { runDataActiveRun, runDataArray } from '@esa-layouts/browser_shared/replicant_store';
+import { useHead } from '@vueuse/head';
+import { computed, onMounted } from 'vue';
+import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
+
+useHead({ title: 'FLag carrier control' });
+
+const config = nodecg.bundleConfig;
+const activeRunInArr = computed(() => runDataArray.data?.find((r) => r.id === runDataActiveRun.data?.id));
+
+async function testShortPress(buttonId: number): Promise<void> {
+  await fetch(
+    `/${nodecg.bundleName}/button/${buttonId}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        action: 'toggle-timer',
+      }),
+    },
+  );
+}
+
+async function testLongPress(buttonId: number): Promise<void> {
+  await fetch(
+    `/${nodecg.bundleName}/button/${buttonId}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        action: 'reset-timer',
+      }),
+    },
+  );
+}
+
+onMounted(async () => {
+  await waitForReplicant(runDataArray, runDataActiveRun);
+});
+</script>
+
 <template>
   <v-app v-if="config.event.online">
     <span class="font-italic">
@@ -10,7 +56,7 @@
     </span>
   </v-app>
   <v-app v-else>
-    <div v-if="!activeRun || !activeRunInArr">
+    <div v-if="!runDataActiveRun.data || !activeRunInArr">
       There is currently no active run available.
     </div>
     <div v-else>
@@ -30,50 +76,3 @@
     </div>
   </v-app>
 </template>
-
-<script lang="ts">
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { RunData, RunDataActiveRun, RunDataArray } from 'speedcontrol-util/types';
-import { Component, Vue } from 'vue-property-decorator';
-
-@Component
-export default class extends Vue {
-  @replicantNS.State((s) => s.reps.runDataArray) readonly runArray!: RunDataArray;
-  @replicantNS.State((s) => s.reps.runDataActiveRun) readonly activeRun!: RunDataActiveRun;
-  config = nodecg.bundleConfig;
-
-  get activeRunInArr(): RunData | undefined {
-    return this.runArray.find((r) => r.id === this.activeRun?.id);
-  }
-
-  async testShortPress(buttonId: number): Promise<void> {
-    await fetch(
-      `/${nodecg.bundleName}/button/${buttonId}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          action: 'toggle-timer',
-        }),
-      },
-    );
-  }
-
-  async testLongPress(buttonId: number): Promise<void> {
-    await fetch(
-      `/${nodecg.bundleName}/button/${buttonId}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          action: 'reset-timer',
-        }),
-      },
-    );
-  }
-}
-</script>

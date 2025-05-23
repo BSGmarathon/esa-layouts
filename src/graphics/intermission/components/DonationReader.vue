@@ -1,6 +1,14 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+import { donationReaderNew } from '@esa-layouts/browser_shared/replicant_store';
+
+const name = computed(() => donationReaderNew.data?.name);
+const pronouns = computed(() => donationReaderNew.data?.pronouns);
+</script>
+
 <template>
   <div
-    v-if="donationReader"
+    v-if="donationReaderNew.data"
     class="FlexI DonationReader"
     :style="{ height: '100%' }"
   >
@@ -37,41 +45,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Commentators, DonationReader } from '@esa-layouts/types/schemas';
-import { Component, Vue } from 'vue-property-decorator';
-import { State } from 'vuex-class';
-
-@Component
-export default class extends Vue {
-  @State readonly commentators!: Commentators;
-  @State donationReader!: DonationReader;
-  theme = nodecg.bundleConfig.event.theme;
-
-  // For SWCF
-  get comms(): { name: string, pronouns?: string }[] {
-    return this.commentators.map((c) => ({
-      name: c.replace(/\((.*?)\)/g, '').trim(),
-      pronouns: (c.match(/\((.*?)\)/g) || [])[0]?.replace(/[()]/g, ''),
-    }));
-  }
-
-  get name(): string | undefined {
-    if (!this.donationReader) {
-      return undefined;
-    }
-    return this.donationReader.replace(/\((.*?)\)/g, '').trim();
-  }
-
-  get pronouns(): string | undefined {
-    if (!this.donationReader) {
-      return undefined;
-    }
-    return (this.donationReader.match(/\((.*?)\)/g) || [])[0]?.replace(/[()]/g, '');
-  }
-}
-</script>
 
 <style scoped>
   .Pronouns {

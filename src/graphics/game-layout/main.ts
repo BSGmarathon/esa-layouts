@@ -1,17 +1,10 @@
-/* eslint no-new: off, @typescript-eslint/explicit-function-return-type: off */
-
-import type { GameLayouts } from '@esa-layouts/types/schemas';
-import { setUpReplicantsComponent as setUpReplicantsMediabox } from '@esa-layouts/graphics/_misc/components/mediabox';
-import { RunDataActiveRun } from 'speedcontrol-util/types';
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import '../_misc/common.css';
-import '../_misc/theme';
+import { createApp } from 'vue';
+import { createWebHashHistory, createRouter } from 'vue-router';
+import { createHead } from '@vueuse/head';
 import * as List from './list';
 import App from './main.vue';
-import waitForReplicants from './store';
-
-Vue.use(VueRouter);
+import '../_misc/common.css';
+import '../_misc/theme';
 
 const routes = [
   {
@@ -115,49 +108,19 @@ const routes = [
     component: List.L_FullCam,
   },
   {
-    path: '*',
+    path: '/:pathMatch(.*)*',
     redirect: '/4x3-1p',
   },
 ];
 
-const router = new VueRouter({
+const head = createHead();
+const router = createRouter({
+  history: createWebHashHistory(),
   routes,
 });
 
-// Collect list of available game layouts to add to replicant.
-function getAvailable(): GameLayouts['available'] {
-  return routes.reduce((prev, route) => {
-    if (route.name) {
-      prev.push({
-        name: route.name,
-        code: route.path.replace('/', ''),
-      });
-    }
-    return prev;
-  }, [] as GameLayouts['available']);
-}
-
-// Logic for if we should be using mutiplayer layouts as "co-op" variants.
-function checkCoop(runData: RunDataActiveRun): boolean {
-  return (runData
-    && runData.teams.length === 1
-    && runData.teams[0].players.length > 1) || false;
-}
-
-waitForReplicants().then(async (store) => {
-  await setUpReplicantsMediabox();
-  store.commit('updateList', getAvailable());
-  window.addEventListener('beforeunload', () => {
-    store.commit('clearList');
-  });
-  store.watch(() => store.state.runDataActiveRun, () => {
-    store.commit('updateCoop', checkCoop(store.state.runDataActiveRun));
-  }, { immediate: true });
-
-  new Vue({
-    store,
-    router,
-    el: '#App',
-    render: (h) => h(App),
-  });
-});
+// TODO: do we still need to wait for replicants?
+const app = createApp(App);
+app.use(router);
+app.use(head);
+app.mount('#app');

@@ -1,3 +1,183 @@
+<script setup lang="ts">
+import { areObjectsEqual, formatUSD, wait } from '@esa-layouts/graphics/_misc/helpers';
+import { Bids } from '@esa-layouts/types/schemas';
+import gsap from 'gsap';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+import { orderBy } from 'lodash';
+import { bids as allBids } from '@esa-layouts/browser_shared/replicant_store';
+import { getBid } from '@esa-layouts/graphics/omnibar/utils/bidwars';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, useTemplateRef, watch } from 'vue';
+import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
+
+gsap.registerPlugin(ScrollToPlugin);
+
+type Option = { id: number, name: string, total: number, winning: boolean };
+
+const emit = defineEmits<{ end: [] }>();
+const { bidId, seconds } = defineProps<{
+  seconds: number;
+  bidId: number;
+}>();
+const bid = ref<Bids[0]>({
+  id: -1,
+  goal: 69,
+  game: '',
+  name: '',
+  options: [],
+  war: true,
+  allowUserOptions: false,
+  total: 0,
+});
+const options = computed(() => {
+  const ordered = orderBy(bid.value.options, ['total'], ['desc']);
+  return ordered.map(({ id, name, total }, i) => (
+    { id, name, total, winning: (i === 0 || total >= ordered[0].total) && total > 0 }));
+});
+const optionCache = ref<Option[]>([]);
+const optionsBar = useTemplateRef<HTMLElement>('OptionsBar');
+let timeline: gsap.core.Timeline | undefined;
+let bidHasUpdated = false;
+
+function getOptions(): Option[] {
+  const ordered = orderBy(bid.value.options, ['total'], ['desc']);
+  return ordered.map(({ id, name, total }, i) => (
+    { id, name, total, winning: (i === 0 || total >= ordered[0].total) && total > 0 }));
+}
+
+function killTimeline(): void {
+  timeline?.kill();
+  timeline = undefined;
+}
+
+async function resetForBidUpdate() {
+  try {
+    killTimeline();
+
+    bid.value = getBid(allBids.data!, bidId);
+    optionCache.value = getOptions();
+
+    // Do we need this wait? IDK
+    // Do I feel more comfy having it here? YES!!!!
+    await nextTick();
+
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    await mountedCallback();
+  } catch {
+    emit('end');
+  }
+}
+
+async function createTimeline(): Promise<void> {
+  if (!optionsBar.value) {
+    return;
+  }
+
+  bidHasUpdated = false;
+
+  timeline = gsap.timeline({
+    paused: true,
+    onComplete: () => {
+      window.setTimeout(() => {
+        if (seconds >= 0) {
+          emit('end');
+        } else if (bidHasUpdated) {
+          resetForBidUpdate().catch(console.log);
+        } else {
+          // If pinned and no updates, restart the timeline on end.
+          timeline?.restart();
+        }
+      }, 4000);
+    },
+  });
+
+  await wait(4000);
+  const loopLength = bid.value.allowUserOptions ? options.value.length + 1 : options.value.length;
+  const endPos = optionsBar.value.scrollWidth - optionsBar.value.clientWidth;
+
+  // Check how many times we need to scroll along to fit everything in.
+  let scrollCount = 0;
+  for (let i = 1; i < loopLength; i += 1) {
+    const rep = document.getElementById(`Option${i + 1}`)!;
+    if (endPos > rep.offsetLeft) scrollCount += 1;
+  }
+
+  // Add animations to timeline to scroll correctly.
+  for (let i = 1; i < loopLength; i += 1) {
+    const rep = document.getElementById(`Option${i + 1}`)!;
+    const insertionPosition = i > 1
+      ? `+=${Math.max((seconds - 8) / (scrollCount + 1), 2)}`
+      : undefined;
+
+    timeline.to(optionsBar.value, {
+      scrollLeft: Math.min(rep.offsetLeft, endPos),
+      duration: 2,
+    }, insertionPosition);
+    if (endPos <= rep.offsetLeft) break;
+  }
+
+  // If pinned, scroll back to the start on finish.
+  if (seconds < 1) {
+    timeline.to(optionsBar.value, {
+      scrollTo: { x: 0 },
+      duration: 2,
+    }, '+=4');
+  }
+
+  timeline.resume();
+}
+
+async function mountedCallback(): Promise<void> {
+  // If no need to scroll, just wait a flat X seconds before ending.
+  if (optionsBar.value!.scrollWidth <= optionsBar.value!.clientWidth) {
+    if (seconds >= 0) {
+      await wait(seconds * 1000);
+      // emit('end');
+    }
+
+    return;
+  }
+
+  await createTimeline();
+}
+
+watch(() => allBids.data, (newVal) => {
+  if (!newVal) {
+    return;
+  }
+
+  const ourBId = getBid(newVal, bidId);
+
+  if (!areObjectsEqual(bid.value, ourBId)) {
+    bidHasUpdated = true;
+
+    if (!timeline?.isActive()) {
+      resetForBidUpdate().catch(console.log);
+    }
+  }
+}, { deep: true });
+
+onMounted(async () => {
+  await waitForReplicant(allBids);
+
+  try {
+    // Copied in case the prop changes and ruins the animations.
+    bid.value = getBid(allBids.data!, bidId);
+    optionCache.value = getOptions();
+
+    await nextTick();
+
+    await mountedCallback();
+  } catch (e: unknown) {
+    console.error(e);
+    emit('end');
+  }
+});
+
+onBeforeUnmount(() => {
+  killTimeline();
+});
+</script>
+
 <template>
   <div
     class="WarOther"
@@ -55,7 +235,7 @@
             'background-color': option.winning ? '#6DD47E' : '#B37BA4',
             'margin-left': i > 0 ? '5px' : '0',
           }"
-          :ref="`Option${i + 1}`"
+          :id="`Option${i + 1}`"
         >
           <span :style="{ 'font-weight': 600 }">
             {{ option.name }}
@@ -64,7 +244,7 @@
         <div
           v-if="bid.allowUserOptions"
           class="Option"
-          :ref="`Option${options.length + 1}`"
+          :id="`Option${options.length + 1}`"
         >
           <template v-if="!options.length">No options submitted yet, be the first!</template>
           <template v-else>...or submit your own!</template>
@@ -73,166 +253,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { formatUSD, wait, areObjectsEqual } from '@esa-layouts/graphics/_misc/helpers';
-import { Bids } from '@esa-layouts/types/schemas';
-import { Vue, Component, Prop, Ref, Watch } from 'vue-property-decorator';
-import gsap from 'gsap';
-import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
-import { orderBy } from 'lodash';
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { getBid } from '@esa-layouts/omnibar/utils/bidwars';
-
-gsap.registerPlugin(ScrollToPlugin);
-
-type Option = { id: number, name: string, total: number, winning: boolean };
-
-@Component
-export default class extends Vue {
-  @Prop({ type: Number, required: true }) readonly seconds!: number;
-  @Prop({ type: Number, required: true }) readonly bidId!: number;
-  @Ref('OptionsBar') optionsBar!: HTMLElement;
-  formatUSD = formatUSD;
-  bidHasUpdated = true;
-  bid!: Bids[0];
-  optionCache: Option[] = [];
-  timeline: gsap.core.Timeline | undefined;
-  @replicantNS.State(
-    (s) => s.reps.bids,
-  ) readonly allBids!: Bids;
-
-  get options(): Option[] {
-    const ordered = orderBy(this.bid.options, ['total'], ['desc']);
-    return ordered.map(({ id, name, total }, i) => (
-      { id, name, total, winning: (i === 0 || total >= ordered[0].total) && total > 0 }));
-  }
-
-  getOptions(): Option[] {
-    const ordered = orderBy(this.bid.options, ['total'], ['desc']);
-    return ordered.map(({ id, name, total }, i) => (
-      { id, name, total, winning: (i === 0 || total >= ordered[0].total) && total > 0 }));
-  }
-
-  getRef(name: string): HTMLElement {
-    const rep: HTMLElement | HTMLElement[] = (this.$refs[name] as HTMLElement[]);
-    return Array.isArray(rep) ? rep[0] : rep;
-  }
-
-  async created(): Promise<void> {
-    // Copied in case the prop changes and ruins the animations.
-    this.bid = getBid(this.allBids, this.bidId);
-    this.optionCache = this.getOptions();
-  }
-
-  async mounted(): Promise<void> {
-    await this.mountedCallback();
-  }
-
-  async mountedCallback(): Promise<void> {
-    // If no need to scroll, just wait a flat X seconds before ending.
-    if (this.optionsBar.scrollWidth <= this.optionsBar.clientWidth) {
-      if (this.seconds >= 0) {
-        await wait(this.seconds * 1000);
-        this.$emit('end');
-      }
-
-      return;
-    }
-
-    await this.createTimeline();
-  }
-
-  async createTimeline(): Promise<void> {
-    this.bidHasUpdated = false;
-
-    this.timeline = gsap.timeline({
-      paused: true,
-      onComplete: () => {
-        window.setTimeout(() => {
-          if (this.seconds >= 0) {
-            this.$emit('end');
-          } else if (this.bidHasUpdated) {
-            this.resetForBidUpdate().catch(console.log);
-          } else {
-            // If pinned and no updates, restart the timeline on end.
-            this.timeline?.restart();
-          }
-        }, 4000);
-      },
-    });
-
-    await wait(4000);
-    const loopLength = this.bid.allowUserOptions ? this.options.length + 1 : this.options.length;
-    const endPos = this.optionsBar.scrollWidth - this.optionsBar.clientWidth;
-
-    // Check how many times we need to scroll along to fit everything in.
-    let scrollCount = 0;
-    for (let i = 1; i < loopLength; i += 1) {
-      const rep = this.getRef(`Option${i + 1}`);
-      if (endPos > rep.offsetLeft) scrollCount += 1;
-    }
-
-    // Add animations to timeline to scroll correctly.
-    for (let i = 1; i < loopLength; i += 1) {
-      const rep = this.getRef(`Option${i + 1}`);
-      const insertionPosition = i > 1
-        ? `+=${Math.max((this.seconds - 8) / (scrollCount + 1), 2)}`
-        : undefined;
-
-      this.timeline.to(this.optionsBar, {
-        scrollLeft: Math.min(rep.offsetLeft, endPos),
-        duration: 2,
-      }, insertionPosition);
-      if (endPos <= rep.offsetLeft) break;
-    }
-
-    // If pinned, scroll back to the start on finish.
-    if (this.seconds < 1) {
-      this.timeline.to(this.optionsBar, {
-        scrollTo: { x: 0 },
-        duration: 2,
-      }, '+=4');
-    }
-
-    this.timeline.resume();
-  }
-
-  beforeDestroy(): void {
-    this.killTimeline();
-  }
-
-  killTimeline(): void {
-    this.timeline?.kill();
-    delete this.timeline;
-  }
-
-  async resetForBidUpdate() {
-    this.killTimeline();
-
-    this.bid = getBid(this.allBids, this.bidId);
-    this.optionCache = this.getOptions();
-
-    // Do we need this wait? IDK
-    // Do I feel more comfy having it here? YES!!!!
-    await this.$nextTick();
-
-    await this.mountedCallback();
-  }
-
-  @Watch('allBids', { deep: true })
-  onBidRepChange(newVal: Bids): void {
-    const ourBId = getBid(newVal, this.bidId);
-    if (!areObjectsEqual(this.bid, ourBId)) {
-      this.bidHasUpdated = true;
-
-      if (!this.timeline?.isActive()) {
-        this.resetForBidUpdate().catch(console.log);
-      }
-    }
-  }
-}
-</script>
 
 <style scoped lang="scss">
   .WarOther {

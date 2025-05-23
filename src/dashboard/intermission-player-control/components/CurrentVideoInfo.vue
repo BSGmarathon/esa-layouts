@@ -1,6 +1,18 @@
+<script setup lang="ts">
+import { assetsVideos as videos, videoPlayer } from '@esa-layouts/browser_shared/replicant_store';
+import { computed } from 'vue';
+
+const name = computed(() => videos.value.find((a) => a.sum === videoPlayer.data?.current)?.name);
+
+function emergencyStop(): void {
+  nodecg.sendMessage('stopIntermissionPlayerEarly');
+}
+</script>
+
 <template>
   <div
-    v-show="videoPlayer.playing"
+    v-if="videoPlayer.data"
+    v-show="videoPlayer.data.playing"
     :style="{ 'text-align': 'center' }"
   >
     <span class="font-weight-bold">Currently Playing:</span>
@@ -9,25 +21,3 @@
     <v-btn color="red" class="mt-2" @click="emergencyStop" block>Emergency Stop</v-btn>
   </div>
 </template>
-
-<script lang="ts">
-import type NodeCGTypes from '@nodecg/types';
-import { VideoPlayer } from '@esa-layouts/types/schemas';
-import { Component, Vue } from 'vue-property-decorator';
-import { State } from 'vuex-class';
-
-@Component
-export default class extends Vue {
-  @State videos!: NodeCGTypes.AssetFile[];
-  @State videoPlayer!: VideoPlayer;
-  cfg = nodecg.bundleConfig;
-
-  get name(): string | undefined {
-    return this.videos.find((a) => a.sum === this.videoPlayer.current)?.name;
-  }
-
-  emergencyStop(): void {
-    nodecg.sendMessage('stopIntermissionPlayerEarly');
-  }
-}
-</script>

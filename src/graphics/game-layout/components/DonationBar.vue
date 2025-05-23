@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import { notableDonations } from '@esa-layouts/browser_shared/replicant_store';
+import DonationBox from './DonationBar/DonationBox.vue';
+
+defineProps<{
+  padding?: number | string | undefined;
+}>();
+</script>
+
 <template>
   <transition-group
     tag="div"
@@ -8,31 +17,14 @@
       'font-size': '30px',
     }"
   >
-    <donation-box
-      v-for="donation in donations"
+    <DonationBox
+      v-for="donation in notableDonations.data"
       :key="donation._id"
       :donation="donation"
       :padding="padding"
     />
   </transition-group>
 </template>
-
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import { State } from 'vuex-class';
-import { NotableDonations } from '@esa-layouts/types/schemas';
-import DonationBox from './DonationBar/DonationBox.vue';
-
-@Component({
-  components: {
-    DonationBox,
-  },
-})
-export default class extends Vue {
-  @State('notableDonations') donations!: NotableDonations;
-  @Prop(Number) padding!: number;
-}
-</script>
 
 <style scoped>
   .donations-enter-active {

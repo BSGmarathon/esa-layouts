@@ -1,13 +1,18 @@
 import '@mdi/font/css/materialdesignicons.css';
-import Vue from 'vue';
-import Vuetify from 'vuetify/lib';
+import 'vuetify/styles';
+import { createVuetify } from 'vuetify';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
+import { VTimePicker } from 'vuetify/labs/VTimePicker';
 import './common.css';
-import './fonts/roboto.css';
 
-Vue.use(Vuetify);
-
-export default new Vuetify({
+export default createVuetify({
+  components: {
+    ...components,
+    VTimePicker,
+  },
+  directives,
   theme: {
-    dark: true,
+    defaultTheme: 'dark',
   },
 });

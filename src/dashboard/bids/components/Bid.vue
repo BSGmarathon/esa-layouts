@@ -1,5 +1,43 @@
+<script setup lang="ts">
+import MediaCard from '@esa-layouts/dashboard/_misc/components/MediaCard.vue';
+import { Bids } from '@esa-layouts/types/schemas';
+import { omnibar, soloedBidID } from '@esa-layouts/browser_shared/replicant_store';
+import { computed } from 'vue';
+
+interface BidProps {
+  bid: Bids[0];
+  index: number;
+}
+
+const props = defineProps<BidProps>();
+const isPinned = computed(() => omnibar.data?.pin?.type === 'Bid' && omnibar.data?.pin?.id === props.bid.id);
+const isSoloed = computed(() => soloedBidID.data === props.bid.id);
+
+function pin(): void {
+  if (!omnibar.data) return;
+
+  if (isPinned.value) {
+    omnibar.data.pin = null;
+  } else {
+    omnibar.data.pin = { type: 'Bid', id: props.bid.id };
+  }
+
+  omnibar.save();
+}
+
+function toggleSolo(): void {
+  if (isSoloed.value) {
+    soloedBidID.data = null;
+  } else {
+    soloedBidID.data = props.bid.id;
+  }
+
+  soloedBidID.save();
+}
+</script>
+
 <template>
-  <media-card
+  <MediaCard
     class="d-flex align-center px-2"
     :style="{ 'text-align': 'unset', height: '40px', 'margin-top': index > 0 ? '10px' : 0 }"
   >
@@ -22,45 +60,5 @@
         <template v-else>mdi-crosshairs</template>
       </v-icon>
     </v-btn>
-  </media-card>
+  </MediaCard>
 </template>
-
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import MediaCard from '@esa-layouts/dashboard/_misc/components/MediaCard.vue';
-import { Bids, Omnibar, SoloedBidID } from '@esa-layouts/types/schemas';
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { storeModule } from '../store';
-
-@Component({
-  components: {
-    MediaCard,
-  },
-})
-export default class extends Vue {
-  @Prop({ type: Object, required: true }) readonly bid!: Bids[0];
-  @Prop({ type: Number, required: true }) readonly index!: number;
-  @replicantNS.State((s) => s.reps.omnibar.pin) readonly currentPin!: Omnibar['pin'];
-  @replicantNS.State((s) => s.reps.soloedBidID) readonly soloedBidID!: SoloedBidID;
-
-  get isPinned(): boolean {
-    return this.currentPin?.type === 'Bid' && this.currentPin.id === this.bid.id;
-  }
-
-  get isSoloed(): boolean {
-    return this.soloedBidID === this.bid.id;
-  }
-
-  pin(): void {
-    storeModule.pinItem({ id: this.bid.id, pinned: !this.isPinned });
-  }
-
-  toggleSolo(): void {
-    if (this.isSoloed) {
-      storeModule.clearSolo();
-    } else {
-      storeModule.setSolo(this.bid.id);
-    }
-  }
-}
-</script>

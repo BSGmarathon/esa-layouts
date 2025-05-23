@@ -1,7 +1,17 @@
+<script setup lang="ts">
+import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
+import GameCapture from './components/GameCapture.vue';
+import Player from './components/Player.vue';
+import CommentatorsReader from './components/CommentatorsReader.vue';
+import RunInfo from './components/RunInfo.vue';
+import Timer from './components/Timer.vue';
+import DonationBar from './components/DonationBar.vue';
+</script>
+
 <template>
   <div>
     <!-- Game Captures -->
-    <game-capture
+    <GameCapture
       id="GameCapture1"
       class="BorderLeft BorderBottom"
       :style="{
@@ -46,7 +56,7 @@
         height: '160px',
       }"
     >
-      <run-info
+      <RunInfo
         class="BorderLeft"
         :style="{
           'font-size': '45px',
@@ -54,7 +64,7 @@
           height: '100%',
         }"
       />
-      <timer
+      <Timer
         class="BorderLeft"
         :style="{
           'width': '387px',
@@ -74,12 +84,12 @@
       }"
     >
       <!-- Player/Commetator -->
-      <player />
-      <commentators-reader />
-      <commentators-reader show-reader />
+      <Player />
+      <CommentatorsReader />
+      <CommentatorsReader show-reader />
 
       <!-- Media Box -->
-      <media-box
+      <MediaBox
         :font-size="25"
         :style="{
           'flex-grow': 1,
@@ -90,7 +100,7 @@
     </div>
 
     <!-- Donation Bar -->
-    <donation-bar
+    <DonationBar
       :style="{
         left: '0px',
         top: '940px',
@@ -100,27 +110,3 @@
     />
   </div>
 </template>
-
-<script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
-import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
-import GameCapture from './components/GameCapture.vue';
-import Player from './components/Player.vue';
-import CommentatorsReader from './components/CommentatorsReader.vue';
-import RunInfo from './components/RunInfo.vue';
-import Timer from './components/Timer.vue';
-import DonationBar from './components/DonationBar.vue';
-
-@Component({
-  components: {
-    GameCapture,
-    Player,
-    CommentatorsReader,
-    RunInfo,
-    Timer,
-    MediaBox,
-    DonationBar,
-  },
-})
-export default class extends Vue {}
-</script>

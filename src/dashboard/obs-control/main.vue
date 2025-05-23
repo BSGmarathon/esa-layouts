@@ -1,34 +1,75 @@
+<script setup lang="ts">
+import {
+  currentRunDelay,
+  obsData,
+  serverTimestamp,
+  timer,
+  videoPlayer,
+} from '@esa-layouts/browser_shared/replicant_store';
+import { computed, ref } from 'vue';
+
+const obsConfig = nodecg.bundleConfig.obs;
+const evtConfig = nodecg.bundleConfig.event;
+const intermissionScenes = [
+  obsConfig.names.scenes.commercials,
+  obsConfig.names.scenes.intermission,
+  obsConfig.names.scenes.intermissionPlayer,
+  obsConfig.names.scenes.intermissionCrowd,
+  obsConfig.names.scenes.countdown,
+];
+const gameLayoutPreviewToggle = ref(false);
+
+const disableIntermission = computed(() => (obsData.data?.transitioning
+  || obsData.data?.disableTransitioning
+  || !!intermissionScenes.find((s) => obsData.data?.scene?.startsWith(s))
+  || ['running', 'paused'].includes(timer.value?.state || '')));
+
+function disableButton(scene: string): boolean {
+  return obsData.data!.transitioning
+    || scene === obsData.data!.scene
+    || obsData.data!.disableTransitioning;
+}
+
+function startIntermission(): void {
+  nodecg.sendMessage('startIntermission');
+}
+
+function changeScene(scene: string): void {
+  nodecg.sendMessage('obsChangeScene', { scene });
+}
+</script>
+
 <template>
-  <v-app>
+  <v-app v-if="obsData.data && serverTimestamp.data && videoPlayer.data">
     <div v-if="!obsConfig.enabled" :style="{ 'font-style': 'italic' }">
       This feature is not enabled.
     </div>
-    <div v-else-if="!obsData.connected" :style="{ 'font-style': 'italic' }">
+    <div v-else-if="!obsData.data?.connected" :style="{ 'font-style': 'italic' }">
       OBS connection currently disconnected.
     </div>
     <template v-else>
       <div class="mb-1">
         <span
-          v-if="obsData.transitionTimestamp > serverTimestamp"
+          v-if="obsData.data!.transitionTimestamp > serverTimestamp.data"
           class="red--text font-weight-bold"
         >
           <v-icon color="red">mdi-alert</v-icon>
           Transitioning in {{
-            ((obsData.transitionTimestamp - serverTimestamp) / 1000).toFixed(1) }}s
+            ((obsData.data!.transitionTimestamp - serverTimestamp.data) / 1000).toFixed(1) }}s
         </span>
-        <span v-else-if="obsData.transitioning" class="red--text font-weight-bold">
+        <span v-else-if="obsData.data!.transitioning" class="red--text font-weight-bold">
           <v-icon color="red">mdi-alert</v-icon>
           Transitioning
         </span>
         <span
-          v-else-if="videoPlayer.estimatedFinishTimestamp > serverTimestamp"
+          v-else-if="videoPlayer.data!.estimatedFinishTimestamp > serverTimestamp.data"
           class="red--text font-weight-bold"
         >
           <v-icon color="red">mdi-alert</v-icon>
           Playlist will finish in ~{{
-            ((videoPlayer.estimatedFinishTimestamp - serverTimestamp) / 1000).toFixed(1) }}s
+            ((videoPlayer.data!.estimatedFinishTimestamp - serverTimestamp.data) / 1000).toFixed(1) }}s
         </span>
-        <span v-else-if="obsData.disableTransitioning" class="red--text font-weight-bold">
+        <span v-else-if="obsData.data?.disableTransitioning" class="red--text font-weight-bold">
           <v-icon color="red">mdi-alert</v-icon>
           Transitioning Disabled
         </span>
@@ -38,7 +79,7 @@
       </div>
       <div class="mb-1">
         Streaming Status:
-        <span v-if="obsData.streaming" :style="{ 'font-weight': 'bold', color: '#58CF00' }">
+        <span v-if="obsData.data?.streaming" :style="{ 'font-weight': 'bold', color: '#58CF00' }">
           Connected
         </span>
         <span v-else :style="{ 'font-weight': 'bold', color: '#FF5F5C' }">
@@ -50,8 +91,8 @@
         :disabled="disableIntermission"
       >
         Transition to Intermission (<strong><em>ADS</em></strong>)
-        <template v-if="currentRunDelay.audio">
-          ({{ (currentRunDelay.audio / 1000).toFixed(1) }}s delay)
+        <template v-if="currentRunDelay.data!.audio">
+          ({{ (currentRunDelay.data!.audio / 1000).toFixed(1) }}s delay)
         </template>
       </v-btn>
       <v-btn
@@ -60,15 +101,15 @@
         :disabled="disableButton(obsConfig.names.scenes.gameLayout)"
       >
         Transition to Run
-        <template v-if="currentRunDelay.audio">
-          ({{ (currentRunDelay.audio / 1000).toFixed(1) }}s delay)
+        <template v-if="currentRunDelay.data!.audio">
+          ({{ (currentRunDelay.data!.audio / 1000).toFixed(1) }}s delay)
         </template>
       </v-btn>
       <div class="d-flex mt-3 mb-1">
         Change to Specific Scene:
       </div>
       <v-btn
-        v-for="(scene, i) in obsData.sceneList"
+        v-for="(scene, i) in obsData.data!.sceneList"
         :key="i"
         :class="{ 'mt-1': i !== 0 }"
         :disabled="disableButton(scene)"
@@ -76,19 +117,19 @@
       >
         {{ scene }}
         <template
-          v-if="scene !== obsData.scene && (currentRunDelay.audio
+          v-if="scene !== obsData.data!.scene && (currentRunDelay.data!.audio
           && (scene === obsConfig.names.scenes.gameLayout
           || (scene !== obsConfig.names.scenes.gameLayout
-          && obsData.scene === obsConfig.names.scenes.gameLayout)))"
+          && obsData.data!.scene === obsConfig.names.scenes.gameLayout)))"
         >
-          ({{ (currentRunDelay.audio / 1000).toFixed(1) }}s delay)
+          ({{ (currentRunDelay.data!.audio / 1000).toFixed(1) }}s delay)
         </template>
       </v-btn>
-      <template v-if="evtConfig.online && obsData.gameLayoutScreenshot && gameLayoutPreviewToggle">
+      <template v-if="evtConfig.online && obsData.data?.gameLayoutScreenshot && gameLayoutPreviewToggle">
         <div class="mt-3 mb-1">
           "Game Layout" Preview (refreshes every second):
         </div>
-        <img :src="obsData.gameLayoutScreenshot" :style="{ width: '100%' }">
+        <img :src="obsData.data?.gameLayoutScreenshot" :style="{ width: '100%' }">
       </template>
       <v-switch
         v-if="evtConfig.online"
@@ -101,50 +142,3 @@
     </template>
   </v-app>
 </template>
-
-<script lang="ts">
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { CurrentRunDelay, ObsData, ServerTimestamp, VideoPlayer } from '@esa-layouts/types/schemas';
-import { Timer } from 'speedcontrol-util/types';
-import { Component, Vue } from 'vue-property-decorator';
-
-@Component
-export default class extends Vue {
-  @replicantNS.State((s) => s.reps.obsData) readonly obsData!: ObsData;
-  @replicantNS.State((s) => s.reps.currentRunDelay) readonly currentRunDelay!: CurrentRunDelay;
-  @replicantNS.State((s) => s.reps.serverTimestamp) readonly serverTimestamp!: ServerTimestamp;
-  @replicantNS.State((s) => s.reps.videoPlayer) readonly videoPlayer!: VideoPlayer;
-  @replicantNS.State((s) => s.reps.timer) readonly timer!: Timer;
-  evtConfig = nodecg.bundleConfig.event;
-  obsConfig = nodecg.bundleConfig.obs;
-  gameLayoutPreviewToggle = false;
-
-  disableButton(scene: string): boolean {
-    return this.obsData.transitioning
-    || scene === this.obsData.scene
-    || this.obsData.disableTransitioning;
-  }
-
-  get disableIntermission(): boolean {
-    const intermissionScenes = [
-      this.obsConfig.names.scenes.commercials,
-      this.obsConfig.names.scenes.intermission,
-      this.obsConfig.names.scenes.intermissionPlayer,
-      this.obsConfig.names.scenes.intermissionCrowd,
-      this.obsConfig.names.scenes.countdown,
-    ];
-    return this.obsData.transitioning
-    || this.obsData.disableTransitioning
-    || !!intermissionScenes.find((s) => this.obsData.scene?.startsWith(s))
-    || ['running', 'paused'].includes(this.timer.state);
-  }
-
-  startIntermission(): void {
-    nodecg.sendMessage('startIntermission');
-  }
-
-  changeScene(scene: string): void {
-    nodecg.sendMessage('obsChangeScene', { scene });
-  }
-}
-</script>

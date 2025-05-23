@@ -1,3 +1,25 @@
+<script setup lang="ts">
+import { RunData } from 'speedcontrol-util/types';
+import { SpeedcontrolUtilBrowser } from 'speedcontrol-util';
+import { computed } from 'vue';
+import { useHead } from '@vueuse/head';
+import { useIntermissionStore } from '@esa-layouts/graphics/intermission/store';
+import { getZoomAmountCSS } from '../_misc/helpers';
+
+useHead({ title: 'Intermission Player' });
+
+const { getRunTotalPlayers } = SpeedcontrolUtilBrowser;
+const zoom = getZoomAmountCSS();
+const intermissionStore = useIntermissionStore();
+const nextRun = computed(() => intermissionStore.nextRuns[0] ?? null);
+
+function formPlayerNamesStr(runData: RunData): string {
+  return runData.teams.map((team) => (
+    team.name || team.players.map((player) => player.name).join(', ')
+  )).join(' vs. ') || 'N/A';
+}
+</script>
+
 <template>
   <div id="IntermissionPlayer" :style="{
       width: '1920px',
@@ -85,28 +107,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { RunData } from 'speedcontrol-util/types';
-import { Vue, Component } from 'vue-property-decorator';
-import { SpeedcontrolUtilBrowser } from 'speedcontrol-util';
-import { storeModule } from './store';
-import { getZoomAmountCSS } from '../_misc/helpers';
-
-@Component
-export default class extends Vue {
-  getRunTotalPlayers = SpeedcontrolUtilBrowser.getRunTotalPlayers;
-  zoom = getZoomAmountCSS();
-
-  get nextRun(): RunData | null { return storeModule.nextRun; }
-
-  formPlayerNamesStr(runData: RunData): string {
-    return runData.teams.map((team) => (
-      team.name || team.players.map((player) => player.name).join(', ')
-    )).join(' vs. ') || 'N/A';
-  }
-}
-</script>
 
 <style scoped>
   .RunInfoExtra > span:not(:last-child)::after {
