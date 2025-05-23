@@ -1,3 +1,46 @@
+<script setup lang="ts">
+import { ttsVoices as voices } from '@esa-layouts/browser_shared/replicant_store';
+import { useHead } from '@vueuse/head';
+import { computed, onMounted, watch } from 'vue';
+import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
+import { useGoTo } from 'vuetify';
+
+useHead({ title: 'TTS control' });
+
+const goTo = useGoTo();
+
+const config = nodecg.bundleConfig.tts;
+const selected = computed({
+  get: () => voices.data?.selected,
+  set: (val) => {
+    voices.data!.selected = val;
+    voices.save();
+  },
+});
+
+function scrollToSelectedVoice(): void {
+  if (config.enabled) {
+    goTo(`#${voices.data?.selected}`, { container: '#VoiceList', offset: 25 });
+  }
+}
+
+function playExample(): void {
+  nodecg.sendMessage('ttsExample');
+}
+
+watch(() => voices.data, () => {
+  if (config.enabled) {
+    scrollToSelectedVoice();
+  }
+});
+
+onMounted(async () => {
+  await waitForReplicant(voices);
+
+  scrollToSelectedVoice();
+});
+</script>
+
 <template>
   <v-app>
     <div
@@ -23,7 +66,7 @@
           }"
         >
           <v-radio
-            v-for="voice in voices.available"
+            v-for="voice in voices.data!.available"
             :id="voice.code"
             :key="voice.code"
             :value="voice.code"
@@ -37,41 +80,6 @@
     </template>
   </v-app>
 </template>
-
-<script lang="ts">
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { TtsVoices } from '@esa-layouts/types/schemas';
-import { Component, Vue, Watch } from 'vue-property-decorator';
-import { storeModule } from './store';
-
-@Component
-export default class extends Vue {
-  @replicantNS.State((s) => s.reps.ttsVoices) readonly voices!: TtsVoices;
-  config = nodecg.bundleConfig.tts;
-
-  get selected(): TtsVoices['selected'] {
-    return this.voices.selected;
-  }
-  set selected(val: string | undefined) {
-    storeModule.updateSelectedVoice(val);
-  }
-
-  @Watch('voices')
-  scrollToSelectedVoice(): void {
-    if (this.config.enabled) {
-      this.$vuetify.goTo(`#${this.voices.selected}`, { container: '#VoiceList', offset: 25 });
-    }
-  }
-
-  playExample(): void {
-    nodecg.sendMessage('ttsExample');
-  }
-
-  mounted(): void {
-    this.scrollToSelectedVoice();
-  }
-}
-</script>
 
 <style>
   .v-input--hide-details > .v-input__control > .v-input__slot {

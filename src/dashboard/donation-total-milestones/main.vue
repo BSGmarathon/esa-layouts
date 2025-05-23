@@ -1,13 +1,53 @@
+<script setup lang="ts">
+import {
+  donationTotal as total,
+  donationTotalMilestones as milestones,
+} from '@esa-layouts/browser_shared/replicant_store';
+import { sortBy } from 'lodash';
+import { computed, ref } from 'vue';
+import { v4 as uuid } from 'uuid';
+import { useHead } from '@vueuse/head';
+import Milestone from './components/Milestone.vue';
+
+useHead({ title: 'Donation total milestones' });
+
+const sortOpt = ref(2);
+const milestonesSorted = computed(() => {
+  if (sortOpt.value === 1) {
+    return sortBy(milestones.data, ['name']);
+  }
+
+  if (sortOpt.value === 2) {
+    return sortBy(milestones.data, (o) => (o.addition ? (total.data ?? 0) + o.addition : o.amount));
+  }
+
+  return milestones.data;
+});
+
+function formatAmount(val: number): string {
+  return val.toLocaleString('en-US', { maximumFractionDigits: 2 });
+}
+
+function addBlank(): void {
+  milestones.data?.push({
+    id: uuid(),
+    name: 'Default Milestone Name',
+    enabled: false,
+  });
+  milestones.save();
+}
+</script>
+
 <template>
-  <v-app>
+  <v-app v-if="total.data && milestones.data">
     <div class="mb-2 d-flex">
       <div>
         <span class="font-weight-bold">Donation Total:</span>
-        ${{ formatAmount(total) }}
+        €{{ formatAmount(total.data!) }}
       </div>
       <v-spacer />
       <div>
-        <v-radio-group v-model="sortOpt" row class="pa-0 ma-0" hide-details label="Sort By">
+        <v-radio-group v-model="sortOpt" inline class="pa-0 ma-0" hide-details label="Sort By">
           <v-radio label="Added" :value="0" />
           <v-radio label="Name" :value="1" />
           <v-radio label="Amount" :value="2" class="mr-0" />
@@ -15,11 +55,11 @@
       </div>
     </div>
     <v-btn @click="addBlank">Add New Milestone</v-btn>
-    <div v-if="!milestonesSorted.length" class="pa-3 font-italic">
+    <div v-if="!milestonesSorted?.length" class="pa-3 font-italic">
       No milestones created, add a new one with the button above.
     </div>
     <div v-else :style="{ height: '350px', 'overflow-y': 'scroll', 'margin-top': '10px' }">
-      <milestone
+      <Milestone
         v-for="(milestone, i) in milestonesSorted"
         :key="milestone.id"
         :milestone="milestone"
@@ -28,43 +68,3 @@
     </div>
   </v-app>
 </template>
-
-<script lang="ts">
-import { DonationTotal, DonationTotalMilestones } from '@esa-layouts/types/schemas';
-import { Vue, Component } from 'vue-property-decorator';
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { sortBy } from 'lodash';
-import { storeModule } from './store';
-import Milestone from './components/Milestone.vue';
-
-@Component({
-  components: {
-    Milestone,
-  },
-})
-export default class extends Vue {
-  @replicantNS.State((s) => s.reps.donationTotal) readonly total!: DonationTotal;
-  @replicantNS.State(
-    (s) => s.reps.donationTotalMilestones,
-  ) readonly milestones!: DonationTotalMilestones;
-  sortOpt = 2;
-
-  get milestonesSorted(): DonationTotalMilestones {
-    if (this.sortOpt === 1) {
-      return sortBy(this.milestones, ['name']);
-    }
-    if (this.sortOpt === 2) {
-      return sortBy(this.milestones, (o) => (o.addition ? this.total + o.addition : o.amount));
-    }
-    return this.milestones;
-  }
-
-  formatAmount(val: number): string {
-    return val.toLocaleString('en-US', { maximumFractionDigits: 0 });
-  }
-
-  addBlank(): void {
-    storeModule.addBlankItem();
-  }
-}
-</script>

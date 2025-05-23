@@ -1,14 +1,14 @@
-/* eslint no-new: off, @typescript-eslint/explicit-function-return-type: off */
-
-import Vue from 'vue';
+import { createApp } from 'vue';
+import { createHead } from '@vueuse/head';
+import vuetify from '@esa-layouts/dashboard/_misc/vuetify';
+import { createPinia } from 'pinia';
 import App from './App.vue';
-import { setUpReplicants } from './store';
-import vuetify from '../_misc/vuetify';
 
-setUpReplicants().then(() => {
-  new Vue({
-    vuetify,
-    el: '#App',
-    render: (h) => h(App),
-  });
-});
+const app = createApp(App);
+const head = createHead();
+const pinia = createPinia();
+
+app.use(head);
+app.use(vuetify);
+app.use(pinia);
+app.mount('#app');

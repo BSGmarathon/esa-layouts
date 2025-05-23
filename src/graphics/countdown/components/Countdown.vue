@@ -1,3 +1,27 @@
+<script setup lang="ts">
+import { useReplicant } from 'nodecg-vue-composable';
+import type { Countdown } from '@esa-layouts/types/schemas';
+import { computed } from 'vue';
+import { msToTimeStr } from '@esa-layouts/browser_shared/helpers';
+
+const countdown = useReplicant<Countdown>('countdown', 'esa-layouts');
+
+const remaining = computed(() => countdown?.data?.remaining ?? 0);
+
+const currentCountdown = computed(() => {
+  const seconds = Math.round(remaining.value / 1000);
+  if (seconds >= 60 * 60 * 10) {
+    return msToTimeStr(seconds * 1000);
+  }
+
+  if (seconds >= (60 * 60)) {
+    return msToTimeStr(seconds * 1000).slice(1);
+  }
+
+  return msToTimeStr(seconds * 1000).slice(3);
+});
+</script>
+
 <template>
   <div :style="{ 'text-align': 'center' }">
     <div :style="{ 'font-size': '70px' }">
@@ -9,6 +33,7 @@
       </span>
     </div>
     <div
+      class="eventTimer"
       :style="{
         'font-size': '200px',
         'margin-top': '-0.2em',
@@ -17,41 +42,31 @@
         opacity: remaining > 0 ? 1 : 0,
       }"
     >
-      {{ currentCountdown }}
+      <span
+        v-for="(char, i) in currentCountdown"
+        :key="i"
+        :class="{
+          'dot': i === 2,
+        }"
+      >
+        {{ char }}
+      </span>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
-import clone from 'clone';
-import { msToTimeStr } from '@esa-layouts/browser_shared/helpers';
-import { Countdown } from '@esa-layouts/types/schemas';
+<style lang="scss" scoped>
+.eventTimer {
+  text-align: center;
 
-@Component
-export default class extends Vue {
-  countdown: Countdown | null = null;
+  span {
+    width: 110px;
+    display: inline-block;
+    font-variant-numeric: tabular-nums;
 
-  get remaining(): number {
-    return this.countdown?.remaining ?? 0;
-  }
-
-  get currentCountdown(): string {
-    const seconds = Math.round(this.remaining / 1000);
-    if (seconds >= 60 * 60 * 10) {
-      return msToTimeStr(seconds * 1000);
+    &.dot {
+      width: unset;
     }
-    if (seconds >= (60 * 60)) {
-      return msToTimeStr(seconds * 1000).slice(1);
-    }
-    return msToTimeStr(seconds * 1000).slice(3);
-  }
-
-  created(): void {
-    // Simple replicant cloning to avoid having to use a whole Vuex store.
-    nodecg.Replicant<Countdown>('countdown').on('change', (val) => {
-      Vue.set(this, 'countdown', clone(val));
-    });
   }
 }
-</script>
+</style>

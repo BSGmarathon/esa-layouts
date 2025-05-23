@@ -1,4 +1,4 @@
-import { IObstacle, SpawnerOptions } from '@esa-layouts/countdown/game/types/options';
+import { IObstacle, SpawnerOptions } from './types/options';
 
 export default class Spawner {
   public readonly activeObstacles: IObstacle[] = [];

@@ -1,7 +1,7 @@
 import type NodeCGTypes from '@nodecg/types';
 import { v4 as uuid } from 'uuid';
+import { assetsMediaBoxImages, prizes } from '@esa-layouts/browser_shared/replicant_store';
 import { MediaBox, Tracker } from '../../../types';
-import { store } from '../store';
 
 /**
  * Checks if the supplied type is that of an alert.
@@ -25,9 +25,9 @@ export function getMediaDetails(
     };
   }
   if (media.type === 'image') {
-    details = store.state.images.find((l) => l.sum === media.mediaUUID);
+    details = assetsMediaBoxImages.value.find((l) => l.sum === media.mediaUUID);
   } else if (media.type === 'prize') {
-    details = store.state.prizes.find((p) => p.id.toString() === media.mediaUUID);
+    details = prizes.data!.find((p) => p.id.toString() === media.mediaUUID);
   } else if (media.type === 'text') {
     return {
       // This cast type is technically wrong but works OK in this context.

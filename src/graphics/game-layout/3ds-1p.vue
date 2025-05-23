@@ -1,7 +1,17 @@
+<script setup lang="ts">
+import MediaBoxBox from './components/MediaBoxBox.vue';
+import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
+import CommentatorsReader from './components/CommentatorsReader.vue';
+import GameCapture from './components/GameCapture.vue';
+import Player from './components/Player.vue';
+import RunInfo from './components/RunInfo.vue';
+import Timer from './components/Timer.vue';
+</script>
+
 <template>
   <div class="bsglayout _3ds_1p">
     <!-- Game Captures -->
-    <game-capture
+    <GameCapture
       id="GameCapture1"
       class=""
       :style="{
@@ -11,7 +21,7 @@
         height: '808px',
       }"
     />
-    <game-capture
+    <GameCapture
       id="GameCapture3"
       class=""
       :style="{
@@ -44,7 +54,7 @@
         height: '44px',
       }"
     >
-      <player/>
+      <Player />
     </div>
 
     <!--host, comms, timer-->
@@ -56,9 +66,9 @@
           height: '203px',
         }"
     >
-      <commentators-reader/>
-      <commentators-reader show-reader/>
-      <timer line-right/>
+      <CommentatorsReader />
+      <CommentatorsReader show-reader/>
+      <Timer line-right/>
     </div>
 
     <!-- Media Box -->
@@ -71,8 +81,8 @@
         height: '176px',
       }"
     >
-      <flashing-lights-warning class="Flex" style="align-self: flex-start" />
-      <media-box-box
+      <FlashingLightsWarning class="Flex" style="align-self: flex-start" />
+      <MediaBoxBox
         line-right
         line-left
         :style="{
@@ -92,34 +102,7 @@
         height: '176px',
       }"
     >
-      <run-info line-right info-is-row text-align="left"/>
+      <RunInfo line-right info-is-row text-align="left"/>
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
-import MediaBoxBox from './components/MediaBoxBox.vue';
-import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
-import CommentatorsReader from './components/CommentatorsReader.vue';
-import DonationBar from './components/DonationBar.vue';
-import GameCapture from './components/GameCapture.vue';
-import Player from './components/Player.vue';
-import RunInfo from './components/RunInfo.vue';
-import Timer from './components/Timer.vue';
-
-@Component({
-  components: {
-    GameCapture,
-    Player,
-    CommentatorsReader,
-    RunInfo,
-    Timer,
-    MediaBoxBox,
-    DonationBar,
-    FlashingLightsWarning,
-  },
-})
-export default class extends Vue {
-}
-</script>

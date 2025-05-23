@@ -1,3 +1,12 @@
+<script setup lang="ts">
+defineProps<{
+  type: string;
+  name: string;
+  pronouns: string | undefined;
+  country: string | undefined;
+}>();
+</script>
+
 <template>
   <div
     class="Flex bg--darkpurple text--barlowc text--offwhite"
@@ -104,18 +113,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-
-@Component
-export default class extends Vue {
-  @Prop({ type: String, required: true }) type!: string;
-  @Prop({ type: String, required: true }) name!: string;
-  @Prop({ type: String, required: false }) pronouns!: string | undefined;
-  @Prop({ type: String, required: false }) country!: string | undefined;
-}
-</script>
 
 <style scoped>
   .Icon {

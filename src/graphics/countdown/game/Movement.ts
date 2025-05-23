@@ -1,4 +1,4 @@
-import Point2D from '@esa-layouts/countdown/game/Point2D';
+import Point2D from './Point2D';
 
 export default class Movement {
   private isJumping = false;

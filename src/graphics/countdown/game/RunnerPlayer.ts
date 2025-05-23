@@ -1,8 +1,8 @@
-import { IObstacle, PlayerOptions } from '@esa-layouts/countdown/game/types/options';
-import Point2D from '@esa-layouts/countdown/game/Point2D';
-import Collider from '@esa-layouts/countdown/game/Collider';
-import Animator from '@esa-layouts/countdown/game/Animator';
-import Movement from '@esa-layouts/countdown/game/Movement';
+import { IObstacle, PlayerOptions } from './types/options';
+import Point2D from './Point2D';
+import Collider from './Collider';
+import Animator from './Animator';
+import Movement from './Movement';
 
 export default class RunnerPlayer {
   constructor(

@@ -1,3 +1,23 @@
+<script setup lang="ts">
+import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
+import { useHead } from '@vueuse/head';
+import { useIntermissionStore } from './store';
+import UpcomingRun from './components/UpcomingRun.vue';
+import Rotation from './components/Rotation.vue';
+import { getZoomAmountCSS } from '../_misc/helpers';
+import CommercialTimer from './components/CommercialTimer.vue';
+import DonationReader from './components/DonationReader.vue';
+import MusicTrack from './components/MusicTrack.vue';
+import DonationTotal from './components/DonationTotal.vue';
+
+useHead({ title: 'Intermission' });
+
+const zoom = getZoomAmountCSS();
+const clipPath = 'unset';
+
+const intermissionStore = useIntermissionStore();
+</script>
+
 <template>
   <div id="Intermission" class="bsglayout" :style="{ zoom }">
     <div
@@ -17,7 +37,7 @@
       />
 
       <!-- Commercial Timer -->
-      <commercial-timer
+      <CommercialTimer
         :style="{
           left: '1116px',
           top: '750px',
@@ -27,7 +47,7 @@
       />
 
       <!-- Media Box -->
-      <media-box
+      <MediaBox
         vertical
         :font-size="25"
         :style="{
@@ -38,8 +58,7 @@
         }"
       />
 
-      <donation-total
-        no-background
+      <DonationTotal
         :style="{
           position: 'absolute',
           left: '1436px',
@@ -48,9 +67,10 @@
       />
 
       <!-- Upcoming Run -->
-      <upcoming-run
+      <UpcomingRun
+        :slot-no="0"
         class="Fixed"
-        :run-data="nextRuns[0]"
+        :run-data="intermissionStore.nextRuns[0]"
         :style="{
           left: '138px',
           top: '100px',
@@ -60,7 +80,7 @@
       />
 
       <!-- Rotation meer upcoming runs-->
-      <rotation
+      <Rotation
         :style="{
           left: '138px',
           top: '393px',
@@ -81,51 +101,14 @@
           'font-size': '30px',
         }"
       >
-        <donation-reader />
+        <DonationReader />
       </div>
       <div class="musicContainer">
-        <music-track hide-icon class="music" />
+        <MusicTrack hide-icon class="music" />
       </div>
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { RunData } from 'speedcontrol-util/types';
-import { Component, Vue } from 'vue-property-decorator';
-import { State } from 'vuex-class';
-// import { generateClipPath } from '../_misc/cut-background';
-import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
-import UpcomingRun from './components/UpcomingRun.vue';
-import Rotation from './components/Rotation.vue';
-import { getZoomAmountCSS } from '../_misc/helpers';
-import CommercialTimer from './components/CommercialTimer.vue';
-import DonationReader from './components/DonationReader.vue';
-import MusicTrack from './components/MusicTrack.vue';
-import DonationTotal from './components/DonationTotal.vue';
-
-@Component({
-  components: {
-    MediaBox,
-    CommercialTimer,
-    UpcomingRun,
-    Rotation,
-    DonationReader,
-    MusicTrack,
-    DonationTotal,
-  },
-})
-export default class extends Vue {
-  @State nextRuns!: RunData[];
-  clipPath = 'unset';
-  zoom = getZoomAmountCSS();
-
-  mounted(): void {
-    // Bring this back if we actually gain some cameras on this layout.
-    // this.clipPath = generateClipPath();
-  }
-}
-</script>
 
 <style scoped>
 #Intermission {

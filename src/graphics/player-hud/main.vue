@@ -1,3 +1,90 @@
+<script setup lang="ts">
+import { donationsToRead, streamDeckData, timer } from '@esa-layouts/browser_shared/replicant_store';
+import { FlagCarrier } from '@esamarathon/mq-events/types';
+import { computed, onMounted, ref } from 'vue';
+import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
+import { useHead } from '@vueuse/head';
+
+useHead({ title: 'Player HUD' });
+
+const tagScanned = ref<'success_comm' | 'success_player' | 'fail_player' | boolean>(false);
+const scannedData = ref<FlagCarrier.TagScanned | null>(null);
+let messageTimeout: number | undefined;
+const therunggMessage = ref<string | null>(null);
+
+const largestDonation = computed(() => `€${donationsToRead.data!
+  .reduce((prev, current) => ((prev > current.amount) ? prev : current.amount), 0)
+  .toFixed(2)}`);
+
+const tagDisplayName = computed(() => {
+  if (!scannedData.value) {
+    return '';
+  }
+
+  return scannedData.value.raw.pronouns
+    ? `${scannedData.value.user.displayName} (${scannedData.value.raw.pronouns})`
+    : scannedData.value.user.displayName;
+});
+
+const buttonId = computed(() => scannedData.value?.flagcarrier?.id || '');
+
+const alertClass = computed(() => {
+  if (tagScanned.value) {
+    switch (tagScanned.value) {
+      case 'success_comm':
+      case 'success_player':
+        return 'TagSuccess';
+      case 'fail_player':
+        return 'TagFail';
+      default:
+        return 'TagNothing';
+    }
+  }
+
+  if (streamDeckData.data!.playerHUDTriggerType === 'message') {
+    return 'MessageToRead';
+  }
+
+  if (donationsToRead.data!.length) {
+    return 'DonationsToRead';
+  }
+
+  return '';
+});
+
+onMounted(async () => {
+  await NodeCG.waitForReplicants(timer);
+  await waitForReplicant(donationsToRead, streamDeckData);
+
+  nodecg.listenFor(
+    'bigbuttonTagScanned',
+    ({ state, data }: {
+      state?: 'success_comm' | 'success_player' | 'fail_player',
+      data: FlagCarrier.TagScanned,
+    }) => {
+      window.clearTimeout(messageTimeout);
+      therunggMessage.value = null;
+      tagScanned.value = state || true;
+      scannedData.value = data;
+      messageTimeout = window.setTimeout(() => {
+        tagScanned.value = false;
+        scannedData.value = null;
+      }, 7000);
+    },
+  );
+
+  nodecg.listenFor('therunggMessage', (msg: string) => {
+    window.clearTimeout(messageTimeout);
+    tagScanned.value = false;
+    scannedData.value = null;
+    therunggMessage.value = msg;
+    messageTimeout = window.setTimeout(() => {
+      therunggMessage.value = null;
+    }, 10 * 1000);
+  });
+});
+</script>
+
 <template>
   <div
     class="Flex"
@@ -56,14 +143,14 @@
         </template>
       </template>
       <!-- Manually triggered message from readers via Stream Deck. -->
-      <template v-else-if="streamDeckData.playerHUDTriggerType === 'message'">
+      <template v-else-if="streamDeckData.data?.playerHUDTriggerType === 'message'">
         Any time
         <br>for messages?
       </template>
       <!-- Donations to be read message. -->
-      <template v-else-if="donationsToRead.length">
+      <template v-else-if="donationsToRead.data?.length">
         Donations Pending:
-        <br>{{ donationsToRead.length }}
+        <br>{{ donationsToRead.data.length }}
         <br>Largest Unread Donation: {{ largestDonation }}
       </template>
       <!-- Nothing. -->
@@ -84,97 +171,10 @@
         'padding-top': '30px',
       }"
     >
-      {{ timer.time }}
+      {{ timer.value!.time }}
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { DonationsToRead, StreamDeckData } from '@esa-layouts/types/schemas';
-import { FlagCarrier } from '@esamarathon/mq-events/types';
-import { Timer } from 'speedcontrol-util/types';
-import { Component, Vue } from 'vue-property-decorator';
-
-@Component
-export default class extends Vue {
-  @replicantNS.State((s) => s.reps.timer) readonly timer!: Timer;
-  @replicantNS.State((s) => s.reps.donationsToRead) readonly donationsToRead!: DonationsToRead;
-  @replicantNS.State((s) => s.reps.streamDeckData) readonly streamDeckData!: StreamDeckData;
-  donationsToReadTO = 0;
-  tagScanned: 'success_comm' | 'success_player' | 'fail_player' | boolean = false;
-  scannedData: FlagCarrier.TagScanned | null = null;
-  messageTimeout!: number;
-  therunggMessage: string | null = null;
-
-  get largestDonation(): string {
-    return `€${this.donationsToRead
-      .reduce((prev, current) => ((prev > current.amount) ? prev : current.amount), 0)
-      .toFixed(2)}`;
-  }
-
-  get tagDisplayName(): string {
-    if (!this.scannedData) return '';
-    return this.scannedData.raw.pronouns
-      ? `${this.scannedData.user.displayName} (${this.scannedData.raw.pronouns})`
-      : this.scannedData.user.displayName;
-  }
-
-  get buttonId(): string {
-    return this.scannedData?.flagcarrier.id || '';
-  }
-
-  get alertClass(): string {
-    if (this.tagScanned) {
-      switch (this.tagScanned) {
-        case 'success_comm':
-        case 'success_player':
-          return 'TagSuccess';
-        case 'fail_player':
-          return 'TagFail';
-        default:
-          return 'TagNothing';
-      }
-    }
-    if (this.streamDeckData.playerHUDTriggerType === 'message') {
-      return 'MessageToRead';
-    }
-    if (this.donationsToRead.length) {
-      return 'DonationsToRead';
-    }
-    return '';
-  }
-
-  mounted(): void {
-    nodecg.listenFor(
-      'bigbuttonTagScanned',
-      ({ state, data }: {
-        state?: 'success_comm' | 'success_player' | 'fail_player',
-        data: FlagCarrier.TagScanned,
-      }) => {
-        window.clearTimeout(this.messageTimeout);
-        this.therunggMessage = null;
-        this.tagScanned = state || true;
-        this.scannedData = data;
-        this.messageTimeout = window.setTimeout(() => {
-          this.tagScanned = false;
-          this.scannedData = null;
-        }, 7000);
-      },
-    );
-
-    nodecg.listenFor('therunggMessage', (msg: string) => {
-      window.clearTimeout(this.messageTimeout);
-      this.tagScanned = false;
-      this.scannedData = null;
-      this.therunggMessage = msg;
-      this.messageTimeout = window.setTimeout(() => {
-        this.therunggMessage = null;
-      }, 10 * 1000);
-    });
-  }
-}
-</script>
 
 <style>
   .PlayerHUD {

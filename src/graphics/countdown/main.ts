@@ -1,15 +1,14 @@
-/* eslint no-new: off, @typescript-eslint/explicit-function-return-type: off */
-
-import Vue from 'vue';
 import '../_misc/common.css';
 import '../_misc/theme';
+import { createHead } from '@vueuse/head';
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 import App from './main.vue';
-import waitForReplicants from './store';
 
-waitForReplicants().then((store) => {
-  new Vue({
-    store,
-    el: '#App',
-    render: (h) => h(App),
-  });
-});
+const app = createApp(App);
+const head = createHead();
+const pinia = createPinia();
+
+app.use(head);
+app.use(pinia);
+app.mount('#app');

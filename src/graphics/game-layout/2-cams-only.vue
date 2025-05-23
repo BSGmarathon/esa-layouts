@@ -1,3 +1,20 @@
+<script setup lang="ts">
+import { onMounted, onUnmounted } from 'vue';
+import Player from './components/Player.vue';
+
+// const online = nodecg.bundleConfig.event.online;
+
+onMounted(() => {
+  const bg = document.getElementById('Background');
+  if (bg) bg.style.background = 'unset';
+});
+
+onUnmounted(() => {
+  const bg = document.getElementById('Background');
+  if (bg) bg.style.background = '';
+});
+</script>
+
 <template>
   <div>
     <!-- Camera Captures -->
@@ -25,7 +42,7 @@
     />
 
     <!-- Player 1 -->
-    <player
+    <Player
       :slot-no="0"
       class="Fixed"
       :style="{
@@ -36,7 +53,7 @@
     />
 
     <!-- Player 2 -->
-    <player
+    <Player
       :slot-no="1"
       class="Fixed"
       :style="{
@@ -47,27 +64,3 @@
     />
   </div>
 </template>
-
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import Player from './components/Player.vue';
-
-@Component({
-  components: {
-    Player,
-  },
-})
-export default class extends Vue {
-  online = nodecg.bundleConfig.event.online;
-
-  mounted(): void {
-    const bg = document.getElementById('Background');
-    if (bg) bg.style.background = 'unset';
-  }
-
-  destroyed(): void {
-    const bg = document.getElementById('Background');
-    if (bg) bg.style.background = '';
-  }
-}
-</script>

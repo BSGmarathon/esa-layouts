@@ -1,90 +1,55 @@
-import { ReplicantModule, replicantModule, ReplicantTypes } from '@esa-layouts/browser_shared/replicant_store';
+import { omnibar } from '@esa-layouts/browser_shared/replicant_store';
 import { Omnibar } from '@esa-layouts/types/schemas';
 import clone from 'clone';
-import Vue from 'vue';
-import Vuex, { Store } from 'vuex';
-import { getModule, Module, Mutation, VuexModule } from 'vuex-module-decorators';
+import { ref } from 'vue';
+import { defineStore } from 'pinia';
 
-Vue.use(Vuex);
+// eslint-disable-next-line import/prefer-default-export
+export const useOmnibarStore = defineStore('omnibar', () => {
+  const editItemId = ref('');
+  const editDialog = ref(false);
+  const localEdits = ref(false);
+  const localRotation = ref<Omnibar['rotation']>([]);
 
-@Module({ name: 'OurModule' })
-class OurModule extends VuexModule {
-  localRotation: Omnibar['rotation'] = [];
-  localEdits = false;
-  editItemId = '';
-  editDialog = false;
-
-  // Helper getter to return all replicants.
-  get reps(): ReplicantTypes {
-    return this.context.rootState.ReplicantModule.reps;
+  function setLocalRotation(
+    { val, manual = false }: { val: Omnibar['rotation'], manual?: boolean },
+  ): void {
+    localRotation.value = clone(val);
+    localEdits.value = manual;
   }
 
-  /**
-   * Set local rotation array.
-   */
-  @Mutation
-  setLocalRotation({ val, manual = false }: { val: Omnibar['rotation'], manual?: boolean }): void {
-    this.localRotation = clone(val);
-    this.localEdits = manual;
-  }
+  function deleteItem(id: string): void {
+    const index = localRotation.value.findIndex((r) => r.id === id);
 
-  /**
-   * Set global rotation array, usually when saving changes.
-   */
-  @Mutation
-  setGlobalRotation(val: Omnibar['rotation']): void {
-    replicantModule.setReplicant<Omnibar>({
-      name: 'omnibar',
-      val: { ...replicantModule.repsTyped.omnibar, rotation: clone(val) },
-    });
-    this.localEdits = false;
-  }
-
-  /**
-   * Delete item from local rotation array.
-   */
-  @Mutation
-  deleteItem(id: string): void {
-    const index = this.localRotation.findIndex((r) => r.id === id);
-    if (index >= 0) {
-      this.localRotation.splice(index, 1);
-      this.localEdits = true;
+    if (index > -1) {
+      localRotation.value.splice(index, 1);
+      localEdits.value = true;
     }
   }
 
-  /**
-   * Changes the ID of the item to be edited, or erases it.
-   */
-  @Mutation
-  changeEditItemId(val?: string): void {
-    this.editItemId = val || '';
+  function storeToGlobalLocation(): void {
+    omnibar.data!.rotation = clone(localRotation.value);
+    omnibar.save();
+    localEdits.value = false;
   }
 
-  /**
-   * Toggles the "editDialog" boolean.
-   */
-  @Mutation
-  toggleEditDialog(val: boolean): void {
-    this.editDialog = val;
-  }
+  function updateLocalItem(val: Omnibar['rotation'][0]): void {
+    const index = localRotation.value.findIndex((r) => r.id === val.id);
 
-  /**
-   * Updates an item in the local rotation.
-   */
-  @Mutation
-  updateLocalItem(val: Omnibar['rotation'][0]): void {
-    const index = this.localRotation.findIndex((r) => r.id === val.id);
     if (index >= 0) {
-      Vue.set(this.localRotation, index, clone(val));
-      this.localEdits = true;
+      localRotation.value[index] = clone(val);
+      localEdits.value = true;
     }
   }
-}
 
-const store = new Store({
-  strict: process.env.NODE_ENV !== 'production',
-  state: {},
-  modules: { ReplicantModule, OurModule },
+  return {
+    editItemId,
+    editDialog,
+    localEdits,
+    localRotation,
+    setLocalRotation,
+    deleteItem,
+    storeToGlobalLocation,
+    updateLocalItem,
+  };
 });
-export default store;
-export const storeModule = getModule(OurModule, store);

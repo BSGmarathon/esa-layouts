@@ -1,7 +1,21 @@
+<script setup lang="ts">
+import { formatUSD } from '@esa-layouts/browser_shared/helpers';
+import { mediaBox, prizes } from '@esa-layouts/browser_shared/replicant_store';
+import { computed } from 'vue';
+
+defineProps<{
+  vertical: boolean;
+}>();
+
+const prize = computed(
+  () => prizes.data?.find((s) => s.id.toString() === mediaBox.data?.current?.mediaUUID),
+);
+</script>
+
 <template>
   <!-- todo: locally store class CSS properties for safety -->
   <div
-    v-show="prize"
+    v-if="prize"
     :class="vertical ? 'FlexColumn' : 'Flex'"
     :style="{
       'font-size': '1em', // move to prop?
@@ -49,23 +63,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import { MediaBox, Prizes } from '@esa-layouts/types/schemas';
-import { Tracker } from '@esa-layouts/types';
-import { formatUSD } from '@esa-layouts/browser_shared/helpers';
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-
-@Component
-export default class extends Vue {
-  @replicantNS.State((s) => s.reps.prizes) readonly prizes!: Prizes;
-  @replicantNS.State((s) => s.reps.mediaBox) readonly mediaBox!: MediaBox;
-  @Prop(Boolean) vertical!: boolean;
-  formatUSD = formatUSD;
-
-  get prize(): Tracker.FormattedPrize | undefined {
-    return this.prizes.find((s) => s.id.toString() === this.mediaBox.current?.mediaUUID);
-  }
-}
-</script>

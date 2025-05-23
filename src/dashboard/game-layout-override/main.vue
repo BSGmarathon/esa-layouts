@@ -1,7 +1,62 @@
+<script setup lang="ts">
+import { gameLayouts, runDataActiveRun } from '@esa-layouts/browser_shared/replicant_store';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
+import { useGoTo } from 'vuetify';
+import { useHead } from '@vueuse/head';
+
+useHead({ title: 'Game layout override' });
+
+const goTo = useGoTo();
+
+const selected = computed({
+  get: () => gameLayouts.data?.selected,
+  set: (val) => {
+    gameLayouts.data!.selected = val;
+    gameLayouts.save();
+  },
+});
+const flashingLightsLocalState = ref(false);
+const flashingLightsWarning = computed({
+  get: () => flashingLightsLocalState.value,
+  set: (val: boolean) => {
+    nodecg.sendMessage('updateFlashingLightsWarning', val);
+  },
+});
+
+watch(() => runDataActiveRun.data, (newVal) => {
+  flashingLightsLocalState.value = newVal?.customData?.flashingLights === 'true';
+}, { deep: true, immediate: true });
+
+async function scrollToSelectedLayout(): Promise<void> {
+  try {
+    await nextTick();
+    if (selected.value) {
+      await goTo(`#layout-${selected.value}`, { container: '#LayoutList', offset: 25 });
+    } else {
+      await goTo(0, { container: '#LayoutList' });
+    }
+  } catch (err) {
+    // Not sure if this can error, but better be safe
+  }
+}
+
+watch(() => gameLayouts.data, () => {
+  if (gameLayouts.data?.available?.length) {
+    scrollToSelectedLayout();
+  }
+});
+
+onMounted(async () => {
+  await waitForReplicant(gameLayouts, runDataActiveRun);
+  scrollToSelectedLayout();
+});
+</script>
+
 <template>
   <v-app>
     <div
-      v-if="!gameLayouts.available.length"
+      v-if="!gameLayouts.data?.available?.length"
       :style="{ 'font-style': 'italic' }"
     >
       "Game Layout" graphic must be open.
@@ -30,7 +85,7 @@
           }"
         >
           <v-radio
-            v-for="layout in gameLayouts.available"
+            v-for="layout in gameLayouts.data.available"
             :id="`layout-${layout.code}`"
             :key="layout.code"
             :value="layout.code"
@@ -41,73 +96,6 @@
     </template>
   </v-app>
 </template>
-
-<script lang="ts">
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { GameLayouts } from '@esa-layouts/types/schemas';
-import { Component, Vue, Watch } from 'vue-property-decorator';
-import { RunDataActiveRun } from 'speedcontrol-util/types';
-import { storeModule } from './store';
-
-@Component
-export default class extends Vue {
-  @replicantNS.State((s) => s.reps.gameLayouts) readonly gameLayouts!: GameLayouts;
-  @replicantNS.State((s) => s.reps.runDataActiveRun) readonly runDataActiveRun: RunDataActiveRun;
-  flashingLightsLocalState = false;
-
-  get selected(): GameLayouts['selected'] {
-    return this.gameLayouts.selected;
-  }
-  set selected(val: string | undefined) {
-    storeModule.updateSelected(val);
-  }
-
-  get flashingLightsWarning(): boolean {
-    return this.flashingLightsLocalState;
-  }
-
-  set flashingLightsWarning(val: boolean) {
-    nodecg.sendMessage('updateFlashingLightsWarning', val);
-  }
-
-  get crowdCamera(): GameLayouts['crowdCamera'] {
-    return this.gameLayouts.crowdCamera;
-  }
-  set crowdCamera(val: GameLayouts['crowdCamera']) {
-    storeModule.toggleCrowdCamera(val);
-  }
-
-  @Watch('selected')
-  async scrollToSelectedLayout(): Promise<void> {
-    try {
-      await Vue.nextTick();
-      if (this.selected) {
-        this.$vuetify.goTo(`#layout-${this.selected}`, { container: '#LayoutList', offset: 25 });
-      } else {
-        this.$vuetify.goTo(0, { container: '#LayoutList' });
-      }
-    } catch (err) {
-      // Not sure if this can error, but better be safe
-    }
-  }
-
-  @Watch('gameLayouts')
-  onGameLayoutsChange(): void {
-    if (this.gameLayouts.available.length) {
-      this.scrollToSelectedLayout();
-    }
-  }
-
-  @Watch('runDataActiveRun', { immediate: true, deep: true })
-  async onCurrentRunChange(newVal: RunDataActiveRun) {
-    this.flashingLightsLocalState = newVal?.customData?.flashingLights === 'true';
-  }
-
-  mounted(): void {
-    this.scrollToSelectedLayout();
-  }
-}
-</script>
 
 <style>
   .v-input--hide-details > .v-input__control > .v-input__slot {

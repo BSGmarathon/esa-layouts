@@ -36,13 +36,11 @@ module.exports = {
         // project: path.join(__dirname, './tsconfig.browser.json'),
         project: path.join(__dirname, 'tsconfig.browser.json'),
       },
-      webpack: {
-        config: path.join(__dirname, 'webpack.config.mjs'),
-      },
     },
     'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
   },
   rules: {
+    'no-await-in-loop': 'off',
     // Everything is compiled for the browser so dev dependencies are fine.
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     // max-len set to ignore "import" lines (as they usually get long and messy).

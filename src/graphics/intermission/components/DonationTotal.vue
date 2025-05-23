@@ -1,3 +1,11 @@
+<script setup lang="ts">
+import { formatUSD } from '@esa-layouts/graphics/_misc/helpers';
+import { computed } from 'vue';
+import { donationTotal } from '@esa-layouts/browser_shared/replicant_store';
+
+const totalStr = computed(() => formatUSD(donationTotal.data ?? 0));
+</script>
+
 <template>
   <div class="Flex">
     <div
@@ -8,8 +16,7 @@
         v-for="(char, i) in totalStr"
         :key="i"
         :class="{
-          'no-bg': !noBackground,
-          'Comma': char === ',',
+          'Comma': char === ','
         }"
       >
         {{ char }}
@@ -17,23 +24,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { formatUSD } from '@esa-layouts/graphics/_misc/helpers';
-import { State } from 'vuex-class';
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import { DonationTotal } from '@esa-layouts/types/schemas';
-
-@Component
-export default class extends Vue {
-  @State donationTotal!: DonationTotal;
-  @Prop({ default: false }) noBackground!: boolean;
-
-  get totalStr(): string {
-    return formatUSD(this.donationTotal);
-  }
-}
-</script>
 
 <style scoped lang="scss">
 #Total {
@@ -52,10 +42,6 @@ export default class extends Vue {
   text-align: center;
   position: relative;
   color: white !important;
-
-  &:not(.no-bg) {
-    background: var(--slide-color);
- }
 }
 
 #Total span:first-of-type {

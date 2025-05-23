@@ -1,7 +1,31 @@
+<script setup lang="ts">
+import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
+import { gameLayouts, runDataActiveRun } from '@esa-layouts/browser_shared/replicant_store';
+import { computed } from 'vue';
+import CommentatorsReader from './components/CommentatorsReader.vue';
+import DonationBar from './components/DonationBar.vue';
+import GameCapture from './components/GameCapture.vue';
+import Player from './components/Player.vue';
+import RunInfo from './components/RunInfo.vue';
+import Timer from './components/Timer.vue';
+
+const { online } = nodecg.bundleConfig.event;
+const crowdCam = computed(() => gameLayouts.data?.crowdCamera ?? false);
+
+const extraPlayers = computed<{ name: string, pronouns?: string }[]>(() => {
+  if (!runDataActiveRun.data?.relay) return [];
+
+  return (runDataActiveRun.data?.teams[0]?.players || []).slice(2).map((p) => ({
+    name: p.name,
+    pronouns: p.pronouns,
+  }));
+});
+</script>
+
 <template>
   <div>
     <!-- Game Captures -->
-    <game-capture
+    <GameCapture
       id="GameCapture1"
       class="BorderRight"
       :slot-no="0"
@@ -12,7 +36,7 @@
         height: '540px',
       }"
     />
-    <game-capture
+    <GameCapture
       id="GameCapture2"
       :slot-no="1"
       finish-time-pos="bottomright"
@@ -45,9 +69,9 @@
         width: '430px',
       }"
     >
-      <player :slot-no="0" />
-      <commentators-reader />
-      <commentators-reader show-reader />
+      <Player :slot-no="0" />
+      <CommentatorsReader />
+      <CommentatorsReader show-reader />
     </div>
 
     <!-- Bingo Card Slot -->
@@ -71,7 +95,7 @@
         height: '400px',
       }"
     >
-      <player :slot-no="1" />
+      <Player :slot-no="1" />
 
       <!--<div
         v-if="extraPlayers.length"
@@ -115,16 +139,16 @@
           overflow: 'hidden',
         }"
       >
-        <run-info
+        <RunInfo
           :style="{ 'font-size': '45px' }"
           no-wrap
         />
-        <timer font-size="120px" />
+        <Timer font-size="120px" />
       </div>
     </div>
 
     <!-- Media Box -->
-    <media-box
+    <MediaBox
       :font-size="36"
       :style="{
         left: '0px',
@@ -135,7 +159,7 @@
     />
 
     <!-- Donation Bar -->
-    <donation-bar
+    <DonationBar
       :style="{
         left: '0px',
         top: '940px',
@@ -145,41 +169,3 @@
     />
   </div>
 </template>
-
-<script lang="ts">
-import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
-import { RunDataActiveRun } from 'speedcontrol-util/types';
-import { Component, Vue } from 'vue-property-decorator';
-import { State } from 'vuex-class';
-import CommentatorsReader from './components/CommentatorsReader.vue';
-import DonationBar from './components/DonationBar.vue';
-import GameCapture from './components/GameCapture.vue';
-import Player from './components/Player.vue';
-import RunInfo from './components/RunInfo.vue';
-import Timer from './components/Timer.vue';
-
-@Component({
-  components: {
-    GameCapture,
-    Player,
-    CommentatorsReader,
-    RunInfo,
-    Timer,
-    MediaBox,
-    DonationBar,
-  },
-})
-export default class extends Vue {
-  @State((s) => s.gameLayouts.crowdCamera) readonly crowdCam!: boolean;
-  online = nodecg.bundleConfig.event.online;
-  @State('runDataActiveRun') runData!: RunDataActiveRun;
-
-  get extraPlayers(): { name: string, pronouns?: string }[] {
-    if (this.runData?.relay) return [];
-    return (this.runData?.teams[0]?.players || []).slice(2).map((p) => ({
-      name: p.name,
-      pronouns: p.pronouns,
-    }));
-  }
-}
-</script>

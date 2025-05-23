@@ -131,7 +131,7 @@ jobs:
     # Start committing newly built files into a temporary commit.
     - name: Commit built files (1)
       run: |
-        git add -f dashboard graphics extension
+        git add -f dashboard graphics extension shared
         git commit -m "Built files" -a --allow-empty
 
     # Squash the previous 2 commits down for convenience and create the final build commit.

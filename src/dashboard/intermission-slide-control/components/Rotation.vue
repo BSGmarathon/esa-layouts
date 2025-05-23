@@ -1,3 +1,43 @@
+<script setup lang="ts">
+import { IntermissionSlides } from '@esa-layouts/types/schemas';
+import MediaCard from '@esa-layouts/dashboard/_misc/components/MediaCard.vue';
+import Draggable from 'vuedraggable';
+import { computed } from 'vue';
+import { assetsIntermissionSlides } from '@esa-layouts/browser_shared/replicant_store';
+import { useIntermissionSlideStore } from '../store';
+
+const slideStore = useIntermissionSlideStore();
+const localRotation = computed({
+  get: () => slideStore.localRotation,
+  set: (newRot) => {
+    slideStore.setLocalRotation({ val: newRot, manual: true });
+  },
+});
+
+function name(media: IntermissionSlides['rotation'][0]): string {
+  if (media.type === 'Media') {
+    return assetsIntermissionSlides.value.find((a) => a.sum === media.mediaUUID)?.name || '';
+  }
+
+  if (media.type === 'UpcomingRuns') {
+    return 'Upcoming Runs';
+  }
+
+  if (media.type === 'RandomBid') {
+    return 'Random Bid';
+  }
+
+  if (media.type === 'RandomPrize') {
+    return 'Random Prize';
+  }
+  return '?';
+}
+
+function del(id: string): void {
+  slideStore.deleteItem(id);
+}
+</script>
+
 <template>
   <div>
     <v-toolbar-title>
@@ -9,75 +49,35 @@
         'overflow-y': 'auto',
       }"
     >
-      <media-card
+      <MediaCard
         v-if="!localRotation.length"
         :style="{ 'font-style': 'italic' }"
       >
         Drag elements from above to here to configure.
-      </media-card>
-      <draggable
+      </MediaCard>
+      <Draggable
         v-model="localRotation"
         group="intermission"
+        item-key="id"
       >
-        <media-card
-          v-for="media in localRotation"
-          :key="media.id"
-          class="d-flex"
-        >
-          <div
-            class="d-flex align-center justify-center flex-grow-1"
-            :style="{ 'overflow': 'hidden' }"
+        <template #item="{ element: media }">
+          <MediaCard
+            class="d-flex"
           >
-            {{ name(media) }}
-          </div>
-          <div class="d-flex">
-            <v-icon @click="del(media.id)">
-              mdi-delete
-            </v-icon>
-          </div>
-        </media-card>
-      </draggable>
+            <div
+              class="d-flex align-center justify-center flex-grow-1"
+              :style="{ 'overflow': 'hidden' }"
+            >
+              {{ name(media) }}
+            </div>
+            <div class="d-flex">
+              <v-icon @click="del(media.id)">
+                mdi-delete
+              </v-icon>
+            </div>
+          </MediaCard>
+        </template>
+      </Draggable>
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { IntermissionSlides } from '@esa-layouts/types/schemas';
-import MediaCard from '@esa-layouts/_misc/components/MediaCard.vue';
-import { Component, Vue } from 'vue-property-decorator';
-import Draggable from 'vuedraggable';
-import { storeModule } from '../store';
-
-@Component({
-  components: {
-    Draggable,
-    MediaCard,
-  },
-})
-export default class extends Vue {
-  get localRotation(): IntermissionSlides['rotation'] { return storeModule.localRotation; }
-
-  set localRotation(val: IntermissionSlides['rotation']) {
-    storeModule.setLocalRotation({ val, manual: true });
-  }
-
-  name(media: IntermissionSlides['rotation'][0]): string {
-    let str = '';
-    if (media.type === 'Media') {
-      str = storeModule.reps.assetsIntermissionSlides
-        .find((a) => a.sum === media.mediaUUID)?.name || '';
-    } else if (media.type === 'UpcomingRuns') {
-      str = 'Upcoming Runs';
-    } else if (media.type === 'RandomBid') {
-      str = 'Random Bid';
-    } else if (media.type === 'RandomPrize') {
-      str = 'Random Prize';
-    }
-    return str || '?';
-  }
-
-  del(id: string): void {
-    storeModule.deleteItem(id);
-  }
-}
-</script>
