@@ -29,7 +29,7 @@
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
 
-  const drawPrice = '€0,90'
+  const drawPrice = '€20,25'
 
   // Fill the entire canvas so we have image data
   ctx.fillStyle = 'white';
@@ -41,7 +41,17 @@
   ctx.fillStyle = 'black';
   ctx.font = '30px "Comic Sans MS"'
   // y = font size in px
-  ctx.fillText("M&M's Cwispy", 2, 30, 208)
+  ctx.fillText("T-DOSE", 2, 30, 208)
+
+
+  ctx.font = '20px Impact'
+  ctx.fillText("See you in 2026", 10, 60, 208)
+
+  ctx.fillStyle = 'red';
+  ctx.fillRect(20, canvas.height - 60, 20, 20);
+  ctx.fillRect(20, canvas.height - 30, 20, 20);
+  ctx.fillRect(60, canvas.height - 60, 20, 20);
+  ctx.fillRect(60, canvas.height - 30, 20, 20);
 
   ctx.fillStyle = 'black';
   ctx.fillRect(canvas.width - txtWidth, canvas.height - 50, txtWidth, 50);
@@ -53,14 +63,15 @@
 
   function upload() {
     const formData = new FormData();
-    formData.append('mac', '0000032CA09D3E1F')
+    formData.append('mac', '0000033363CE3E18')
     formData.append('dither', '0')
 
     canvas.toBlob((blob) => {
       formData.append('file', blob);
 
       // fetch('http://epaper.local.duncte123.lgbt/imgupload', {
-      fetch('http://epaper.space.hackalot.nl/imgupload', {
+      // fetch('http://epaper.space.hackalot.nl/imgupload', {
+      fetch('http://192.168.5.143/imgupload', {
         method: 'POST',
         body: formData,
       }).then((res) => res.text()).then(console.log)
