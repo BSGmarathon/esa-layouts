@@ -22,6 +22,15 @@ export interface Configschema {
 			tech: string;
 		};
 	};
+	epaper: {
+		enabled: boolean;
+		access_point_ip: string;
+		displays: {
+			mac: string;
+			info_type: 'large_display' | 'small_donation_total';
+		}[];
+		debug: boolean;
+	};
 	streamdeck: {
 		enabled: boolean;
 		port: number;
