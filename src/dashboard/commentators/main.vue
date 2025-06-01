@@ -1,5 +1,42 @@
+<script setup lang="ts">
+import { commentatorsNew } from '@esa-layouts/browser_shared/replicant_store';
+import { ref } from 'vue';
+import { useHead } from '@vueuse/head';
+
+useHead({ title: 'Commentators' });
+
+const nameEntry = ref('');
+const disable = ref(false);
+
+async function add(): Promise<void> {
+  disable.value = true;
+  try {
+    await nodecg.sendMessage('commentatorAdd', nameEntry.value);
+  } catch (err) {
+    // catch
+  }
+  disable.value = false;
+  nameEntry.value = '';
+}
+
+async function del(index: number): Promise<void> {
+  disable.value = true;
+  try {
+    await nodecg.sendMessage('commentatorRemove', index);
+  } catch (err) {
+    // catch
+  }
+  disable.value = false;
+}
+
+function clear() {
+  commentatorsNew.data = [];
+  commentatorsNew.save();
+}
+</script>
+
 <template>
-  <v-app>
+  <v-app v-if="commentatorsNew.data">
     <v-card
       :style="{ 'margin-bottom': '10px' }"
       tile
@@ -7,33 +44,35 @@
       <v-list
         dense
       >
-        <v-list-item-group>
-          <template v-if="commentators.length">
-            <v-list-item
-              v-for="({ name, country, pronouns }, i) in commentators"
-              :key="i"
-            >
+        <template v-if="commentatorsNew.data.length">
+          <v-list-item
+            v-for="({ name, country, pronouns }, i) in commentatorsNew.data"
+            :key="i"
+          >
+            <template v-slot:prepend>
               <v-list-item-action>
                 <v-icon @click="del(i)">mdi-delete</v-icon>
               </v-list-item-action>
-              <v-list-item-content>
-                {{ name }}
-                <template v-if="pronouns">
-                  ({{ pronouns }})
-                </template>
-                <template v-if="country">
-                  ({{ country }})
-                </template>
-              </v-list-item-content>
-            </v-list-item>
-          </template>
-          <v-list-item
-            v-else
-            :style="{ 'font-style': 'italic' } "
-          >
-            No commentators specified
+            </template>
+            <v-list-item-title>
+              {{ name }}
+              <template v-if="pronouns">
+                ({{ pronouns }})
+              </template>
+              <template v-if="country">
+                ({{ country }})
+              </template>
+            </v-list-item-title>
           </v-list-item>
-        </v-list-item-group>
+        </template>
+        <v-list-item
+          v-else
+          :style="{ 'font-style': 'italic' } "
+        >
+          <v-list-item-title>
+            No commentators specified
+          </v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-card>
     <div class="d-flex">
@@ -64,39 +103,3 @@
     </v-btn>
   </v-app>
 </template>
-
-<script lang="ts">
-import { replicantNS } from '@esa-layouts/browser_shared/replicant_store';
-import { CommentatorsNew } from '@esa-layouts/types/schemas';
-import { Component, Vue } from 'vue-property-decorator';
-import { storeModule } from './store';
-
-@Component
-export default class extends Vue {
-  nameEntry = '';
-  disable = false;
-  @replicantNS.State((s) => s.reps.commentatorsNew) readonly commentators!: CommentatorsNew;
-  clear = storeModule.clearCommentators;
-
-  async add(): Promise<void> {
-    this.disable = true;
-    try {
-      await nodecg.sendMessage('commentatorAdd', this.nameEntry);
-    } catch (err) {
-      // catch
-    }
-    this.disable = false;
-    this.nameEntry = '';
-  }
-
-  async del(index: number): Promise<void> {
-    this.disable = true;
-    try {
-      await nodecg.sendMessage('commentatorRemove', index);
-    } catch (err) {
-      // catch
-    }
-    this.disable = false;
-  }
-}
-</script>

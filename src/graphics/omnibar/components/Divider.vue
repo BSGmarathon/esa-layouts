@@ -1,3 +1,7 @@
+<script setup lang="ts">
+// Thanks vue :)
+</script>
+
 <template>
   <div
     class="Divider"
@@ -8,15 +12,6 @@
     }"
   />
 </template>
-
-<script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
-
-@Component
-export default class extends Vue {
-  // code
-}
-</script>
 
 <style scoped>
   .Divider {

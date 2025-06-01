@@ -1,5 +1,26 @@
+<script setup lang="ts">
+import { RtmpFeed } from '@esa-layouts/types/schemas';
+import { computed } from 'vue';
+
+const { value } = defineProps<{ value: RtmpFeed }>();
+
+const instances = [
+  {
+    prefix: 'eu',
+    name: 'Europe',
+  },
+  {
+    prefix: 'na',
+    name: 'North-America',
+  },
+];
+const canEdit = computed(() => value.editAllowed && value.enabled);
+</script>
+
 <template>
   <div>
+    <!-- shhhhhht -->
+    <!-- eslint-disable vue/no-mutating-props -->
     <v-checkbox
       :disabled="!value.editAllowed"
       v-model="value.enabled"
@@ -30,28 +51,3 @@
       :disabled="!canEdit" />
   </div>
 </template>
-
-<script lang="ts">
-import { RtmpFeed } from '@esa-layouts/types/schemas';
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import { PropType } from 'vue';
-
-@Component
-export default class extends Vue {
-  @Prop({ type: Object as PropType<RtmpFeed>, required: true }) value!: RtmpFeed;
-  instances = [
-    {
-      prefix: 'eu',
-      name: 'Europe',
-    },
-    {
-      prefix: 'na',
-      name: 'North-America',
-    },
-  ];
-
-  get canEdit(): boolean {
-    return this.value.editAllowed && this.value.enabled;
-  }
-}
-</script>

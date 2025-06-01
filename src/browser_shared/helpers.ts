@@ -26,3 +26,13 @@ export function msToTimeStr(ms: number): string {
 export function formatUSD(amount: number): string {
   return `€${amount.toFixed(2)}`;
 }
+
+export function sleep(length: number) {
+  return new Promise((res) => { window.setTimeout(res, length); });
+}
+
+export async function waitForReplicant(...replicants: { data: unknown | undefined }[]) {
+  while (!replicants.every((r) => r.data)) {
+    await sleep(100);
+  }
+}

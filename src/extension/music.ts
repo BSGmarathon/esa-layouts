@@ -1,7 +1,6 @@
 import type NodeCGTypes from '@nodecg/types';
-import needle, { NeedleHttpVerbs, NeedleResponse } from 'needle';
 import path from 'path';
-import { Readable } from 'stream';
+import fetch, { Response, HeadersInit } from 'node-fetch';
 import { Foobar2000, Music as MusicTypes } from '@esa-layouts/types';
 import { MusicData } from '@esa-layouts/types/schemas';
 import { get as nodecgGetter } from './util/nodecg';
@@ -43,6 +42,17 @@ class Music {
     this.musicData.value.connected = false;
     if (config.enabled) {
       this.setup();
+
+      // Listen to OBS transitions to play/pause correctly.
+      this.obs.conn.on('TransitionBegin', (data) => {
+        if (data['to-scene']) {
+          if (data['to-scene'].includes('[M]')) {
+            this.play();
+          } else {
+            this.pause();
+          }
+        }
+      });
     }
   }
 
@@ -51,18 +61,22 @@ class Music {
    * @param method Required HTTP method.
    * @param endpoint The endpoint to request.
    */
-  private async request(method: NeedleHttpVerbs, endpoint: string): Promise<NeedleResponse> {
+  private async request(method: string, endpoint: string): Promise<Response> {
     this.nodecg.log.debug(`[Music] API ${method.toUpperCase()} request processing on ${endpoint}`);
-    const resp = await needle(method, `http://${this.config.address}/api${endpoint}`, {
+    const resp = await fetch(`http://${this.config.address}/api${endpoint}`, {
+      method: method.toUpperCase(),
       headers: this.headers,
     });
-    if (![200, 204].includes(resp.statusCode ?? 0)) {
-      const text = await resp.body as string;
+
+    if (![200, 204].includes(resp.status ?? 0)) {
+      const text = await resp.text();
       this.nodecg.log
         .debug(`[Music] API ${method.toUpperCase()} request error on ${endpoint}:`, text);
-      throw new Error(text);
+      throw new Error(JSON.stringify(text));
     }
+
     this.nodecg.log.debug(`[Music] API ${method.toUpperCase()} request successful on ${endpoint}`);
+
     return resp;
   }
 
@@ -119,11 +133,11 @@ class Music {
       this.musicData.value.connected = true;
       this.nodecg.log.info('[Music] Connection successful');
 
-      if (!resp.body) {
+      const readable = resp.body;
+
+      if (!readable) {
         throw new Error('body was null');
       }
-
-      const readable = Readable.from(resp.body);
 
       readable.on('data', (chunk: Buffer) => {
         let msg: Foobar2000.UpdateMsg | undefined;
@@ -182,23 +196,70 @@ class Music {
         this.nodecg.log.warn('[Music] Connection ended, retrying in 5 seconds');
         setTimeout(() => this.setup(), 5 * 1000);
       });
-
-      // Listen to OBS transitions to play/pause correctly.
-      this.obs.conn.on('TransitionBegin', (data) => {
-        if (data['to-scene']) {
-          if (data['to-scene'].includes('[M]')) {
-            this.play();
-          } else {
-            this.pause();
-          }
-        }
-      });
     } catch (err) {
       this.musicData.value.connected = false;
       this.nodecg.log.warn('[Music] Connection failed, retrying in 5 seconds');
       this.nodecg.log.debug('[Music] Connection failed, retrying in 5 seconds:', err);
       setTimeout(() => this.setup(), 5 * 1000);
     }
+
+    /*
+    try {
+      this.nodecg.log.debug('[Music] Attempting update');
+      const fetchResp = await this.request(
+        'get',
+        '/query?player=true&trcolumns=%artist%,%title%',
+      );
+      const body = await fetchResp.json();
+      this.musicData.value.connected = true;
+      this.nodecg.log.debug('[Music] Update successful', body);
+
+      if (!body) {
+        throw new Error('body was null');
+      }
+
+      const msg = body as Foobar2000.UpdateMsg;
+
+      if (!msg || !msg.player) {
+        return;
+      }
+
+      if (this.positionInterval) {
+        clearInterval(this.positionInterval);
+      }
+
+      const isPlaying = msg.player.playbackState === 'playing';
+
+      this.musicData.value.playing = isPlaying;
+
+      if (msg.player.playbackState === 'stopped') {
+        delete this.musicData.value.track;
+        return;
+      }
+
+      if (msg.player.activeItem.duration > 0) {
+        this.musicData.value.track = {
+          artist: msg.player.activeItem.columns[0] || undefined,
+          title: msg.player.activeItem.columns[1] || undefined,
+          position: msg.player.activeItem.position,
+          duration: msg.player.activeItem.duration,
+        };
+
+        if (isPlaying) {
+          this.positionInitial = msg.player.activeItem.position;
+          this.positionTimestamp = Date.now();
+          this.positionInterval = setInterval(() => this.updatePosition(), 1000);
+        }
+      }
+
+      setTimeout(() => this.setup(), 5 * 1000);
+    } catch (err) {
+      this.musicData.value.connected = false;
+      this.nodecg.log.warn('[Music] Connection failed, retrying in 5 seconds');
+      this.nodecg.log.debug('[Music] Connection failed, retrying in 5 seconds:', err);
+      setTimeout(() => this.setup(), 5 * 1000);
+    }
+    */
   }
 }
 

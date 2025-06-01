@@ -681,28 +681,6 @@
           "type": "boolean",
           "default": true
         },
-        "allowedDevices": {
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "uniqueItems": true,
-              "minItems": 1
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "group": {
-          "type": "string",
-          "default": "stream1"
-        },
         "availableButtons": {
           "type": "array",
           "items": {
@@ -710,7 +688,7 @@
             "additionalProperties": false,
             "properties": {
               "id": {
-                "type": "string"
+                "type": "number"
               },
               "name": {
                 "type": "string"
@@ -723,27 +701,22 @@
           },
           "default": [
             {
-              "id": "1",
-              "name": "PC 1"
+              "id": 1,
+              "name": "Runner 1"
             },
             {
-              "id": "2",
-              "name": "PC 2"
+              "id": 2,
+              "name": "Runner 2"
             },
             {
-              "id": "3",
-              "name": "Console 1"
-            },
-            {
-              "id": "4",
-              "name": "Console 2"
+              "id": 3,
+              "name": "Runner 3"
             }
           ]
         }
       },
       "required": [
         "enabled",
-        "group",
         "availableButtons"
       ]
     },

@@ -1,36 +1,59 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useOmnibarStore } from '../store';
+
+const { id } = defineProps<{ id: string }>();
+
+const store = useOmnibarStore();
+const fab = ref(false);
+
+function edit() {
+  store.editItemId = id;
+  store.editDialog = true;
+}
+
+function del() {
+  store.deleteItem(id);
+}
+</script>
+
 <template>
-  <v-speed-dial v-model="fab" top right direction="left" absolute>
-    <template v-slot:activator>
-      <v-btn v-model="fab" color="blue darken-2" fab x-small>
+  <v-speed-dial
+    v-model="fab"
+    transition="fade-transition"
+    location="left center"
+  >
+    <template v-slot:activator="{ props: activatorProps }">
+      <v-btn
+        color="blue darken-2"
+        v-bind="activatorProps"
+        position="absolute"
+        size="small"
+        location="right center"
+        class="speed-dial"
+        icon="mdi-close"
+      >
         <v-icon v-if="fab">mdi-close</v-icon>
         <v-icon v-else>mdi-cog</v-icon>
       </v-btn>
     </template>
-    <v-btn fab x-small color="green" @click="edit">
-      <v-icon>mdi-pencil</v-icon>
-    </v-btn>
-    <v-btn fab x-small color="red" @click="del">
-      <v-icon>mdi-delete</v-icon>
-    </v-btn>
+    <v-btn key="1"
+           icon="mdi-pencil"
+           size="x-small"
+           color="green"
+           @click="edit"
+    />
+    <v-btn key="2"
+           icon="mdi-delete"
+           size="x-small"
+           color="red"
+           @click="del"
+    />
   </v-speed-dial>
 </template>
 
-<script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import { storeModule } from '../store';
-
-@Component
-export default class extends Vue {
-  @Prop({ type: String, required: true }) readonly id!: string;
-  fab = false;
-
-  edit(): void {
-    storeModule.changeEditItemId(this.id);
-    storeModule.toggleEditDialog(true);
-  }
-
-  del(): void {
-    storeModule.deleteItem(this.id);
-  }
+<style scoped>
+.speed-dial {
+  right: 10px !important;
 }
-</script>
+</style>

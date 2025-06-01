@@ -1,3 +1,42 @@
+<script setup lang="ts">
+import { IntermissionSlides } from '@esa-layouts/types/schemas';
+import { computed, defineEmits, defineProps, onMounted, useTemplateRef } from 'vue';
+import { assetsIntermissionSlides } from '@esa-layouts/browser_shared/replicant_store';
+
+const props = defineProps<{
+  current: IntermissionSlides['current'],
+}>();
+const emit = defineEmits<{
+  end: [],
+}>();
+const media = computed(
+  () => assetsIntermissionSlides.value.find((a) => a.sum === props.current?.mediaUUID),
+);
+const player = useTemplateRef<HTMLVideoElement>('VideoPlayer');
+const playerSrc = useTemplateRef<HTMLSourceElement>('VideoPlayerSrc');
+
+onMounted(() => {
+  // We should always have media, this is just a backup in case.
+  if (!media.value) {
+    emit('end');
+  } else if (!['.mp4', '.webm'].includes(media.value.ext.toLowerCase())) {
+    window.setTimeout(() => emit('end'), 20 * 1000);
+  } else {
+    playerSrc.value!.src = media.value.url;
+    playerSrc.value!.type = `video/${media.value.ext.toLowerCase().replace('.', '')}`;
+    player.value!.load();
+    player.value!.play();
+    player.value!.addEventListener('ended', async () => {
+      emit('end');
+      player.value!.pause();
+      playerSrc.value!.removeAttribute('src');
+      playerSrc.value!.removeAttribute('type');
+      player.value!.load();
+    }, { once: true });
+  }
+});
+</script>
+
 <template>
   <div
     v-if="media"
@@ -32,43 +71,3 @@
     </video>
   </div>
 </template>
-
-<script lang="ts">
-import type NodeCGTypes from '@nodecg/types';
-import { IntermissionSlides } from '@esa-layouts/types/schemas';
-import { Component, Prop, Ref, Vue } from 'vue-property-decorator';
-import { State } from 'vuex-class';
-
-@Component
-export default class extends Vue {
-  @State assetsIntermissionSlides!: NodeCGTypes.AssetFile[];
-  @Ref('VideoPlayer') player!: HTMLVideoElement;
-  @Ref('VideoPlayerSrc') playerSrc!: HTMLSourceElement;
-  @Prop({ type: Object, required: true }) readonly current!: IntermissionSlides['current'];
-
-  get media(): NodeCGTypes.AssetFile | undefined {
-    return this.assetsIntermissionSlides.find((a) => a.sum === this.current?.mediaUUID);
-  }
-
-  mounted(): void {
-    // We should always have media, this is just a backup in case.
-    if (!this.media) {
-      this.$emit('end');
-    } else if (!['.mp4', '.webm'].includes(this.media.ext.toLowerCase())) {
-      window.setTimeout(() => this.$emit('end'), 20 * 1000);
-    } else {
-      this.playerSrc.src = this.media.url;
-      this.playerSrc.type = `video/${this.media.ext.toLowerCase().replace('.', '')}`;
-      this.player.load();
-      this.player.play();
-      this.player.addEventListener('ended', async () => {
-        this.$emit('end');
-        this.player.pause();
-        this.playerSrc.removeAttribute('src');
-        this.playerSrc.removeAttribute('type');
-        this.player.load();
-      }, { once: true });
-    }
-  }
-}
-</script>

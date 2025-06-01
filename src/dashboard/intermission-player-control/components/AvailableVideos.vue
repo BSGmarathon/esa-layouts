@@ -1,11 +1,34 @@
+<script setup lang="ts">
+import type NodeCGTypes from '@nodecg/types';
+import { assetsVideos as videos, videoPlayer } from '@esa-layouts/browser_shared/replicant_store';
+import { computed, ref } from 'vue';
+import { useIntermissionPlayerStore } from '@esa-layouts/dashboard/intermission-player-control/store';
+
+const playerStore = useIntermissionPlayerStore();
+const searchTerm = ref<string | null>(null);
+
+function playCount(sum: string): number {
+  return videoPlayer.data?.plays?.[sum] || 0;
+}
+
+const filteredVideos = computed(() => videos.value
+  .filter((v) => {
+    const str = (searchTerm.value) ? searchTerm.value.toLowerCase() : '';
+    return !str || (str && v.name.toLowerCase().includes(str));
+  })
+  .map((video) => [playCount(video.sum), video])
+  .sort()
+  .map((video) => video[1] as NodeCGTypes.AssetFile));
+</script>
+
 <template>
-  <div>
+  <div v-if="videoPlayer.data">
     <v-toolbar-title>
       Available Videos
     </v-toolbar-title>
     <div :style="{ 'margin-top': '10px' }">
       <span
-        v-if="!videos.length"
+        v-if="!videos?.length"
         :style="{ 'font-style': 'italic' }"
       >
         Add videos under "Assets" > "esa-layouts" > "Videos".
@@ -49,7 +72,7 @@
                 outlined
                 small
                 :style="{ 'margin-right': '10px' }"
-                @click="playlistAdd({ sum: video.sum, commercial: true })"
+                @click="playerStore.playlistAdd({ sum: video.sum, commercial: true })"
               >
                 <v-icon small>
                   mdi-playlist-plus
@@ -71,34 +94,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import type NodeCGTypes from '@nodecg/types';
-import { VideoPlayer } from '@esa-layouts/types/schemas';
-import { Component, Vue } from 'vue-property-decorator';
-import { Mutation, State } from 'vuex-class';
-import { PlaylistAdd } from '../store';
-
-@Component
-export default class extends Vue {
-  @State videos!: NodeCGTypes.AssetFile[];
-  @State videoPlayer!: VideoPlayer;
-  @Mutation playlistAdd!: PlaylistAdd;
-  searchTerm: string | null = null;
-
-  get filteredVideos(): NodeCGTypes.AssetFile[] {
-    return this.videos
-      .filter((v) => {
-        const str = (this.searchTerm) ? this.searchTerm.toLowerCase() : '';
-        return !str || (str && v.name.toLowerCase().includes(str));
-      })
-      .map((video) => [this.playCount(video.sum), video])
-      .sort()
-      .map((video) => video[1] as NodeCGTypes.AssetFile);
-  }
-
-  playCount(sum: string): number {
-    return this.videoPlayer.plays[sum] || 0;
-  }
-}
-</script>
