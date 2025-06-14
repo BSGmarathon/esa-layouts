@@ -189,6 +189,14 @@
         "headerColor": "#c49215"
       },
       {
+        "name": "video-player-control",
+        "title": "Full Screen Player Control",
+        "width": 3,
+        "file": "video-player-control/main.html",
+        "workspace": "Z - BSG Advanced",
+        "headerColor": "#C43B16"
+      },
+      {
         "name": "upcoming-run-control",
         "title": "Upcoming Run Control",
         "width": 3,

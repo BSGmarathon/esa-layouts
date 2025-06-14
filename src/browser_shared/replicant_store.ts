@@ -2,7 +2,6 @@ import type {
   AdditionalDonations,
   Bids,
   BigbuttonPlayerMap,
-  Commentators,
   CommentatorsNew,
   Countdown,
   CurrentRunDelay, DelayedTimer,
@@ -12,6 +11,7 @@ import type {
   DonationsToRead,
   DonationTotal,
   DonationTotalMilestones,
+  FullScreenVideoPlayer,
   GameLayouts,
   IntermissionSlides,
   LowerThird,
@@ -29,7 +29,7 @@ import type {
   VideoPlayer,
 } from '@esa-layouts/types/schemas';
 import { SpeedcontrolUtilBrowser } from 'speedcontrol-util';
-import type { RunDataActiveRun, RunDataActiveRunSurrounding, RunDataArray, Timer } from 'speedcontrol-util/types/schemas';
+import type { RunDataActiveRun, RunDataActiveRunSurrounding, RunDataArray } from 'speedcontrol-util/types/schemas';
 import { SoloedBidID } from '@esa-layouts/types/schemas/soloedBidID';
 import { useAssetReplicant, useReplicant } from 'nodecg-vue-composable';
 
@@ -58,6 +58,7 @@ export const donationReaderNew = useReplicant<DonationReaderNew>('donationReader
 export const donationsToRead = useReplicant<DonationsToRead>('donationsToRead', bundleName)!;
 export const donationTotal = useReplicant<DonationTotal>('donationTotal', bundleName)!;
 export const donationTotalMilestones = useReplicant<DonationTotalMilestones>('donationTotalMilestones', bundleName)!;
+export const fullScreenVideoPlayer = useReplicant<FullScreenVideoPlayer>('fullScreenVideoPlayer', bundleName)!;
 export const gameLayouts = useReplicant<GameLayouts>('gameLayouts', bundleName)!;
 export const intermissionSlides = useReplicant<IntermissionSlides>('intermissionSlides', bundleName)!;
 export const lowerThird = useReplicant<LowerThird>('lowerThird', bundleName)!;

@@ -17,7 +17,7 @@ export default defineConfig({
   },
   plugins: [
     vue({ template: { transformAssetUrls } }),
-    // quasar({ autoImportComponentCase: 'pascal' }),
+    // quasar({ autoImportComponentCase: 'pascal' }), // TODO: fails to find 'quasar/src/css/variables.sass'
     checker({ vueTsc: { tsconfigPath: 'tsconfig.browser.json' } }),
     NodeCGPlugin({
       inputs: {
