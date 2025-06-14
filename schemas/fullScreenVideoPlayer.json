@@ -16,7 +16,6 @@
       "enum": [
         "gameLayout",
         "intermission",
-        "Intermission", // TODO: remove
         "interview"
       ],
       "default": "intermission"

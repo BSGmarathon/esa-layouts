@@ -1,5 +1,5 @@
 import type { FullScreenVideoPlayer } from '@esa-layouts/types/schemas';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import { fullScreenVideoPlayer } from '@esa-layouts/browser_shared/replicant_store';
 import clone from 'clone';
@@ -15,6 +15,7 @@ export const useVideoPlayerStore = defineStore('videoPlayer', () => {
 
   function resetLocalPlaylist() {
     newPlaylist.value = fullScreenVideoPlayer.data?.playlist ?? [];
+    newFinishScene.value = fullScreenVideoPlayer.data?.finishScene ?? 'intermission';
     localEdits.value = false;
   }
 
@@ -41,6 +42,14 @@ export const useVideoPlayerStore = defineStore('videoPlayer', () => {
     onLocalEdits();
   }
 
+  const finishSceneModel = computed<FullScreenVideoPlayer['finishScene']>({
+    get: () => newFinishScene.value,
+    set: (newVal) => {
+      newFinishScene.value = newVal;
+      onLocalEdits();
+    },
+  });
+
   async function save() {
     if (!fullScreenVideoPlayer.data) {
       return;
@@ -63,8 +72,11 @@ export const useVideoPlayerStore = defineStore('videoPlayer', () => {
     disableSave,
     localEdits,
     newPlaylist,
+    newFinishScene,
+    finishSceneModel,
     save,
     playlistAdd,
+    setFinishScene,
     onLocalEdits,
     resetLocalPlaylist,
   };

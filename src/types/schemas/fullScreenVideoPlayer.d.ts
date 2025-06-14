@@ -10,7 +10,7 @@ export interface FullScreenVideoPlayer {
 	 * An array of asset sums
 	 */
 	playlist: string[];
-	finishScene: 'gameLayout' | 'intermission' | 'Intermission' | 'interview';
+	finishScene: 'gameLayout' | 'intermission' | 'interview';
 	current: string | null;
 	playing: boolean;
 	estimatedFinishTimestamp: number;
