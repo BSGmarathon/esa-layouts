@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { fullScreenVideoPlayer } from '@esa-layouts/browser_shared/replicant_store';
 import { storeToRefs } from 'pinia';
 import type { FullScreenVideoPlayer } from '@esa-layouts/types/schemas';
 import { useVideoPlayerStore } from '../store';

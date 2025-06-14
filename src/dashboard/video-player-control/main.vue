@@ -19,10 +19,6 @@ function resetLocalPlaylist() {
   });
 }
 
-// watch(() => playerStore.newPlaylist, () => {
-//   playerStore.localEdits = true;
-// }, { deep: true });
-
 watch(() => fullScreenVideoPlayer.data, () => {
   if (!playerStore.localEdits) {
     playerStore.resetLocalPlaylist();
