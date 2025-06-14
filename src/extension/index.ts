@@ -43,6 +43,7 @@ export = (nodecg: NodeCGTypes.ServerAPI<Configschema>): ExtensionReturn => {
   require('./music');
   require('./intermission-player');
   require('./flagcarrier');
+  require('./full-screen-video-player');
   require('./omnibar');
   require('./reader-introduction');
   require('./commercials');

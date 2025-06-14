@@ -5,7 +5,7 @@ import { computed } from 'vue';
 const name = computed(() => videos.value.find((a) => a.sum === fullScreenVideoPlayer.data?.current)?.name);
 
 function emergencyStop(): void {
-  nodecg.sendMessage('stopVideoPlayerEarly');
+  nodecg.sendMessage('stopFullScreenVideoPlayerEarly');
 }
 </script>
 
