@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "playlist": {
+      "type": "array",
+      "description": "An array of asset sums",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "finishScene": {
+      "type": "string",
+      "enum": [
+        "gameLayout",
+        "intermission",
+        "interview"
+      ],
+      "default": "intermission"
+    },
+    "current": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "playing": {
+      "type": "boolean",
+      "default": false
+    },
+    "estimatedFinishTimestamp": {
+      "type": "number",
+      "default": 0
+    },
+    "plays": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number",
+        "default": 0
+      }
+    }
+  },
+  "required": [
+    "playlist",
+    "finishScene",
+    "current",
+    "playing",
+    "estimatedFinishTimestamp",
+    "plays"
+  ]
+}

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import clone from 'clone';
 import { videoPlayer } from '@esa-layouts/browser_shared/replicant_store';
 import { watch } from 'vue';
 import { useHead } from '@vueuse/head';

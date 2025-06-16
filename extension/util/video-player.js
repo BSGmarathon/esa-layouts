@@ -5,8 +5,9 @@ const process_1 = require("process");
 const promises_1 = require("timers/promises");
 const tiny_typed_emitter_1 = require("tiny-typed-emitter");
 class VideoPlayer extends tiny_typed_emitter_1.TypedEmitter {
-    constructor(nodecg, obsConfig, obs) {
+    constructor(nodecg, obsConfig, obs, videoPlayerSource = obsConfig.names.sources.videoPlayer) {
         super();
+        this.videoPlayerSource = videoPlayerSource;
         this.playlist = [];
         this.playing = false;
         this.index = -1;
@@ -15,8 +16,7 @@ class VideoPlayer extends tiny_typed_emitter_1.TypedEmitter {
         this.obs = obs;
         // Listens for when videos finish playing in OBS.
         obs.conn.on('MediaEnded', (data) => {
-            if (data.sourceName === this.obsConfig.names.sources.videoPlayer
-                && this.playing && this.index >= 0) {
+            if (data.sourceName === videoPlayerSource && this.playing && this.index >= 0) {
                 this.emit('videoEnded', this.playlist[this.index]);
             }
         });
@@ -99,7 +99,7 @@ class VideoPlayer extends tiny_typed_emitter_1.TypedEmitter {
             this.playlist.length = 0;
             (_a = this.delayAC) === null || _a === void 0 ? void 0 : _a.abort();
             try {
-                await this.obs.conn.send('StopMedia', { sourceName: this.obsConfig.names.sources.videoPlayer });
+                await this.obs.conn.send('StopMedia', { sourceName: this.videoPlayerSource });
             }
             catch (err) { /* do nothing */ }
             this.emit('playlistEnded', true);
@@ -114,7 +114,7 @@ class VideoPlayer extends tiny_typed_emitter_1.TypedEmitter {
             throw new Error('no OBS connection available');
         }
         const source = await this.obs.conn.send('GetSourceSettings', {
-            sourceName: this.obsConfig.names.sources.videoPlayer,
+            sourceName: this.videoPlayerSource,
         });
         const location = (0, path_1.join)((0, process_1.cwd)(), `assets/${video.namespace}/${video.category}/${video.base}`);
         // File is the same as before, just restart it.
@@ -122,13 +122,13 @@ class VideoPlayer extends tiny_typed_emitter_1.TypedEmitter {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         if (source.sourceSettings.local_file === location) {
             await this.obs.conn.send('RestartMedia', {
-                sourceName: this.obsConfig.names.sources.videoPlayer,
+                sourceName: this.videoPlayerSource,
             });
             // If different, explicitily set it. This also starts the playback.
         }
         else if (source.sourceType === 'ffmpeg_source') {
             await this.obs.conn.send('SetSourceSettings', {
-                sourceName: this.obsConfig.names.sources.videoPlayer,
+                sourceName: this.videoPlayerSource,
                 sourceSettings: {
                     is_local_file: true,
                     local_file: location,
@@ -139,7 +139,7 @@ class VideoPlayer extends tiny_typed_emitter_1.TypedEmitter {
         }
         else if (source.sourceType === 'vlc_source') {
             await this.obs.conn.send('SetSourceSettings', {
-                sourceName: this.obsConfig.names.sources.videoPlayer,
+                sourceName: this.videoPlayerSource,
                 sourceSettings: {
                     loop: false,
                     shuffle: false,

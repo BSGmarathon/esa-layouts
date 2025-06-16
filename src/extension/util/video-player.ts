@@ -23,7 +23,12 @@ class VideoPlayer extends TypedEmitter<VideoPlayerEvents> {
   playing = false;
   index = -1;
 
-  constructor(nodecg: NodeCGTypes.ServerAPI, obsConfig: OBSTypes.Config, obs: OBS) {
+  constructor(
+    nodecg: NodeCGTypes.ServerAPI,
+    obsConfig: OBSTypes.Config,
+    obs: OBS,
+    private readonly videoPlayerSource = obsConfig.names.sources.videoPlayer,
+  ) {
     super();
     this.nodecg = nodecg;
     this.obsConfig = obsConfig;
@@ -31,8 +36,7 @@ class VideoPlayer extends TypedEmitter<VideoPlayerEvents> {
 
     // Listens for when videos finish playing in OBS.
     obs.conn.on('MediaEnded', (data: { sourceName: string }) => {
-      if (data.sourceName === this.obsConfig.names.sources.videoPlayer
-      && this.playing && this.index >= 0) {
+      if (data.sourceName === videoPlayerSource && this.playing && this.index >= 0) {
         this.emit('videoEnded', this.playlist[this.index]);
       }
     });
@@ -112,7 +116,7 @@ class VideoPlayer extends TypedEmitter<VideoPlayerEvents> {
       try {
         await this.obs.conn.send(
           'StopMedia',
-          { sourceName: this.obsConfig.names.sources.videoPlayer },
+          { sourceName: this.videoPlayerSource },
         );
       } catch (err) { /* do nothing */ }
       this.emit('playlistEnded', true);
@@ -128,7 +132,7 @@ class VideoPlayer extends TypedEmitter<VideoPlayerEvents> {
       throw new Error('no OBS connection available');
     }
     const source = await this.obs.conn.send('GetSourceSettings', {
-      sourceName: this.obsConfig.names.sources.videoPlayer,
+      sourceName: this.videoPlayerSource,
     });
     const location = join(cwd(), `assets/${video.namespace}/${video.category}/${video.base}`);
     // File is the same as before, just restart it.
@@ -136,12 +140,12 @@ class VideoPlayer extends TypedEmitter<VideoPlayerEvents> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if ((source.sourceSettings as any).local_file === location) {
       await this.obs.conn.send('RestartMedia', {
-        sourceName: this.obsConfig.names.sources.videoPlayer,
+        sourceName: this.videoPlayerSource,
       });
     // If different, explicitily set it. This also starts the playback.
     } else if (source.sourceType === 'ffmpeg_source') {
       await this.obs.conn.send('SetSourceSettings', {
-        sourceName: this.obsConfig.names.sources.videoPlayer,
+        sourceName: this.videoPlayerSource,
         sourceSettings: {
           is_local_file: true,
           local_file: location,
@@ -151,7 +155,7 @@ class VideoPlayer extends TypedEmitter<VideoPlayerEvents> {
       });
     } else if (source.sourceType === 'vlc_source') {
       await this.obs.conn.send('SetSourceSettings', {
-        sourceName: this.obsConfig.names.sources.videoPlayer,
+        sourceName: this.videoPlayerSource,
         sourceSettings: {
           loop: false,
           shuffle: false,
