@@ -1,35 +1,32 @@
 <script setup lang="ts">
-import { videoPlayer } from '@esa-layouts/browser_shared/replicant_store';
+import { fullScreenVideoPlayer } from '@esa-layouts/browser_shared/replicant_store';
 import { watch } from 'vue';
 import { useHead } from '@vueuse/head';
 import AvailableVideos from './components/AvailableVideos.vue';
 import Playlist from './components/Playlist.vue';
 import CurrentVideoInfo from './components/CurrentVideoInfo.vue';
-import { useIntermissionPlayerStore } from './store';
+import { useVideoPlayerStore } from './store';
+import SceneControl from './components/SceneControl.vue';
 
-useHead({ title: 'Intermission Player control' });
+useHead({ title: 'Full Screen Player control' });
 
-const playerStore = useIntermissionPlayerStore();
+const playerStore = useVideoPlayerStore();
 
 function resetLocalPlaylist() {
   playerStore.$patch({
-    newPlaylist: videoPlayer.data?.playlist ?? [],
+    newPlaylist: fullScreenVideoPlayer.data?.playlist ?? [],
     localEdits: false,
   });
 }
 
-// watch(() => playerStore.newPlaylist, () => {
-//   playerStore.localEdits = true;
-// }, { deep: true });
-
-watch(() => videoPlayer.data, () => {
+watch(() => fullScreenVideoPlayer.data, () => {
   if (!playerStore.localEdits) {
     playerStore.resetLocalPlaylist();
   }
 }, { immediate: true });
 
 async function save() {
-  if (!videoPlayer.data) {
+  if (!fullScreenVideoPlayer.data) {
     return;
   }
 
@@ -38,14 +35,16 @@ async function save() {
 </script>
 
 <template>
-  <v-app v-if="videoPlayer.data">
+  <v-app v-if="fullScreenVideoPlayer.data">
     <AvailableVideos />
     <Playlist :style="{ 'margin-top': '20px' }" />
+
+    <SceneControl :style="{ 'margin-top': '20px' }" />
 
     <!-- Save/Refresh Buttons -->
     <div
       class="d-flex"
-      :style="{ 'margin-top': '20px' }"
+      :style="{ 'margin-top': '10px' }"
     >
       <v-btn
         class="flex-grow-1"

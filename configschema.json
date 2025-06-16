@@ -290,6 +290,10 @@
                   "type": "string",
                   "default": "Intermission Player"
                 },
+                "fullScreenVideoPlayer": {
+                  "type": "string",
+                  "default": "Full Screen Video Player"
+                },
                 "intermissionCrowd": {
                   "type": "string",
                   "default": "Intermission (crowd camera)"
@@ -309,6 +313,7 @@
                 "readerIntroduction",
                 "intermission",
                 "intermissionPlayer",
+                "fullScreenVideoPlayer",
                 "intermissionCrowd",
                 "countdown",
                 "interview"
@@ -384,6 +389,10 @@
                   "type": "string",
                   "default": "Video Player Source"
                 },
+                "fullScreenVideoPlayer": {
+                  "type": "string",
+                  "default": "Full Screen Video Player Source"
+                },
                 "donationSound": {
                   "type": "string",
                   "default": "Donation Sound"
@@ -394,6 +403,7 @@
                 "cameraSources",
                 "twitchSources",
                 "videoPlayer",
+                "fullScreenVideoPlayer",
                 "donationSound"
               ]
             },

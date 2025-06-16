@@ -15,6 +15,7 @@ import {
   DonationsToRead,
   DonationTotal,
   DonationTotalMilestones,
+  FullScreenVideoPlayer,
   GameLayouts,
   IntermissionSlides,
   LowerThird,
@@ -35,8 +36,8 @@ import {
 } from '@esa-layouts/types/schemas';
 import type NodeCGTypes from '@nodecg/types';
 import { HoraroImportStatus, OengusImportStatus, TwitchAPIData, TwitchChannelInfo } from 'speedcontrol-util/types/schemas';
-import { get as nodecg } from './nodecg';
 import { SoloedBidID } from '@esa-layouts/types/schemas/soloedBidID';
+import { get as nodecg } from './nodecg';
 
 /**
  * This is where you can declare all your replicant to import easily into other files,
@@ -62,6 +63,7 @@ export const donationReaderNew = nodecg().Replicant<DonationReaderNew>('donation
 export const donationsToRead = nodecg().Replicant<DonationsToRead>('donationsToRead', { persistent: false }) as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<DonationsToRead>;
 export const donationTotal = nodecg().Replicant<DonationTotal>('donationTotal') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<DonationTotal>;
 export const donationTotalMilestones = nodecg().Replicant<DonationTotalMilestones>('donationTotalMilestones') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<DonationTotalMilestones>;
+export const fullScreenVideoPlayer = nodecg().Replicant<FullScreenVideoPlayer>('fullScreenVideoPlayer') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<FullScreenVideoPlayer>;
 export const gameLayouts = nodecg().Replicant<GameLayouts>('gameLayouts') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<GameLayouts>;
 export const horaroImportStatus = nodecg().Replicant<HoraroImportStatus>('horaroImportStatus', 'nodecg-speedcontrol') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<HoraroImportStatus>;
 export const intermissionSlides = nodecg().Replicant<IntermissionSlides>('intermissionSlides') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<IntermissionSlides>;
