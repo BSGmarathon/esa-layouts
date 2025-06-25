@@ -48,7 +48,13 @@ module.exports = {
     // I mainly have this off as it ruins auto import sorting in VSCode.
     'object-curly-newline': 'off',
     '@typescript-eslint/lines-between-class-members': 'off',
-    'vue/html-self-closing': ['error'],
+    'vue/html-self-closing': ['error', {
+      "html": {
+        "void": "always",
+        "normal": "always",
+        "component": "always"
+      },
+    }],
     'class-methods-use-this': 'off',
     'no-param-reassign': ['error', {
       props: true,
