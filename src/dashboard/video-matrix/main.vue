@@ -104,7 +104,7 @@ onMounted(async () => {
           <tr>
             <th class="text-left text-muted input-dash-output">
               <span>input</span>
-              <hr>
+              <hr/>
               <span>output</span>
             </th>
             <th v-for="capture in gameSources"

@@ -185,12 +185,12 @@ onMounted(async () => {
     <div v-if="currentItem.type" class="text-center mt-4">
       <span class="font-weight-bold">Current:</span>
       {{ currentItem.name }}
-      <br><span class="font-weight-bold">{{ currentItem.secondsStr }}:</span>
+      <br/><span class="font-weight-bold">{{ currentItem.secondsStr }}:</span>
       {{ currentItem.seconds }} -
       <span class="font-weight-bold">Position:</span>
       {{ (currentItem.index + 1) || '?' }}/{{ omnibar.data.rotation.length }}
       <template v-if="currentItem.type === 'GenericMsg'">
-        <br><span class="font-weight-bold">Message:</span>
+        <br/><span class="font-weight-bold">Message:</span>
         {{ currentItem.msg }}
       </template>
     </div>

@@ -65,7 +65,7 @@ onMounted(async () => {
         :key="btn.id"
         class="mt-2"
       >
-        Test button {{ btn.id }} ({{ btn.name }})<br>
+        Test button {{ btn.id }} ({{ btn.name }})<br/>
         <v-btn @click="testShortPress(btn.id)">
           Normal press
         </v-btn>

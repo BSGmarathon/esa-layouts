@@ -129,7 +129,7 @@ function changeScene(scene: string): void {
         <div class="mt-3 mb-1">
           "Game Layout" Preview (refreshes every second):
         </div>
-        <img :src="obsData.data?.gameLayoutScreenshot" :style="{ width: '100%' }">
+        <img :src="obsData.data?.gameLayoutScreenshot" :style="{ width: '100%' }"/>
       </template>
       <v-switch
         v-if="evtConfig.online"

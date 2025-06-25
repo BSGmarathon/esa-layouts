@@ -157,7 +157,7 @@ onMounted(() => {
       }" v-for="(check, i) in checks"
           @click.prevent="$event.stopPropagation(); setChecked(i, !check.checked)"
           :key="i">
-        <input :id="`checkbox-${i}`" type="checkbox" v-model="check.checked">
+        <input :id="`checkbox-${i}`" type="checkbox" v-model="check.checked"/>
         <label :for="`checkbox-${i}`">{{ check.title }}</label>
       </li>
     </ul>
