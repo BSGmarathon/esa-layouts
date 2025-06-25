@@ -112,7 +112,7 @@ onMounted(async () => {
         <div class="BarTextFull" :style="{ 'font-size': '20px', 'text-align': 'center' }">
           <div>
             {{ bid.game }}
-            <br>{{ bid.name }}
+            <br/>{{ bid.name }}
           </div>
         </div>
         <div

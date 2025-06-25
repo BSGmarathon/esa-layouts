@@ -208,7 +208,7 @@ onBeforeUnmount(() => {
         }"
       >
         {{ bid.game }}
-        <br>{{ bid.name }}
+        <br/>{{ bid.name }}
       </div>
       <div
         :style="{

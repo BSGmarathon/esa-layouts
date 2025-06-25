@@ -23,7 +23,7 @@ const pronouns = computed(() => donationReaderNew.data?.pronouns);
       <img
         src="./Mic.png"
         :style="{ height: '100%' }"
-      >
+      />
     </div>
     <div
       :style="{

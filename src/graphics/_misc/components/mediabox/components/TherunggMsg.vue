@@ -33,7 +33,7 @@ const msg = computed(
         // width: '50%',
         'object-fit': 'contain',
       }"
-    >
+    />
     <div :style="{ color: 'white' }">
       {{ msg }}
     </div>

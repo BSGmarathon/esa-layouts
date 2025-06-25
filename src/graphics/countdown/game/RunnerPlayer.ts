@@ -59,6 +59,10 @@ export default class RunnerPlayer {
     // return false;
   }
 
+  isAboutToOverlapWithOthers(others: Collider[] | IObstacle[]) {
+    return this.collider.isAboutToOverlapWithOthers(others);
+  }
+
   static create(options: PlayerOptions, groundY: number): RunnerPlayer {
     const position = new Point2D(options.startX, groundY);
     const collider = new Collider(position, options.width, options.height);

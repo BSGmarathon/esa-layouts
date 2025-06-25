@@ -49,9 +49,12 @@ export default class EndlessRunnerGame {
   }
 
   start(): void {
-    setInterval(() => {
+    window.requestAnimationFrame(() => {
       this.update();
-    }, this.frameRate);
+    });
+    // setInterval(() => {
+    //   this.update();
+    // }, this.frameRate);
   }
 
   handleInput(): void {
@@ -66,6 +69,10 @@ export default class EndlessRunnerGame {
         // player's jump behaviour.
         this.player?.jump();
       }
+    }
+
+    if (this.player?.isAboutToOverlapWithOthers(this.spawner?.activeObstacles ?? [])) {
+      this.player?.jump();
     }
   }
 
@@ -101,17 +108,21 @@ export default class EndlessRunnerGame {
       this.spawner.update();
 
       // Check for collisions.
-      this.gameOver = this.player.overlapsWithOthers(this.spawner.activeObstacles);
+      // this.gameOver = this.player.overlapsWithOthers(this.spawner.activeObstacles);
 
-      if (this.gameOver) {
-        setTimeout(() => {
-          this.initialize();
-        }, 5 * 1000);
-      }
+      // if (this.gameOver) {
+      //   setTimeout(() => {
+      //     this.initialize();
+      //   }, 5 * 1000);
+      // }
 
       // Increase score.
-      // eslint-disable-next-line no-plusplus
-      this.score++;
+      // this.score++;
+
+      // render next frame (might extract to new function)
+      window.requestAnimationFrame(() => {
+        this.update();
+      });
     }
 
     // if (this.highScore > 0) {

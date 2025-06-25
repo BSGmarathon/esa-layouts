@@ -50,6 +50,6 @@ const merch = computed<Merch>(
         'margin-right': vertical ? 0 : '20px',
         'margin-top': vertical ? '10px' : 0,
       }"
-    >
+    />
   </div>
 </template>

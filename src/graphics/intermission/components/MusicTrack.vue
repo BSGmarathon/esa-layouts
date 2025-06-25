@@ -35,7 +35,7 @@ const trackInformation = computed(() => {
       <img
         src="./Music.png"
         :style="{ height: '85%', padding: '0 5px' }"
-      >
+      />
     </div>
     <div
       v-if="trackInformation"

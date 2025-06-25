@@ -30,7 +30,7 @@ const donation = computed<Donation>(
     <img
       src="./esaDonate.png"
       :style="{ 'margin-bottom': vertical ? '10px' : 0 }"
-    >
+    />
     <div
       class="FlexColumn"
       :style="{ 'margin-left': vertical ? 0 : '20px' }"

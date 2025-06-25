@@ -62,7 +62,7 @@ onMounted(() => {
           height: '400px',
           'object-fit': 'contain',
         }"
-      >
+      />
       <div :style="{ 'font-size': '30px' }">
         {{ prize.name }}
         <template v-if="prize.provided">

@@ -5,7 +5,6 @@ export default class Tree implements IObstacle {
   h: number;
   w: number;
 
-
   constructor(
     public readonly position: Point2D,
     private readonly trunkWidth: number,

@@ -38,7 +38,7 @@ onMounted(async () => {
           margin: '0 .05em 0 .1em',
           'vertical-align': '-0.25em',
         }"
-      >
+      />
       Crowd Control
     </div>
     <div

@@ -35,7 +35,6 @@
     "amqplib": "^0.10.4",
     "animate.css": "^4.1.1",
     "clone": "^2.1.2",
-    "comfy.js": "^1.1.16",
     "discord.js": "^13.17.1",
     "fs-extra": "^11.2.0",
     "get-video-duration": "^4.1.0",

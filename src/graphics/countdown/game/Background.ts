@@ -18,8 +18,10 @@ export default class Background {
     // ctx.closePath();
 
     // Set inverse colors for other objects.
+    /* eslint-disable no-param-reassign */
     ctx.fillStyle = 'rgb(255, 255, 255)';
     ctx.strokeStyle = 'rgb(255, 255, 255)';
+    /* eslint-enable no-param-reassign */
   }
 
   update(): void {
