@@ -39,11 +39,11 @@ function addBlank(): void {
 </script>
 
 <template>
-  <v-app v-if="total.data && milestones.data">
+  <v-app v-if="typeof total.data !== 'undefined' && milestones.data">
     <div class="mb-2 d-flex">
       <div>
         <span class="font-weight-bold">Donation Total:</span>
-        €{{ formatAmount(total.data!) }}
+        €{{ formatAmount(total.data) }}
       </div>
       <v-spacer />
       <div>

@@ -66,7 +66,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
-  .CustomText >>> * {
+  .CustomText :deep(*) {
     margin: 0;
   }
 </style>
