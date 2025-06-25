@@ -33,7 +33,7 @@ const prize = computed(
         'margin-left': vertical ? 0 : '20px',
         'margin-bottom': vertical ? '10px' : 0,
       }"
-    >
+    />
     <div :style="{ 'margin-left': vertical ? 0 : '20px' }">
       <div
         :style="{
@@ -45,6 +45,12 @@ const prize = computed(
       </div>
       <div :style="{ 'font-size': '1em' }">
         {{ prize.name }}?
+      </div>
+      <div
+        v-if="prize.provided"
+        :style="{ 'font-size': '0.875em' }"
+      >
+        provided by {{ prize.provided }}
       </div>
       <div
         :style="{

@@ -16,7 +16,7 @@ function emergencyStop(): void {
     :style="{ 'text-align': 'center' }"
   >
     <span class="font-weight-bold">Currently Playing:</span>
-    <br><span v-if="name">{{ name }}</span>
+    <br/><span v-if="name">{{ name }}</span>
     <span v-else>Unknown (Usually Commercial w/o Video)</span>
     <v-btn color="red" class="mt-2" @click="emergencyStop" block>Emergency Stop</v-btn>
   </div>

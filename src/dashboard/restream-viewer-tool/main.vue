@@ -3,8 +3,8 @@ import { GameLayouts, RtmpFeed as RtmpSettings } from '@esa-layouts/types/schema
 import { gameLayouts, obsData } from '@esa-layouts/browser_shared/replicant_store';
 import { computed, onMounted, ref, watch } from 'vue';
 import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
-import RTMPFeed from './components/RTMPFeed.vue';
 import { useHead } from '@vueuse/head';
+import RTMPFeed from './components/RTMPFeed.vue';
 
 useHead({ title: 'Restream viewer control' });
 
@@ -84,7 +84,7 @@ onMounted(async () => {
   <v-app v-if="isOnline">
     <div v-for="feed in feeds" :key="feed.feedIndex">
       <RTMPFeed :value="feed" />
-      <hr>
+      <hr/>
     </div>
     <v-row>
       <v-col>

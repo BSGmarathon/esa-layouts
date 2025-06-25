@@ -40,7 +40,7 @@ function position(media: MediaBox.ActiveElem): number {
         <template v-else>
           {{ getMediaDetails(settings.data.current).name }}
         </template>
-        <br>
+        <br/>
         <template v-if="!isAlertType(settings.data.current.type)">
           (position {{ position(settings.data.current) }}/{{ settings.data.rotationApplicable.length }},
         </template>
@@ -53,7 +53,7 @@ function position(media: MediaBox.ActiveElem): number {
       class="Status"
     >
       <span class="font-weight-bold">Paused:</span> {{ getMediaDetails(settings.data.paused).name }}
-      <br>(position {{ position(settings.data.paused) }}/{{ settings.data.rotationApplicable.length }},
+      <br/>(position {{ position(settings.data.paused) }}/{{ settings.data.rotationApplicable.length }},
       {{ timeRemaining(settings.data.paused) }}/{{ mediaLength(settings.data.paused) }}s left)
     </div>
   </div>

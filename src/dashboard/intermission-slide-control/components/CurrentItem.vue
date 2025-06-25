@@ -35,7 +35,7 @@ const name = computed(() => {
     <template v-if="current">
       <span class="font-weight-bold">Current:</span>
       {{ name }}
-      <br><span class="font-weight-bold">Position:</span>
+      <br/><span class="font-weight-bold">Position:</span>
       {{ currentPosition + 1 || '?' }}/{{ rotationLength }}
     </template>
     <template v-else>
