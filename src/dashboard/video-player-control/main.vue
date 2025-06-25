@@ -13,10 +13,7 @@ useHead({ title: 'Full Screen Player control' });
 const playerStore = useVideoPlayerStore();
 
 function resetLocalPlaylist() {
-  playerStore.$patch({
-    newPlaylist: fullScreenVideoPlayer.data?.playlist ?? [],
-    localEdits: false,
-  });
+  playerStore.resetLocalPlaylist();
 }
 
 watch(() => fullScreenVideoPlayer.data, () => {

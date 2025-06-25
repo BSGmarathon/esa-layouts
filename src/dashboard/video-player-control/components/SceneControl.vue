@@ -1,15 +1,10 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
-import type { FullScreenVideoPlayer } from '@esa-layouts/types/schemas';
 import { useVideoPlayerStore } from '../store';
 
 const playerStore = useVideoPlayerStore();
 
-const { newFinishScene } = storeToRefs(playerStore);
-
-function onRadioChange(newVal: string | null) {
-  playerStore.setFinishScene(newVal as FullScreenVideoPlayer['finishScene']);
-}
+const { finishSceneModel } = storeToRefs(playerStore);
 </script>
 
 <template>
@@ -20,8 +15,7 @@ function onRadioChange(newVal: string | null) {
 
     <v-radio-group
       :style="{ 'margin-top': '5px' }"
-      :model-value="newFinishScene"
-      @update:modelValue="onRadioChange"
+      v-model="finishSceneModel"
     >
       <v-radio label="Intermission" value="intermission" />
       <v-radio label="Game Layout" value="gameLayout" />
