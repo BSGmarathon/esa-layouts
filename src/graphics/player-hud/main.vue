@@ -145,18 +145,18 @@ onMounted(async () => {
       <!-- Manually triggered message from readers via Stream Deck. -->
       <template v-else-if="streamDeckData.data?.playerHUDTriggerType === 'message'">
         Any time
-        <br>for messages?
+        <br/>for messages?
       </template>
       <!-- Donations to be read message. -->
       <template v-else-if="donationsToRead.data?.length">
         Donations Pending:
-        <br>{{ donationsToRead.data.length }}
-        <br>Largest Unread Donation: {{ largestDonation }}
+        <br/>{{ donationsToRead.data.length }}
+        <br/>Largest Unread Donation: {{ largestDonation }}
       </template>
       <!-- Nothing. -->
       <template v-else>
         Nothing currently
-        <br>to be read
+        <br/>to be read
       </template>
     </div>
     <!-- Timer -->

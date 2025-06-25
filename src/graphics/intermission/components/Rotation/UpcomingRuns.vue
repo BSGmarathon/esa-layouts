@@ -40,7 +40,7 @@ onMounted(() => {
         <img
           src="./notlikethis_112.png"
           :style="{ height: '1em' }"
-        >
+        />
       </span>
     </template>
   </Container>

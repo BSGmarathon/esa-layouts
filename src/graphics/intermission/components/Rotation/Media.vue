@@ -53,7 +53,7 @@ onMounted(() => {
         'object-fit': 'contain',
         position: 'absolute',
       }"
-    >
+    />
 
     <!-- Video -->
     <video
@@ -67,7 +67,7 @@ onMounted(() => {
         position: 'absolute',
       }"
     >
-      <source ref="VideoPlayerSrc">
+      <source ref="VideoPlayerSrc"/>
     </video>
   </div>
 </template>

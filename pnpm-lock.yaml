@@ -23,9 +23,6 @@ importers:
       clone:
         specifier: ^2.1.2
         version: 2.1.2
-      comfy.js:
-        specifier: ^1.1.16
-        version: 1.1.16
       discord.js:
         specifier: ^13.17.1
         version: 13.17.1
@@ -1905,9 +1902,6 @@ packages:
   combined-stream@1.0.8:
     resolution: {integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==}
     engines: {node: '>= 0.8'}
-
-  comfy.js@1.1.16:
-    resolution: {integrity: sha512-APuu/fo1u96v/ARN/K/wjhz0PXwEW6A21nKIp6OIypZcsWNNzZOl8bDdDSn6yfDToJTHsd8cTsZy6YiMBSwsWQ==}
 
   commander@12.1.0:
     resolution: {integrity: sha512-Vw8qHK3bZM9y/P10u3Vib8o/DdkvA2OtPtZvD871QKjy74Wj1WSKFILMPRPSdUSx5RFK1arlJzEtA4PkFgnbuA==}
@@ -4197,10 +4191,6 @@ packages:
     resolution: {integrity: sha512-qkf4trmKSIiMTs/E63cxH+ojC2unam7rJ0WrauAzpT3ECNTxGRMlaXxVbfxMUC/w0LaYk6jQ4y/nGR9uBO3tww==}
     engines: {node: '>=12.0.0'}
 
-  tmi.js@1.8.5:
-    resolution: {integrity: sha512-A9qrydfe1e0VWM9MViVhhxVgvLpnk7pFShVUWePsSTtoi+A1X+Zjdoa7OJd7/YsgHXGj3GkNEvnWop/1WwZuew==}
-    engines: {node: '>=10.0.0'}
-
   tmp@0.0.33:
     resolution: {integrity: sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw==}
     engines: {node: '>=0.6.0'}
@@ -6479,15 +6469,6 @@ snapshots:
   combined-stream@1.0.8:
     dependencies:
       delayed-stream: 1.0.0
-
-  comfy.js@1.1.16:
-    dependencies:
-      node-fetch: 2.7.0
-      tmi.js: 1.8.5
-    transitivePeerDependencies:
-      - bufferutil
-      - encoding
-      - utf-8-validate
 
   commander@12.1.0: {}
 
@@ -8780,15 +8761,6 @@ snapshots:
     dependencies:
       fdir: 6.4.3(picomatch@4.0.2)
       picomatch: 4.0.2
-
-  tmi.js@1.8.5:
-    dependencies:
-      node-fetch: 2.7.0
-      ws: 8.18.1
-    transitivePeerDependencies:
-      - bufferutil
-      - encoding
-      - utf-8-validate
 
   tmp@0.0.33:
     dependencies:

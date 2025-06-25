@@ -84,7 +84,7 @@ onMounted(async () => {
           </div>
           <div class="arrow_base right after_right_box" />
           <div class="box">
-            <img src="./omniing/mind_logo_tag.png" alt="">
+            <img src="./omniing/mind_logo_tag.png" alt=""/>
           </div>
       </div>
     </div>

@@ -18,5 +18,5 @@ const url = computed(() => {
       padding: '30px',
       'box-sizing': 'border-box',
     }"
-  >
+  />
 </template>

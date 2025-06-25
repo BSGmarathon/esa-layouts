@@ -100,7 +100,7 @@ function formPlayerNamesStr(runData: RunData): string {
             <img
               src="./esaOhNo.png"
               :style="{ height: '1.4em', 'margin-left': '10px' }"
-            >
+            />
           </div>
         </template>
       </div>

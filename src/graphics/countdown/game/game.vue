@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { nextTick, onMounted, useTemplateRef } from 'vue';
 import { DifficultyOptions, PlayerOptions, SpawnerOptions } from './types/options';
 import EndlessRunnerGame from './EndlessRunnerGame';
 import Rock from './obstacles/Rock';
 import Cactus from './obstacles/Cactus';
-import { nextTick, onMounted, useTemplateRef } from 'vue';
 
 const canvas = useTemplateRef<HTMLCanvasElement>('canvas');
 let game: EndlessRunnerGame | null = null;
@@ -15,7 +15,8 @@ onMounted(async () => {
   const playerOptions: PlayerOptions = {
     width: 40,
     height: 52,
-    startX: 40,
+    // startX: 40,
+    startX: 1865 / 2,
     jumpPower: 15,
     jumpHeight: 220,
     gravity: 12,
@@ -82,25 +83,21 @@ onMounted(async () => {
 
 <template>
   <div>
-    <div >
-      <div class="FlexColum scorePart">
-        <p>Score: {{ game?.score }}</p>
-        <p v-if="game?.highScore">HI Score: {{ game?.highScore }}</p>
-      </div>
+    <div>
       <canvas ref="canvas" width="1865" height="300" />
     </div>
 
     <div>
-      <img id="turtle1" src="./img/turtle1.png">
-      <img id="turtle2" src="./img/turtle2.png">
-      <img id="turtle3" src="./img/turtle3.png">
-      <img id="turtle4" src="./img/turtle4.png">
-      <img id="turtle5" src="./img/turtle5.png">
-      <img id="turtle6" src="./img/turtle6.png">
-      <img id="turtle-jump" src="./img/turtle-jump.png">
-      <img id="turtle-death" src="./img/turtle-death.png">
-      <img id="sprite-cactus" src="./img/sprite-cactus.png">
-      <img id="sprite-big-cactus" src="./img/sprite-three-cactus.png">
+      <img id="turtle1" src="./img/turtle1.png"/>
+      <img id="turtle2" src="./img/turtle2.png"/>
+      <img id="turtle3" src="./img/turtle3.png"/>
+      <img id="turtle4" src="./img/turtle4.png"/>
+      <img id="turtle5" src="./img/turtle5.png"/>
+      <img id="turtle6" src="./img/turtle6.png"/>
+      <img id="turtle-jump" src="./img/turtle-jump.png"/>
+      <img id="turtle-death" src="./img/turtle-death.png"/>
+      <img id="sprite-cactus" src="./img/sprite-cactus.png"/>
+      <img id="sprite-big-cactus" src="./img/sprite-three-cactus.png"/>
     </div>
   </div>
 </template>

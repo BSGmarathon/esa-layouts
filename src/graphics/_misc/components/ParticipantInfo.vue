@@ -39,13 +39,13 @@ defineProps<{
         :style="{
           filter: 'invert(1) drop-shadow(2px 2px 2px black)',
         }"
-      >
+      />
       <img
         v-else-if="type === 'commentator'"
         class="Icon"
         src="../../_misc/Mic.png"
-      >
-      <img v-else-if="type === 'reader'" class="Icon" src="../../_misc/ESALogo.png">
+      />
+      <img v-else-if="type === 'reader'" class="Icon" src="../../_misc/ESALogo.png"/>
 
       <!-- Name -->
       <div
@@ -109,7 +109,7 @@ defineProps<{
             drop-shadow(2px 0 0 white)
           `,
         }"
-      >
+      />
     </div>
   </div>
 </template>

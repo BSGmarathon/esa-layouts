@@ -28,7 +28,7 @@ const subscription = computed<Sub>(
     <img
       src="./esaHype.png"
       :style="{ 'margin-bottom': vertical ? '10px' : 0 }"
-    >
+    />
     <div
       class="FlexColumn"
       :style="{ 'margin-left': vertical ? 0 : '10px' }"

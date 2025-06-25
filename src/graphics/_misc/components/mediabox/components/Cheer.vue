@@ -28,7 +28,7 @@ const cheer = computed<Cheer>(
     <img
       src="./esaWow.png"
       :style="{ 'margin-bottom': vertical ? '10px' : 0 }"
-    >
+    />
     <div
       class="FlexColumn"
       :style="{ 'margin-left': vertical ? 0 : '20px' }"

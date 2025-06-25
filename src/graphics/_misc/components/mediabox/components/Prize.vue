@@ -33,7 +33,7 @@ const prize = computed(
         'margin-left': vertical ? 0 : '20px',
         'margin-bottom': vertical ? '10px' : 0,
       }"
-    >
+    />
     <div :style="{ 'margin-left': vertical ? 0 : '20px' }">
       <div
         :style="{

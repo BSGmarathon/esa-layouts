@@ -158,7 +158,7 @@ emit('totalUpdate', total.value);
         <img
           src="./img/RetroCoin.png"
           :style="{ height: '50px', 'image-rendering': 'pixelated', 'margin-right': '5px' }"
-        >
+        />
         <span
           :style="{
             'font-size': '28px',
