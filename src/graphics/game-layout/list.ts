@@ -26,6 +26,7 @@ import L_FullCam from './full-cam.vue';
 // Custom UKSG layouts
 import L_16x9_1p_uksg from './uksg/16x9-1p.vue';
 import L_16x9_2p_uksg from './uksg/16x9-2p.vue';
+import L_4x3_1p_uksg from './uksg/4x3-1p.vue';
 
 export {
   L_4x3_1p,
@@ -50,5 +51,6 @@ export {
   L_FullCam,
   L_16x9_1p_uksg,
   L_16x9_2p_uksg,
+  L_4x3_1p_uksg,
 };
 export const defaultCode = '4x3-1p';

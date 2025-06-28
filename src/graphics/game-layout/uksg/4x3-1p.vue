@@ -8,16 +8,20 @@ import GameCapture from '../components/GameCapture.vue';
 
 <template>
   <div>
+    <RunInfo :class="$style.RunInfo" />
+    <TimerElem
+      class="BorderRight BorderBottom"
+      :class="$style.Timer"
+    />
     <!-- Camera Feed -->
     <div
       id="CameraCapture1"
-      class="Fixed Capture BorderRight BorderBottom"
+      class="Fixed Capture BorderRight BorderTop BorderBottom"
       :class="$style.CameraFeed"
     />
     <!-- Runner/Player -->
     <ParticipantInfo
       :class="$style.Player"
-      header-font-size="18px"
       type="player"
     />
     <!-- Host -->
@@ -56,81 +60,75 @@ import GameCapture from '../components/GameCapture.vue';
     <!-- Game Feed -->
     <GameCapture
       id="GameCapture1"
-      class="Fixed Capture BorderLeft BorderBottom"
+      class="Fixed Capture BorderLeft"
       :class="$style.GameFeed"
       :slot-no="0"
     />
-    <TimerElem
-      class="BorderLeft BorderTop"
-      :class="$style.Timer"
-      vertical
-      timer-size="80px"
-    />
-    <RunInfo :class="$style.RunInfo" />
   </div>
 </template>
 
 <style lang="scss" module>
-.CameraFeed {
+.RunInfo {
   left: 0px;
   top: 0px;
-  width: 480px;
-  height: 369px;
+  width: 590px;
+  height: 162px;
+  z-index: 1;
+}
+
+.Timer {
+  left: 0px;
+  top: 162px;
+  width: 590px;
+  height: 97px;
+}
+
+.CameraFeed {
+  left: 0px;
+  top: 256px;
+  width: 590px;
+  height: 308px;
 }
 
 .Player {
   left: 0px;
-  top: 366px;
-  width: 480px;
-  height: 81px;
+  top: 561px;
+  width: 590px;
+  height: 73px;
 }
 
 .Host {
   left: 0px;
-  top: 444px;
-  width: 480px;
-  height: 54px;
+  top: 631px;
+  width: 590px;
+  height: 46px;
 }
 
 .Comm1 {
   left: 0px;
-  top: 495px;
-  width: 480px;
-  height: 54px;
+  top: 674px;
+  width: 590px;
+  height: 46px;
 }
 
 .Comm2 {
   left: 0px;
-  top: 546px;
-  width: 480px;
-  height: 54px;
+  top: 717px;
+  width: 590px;
+  height: 46px;
 }
 
 .ImageRotation {
   left: 0px;
-  top: 600px;
-  width: 477px;
-  height: 400px;
+  top: 763px;
+  width: 587px;
+  height: 237px;
 }
 
 .GameFeed {
-  left: 477px;
+  left: 587px;
   top: 0px;
-  width: 1443px;
-  height: 814px;
-}
-
-.Timer {
-  left: 477px;
-  top: 811px;
-  width: 706px;
-  height: 189px;
-}
-
-.RunInfo {
-  left: 1183px;
-  top: 811px;
-  width: 737px;
-  height: 192px;
+  width: 1333px;
+  height: 1001px;
 }
 </style>

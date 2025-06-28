@@ -118,6 +118,11 @@ const routes = [
     component: List.L_16x9_2p_uksg,
   },
   {
+    name: 'UKSG - 4:3 1 Player',
+    path: '/4x3-1p-uksg',
+    component: List.L_4x3_1p_uksg,
+  },
+  {
     path: '/:pathMatch(.*)*',
     redirect: '/4x3-1p',
   },
