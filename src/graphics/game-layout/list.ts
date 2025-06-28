@@ -5,7 +5,6 @@
 import L_16x9_1p_LargeCam from './16x9-1p-largecam.vue';
 import L_4x3_1p_LargeCam from './4x3-1p-largecam.vue';
 import L_16x9_1p from './16x9-1p.vue';
-import L_16x9_1p_uksg from './uksg/16x9-1p.vue';
 import L_16x9_2p from './16x9-2p.vue';
 import L_16x9_2p_c from './16x9-2p-c.vue';
 import L_16x9_3p from './16x9-3p.vue';
@@ -23,6 +22,10 @@ import L_GB_2p from './gb-2p.vue';
 import L_GBA_1p from './gba-1p.vue';
 import L_GBA_2p from './gba-2p.vue';
 import L_FullCam from './full-cam.vue';
+
+// Custom UKSG layouts
+import L_16x9_1p_uksg from './uksg/16x9-1p.vue';
+import L_16x9_2p_uksg from './uksg/16x9-2p.vue';
 
 export {
   L_4x3_1p,
@@ -46,5 +49,6 @@ export {
   L_GBA_2p,
   L_FullCam,
   L_16x9_1p_uksg,
+  L_16x9_2p_uksg,
 };
 export const defaultCode = '4x3-1p';
