@@ -53,7 +53,8 @@ watch(() => timer?.data, (data) => {
         [$style.EstimateVertical]: vertical,
       }"
     >
-      <span :class="$style.EstimateHeader">EST:</span>&nbsp;{{ runDataActiveRun?.data?.estimate ?? '??:??:??' }}
+      <span :class="$style.EstimateHeader">EST:</span>&nbsp;
+      <span>{{ runDataActiveRun?.data?.estimate ?? '??:??:??' }}</span>
     </div>
     <div
       class="Flex"
