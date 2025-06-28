@@ -108,6 +108,11 @@ const routes = [
     component: List.L_FullCam,
   },
   {
+    name: 'UKSG - 16:9 1 Player ',
+    path: '/16x9-1p-uksg',
+    component: List.L_16x9_1p_uksg,
+  },
+  {
     path: '/:pathMatch(.*)*',
     redirect: '/4x3-1p',
   },
