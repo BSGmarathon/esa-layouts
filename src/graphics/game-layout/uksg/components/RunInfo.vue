@@ -102,8 +102,8 @@ withDefaults(defineProps<{
   background: var(--theme-gradient);
   padding: 25px;
   box-sizing: border-box;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
 }
 
 .InnerFlipped {
@@ -112,8 +112,8 @@ withDefaults(defineProps<{
 }
 
 .InnerHorizontal {
-  flex-direction: unset;
-  align-items: center;
+  flex-direction: unset !important;
+  align-items: center !important;
   padding: 0 40px 0 25px;
 }
 
