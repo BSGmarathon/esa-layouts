@@ -133,6 +133,6 @@ onMounted(async () => {
 .itemContainer {
   align-content: space-between;
   justify-content: space-between;
-  width: 100%;
+  /*width: 100%; - not sure when this changed, causes wierd stuff with the finish time*/
 }
 </style>

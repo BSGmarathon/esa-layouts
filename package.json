@@ -62,6 +62,7 @@
   },
   "devDependencies": {
     "@fontsource/barlow-condensed": "^4.5.9",
+    "@fontsource/metropolis": "^5.2.5",
     "@fontsource/montserrat": "^4.5.14",
     "@fontsource/roboto": "^4.5.8",
     "@mdi/font": "^7.4.47",

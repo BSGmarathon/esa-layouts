@@ -4,7 +4,8 @@ import type {
   BigbuttonPlayerMap,
   CommentatorsNew,
   Countdown,
-  CurrentRunDelay, DelayedTimer,
+  CurrentRunDelay,
+  DelayedTimer,
   DonationAlerts,
   DonationReader,
   DonationReaderNew,
@@ -29,7 +30,7 @@ import type {
   VideoPlayer,
 } from '@esa-layouts/types/schemas';
 import { SpeedcontrolUtilBrowser } from 'speedcontrol-util';
-import type { RunDataActiveRun, RunDataActiveRunSurrounding, RunDataArray } from 'speedcontrol-util/types/schemas';
+import type { RunDataActiveRun, RunDataActiveRunSurrounding, RunDataArray, Timer } from 'speedcontrol-util/types/schemas';
 import { SoloedBidID } from '@esa-layouts/types/schemas/soloedBidID';
 import { useAssetReplicant, useReplicant } from 'nodecg-vue-composable';
 
@@ -76,6 +77,8 @@ export const runDataActiveRunSurrounding = useReplicant<RunDataActiveRunSurround
   'runDataActiveRunSurrounding',
   sc,
 )!;
+// TODO: rename and properly implement
+export const timerRep = useReplicant<Timer>('timer', sc)!;
 export const {
   timer,
   twitchCommercialTimer,

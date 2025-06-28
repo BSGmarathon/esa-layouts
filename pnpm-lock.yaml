@@ -99,6 +99,9 @@ importers:
       '@fontsource/barlow-condensed':
         specifier: ^4.5.9
         version: 4.5.9
+      '@fontsource/metropolis':
+        specifier: ^5.2.5
+        version: 5.2.5
       '@fontsource/montserrat':
         specifier: ^4.5.14
         version: 4.5.14
@@ -561,6 +564,9 @@ packages:
 
   '@fontsource/barlow-condensed@4.5.9':
     resolution: {integrity: sha512-vhxHtTw4y3R6kErgOVb4wkQ6H+znGNK+G9J7R/pFZ6uE6lxdyIR1t7fG0tgEJIrdA0otLLyiVSwtZbQRHmexaA==}
+
+  '@fontsource/metropolis@5.2.5':
+    resolution: {integrity: sha512-zAz6XS1ZXVXZadcqsOnToiePAKEiEywxOwILEaE4sRl+pVOFQI/30xMiKvjQae1NRK3TbeKxJAmt+yFkPguXJw==}
 
   '@fontsource/montserrat@4.5.14':
     resolution: {integrity: sha512-fTvrteVzuFUePhr4QYBGoK8G/YHLJ3IhF1HhKg0AxcFvZajJT7rM7ULdmKLSd2PkX44R3aaFZq1zDbmjbGGI+w==}
@@ -4974,6 +4980,8 @@ snapshots:
     optional: true
 
   '@fontsource/barlow-condensed@4.5.9': {}
+
+  '@fontsource/metropolis@5.2.5': {}
 
   '@fontsource/montserrat@4.5.14': {}
 

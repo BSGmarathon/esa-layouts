@@ -13,6 +13,7 @@ import { defaultCode } from './list';
 useHead({ title: 'game-layout' });
 
 const clipPath = ref('unset');
+const isUKSG = ref(false);
 const zoom = getZoomAmountCSS();
 
 const router = useRouter();
@@ -36,6 +37,7 @@ watch(() => gameLayouts.data, async (newVal, oldVal) => {
 
 function updateSelected(code: string): void {
   const gameData = gameLayouts.data;
+  isUKSG.value = code.includes('uksg');
 
   if (gameData) {
     gameData.selected = code;
@@ -97,7 +99,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div id="GameLayout" :style="{ zoom }">
+  <div id="GameLayout" :class="{ 'uksg': isUKSG }" :style="{ zoom }">
     <div
       id="Background"
       :style="{ 'clip-path': clipPath }"
@@ -105,3 +107,7 @@ onBeforeUnmount(() => {
     <RouterView id="Layout" />
   </div>
 </template>
+
+<style lang="scss">
+@use "../_misc/themes/uksglayouts.bsg.theme";
+</style>

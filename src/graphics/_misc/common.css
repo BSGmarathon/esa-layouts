@@ -39,7 +39,7 @@
 
 *[class*="Flex"] {
   display: flex;
-  align-items: left;
+  /*align-items: left; invalid value, never worked*/
   justify-content: left;
 }
 
