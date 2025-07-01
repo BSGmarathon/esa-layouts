@@ -43,9 +43,10 @@ async function updateDonationTotalFromAPI(init = false) {
     try {
         let total = 0;
         for (const event of exports.eventInfo) {
-            const resp = await (0, needle_1.default)('get', (0, utils_1.trackerUrl)(`/event/${event.short}?json`));
+            // const resp = await needle('get', trackerUrl(`/event/${event.short}?json`));
+            const resp = await (0, needle_1.default)('get', (0, utils_1.trackerUrl)(`/api/v2/events/${event.id}/?totals=`));
             if (resp.statusCode === 200) {
-                const eventTotal = resp.body.agg.amount ? parseFloat(resp.body.agg.amount) : 0;
+                const eventTotal = resp.body.amount ? parseFloat(resp.body.amount) : 0;
                 event.total = eventTotal;
                 total += eventTotal;
             }
