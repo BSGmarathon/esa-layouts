@@ -50,7 +50,7 @@ const prize = computed(
         v-if="prize.provided"
         :style="{ 'font-size': '0.875em' }"
       >
-        provided by {{ prize.provided }}
+        provided by <strong>{{ prize.provided }}</strong>
       </div>
       <div
         :style="{
