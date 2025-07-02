@@ -43,7 +43,7 @@ const prize = computed(
       >
         Want a chance to win prizes like...
       </div>
-      <div :style="{ 'font-size': '1em' }">
+      <div :style="{ 'font-size': '0.875em' }">
         {{ prize.name }}?
       </div>
       <div
@@ -54,7 +54,7 @@ const prize = computed(
       </div>
       <div
         :style="{
-          'font-size': '1em',
+          'font-size': '0.875em',
           color: 'lightgrey', // move to theme!
         }"
       >
