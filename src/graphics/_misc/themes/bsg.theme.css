@@ -12,6 +12,11 @@
   height: 100%;
 }
 
+strong {
+  font-weight: bold;
+  color: white;
+}
+
 .TimerFH.TimerParent .TimerContainer div {
   align-items: center;
 }
@@ -33,7 +38,7 @@
   background: url('./bsg/timer_grid.png') repeat;
 }
 
-#Intermission{
+#Intermission {
   background-image: url('./bsg/intermission.png');
 }
 
