@@ -1,0 +1,78 @@
+/* TODO: Thin this out! */
+@import url('@fontsource/metropolis/100.css');
+@import url('@fontsource/metropolis/200.css');
+@import url('@fontsource/metropolis/300.css');
+@import url('@fontsource/metropolis/400.css');
+@import url('@fontsource/metropolis/500.css');
+@import url('@fontsource/metropolis/600.css');
+@import url('@fontsource/metropolis/700.css');
+@import url('@fontsource/metropolis/800.css');
+@import url('@fontsource/metropolis/900.css');
+
+/* TODO: Use SCSS/SASS variables if I can work out how to make it work in other files! */
+:root {
+  //--theme-border-colour: #174ed3;
+  --theme-border-colour: var(--bsg-color);
+  //--theme-gradient: linear-gradient(155deg, rgba(14,63,164,1) 0%, rgba(6,63,164,1) 10%, rgba(6,63,164,0.7) 40%, rgba(44,60,196,0.3) 80%);
+  //--theme-gradient: linear-gradient(155deg, var(--slide-color) 0%, rgb(131, 68, 26) 10%, rgba(131, 68, 26, 0.7) 40%, rgba(110, 58, 23, 0.3) 80%);
+  --theme-gradient: linear-gradient(155deg,rgba(145, 78, 33, 1) 0%, rgba(135, 69, 24, 1) 10%, rgba(122, 59, 16, 0.7) 40%, rgba(105, 45, 5, 0.3) 80%);
+
+  --border-colour: #44a0e3;
+  //--border-colour: var(--slide-color);
+  --dark-text-colour: #011f39;
+}
+
+/* The underscore in Metropolis seems to not have the correct width, so this "overrides" it. */
+@font-face {
+  font-family: 'Underscore';
+  src: local('Arial');
+  unicode-range: U+005F;
+}
+
+.uksg {
+  font-family: 'Underscore', 'Metropolis', sans-serif;
+  color: white;
+
+  &#Layout, #Background {
+    width: 1920px;
+    height: 1080px;
+    position: fixed;
+  }
+
+  /*
+    .Layout is used for the main layout "wrapper" element.
+    .Background isn't inside of the wrapper, so needs the same settings.
+  */
+  .Background, #Background {
+    // BRUH, why is this path taken from the layouts instead of relative to this file
+    background: no-repeat url('../_misc/themes/uksg/background.png');
+    display: unset !important;
+  }
+
+  /* Flex helpers (.Flex or .FlexColumn). */
+  *[class*="Flex"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .FlexColumn {
+    flex-direction: column;
+  }
+
+  .Fixed {
+    position: fixed;
+  }
+
+  /* Border helpers. */
+  *[class*='Border'] {
+    box-sizing: border-box;
+    border-style: solid;
+    border-width: 0;
+    border-color: var(--border-colour);
+  }
+  .BorderTop { border-top-width: 3px ; }
+  .BorderRight { border-right-width: 3px ; }
+  .BorderBottom { border-bottom-width: 3px ; }
+  .BorderLeft { border-left-width: 3px ; }
+  .BorderAll { border-width: 3px; }
+}
