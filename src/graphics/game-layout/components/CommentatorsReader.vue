@@ -6,9 +6,11 @@ import { commentatorsNew, donationReaderNew } from '@esa-layouts/browser_shared/
 const props = withDefaults(defineProps<{
   showReader: boolean;
   lineTop: boolean;
+  lineBottom: boolean;
 }>(), {
   showReader: false,
   lineTop: false,
+  lineBottom: false,
 });
 const toFit = useTemplateRef<HTMLElement>('Fit');
 const show = computed(() => !!(props.showReader ? donationReaderNew.data : commentatorsNew.data?.length));
@@ -42,6 +44,9 @@ onUnmounted(() => {
       color: 'var(--text-color)',
       'font-family': 'Bahnschrift',
       'font-size': '1.5em',
+      // Order of operations is important here
+      // TODO: fix this jank and allow for both borders at the same time if set
+      'border-bottom': lineBottom ? '5px solid var(--bsg-color)' : 'unset',
       [borderLocation]: '5px solid var(--bsg-color)',
     }"
   >

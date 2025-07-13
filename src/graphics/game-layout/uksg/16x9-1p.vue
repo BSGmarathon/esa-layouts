@@ -50,6 +50,7 @@ import GameCapture from '../components/GameCapture.vue';
     <div class="Fixed" :class="$style.ImageRotation">
       <MediaBoxBox
         style="position: unset;"
+        vertical
         :class="$style.ImageRotation"
       />
     </div>
