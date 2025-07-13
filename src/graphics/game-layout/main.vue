@@ -104,7 +104,9 @@ onBeforeUnmount(() => {
       id="Background"
       :style="{ 'clip-path': clipPath }"
     />
-    <RouterView id="Layout" />
+    <!-- little bit of BSG hackery because of how the layouts are designed. -->
+    <!-- We will go to the same system in the future(tm) -->
+    <RouterView id="Layout" :style="{ 'clip-path': isUKSG ? 'unset' : clipPath }" />
   </div>
 </template>
 

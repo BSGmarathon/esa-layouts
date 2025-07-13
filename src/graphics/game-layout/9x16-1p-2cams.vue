@@ -1,94 +1,98 @@
 <script setup lang="ts">
-import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
-import CommentatorsReader from './components/CommentatorsReader.vue';
-import DonationBar from './components/DonationBar.vue';
 import GameCapture from './components/GameCapture.vue';
 import Player from './components/Player.vue';
+import CommentatorsReader from './components/CommentatorsReader.vue';
 import RunInfo from './components/RunInfo.vue';
 import Timer from './components/Timer.vue';
+import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
+import MediaBoxBox from './components/MediaBoxBox.vue';
 </script>
 
 <template>
-  <div>
+  <div class="bsglayout _9x16_1p_2cams">
     <!-- Game Captures -->
     <GameCapture
       id="GameCapture1"
-      class="BorderLeft BorderRight"
       :style="{
-        left: '679px',
+        left: '1306px',
         top: '0px',
-        width: '562px',
-        height: '1000px',
+        width: '563px',
+        height: '998px',
       }"
     />
 
     <!-- Camera Captures -->
     <div
       id="CameraCapture1"
-      class="Capture"
+      class="Capture Relative"
       :style="{
-        left: '0px',
+        left: '586px',
         top: '0px',
-        width: '679px',
-        height: '382px',
+        width: '662px',
+        height: '540px',
       }"
     />
     <div
       id="CameraCapture2"
-      class="Capture"
+      class="Capture Relative"
       :style="{
-        left: '1241px',
-        top: '0px',
-        width: '679px',
-        height: '382px',
+        left: '586px',
+        top: '610px',
+        width: '662px',
+        height: '389px',
       }"
     />
 
-    <!-- General Run Info -->
+    <div
+      class="Fixed FlexColumn"
+      :style="{
+      left: '579px',
+      top: '552px',
+      width: '675px',
+      height: '44px',
+      }"
+    >
+      <Player/>
+    </div>
+
+    <!-- Run Game Info -->
     <div
       class="Fixed FlexColumn"
       :style="{
         left: '0px',
-        top: '382px',
-        width: '679px',
-        height: '573px',
+        top: '0px',
+        width: '574px',
+        height: '252px',
       }"
     >
-      <Player />
-      <CommentatorsReader />
-      <CommentatorsReader show-reader />
-
-      <!-- Run Game Info/Timer -->
-      <div
-        class="FlexColumn"
-        :style="{ flex: '1', width: '100%' }"
-      >
-        <RunInfo :style="{ 'font-size': '45px' }" />
-        <Timer fontSize="125px" />
-      </div>
+      <RunInfo line-right text-align="left" />
     </div>
 
-    <!-- Media Box -->
-    <MediaBox
-      :font-size="36"
-      class="BorderTop"
-      :style="{
-        left: '1241px',
-        top: '382px',
-        width: '679px',
-        height: '618px',
-      }"
-    />
-
-    <!-- Donation Bar -->
-    <DonationBar
-      :padding="7"
+    <!-- Media Box / Reader / Comms / TImer -->
+    <div
+      class="Fixed FlexColumn"
       :style="{
         left: '0px',
-        top: '955px',
-        width: '679px',
-        height: '45px',
+        top: '252px',
+        width: '574px',
+        height: '746px',
       }"
-    />
+    >
+      <CommentatorsReader line-top show-reader />
+      <CommentatorsReader line-top line-bottom />
+      <Timer
+        line-bottom
+        line-right
+      />
+      <FlashingLightsWarning />
+      <MediaBoxBox
+        vertical
+        line-right
+        :style="{
+          width: '574px',
+          height: '100%',
+        }"
+      />
+    </div>
   </div>
 </template>

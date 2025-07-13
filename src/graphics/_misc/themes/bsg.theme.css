@@ -107,6 +107,10 @@ strong {
   background-image: url("./bsg/gamelayout/16x9-3p.png");
 }
 
+._9x16_1p_2cams {
+  background-image: url("./bsg/gamelayout/9x16_1p_doublecam.png");
+}
+
 ._ds_1p {
   background-image: url("./bsg/gamelayout/ds-1p.png");
 }

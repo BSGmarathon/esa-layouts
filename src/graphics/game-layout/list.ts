@@ -8,6 +8,7 @@ import L_16x9_1p from './16x9-1p.vue';
 import L_16x9_2p from './16x9-2p.vue';
 import L_16x9_2p_c from './16x9-2p-c.vue';
 import L_16x9_3p from './16x9-3p.vue';
+import L_9x16_1p_2cams from './9x16-1p-2cams.vue';
 import L_3DS_1p from './3ds-1p.vue';
 import L_3DSV_1p from './3dsv-1p.vue';
 import L_3DS_2p from './3ds-2p.vue';
@@ -37,6 +38,7 @@ export {
   L_16x9_2p,
   L_16x9_2p_c,
   L_16x9_3p,
+  L_9x16_1p_2cams,
   L_3DS_1p,
   L_DS_1p,
   L_GB_1p,

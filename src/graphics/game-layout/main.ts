@@ -53,6 +53,11 @@ const routes = [
     component: List.L_16x9_3p,
   },
   {
+    name: '9:16 1 Player (2 cams)',
+    path: '/9x16-1p-2cams',
+    component: List.L_9x16_1p_2cams,
+  },
+  {
     name: 'GameBoy 1 Player',
     path: '/GB-1p',
     component: List.L_GB_1p,
