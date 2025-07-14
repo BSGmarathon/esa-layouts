@@ -3,7 +3,8 @@ import { additionalDonations, donationTotal } from '@esa-layouts/browser_shared/
 import { formatUSD } from '@esa-layouts/graphics/_misc/helpers';
 import gsap from 'gsap';
 import { round } from 'lodash';
-import { computed, ref } from 'vue';
+import {computed, onMounted, ref} from 'vue';
+import { wait } from '@esa-layouts/graphics/_misc/helpers';
 
 const emit = defineEmits<{
   totalUpdate: [newTotal: number],
@@ -119,7 +120,13 @@ nodecg.listenFor('additionalDonationToggle', (data: { key: string, active: boole
     if (!playingAlerts.value) playNextAlert(true);
   }
 });
-emit('totalUpdate', total.value);
+onMounted(async () => {
+  while (typeof total.value !== 'undefined') {
+    await wait(100);
+  }
+
+  emit('totalUpdate', total.value);
+});
 </script>
 
 <template>

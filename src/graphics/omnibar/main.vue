@@ -27,7 +27,7 @@ function updateInfoWidth(newTotal: number): void {
   }
 
   if (newTotal < 100000) {
-    infoWidth.value = '986px';
+    infoWidth.value = '1020px';
   }
 }
 
