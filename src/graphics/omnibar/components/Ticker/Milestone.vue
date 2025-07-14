@@ -18,6 +18,15 @@ const amount = computed(() => formatUSD(milestone.amount || 0));
 const amountLeft = computed(() => formatUSD(Math.max((milestone.amount || 0) - tweenedValues.value.totalTweened, 0)));
 const isMet = computed(() => !!(milestone.amount
   && tweenedValues.value.totalTweened && milestone.amount <= tweenedValues.value.totalTweened));
+const progressbarWidth = computed<string>(() => {
+  let width = '97%';
+  if (donationTotal.data > 9999) {
+    width = '94%';
+  } else if (donationTotal.data > 999) {
+    width = '96%';
+  }
+  return width;
+});
 
 function getProgress(): number {
   if (!milestone.amount || !donationTotal.data) return 0;
@@ -64,7 +73,7 @@ onMounted(async () => {
       class="Flex"
       :style="{
         position: 'relative',
-        'flex-grow': 1,
+        width: progressbarWidth,
         margin: '10px',
         height: '65px',
         'background-color': 'rgba(0, 0, 0, 0.3)',
