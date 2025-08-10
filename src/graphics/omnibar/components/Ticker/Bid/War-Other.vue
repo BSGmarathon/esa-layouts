@@ -131,7 +131,7 @@ async function mountedCallback(): Promise<void> {
   if (optionsBar.value!.scrollWidth <= optionsBar.value!.clientWidth) {
     if (seconds >= 0) {
       await wait(seconds * 1000);
-      // emit('end');
+      emit('end');
     }
 
     return;
