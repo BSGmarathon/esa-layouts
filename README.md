@@ -41,11 +41,9 @@ This bundle heavily relies on the [obs-websocket](https://github.com/Palakis/obs
 
 This bundle also heavily relies on information from a RabbitMQ server, and an instance of our fork of the [GamesDoneQuick donation tracker](https://github.com/esamarathon/donation-tracker).
 
-### Stream Deck Plugin
+### Stream Deck Support (Via companion)
 
-Deprecated in favor of companion plugin.
-
-Included with this bundle is a plugin for the Elgato Stream Deck software that can be used by various crew members during events. Once you have the Stream Deck software installed, you can install the plugin by running the file `com.esamarathon.streamdeck.streamDeckPlugin` in the `streamdeck-plugin/Release` directory. Currently, you need to set the actions up yourself in the software, so it can easily be customised on the fly.
+We are using the companion plugin found in the `companion-plugin` folder. To use this plugin you need to compile the code and add that folder as your developer path in companion. After enabling the plugin in the bundle config it should all just work (tm)
 
 ### FlagCarrier Configuration
 
