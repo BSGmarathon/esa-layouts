@@ -12,6 +12,7 @@ import {
   selectedCropItem,
   companionWaitingSingleCropConfirm,
   companionWaitingAllCropConfirm,
+  donationsToRead,
 } from './util/replicants';
 import { sc } from './util/speedcontrol';
 import actionVideoPlay from './companion/actionVideoPlay';
@@ -46,6 +47,9 @@ companionWaitingAllCropConfirm.on(
   'change',
   (value) => companion.send({ name: 'waitingForAllCropConfirm', value }),
 );
+donationsToRead.on('change', (value) => {
+  companion.send({ name: 'pendingDonationCount', value: value.length });
+});
 
 // Sending things on connection.
 companion.evt.on('open', (socket) => {
@@ -67,6 +71,7 @@ companion.evt.on('open', (socket) => {
     name: 'waitingForAllCropConfirm',
     value: companionWaitingAllCropConfirm.value,
   });
+  companion.send({ name: 'pendingDonationCount', value: donationsToRead.value.length });
 });
 
 const actionMap: { [key: string]: ActionHandler } = {

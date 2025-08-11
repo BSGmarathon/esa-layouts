@@ -28,6 +28,10 @@ function initVariables(instance: InstanceBase<Config>) {
       name: 'Twitch Commercial Timer (nodecg-speedcontrol): Seconds Remaining',
     },
     {
+      variableId: 'pending_to_read_donations',
+      name: 'Pending Donations',
+    },
+    {
       variableId: 'twitch_commercials_disabled',
       name: 'Twitch Commercials Disabled (esa-commercials)',
     },
