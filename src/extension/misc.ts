@@ -9,7 +9,8 @@ import { get as nodecg } from './util/nodecg';
 import obs from './util/obs';
 import { mq } from './util/rabbitmq';
 import {
-  additionalDonations, bigbuttonPlayerMap,
+  additionalDonations,
+  bigbuttonPlayerMap,
   commentators,
   commentatorsNew,
   lowerThird,
@@ -76,15 +77,9 @@ sc.runDataActiveRun.on('change', (newVal, oldVal) => {
     // imported from an external schedule. This stops manually added runs (like bonus runs)
     // having things erased.
     if (sc.runDataActiveRun.value && newVal && newVal.scheduled) {
-      if (config.event.shorts !== 'swcf') commentators.value.length = 0;
-      // If not online and flagcarrier is enabled,
-      // we also clear the teams and big button player map.
-      if (!config.event.online && config.flagcarrier.enabled) {
-        bigbuttonPlayerMap.value = {};
-        // TODO: Reselecting the current run would overwrite these, but not much I can do right now!
-        sc.runDataActiveRun.value.teams = [];
-        nodecg().log.debug('[Misc] Removed active run teams on run change');
-      }
+      commentators.value.length = 0;
+      commentatorsNew.value.length = 0;
+      bigbuttonPlayerMap.value = {};
       nodecg().log.debug('[Misc] Cleared commentators and big button player mapping');
     }
   }
@@ -303,7 +298,6 @@ nodecg().listenFor('commentatorRemove', (val: number, ack) => {
 
 // Processes modifying the reader from the dasboard panel.
 nodecg().listenFor('readerModify', async (val: string | null | undefined, ack) => {
-  // TODO: pronouns from ESA server.
   if (!val) {
     donationReaderNew.value = null;
     donationReader.value = null;

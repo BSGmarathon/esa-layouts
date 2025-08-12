@@ -83,16 +83,9 @@ speedcontrol_1.sc.runDataActiveRun.on('change', (newVal, oldVal) => {
         // imported from an external schedule. This stops manually added runs (like bonus runs)
         // having things erased.
         if (speedcontrol_1.sc.runDataActiveRun.value && newVal && newVal.scheduled) {
-            if (config.event.shorts !== 'swcf')
-                replicants_1.commentators.value.length = 0;
-            // If not online and flagcarrier is enabled,
-            // we also clear the teams and big button player map.
-            if (!config.event.online && config.flagcarrier.enabled) {
-                replicants_1.bigbuttonPlayerMap.value = {};
-                // TODO: Reselecting the current run would overwrite these, but not much I can do right now!
-                speedcontrol_1.sc.runDataActiveRun.value.teams = [];
-                (0, nodecg_1.get)().log.debug('[Misc] Removed active run teams on run change');
-            }
+            replicants_1.commentators.value.length = 0;
+            replicants_1.commentatorsNew.value.length = 0;
+            replicants_1.bigbuttonPlayerMap.value = {};
             (0, nodecg_1.get)().log.debug('[Misc] Cleared commentators and big button player mapping');
         }
     }
@@ -282,7 +275,6 @@ async function searchNameOld(val, currentVal) {
 });
 // Processes modifying the reader from the dasboard panel.
 (0, nodecg_1.get)().listenFor('readerModify', async (val, ack) => {
-    // TODO: pronouns from ESA server.
     if (!val) {
         replicants_1.donationReaderNew.value = null;
         replicants_1.donationReader.value = null;
