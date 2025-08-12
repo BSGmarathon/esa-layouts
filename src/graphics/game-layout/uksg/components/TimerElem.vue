@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { runDataActiveRun, timerRep as timer } from '../../../../browser_shared/replicant_store';
+import { runDataActiveRun, timer } from '../../../../browser_shared/replicant_store';
 import { msToTimeStr } from '../../../_misc/helpers';
 
 withDefaults(defineProps<{
@@ -35,7 +35,7 @@ watch(() => timer?.data, (data) => {
   // Backup timer (see above).
   window.clearTimeout(backupTimerTO);
   backupTimerTO = window.setTimeout(() => backupTimer(), 1000);
-}, { immediate: true });
+}, { immediate: true, deep: true });
 </script>
 
 <template>

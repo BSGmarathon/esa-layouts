@@ -53,8 +53,7 @@ const alertClass = computed(() => {
 });
 
 onMounted(async () => {
-  await NodeCG.waitForReplicants(timer);
-  await waitForReplicant(donationsToRead, streamDeckData);
+  await waitForReplicant(timer, donationsToRead, streamDeckData);
 
   nodecg.listenFor(
     'bigbuttonTagScanned',
@@ -171,7 +170,7 @@ onMounted(async () => {
         'padding-top': '30px',
       }"
     >
-      {{ timer.value!.time }}
+      {{ timer.data?.time || '00:00:00' }}
     </div>
   </div>
 </template>

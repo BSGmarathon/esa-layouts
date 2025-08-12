@@ -30,7 +30,13 @@ import type {
   VideoPlayer,
 } from '@esa-layouts/types/schemas';
 import { SpeedcontrolUtilBrowser } from 'speedcontrol-util';
-import type { RunDataActiveRun, RunDataActiveRunSurrounding, RunDataArray, Timer } from 'speedcontrol-util/types/schemas';
+import {
+  RunDataActiveRun,
+  RunDataActiveRunSurrounding,
+  RunDataArray,
+  Timer,
+  TwitchCommercialTimer,
+} from 'speedcontrol-util/types/schemas';
 import { SoloedBidID } from '@esa-layouts/types/schemas/soloedBidID';
 import { useAssetReplicant, useReplicant } from 'nodecg-vue-composable';
 
@@ -77,21 +83,11 @@ export const runDataActiveRunSurrounding = useReplicant<RunDataActiveRunSurround
   'runDataActiveRunSurrounding',
   sc,
 )!;
-// TODO: rename and properly implement
-export const timerRep = useReplicant<Timer>('timer', sc)!;
-export const {
-  timer,
-  twitchCommercialTimer,
-} = speedControl; // TODO: convert to normal useReplicants
+export const timer = useReplicant<Timer>('timer', sc)!;
+export const twitchCommercialTimer = useReplicant<TwitchCommercialTimer>('twitchCommercialTimer', sc)!;
 export const serverTimestamp = useReplicant<ServerTimestamp>('serverTimestamp', bundleName)!;
 export const soloedBidID = useReplicant<SoloedBidID>('soloedBidID', bundleName)!;
 export const streamDeckData = useReplicant<StreamDeckData>('streamDeckData', bundleName)!;
 export const ttsVoices = useReplicant<TtsVoices>('ttsVoices', bundleName)!;
 export const upcomingRunID = useReplicant<UpcomingRunID>('upcomingRunID', bundleName)!;
 export const videoPlayer = useReplicant<VideoPlayer>('videoPlayer', bundleName)!;
-
-// export const useLayoutStore = defineStore('esa-layouts', () => {
-//   return {
-//     //
-//   };
-// });
