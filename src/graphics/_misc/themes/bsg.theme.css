@@ -7,6 +7,29 @@
   --bg-end: #212121;
 }
 
+#Background {
+  background: var(--main-bg-color);
+}
+
+*[class*='Border'] {
+  box-sizing: content-box;
+  border-style: solid;
+  border-width: 0;
+  border-color: var(--bsg-color);
+}
+.BorderTop {
+  border-top-width: 5px;
+}
+.BorderRight {
+  border-right-width: 5px;
+}
+.BorderBottom {
+  border-bottom-width: 5px;
+}
+.BorderLeft {
+  border-left-width: 5px;
+}
+
 /* TODO: scss */
 .TimerFH.TimerParent {
   height: 100%;
@@ -31,6 +54,9 @@ strong {
 }
 
 .bsglayout {
+  * {
+    box-sizing: border-box !important;
+  }
   background-repeat: no-repeat;
 }
 
@@ -57,84 +83,4 @@ strong {
 
 .countdownLayout {
   background-image: url('./bsg/countdown.png');
-}
-
-._3ds_1p {
-  background-image: url("./bsg/gamelayout/3ds-1p.png");
-}
-
-._3ds_1p_vertical {
-  background-image: url("./bsg/gamelayout/3ds-1p-vertical.png");
-}
-
-._3ds_2p {
-  background-image: url("./bsg/gamelayout/3ds-2p.png");
-}
-
-._4x3_1p {
-  background-image: url("./bsg/gamelayout/4x3-1p.png");
-}
-
-._4x3_1p_largecam {
-  background-image: url("./bsg/gamelayout/4x3-1p-largecam.png");
-}
-
-._4x3_2p {
-  background-image: url("./bsg/gamelayout/4x3-2p.png");
-}
-
-._4x3_3p {
-  background-image: url("./bsg/gamelayout/4x3-3p.png");
-}
-
-._16x9_1p {
-  background-image: url("./bsg/gamelayout/16x9-1p.png");
-}
-
-._16x9_1p_largecam {
-  background-image: url("./bsg/gamelayout/16x9-1p-largecam.png");
-}
-
-._16x9_2p {
-  background-image: url("./bsg/gamelayout/16x9-2p.png");
-}
-
-._16x9_2p_connected {
-  background-image: url("./bsg/gamelayout/16x9-2p-connected.png");
-}
-
-._16x9_3p {
-  background-image: url("./bsg/gamelayout/16x9-3p.png");
-}
-
-._9x16_1p_2cams {
-  background-image: url("./bsg/gamelayout/9x16_1p_doublecam.png");
-}
-
-._ds_1p {
-  background-image: url("./bsg/gamelayout/ds-1p.png");
-}
-
-._ds_1p_vertical {
-  background-image: url("./bsg/gamelayout/ds-1p-vertical.png");
-}
-
-._ds_2p {
-  background-image: url("./bsg/gamelayout/ds-2p.png");
-}
-
-._gb_1p {
-  background-image: url("./bsg/gamelayout/gb-1p.png");
-}
-
-._gb_2p {
-  background-image: url("./bsg/gamelayout/gb-2p.png");
-}
-
-._gba_1p {
-  background-image: url("./bsg/gamelayout/gba-1p.png");
-}
-
-._gba_2p {
-  background-image: url("./bsg/gamelayout/gba-2p.png");
 }
