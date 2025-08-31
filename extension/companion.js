@@ -31,6 +31,9 @@ replicants_1.companionFastCropEnabled.on('change', (value) => companion_1.defaul
 replicants_1.selectedCropItem.on('change', (value) => companion_1.default.send({ name: 'selectedCropItem', value }));
 replicants_1.companionWaitingSingleCropConfirm.on('change', (value) => companion_1.default.send({ name: 'waitingForSingleCropConfirm', value }));
 replicants_1.companionWaitingAllCropConfirm.on('change', (value) => companion_1.default.send({ name: 'waitingForAllCropConfirm', value }));
+replicants_1.donationsToRead.on('change', (value) => {
+    companion_1.default.send({ name: 'pendingDonationCount', value: value.length });
+});
 // Sending things on connection.
 companion_1.default.evt.on('open', (socket) => {
     companion_1.default.send({ name: 'timer', value: speedcontrol_1.sc.timer.value }, socket);
@@ -51,6 +54,7 @@ companion_1.default.evt.on('open', (socket) => {
         name: 'waitingForAllCropConfirm',
         value: replicants_1.companionWaitingAllCropConfirm.value,
     });
+    companion_1.default.send({ name: 'pendingDonationCount', value: replicants_1.donationsToRead.value.length });
 });
 const actionMap = {
     timer_toggle: actionTimerToggle_1.default,

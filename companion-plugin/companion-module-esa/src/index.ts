@@ -191,6 +191,11 @@ class ModuleInstance extends InstanceBase<Config> {
             selectedCropItem: msg.value as number,
           });
           break;
+        case 'pendingDonationCount':
+          this.setVariableValues({
+            pending_to_read_donations: msg.value as number,
+          });
+          break;
         default:
           break;
       }

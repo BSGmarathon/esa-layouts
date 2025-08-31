@@ -13,6 +13,8 @@ const eventConfig = (0, nodecg_1.get)().bundleConfig.event;
 const { useTestData } = (0, nodecg_1.get)().bundleConfig;
 const refreshTime = 10 * 1000; // Get donations every 10s.
 let updateTimeout;
+// TODO: fetch donations to process for count
+// TODO: connect to tracker WS for real-time updates
 function processToReadDonations(donations) {
     return donations.map((donation) => ({
         id: donation.id,

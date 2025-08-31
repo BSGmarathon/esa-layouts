@@ -27,7 +27,6 @@ module.exports = (nodecg) => {
     require('./tracker');
     require('./misc');
     require('./mixer');
-    require('./streamdeck-buttons');
     require('./companion');
     require('./timer');
     require('./media-box');
