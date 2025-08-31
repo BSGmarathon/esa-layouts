@@ -70,9 +70,9 @@ watch(() => timer.data!, (newTimer?: Timer) => {
     :style="{
       'box-sizing': 'border-box',
       'justify-content': 'center',
-      'border-top': borderTop ? '5px solid var(--bsg-color)' : 'unset',
+      // 'border-top': borderTop ? '5px solid var(--bsg-color)' : 'unset',
       // [borderLocation]: lineBottom ? '5px solid var(--bsg-color)' : 'unset',
-      'border-bottom': lineBottom ? '5px solid var(--bsg-color)' : 'unset',
+      // 'border-bottom': lineBottom ? '5px solid var(--bsg-color)' : 'unset',
       // 'height': '100%',
     }"
   >

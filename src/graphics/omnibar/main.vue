@@ -214,6 +214,7 @@ html, body {
     //box-sizing: border-box;
     //border: 1px green solid;
     animation-duration: 500ms;
+    //height: 82px;
     height: 82px;
 
     &.no-dash {
@@ -223,7 +224,8 @@ html, body {
 
       /* HACK: normal text is different */
       transform: unset;
-      top: 5px;
+      top: 0px;
+      //height: 77px;
     }
   }
 
