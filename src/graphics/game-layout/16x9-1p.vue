@@ -101,8 +101,8 @@ import CommentatorsList from './components/CommentatorsList.vue';
         height: '588px',
       }"
       >
-        <CommentatorsList class="BorderTop BorderBottom" />
-        <!-- <CommentatorsReader class="BorderTop BorderBottom"/> -->
+<!--        <CommentatorsList class="BorderTop BorderBottom" />-->
+         <CommentatorsReader class="BorderTop BorderBottom"/>
         <CommentatorsReader class="BorderBottom" show-reader/>
         <FlashingLightsWarning/>
         <MediaBoxBox
