@@ -102,6 +102,8 @@ onMounted(async () => {
 html, body {
   padding: 0;
   margin: 0;
+  width: 1920px;
+  height: 82px;
 }
 
 #omnibar {
