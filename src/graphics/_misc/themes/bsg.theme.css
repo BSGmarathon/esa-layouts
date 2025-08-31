@@ -64,7 +64,7 @@ strong {
 .TimerParent {
   /*background: url('./bsg/timer_grid.png') repeat;*/
   --bg-colour: rgba(0, 0, 0, 0.3);
-  --size: 12px;
+  --size: 10px;
   background-size: var(--size) var(--size);
   background-image:
     linear-gradient(to right, var(--bg-colour) 1px, transparent 1px),
