@@ -197,25 +197,25 @@ onMounted(async () => {
 
   background: var(--bsg-color);
 
-  --arrow-setting: 50px;
+  --arrow-setting: 55px;
   clip-path: polygon(
       100% 0%,
       100% 50%,
       100% 100%,
       var(--arrow-setting) 100%,
-      10% 50%,
+      20px 50%,
       var(--arrow-setting) 0%
   );
 }
 
 .dash_seg_1 {
   --color: var(--dark-arrow-default);
-  right: -78px;
+  right: -80px;
 }
 
 .dash_seg_2 {
   --color: var(--bsg-color);
-  right: -142px;
+  right: -143px;
 }
 
 /* Each character in the total is in a span; setting width so the numbers appear monospaced. */
