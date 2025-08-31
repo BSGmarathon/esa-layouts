@@ -2,8 +2,8 @@
 import { twitchCommercialTimer } from '@esa-layouts/browser_shared/replicant_store';
 import { computed } from 'vue';
 
-const percentage = computed(() => Math.min((twitchCommercialTimer.data!.secondsRemaining
-  / twitchCommercialTimer.data!.originalDuration) * 100, 100));
+const percentage = computed(() => Math.min(((twitchCommercialTimer.data?.secondsRemaining ?? 0)
+  / (twitchCommercialTimer.data?.originalDuration ?? 0)) * 100, 100));
 </script>
 
 <template>

@@ -114,7 +114,6 @@ onMounted(async () => {
             </th>
           </tr>
         </thead>
-        {{ locked }}
         <tbody>
           <tr v-for="(source, si) in gameCaptures" :key="source">
             <td class="text--lighten-5">{{ source }}</td>

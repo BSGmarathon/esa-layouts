@@ -22,12 +22,16 @@ const gameLayoutPreviewToggle = ref(false);
 const disableIntermission = computed(() => (obsData.data?.transitioning
   || obsData.data?.disableTransitioning
   || !!intermissionScenes.find((s) => obsData.data?.scene?.startsWith(s))
-  || ['running', 'paused'].includes(timer.value?.state || '')));
+  || ['running', 'paused'].includes(timer.data?.state || '')));
 
 function disableButton(scene: string): boolean {
-  return obsData.data!.transitioning
-    || scene === obsData.data!.scene
-    || obsData.data!.disableTransitioning;
+  if (!obsData.data) {
+    return true;
+  }
+
+  return obsData.data.transitioning
+    || scene === obsData.data.scene
+    || obsData.data.disableTransitioning;
 }
 
 function startIntermission(): void {
@@ -40,7 +44,7 @@ function changeScene(scene: string): void {
 </script>
 
 <template>
-  <v-app v-if="obsData.data && serverTimestamp.data && videoPlayer.data">
+  <v-app v-if="timer.data && obsData.data && typeof serverTimestamp.data !== 'undefined' && videoPlayer.data">
     <div v-if="!obsConfig.enabled" :style="{ 'font-style': 'italic' }">
       This feature is not enabled.
     </div>
@@ -91,8 +95,8 @@ function changeScene(scene: string): void {
         :disabled="disableIntermission"
       >
         Transition to Intermission (<strong><em>ADS</em></strong>)
-        <template v-if="currentRunDelay.data!.audio">
-          ({{ (currentRunDelay.data!.audio / 1000).toFixed(1) }}s delay)
+        <template v-if="currentRunDelay.data?.audio">
+          ({{ (currentRunDelay.data?.audio / 1000).toFixed(1) }}s delay)
         </template>
       </v-btn>
       <v-btn
@@ -101,7 +105,7 @@ function changeScene(scene: string): void {
         :disabled="disableButton(obsConfig.names.scenes.gameLayout)"
       >
         Transition to Run
-        <template v-if="currentRunDelay.data!.audio">
+        <template v-if="currentRunDelay.data?.audio">
           ({{ (currentRunDelay.data!.audio / 1000).toFixed(1) }}s delay)
         </template>
       </v-btn>

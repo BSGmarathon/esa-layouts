@@ -143,7 +143,7 @@
       {
         "name": "video-matrix",
         "title": "Game Feed Matrix",
-        "width": 5,
+        "width": 8,
         "file": "video-matrix/main.html",
         "workspace": "BSG Graphics",
         "headerColor": "#DB3A34"

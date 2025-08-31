@@ -51,7 +51,7 @@ function backupTimer(): void {
   }
 }
 
-watch(() => originalTimer.value, () => {
+watch(() => originalTimer.data, () => {
   // Backup timer (see above).
   clearTimeout(backupTimerTO.value);
   backupTimerTO.value = window.setTimeout(() => backupTimer(), 1000);
