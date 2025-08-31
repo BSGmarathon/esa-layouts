@@ -61,7 +61,7 @@ watch(() => timer.data!, (newTimer?: Timer) => {
   if (newTimer) {
     timeStr.value = newTimer.time;
   }
-}, { immediate: true });
+}, { immediate: true, deep: true });
 </script>
 
 <template>
