@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { additionalDonations, donationTotal } from '@esa-layouts/browser_shared/replicant_store';
-import { formatUSD } from '@esa-layouts/graphics/_misc/helpers';
+import { formatUSD, wait } from '@esa-layouts/graphics/_misc/helpers';
 import gsap from 'gsap';
 import { round } from 'lodash';
-import {computed, onMounted, ref} from 'vue';
-import { wait } from '@esa-layouts/graphics/_misc/helpers';
+import { computed, onMounted, ref } from 'vue';
 
 const emit = defineEmits<{
   totalUpdate: [newTotal: number],
@@ -32,7 +31,7 @@ const rawTotal = computed(
   () => round((donationTotal.data ?? 0) + additionalDonationsAmount.value, 2),
 );
 
-const totalStr = computed(() => formatUSD(rawTotal.value));
+const totalStr = computed(() => formatUSD(total.value));
 
 async function playNextAlert(start = false): Promise<void> {
   nodecg.sendMessage('donationAlertsLogging', `playNextAlert called (start: ${start})`);
@@ -199,8 +198,14 @@ onMounted(async () => {
   background: var(--bsg-color);
 
   --arrow-setting: 50px;
-  clip-path: polygon(100% 0%, 80% 50%, 100% 100%,
-    var(--arrow-setting) 100%, 10% 50%, var(--arrow-setting) 0%);
+  clip-path: polygon(
+      100% 0%,
+      100% 50%,
+      100% 100%,
+      var(--arrow-setting) 100%,
+      10% 50%,
+      var(--arrow-setting) 0%
+  );
 }
 
 .dash_seg_1 {
