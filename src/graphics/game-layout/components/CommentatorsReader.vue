@@ -74,6 +74,7 @@ onUnmounted(() => {
         height: '43px',
         'justify-content': 'center',
         'align-items': 'center',
+        overflow: 'hidden',
       }"
     >
       <div

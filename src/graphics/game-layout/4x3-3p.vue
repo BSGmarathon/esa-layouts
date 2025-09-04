@@ -9,63 +9,81 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
 </script>
 
 <template>
-  <div class="bsglayout _4x3_3p">
+  <div class="bsglayout">
     <!-- Game Captures -->
-    <GameCapture
-      id="GameCapture1"
-      class=" BlockRed"
-      :slot-no="0"
+    <div
+      class="Fixed BorderRight"
       :style="{
+        left: '0px',
+        top: '0px',
+        width: '660px',
+        height: '100%',
+    }">
+      <GameCapture
+        id="GameCapture1"
+        class="BorderBottom"
+        :slot-no="0"
+        :style="{
         left: '0px',
         top: '0px',
         width: '660px',
         height: '496px',
       }"
-    />
-    <GameCapture
-      id="GameCapture2"
-      class=" BlockRed"
-      finish-time-pos="bottomright"
-      :slot-no="1"
+      />
+      <GameCapture
+        id="GameCapture3"
+        :slot-no="2"
+        :style="{
+        left: '0px',
+        top: '502px',
+        width: '660px',
+        height: '496px',
+      }"
+      />
+    </div>
+
+    <div
+      class="Fixed BorderLeft"
       :style="{
+        left: '1260px',
+        top: '0px',
+        width: '660px',
+        height: '100%',
+    }">
+      <GameCapture
+        id="GameCapture2"
+        class="BorderBottom"
+        finish-time-pos="bottomright"
+        :slot-no="1"
+        :style="{
         left: '1260px',
         top: '0px',
         width: '660px',
         height: '496px',
       }"
-    />
-    <GameCapture
-      id="GameCapture3"
-      class="BlockRed"
-      :slot-no="2"
-      :style="{
-        left: '0px',
+      />
+
+      <!-- Camera Captures -->
+      <div
+        id="CameraCapture1"
+        class="Capture Relative"
+        :style="{
+        left: '1260px',
         top: '502px',
         width: '660px',
         height: '496px',
       }"
-    />
-
-    <!-- Camera Captures -->
-    <div
-      id="CameraCapture1"
-      class="Capture BlockBlue Relative"
-      :style="{
-        left: '1258px',
-        top: '502px',
-        width: '662px',
-        height: '496px',
-      }"
-    />
+      />
+    </div>
 
     <!-- General Run Info -->
 
     <!-- Players -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderBottom BorderRight"
       :style="{
-      left: '675px',
-      top: '338px',
+      left: '665px',
+      top: '333px',
       width: '512px',
       height: '44px',
       }"
@@ -74,10 +92,10 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     </div>
 
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderBottom BorderLeft BorderTop"
       :style="{
-      left: '729px',
-      top: '453px',
+      left: '738px',
+      top: '448px',
       width: '517px',
       height: '44px',
       }"
@@ -86,9 +104,20 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     </div>
 
     <div
-      class="Fixed FlexColumn"
+      class="Fixed"
       :style="{
-      left: '675px',
+        top: '506px',
+        left: '665px',
+        width: '595px',
+      }"
+    >
+      <FlashingLightsWarning />
+    </div>
+
+    <div
+      class="Fixed FlexColumn BorderBottom BorderTop BorderRight"
+      :style="{
+      left: '665px',
       top: '574px',
       width: '512px',
       height: '44px',
@@ -101,34 +130,33 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     <div
       class="Fixed FlexColumn"
       :style="{
-        left: '675px',
+        left: '665px',
         top: '0px',
-        width: '571px',
+        width: '595px',
         height: '333px',
       }"
     >
-      <RunInfo line-left line-right />
-      <CommentatorsReader line-top show-reader />
-      <CommentatorsReader line-top />
+      <RunInfo class="BorderBottom" line-left line-right />
+      <CommentatorsReader class="BorderBottom" line-top show-reader />
+      <CommentatorsReader class="BorderBottom" line-top />
     </div>
 
     <!-- Timer/Media Box -->
     <div
       class="Fixed FlexColumn"
       :style="{
-        left: '675px',
+        left: '665px',
         top: '681px',
-        width: '571px',
+        width: '595px',
         height: '317px',
       }"
     >
-      <Timer line-right line-left />
-      <FlashingLightsWarning />
+      <Timer class="BorderBottom BorderTop" line-right line-left />
       <MediaBoxBox
         line-left
         line-right
         :style="{
-          width: '571px',
+          width: '595px',
           height: '100%',
         }"
       />
