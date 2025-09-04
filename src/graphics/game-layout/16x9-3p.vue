@@ -48,24 +48,34 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       }"
     />
 
-    <!-- Camera Captures -->
+    <!-- Media Box -->
     <div
-      id="CameraCapture1"
-      class="Capture Flex Relative"
+      class="Fixed FlexColumn"
       :style="{
-        left: '736px',
+        left: '717px',
         top: '0px',
-        width: '446px',
-        height: '323px',
+        width: '483px',
+        height: '350px',
       }"
-    />
+    >
+      <MediaBoxBox
+        vertical
+        line-left
+        line-right
+        :style="{
+          width: '483px',
+          height: '100%',
+        }"
+      />
+      <FlashingLightsWarning />
+    </div>
 
     <!-- Timer -->
     <div
       class="Fixed FlexColumn BorderTop BorderBottom"
       :style="{
         left: '717px',
-        top: '330px',
+        top: '349px',
         width: '483px',
         height: '100px',
       }"
@@ -110,40 +120,31 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       <Player :slot-no="2"/>
     </div>
 
-    <!-- Run Game Info / Reader / Commentators -->
+    <!-- Camera Captures -->
     <div
-      class="Fixed FlexColumn BorderTop"
+      id="CameraCapture1"
+      class="Capture Flex Relative BorderTop"
       :style="{
         left: '0px',
         top: '600px',
         width: '602px',
         height: '393px',
       }"
-    >
-      <RunInfo class="BorderBottom" line-right />
-      <CommentatorsReader class="BorderBottom" line-top />
-      <CommentatorsReader line-top show-reader />
-    </div>
+    />
 
-    <!-- Media Box -->
+    <!-- Run Game Info / Reader / Commentators -->
     <div
       class="Fixed FlexColumn BorderTop"
       :style="{
         left: '1325px',
         top: '600px',
-        width: '602px',
+        width: '595px',
         height: '393px',
       }"
     >
-      <FlashingLightsWarning />
-      <MediaBoxBox
-        vertical
-        line-left
-        :style="{
-          width: '602px',
-          height: '100%',
-        }"
-      />
+      <RunInfo class="BorderBottom" line-left />
+      <CommentatorsReader class="BorderBottom" line-top />
+      <CommentatorsReader line-top show-reader />
     </div>
   </div>
 </template>
