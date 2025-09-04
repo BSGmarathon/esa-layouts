@@ -49,13 +49,14 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     />
 
     <!-- Media Box -->
+    <!-- Timer -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderBottom"
       :style="{
         left: '717px',
         top: '0px',
         width: '483px',
-        height: '350px',
+        height: '405px',
       }"
     >
       <MediaBoxBox
@@ -68,19 +69,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         }"
       />
       <FlashingLightsWarning />
-    </div>
-
-    <!-- Timer -->
-    <div
-      class="Fixed FlexColumn BorderTop BorderBottom"
-      :style="{
-        left: '717px',
-        top: '349px',
-        width: '483px',
-        height: '100px',
-      }"
-    >
-      <Timer line-right line-left />
+      <Timer class="BorderTop" line-right line-left />
     </div>
 
     <!-- Players -->
