@@ -102,7 +102,7 @@ import CommentatorsList from './components/CommentatorsList.vue';
       }"
       >
 <!--        <CommentatorsList class="BorderTop BorderBottom" />-->
-         <CommentatorsReader class="BorderTop BorderBottom"/>
+        <CommentatorsReader class="BorderTop BorderBottom"/>
         <CommentatorsReader class="BorderBottom" show-reader/>
         <FlashingLightsWarning/>
         <MediaBoxBox
