@@ -51,6 +51,9 @@ withDefaults(defineProps<{
 }
 
 .MBNoPadding {
+  box-sizing: border-box;
   position: relative !important;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 </style>
