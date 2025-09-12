@@ -44,6 +44,7 @@ import CommentatorsList from './components/CommentatorsList.vue';
       >
         <Timer
           class="TimerFH"
+          top-margin="15px"
           line-right
           line-left
           :line-bottom="false"
