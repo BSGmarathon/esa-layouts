@@ -9,7 +9,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
 </script>
 
 <template>
-<div class="bsglayout _gb_1p">
+  <div class="bsglayout">
     <!-- Game Captures -->
     <GameCapture
       id="GameCapture1"
@@ -21,65 +21,74 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       }"
     />
 
+    <!-- Border on the elements, the lazy way -->
+    <div
+      class="Fixed BorderRight"
+      :style="{
+        top: '0px',
+        left: '0px',
+        width: '576px',
+        height: '100%',
+      }"
+    />
+
+    <!-- Run Game Info -->
+    <div
+      class="Flex FlexColumn BorderBottom"
+      :style="{
+        left: '0px',
+        top: '0px',
+        width: '576px',
+        height: '250px',
+        'justify-content': 'space-between',
+      }"
+    >
+      <RunInfo line-right/>
+      <FlashingLightsWarning class="Flex" style="align-self: flex-end"/>
+    </div>
+
     <!-- Camera Captures -->
     <div
       id="CameraCapture1"
       class="Capture Relative"
       :style="{
         left: '0px',
-        top: '336px',
+        top: '250px',
         width: '576px',
         height: '347px',
-    }"/>
+      }
+    "/>
 
-  <!-- Run Game Info -->
-  <div
-    class="Flex FlexColumn"
-    :style="{
+    <div
+      class="Fixed FlexColumn BorderTop BorderBottom"
+      :style="{
         left: '0px',
-        top: '0px',
-        width: '576px',
-        height: '281px',
-        'justify-content': 'space-between',
-    }"
-  >
-    <RunInfo line-right />
-    <FlashingLightsWarning class="Flex" style="align-self: flex-end" />
-  </div>
-
-  <div
-    class="Fixed FlexColumn"
-    :style="{
-    left: '0px',
-    top: '286px',
-    width: '575px',
-    height: '44px',
-    }"
-  >
-    <Player />
-  </div>
+        top: '595px',
+        width: '580px',
+        height: '44px',
+      }"
+      >
+      <Player/>
+    </div>
 
     <!--host, comms, timer, and mediabox-->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderRight"
       :style="{
         flex: '1',
         left: '0px',
-        top: '688px',
+        top: '649px',
         width: '575px',
-        // height: '322px',
-        height: '310px',
+        height: '350px',
       }"
     >
-      <CommentatorsReader />
-      <CommentatorsReader show-reader />
-      <Timer line-right />
+      <CommentatorsReader class="BorderBottom" />
+      <CommentatorsReader class="BorderBottom" show-reader/>
+      <Timer top-margin="10px" class="BorderBottom" line-right/>
       <MediaBoxBox
         line-right
         :style="{
           width: '575px',
-          // height: '109px',
-          // height: '118px',
           height: '100%',
         }"
       />

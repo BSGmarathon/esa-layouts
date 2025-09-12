@@ -28,8 +28,8 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
           height: '500px',
         }"
       />
-      <CommentatorsReader class="BorderBottom" line-top show-reader />
-      <CommentatorsReader class="BorderBottom" line-top line-bottom />
+      <CommentatorsReader class="BorderBottom" />
+      <CommentatorsReader class="BorderBottom" show-reader />
       <Timer
         top-margin="10px"
         line-bottom
