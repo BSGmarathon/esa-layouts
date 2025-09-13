@@ -26,7 +26,6 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       id="CameraCapture1"
       class="Capture Relative"
       :style="{
-        background: 'green',
         left: '0px',
         top: '286px',
         width: '585px',
@@ -84,7 +83,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     >
       <CommentatorsReader class="BorderTop" />
       <CommentatorsReader class="BorderTop" show-reader />
-      <Timer class="BorderTop" line-right />
+      <Timer top-margin="8px" class="BorderTop" line-right />
       <MediaBoxBox
         line-right
         class="BorderTop"
