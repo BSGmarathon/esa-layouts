@@ -14,10 +14,10 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     <GameCapture
       id="GameCapture1"
       :style="{
-      left: '598px',
-      top: '58px',
-      width: '1322px',
-      height: '881px',
+        left: '598px',
+        top: '58px',
+        width: '1322px',
+        height: '881px',
       }"
     />
 
@@ -26,15 +26,27 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       id="CameraCapture1"
       class="Capture Relative"
       :style="{
+        background: 'green',
         left: '0px',
-        top: '336px',
+        top: '286px',
         width: '585px',
         height: '347px',
     }"/>
 
+    <!-- Right text border -->
+    <div
+      class="Fixed BorderRight"
+      :style="{
+        top: '0px',
+        left: '0px',
+        width: '585px',
+        height: '650px',
+      }"
+    />
+
     <!-- Run Game Info -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderBottom"
       :style="{
         left: '0px',
         top: '0px',
@@ -48,10 +60,10 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     </div>
 
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderTop BorderRight"
       :style="{
       left: '0px',
-      top: '286px',
+      top: '630px',
       width: '585px',
       height: '44px',
       }"
@@ -61,20 +73,21 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
 
     <!--host, comms, timer, and mediabox-->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderRight"
       :style="{
         flex: '1',
         left: '0px',
-        top: '688px',
+        top: '679px',
         width: '585px',
-        height: '310px',
+        height: '320px',
       }"
     >
-      <CommentatorsReader />
-      <CommentatorsReader show-reader />
-      <Timer line-right />
+      <CommentatorsReader class="BorderTop" />
+      <CommentatorsReader class="BorderTop" show-reader />
+      <Timer class="BorderTop" line-right />
       <MediaBoxBox
         line-right
+        class="BorderTop"
         :style="{
           width: '585px',
           height: '100%',
