@@ -17,77 +17,97 @@ function flashingLightsUpdated(newVal: boolean): void {
 
 <template>
   <div class="bsglayout _gb_2p">
-    <!-- Game Captures -->
-    <GameCapture
-      id="GameCapture1"
-      class=""
-      :slot-no="0"
+    <div
+      class="Fixed BorderBottom"
       :style="{
-      left: '88px',
-      top: '0px',
-      width: '793px',
-      height: '714px',
+        left: '0px',
+        top: '0px',
+        width: '100%',
+        height: '714px',
       }"
-    />
+    >
+      <!-- Game Captures -->
+      <GameCapture
+        id="GameCapture1"
+        class=""
+        :slot-no="0"
+        :style="{
+          left: '88px',
+          top: '0px',
+          width: '793px',
+          height: '714px',
+        }"
+      />
 
-    <GameCapture
-      id="GameCapture2"
-      :slot-no="1"
-      finish-time-pos="bottomright"
-      :style="{
-      left: '1046px',
-      top: '0px',
-      width: '792px',
-      height: '714px',
-      }"
-    />
+      <div
+        class="Fixed BorderRight"
+        :style="{
+          top: '0px',
+          left: '0px',
+          width: '960px',
+          height: '714px',
+        }"
+      />
+
+      <GameCapture
+        id="GameCapture2"
+        :slot-no="1"
+        finish-time-pos="bottomright"
+        :style="{
+          left: '1046px',
+          top: '0px',
+          width: '792px',
+          height: '714px',
+        }"
+      />
+    </div>
 
     <!-- Camera Captures -->
     <div
       id="CameraCapture1"
       class="Capture Relative"
       :style="{
-      left: '720px',
-      top: '831px',
-      width: '480px',
-      height: '167px',
+      left: '715px',
+      top: '820px',
+      width: '490px',
+      height: '177px',
       }"
     />
 
     <!-- Player 1 -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderRight BorderBottom"
       :style="{
-      left: '0px',
-      top: '732px',
-      width: '710px',
-      height: '45px'
+        left: '0px',
+        top: '719px',
+        width: '710px',
+        height: '45px'
       }"
     >
       <Player :slot-no="0"/>
     </div>
 
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderBottom"
       :style="{
-      flex: '1',
-      left: '715px',
-      top: '732px',
-      width: '490px',
-      height: '96px',
-    }"
+        flex: '1',
+        left: '715px',
+        top: '719px',
+        width: '490px',
+        height: '96px',
+      }"
     >
-      <Timer line-left line-right/>
+      <Timer top-margin="3px" line-left line-right/>
     </div>
 
     <!-- Player 2 -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderLeft BorderBottom"
       :style="{
-      left: '1210px',
-      top: '732px',
-      width: '710px',
-      height: '45px'
+        left: '1205px',
+        top: '719px',
+        width: '710px',
+        height: '45px'
       }"
     >
       <Player :slot-no="1"/>
@@ -95,15 +115,15 @@ function flashingLightsUpdated(newVal: boolean): void {
 
     <!-- Run Game Info/warning -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderLeft"
       :style="{
-        left: '1210px',
-        top: '782px',
+        left: '1205px',
+        top: '769px',
         width: '710px',
-        height: '216px',
+        height: '229px',
         }"
     >
-      <RunInfo line-right text-align="flex-start" :info-is-row="infoIsRow" />
+      <RunInfo line-left text-align="flex-start" :info-is-row="infoIsRow" />
       <FlashingLightsWarning
         class="Flex"
         @flashing-lights-updated="flashingLightsUpdated"
@@ -111,23 +131,23 @@ function flashingLightsUpdated(newVal: boolean): void {
     </div>
 
     <!-- Media box / commentator / donation reader -->
-    <div class="Fixed FlexColumn"
+    <div class="Fixed FlexColumn BorderRight"
          :style="{
         left: '0px',
-        top: '782px',
+        top: '769px',
         width: '710px',
-        height: '216px',
+        height: '229px',
         }"
     >
       <MediaBoxBox
-        line-left
+        line-Right
         :style="{
           width: '710px',
           height: '100%',
         }"
       />
-      <CommentatorsReader line-top />
-      <CommentatorsReader line-top show-reader />
+      <CommentatorsReader class="BorderTop" />
+      <CommentatorsReader class="BorderTop" show-reader />
     </div>
   </div>
 </template>
