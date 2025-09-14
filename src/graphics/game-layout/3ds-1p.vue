@@ -9,11 +9,11 @@ import Timer from './components/Timer.vue';
 </script>
 
 <template>
-  <div class="bsglayout _3ds_1p">
+  <div class="bsglayout">
     <!-- Game Captures -->
     <GameCapture
       id="GameCapture1"
-      class=""
+      class="BorderBottom"
       :style="{
         left: '574px',
         top: '0px',
@@ -23,12 +23,22 @@ import Timer from './components/Timer.vue';
     />
     <GameCapture
       id="GameCapture3"
-      class=""
       :style="{
         left: '0px',
-        top: '594px',
-        width: '550px',
-        height: '404px',
+        top: '573px',
+        width: '569px',
+        height: '426px', // 15 px missing
+      }"
+    />
+
+    <!-- Side border -->
+    <div
+      class="Fixed BorderRight"
+      :style="{
+        left: '16px',
+        top: '0px',
+        width: '553px',
+        height: '100%',
       }"
     />
 
@@ -39,49 +49,49 @@ import Timer from './components/Timer.vue';
       :style="{
         left: '0px',
         top: '0px',
-        width: '553px',
-        height: '319px',
+        width: '569px',
+        height: '316px',
       }"
     />
 
     <!-- Player -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderTop"
       :style="{
         left: '0px',
-        top: '331px',
-        width: '559px',
+        top: '316px',
+        width: '569px',
         height: '44px',
       }"
     >
-      <Player />
+      <Player/>
     </div>
 
     <!--host, comms, timer-->
-    <div class="Fixed FlexColumn"
-         :style="{
-          left: '0px',
-          top: '380px',
-          width: '559px',
-          height: '203px',
-        }"
+    <div
+      class="Fixed FlexColumn BorderTop"
+      :style="{
+        left: '0px',
+        top: '365px',
+        width: '569px',
+        height: '203px',
+      }"
     >
-      <CommentatorsReader />
-      <CommentatorsReader show-reader/>
-      <Timer line-right/>
+      <CommentatorsReader class="BorderBottom"/>
+      <CommentatorsReader class="BorderBottom" show-reader/>
+      <Timer line-right class="BorderBottom"/>
     </div>
 
     <!-- Media Box -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderRight BorderLeft"
       :style="{
-        left: '564px',
-        top: '822px',
+        left: '569px',
+        top: '813px',
         width: '641px',
-        height: '176px',
+        height: '185px',
       }"
     >
-      <FlashingLightsWarning class="Flex" style="align-self: flex-start" />
       <MediaBoxBox
         line-right
         line-left
@@ -90,19 +100,20 @@ import Timer from './components/Timer.vue';
           height: '100%',
         }"
       />
+      <FlashingLightsWarning class="Flex" style="align-self: flex-end"/>
     </div>
 
     <!-- Run Game Info -->
     <div
       class="Fixed FlexColumn"
       :style="{
-        left: '1210px',
-        top: '822px',
-        width: '710px',
-        height: '176px',
+        left: '1220px',
+        top: '813px',
+        width: '700px',
+        height: '185px',
       }"
     >
-      <RunInfo line-right info-is-row text-align="left"/>
+      <RunInfo line-left info-is-row text-align="left"/>
     </div>
   </div>
 </template>

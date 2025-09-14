@@ -97,7 +97,7 @@ function flashingLightsUpdated(newVal: boolean): void {
         height: '96px',
       }"
     >
-      <Timer top-margin="3px" line-left line-right/>
+      <Timer line-left line-right/>
     </div>
 
     <!-- Player 2 -->

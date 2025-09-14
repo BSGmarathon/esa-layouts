@@ -84,7 +84,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     >
       <CommentatorsReader class="BorderBottom" />
       <CommentatorsReader class="BorderBottom" show-reader/>
-      <Timer top-margin="10px" class="BorderBottom" line-right/>
+      <Timer class="BorderBottom" line-right/>
       <MediaBoxBox
         line-right
         :style="{
