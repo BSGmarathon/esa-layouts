@@ -8,86 +8,81 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
 </script>
 
 <template>
-  <div class="bsglayout _ds_1p">
+  <div class="bsglayout">
     <!-- Game Captures -->
     <GameCapture
       id="GameCapture1"
       :style="{
-      left: '589px',
-      top: '0px',
-      width: '1331px',
-      height: '998px',
+        left: '589px',
+        top: '0px',
+        width: '1331px',
+        height: '998px',
       }"
     />
     <GameCapture
       id="GameCapture3"
+      class="BorderLeft BorderRight"
       :style="{
-      left: '101px',
-      top: '709px',
-      width: '386px',
-      height: '289px',
+        left: '83px',
+        top: '689px',
+        width: '412px',
+        height: '309px',
       }"
     />
 
     <!-- Camera Captures -->
     <div
       id="CameraCapture1"
-      class="Capture Relative"
+      class="Capture Relative BorderRight"
       :style="{
-      left: '0px',
-      top: '299px',
-      width: '567px',
-      height: '236px',
+        left: '0px',
+        top: '200px',
+        width: '584px',
+        height: '236px',
       }"
     >
       <FlashingLightsWarning />
     </div>
 
-    <!-- Run Game Info / Reader / Commentators -->
+    <!-- Run Game Info -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderRight"
       :style="{
-      left: '0px',
-      top: '0px',
-      width: '575px',
-      height: '285px',
+        left: '0px',
+        top: '0px',
+        width: '584px',
+        height: '200px',
       }"
     >
-      <RunInfo line-right line-left />
-      <CommentatorsReader line-top show-reader />
-      <CommentatorsReader line-top />
+      <RunInfo class="BorderBottom" line-right />
     </div>
 
-    <!-- Player -->
+    <!-- Player / Reader / Commentators -->
     <div
-      class="Fixed"
+      class="Fixed BorderTop BorderRight"
       :style="{
-      left: '0px',
-      top: '547px',
-      width: '575px',
-      height: '45px',
+        left: '0px',
+        top: '436px',
+        width: '584px',
+        height: '45px',
       }"
     >
-      <Player />
+      <Player class="BorderBottom" />
     </div>
 
     <!--TIMER-->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderRight"
       :style="{
         left: '0px',
-        top: '597px',
-        width: '575px',
-        height: '101px',
+        top: '486px',
+        width: '584px',
+        height: '100%',
       }"
     >
-      <Timer
-        class="TimerFH"
-        top-margin="5px"
-        line-left
-        line-right
-        :line-bottom="false"
-      />
+      <CommentatorsReader class="BorderBottom" />
+      <CommentatorsReader class="BorderBottom" show-reader />
+      <Timer class="BorderBottom" line-right />
     </div>
   </div>
 </template>
