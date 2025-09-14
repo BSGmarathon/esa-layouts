@@ -12,6 +12,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
     <!-- Game Captures -->
     <GameCapture
       id="GameCapture1"
+      class="BorderBottom BorderRight"
       :slot-no="0"
       :style="{
         left: '0px',
@@ -22,6 +23,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
     />
     <GameCapture
       id="GameCapture3"
+      class="BorderRight"
       :slot-no="0"
       :style="{
         left: '0px',
@@ -32,10 +34,11 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
     />
     <GameCapture
       id="GameCapture2"
+      class="BorderBottom BorderLeft"
       finish-time-pos="bottomright"
       :slot-no="1"
       :style="{
-        left: '1259px',
+        left: '1254px',
         top: '0px',
         width: '661px',
         height: '497px',
@@ -44,9 +47,10 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
     <GameCapture
       id="GameCapture4"
       :slot-no="1"
+      class="BorderLeft"
       finish-time-pos="bottomright"
       :style="{
-        left: '1259px',
+        left: '1254px',
         top: '502px',
         width: '661px',
         height: '496px',
@@ -58,21 +62,21 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       id="CameraCapture1"
       class="Capture Relative"
       :style="{
-      left: '686px',
-      top: '618px',
-      width: '549px',
-      height: '380px',
+        left: '664px',
+        top: '613px',
+        width: '590px',
+        height: '385px',
       }"
     />
 
     <!-- Player 1 -->
     <div
-      class="Fixed"
+      class="Fixed BorderBottom BorderRight"
       :style="{
-      left: '676px',
-      top: '314px',
-      width: '504px',
-      height: '44px'
+        left: '664px',
+        top: '314px',
+        width: '504px',
+        height: '44px',
       }"
     >
       <Player :slot-no="0" />
@@ -80,12 +84,12 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
 
     <!-- Player 2 -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderTop BorderLeft"
       :style="{
-      left: '737px',
-      top: '453px',
-      width: '507px',
-      height: '44px'
+        left: '745px',
+        top: '453px',
+        width: '507px',
+        height: '44px'
       }"
     >
       <Player :slot-no="1" />
@@ -93,26 +97,26 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
 
     <!-- Run Game Info/Commentators/Reader -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderBottom"
       :style="{
-        left: '676px',
+        left: '664px',
         top: '0px',
-        width: '568px',
+        width: '590px',
         height: '309px',
       }"
     >
       <RunInfo line-right line-left />
-      <CommentatorsReader line-top show-reader />
-      <CommentatorsReader line-top />
+      <CommentatorsReader class="BorderTop" />
+      <CommentatorsReader class="BorderTop" show-reader />
     </div>
 
     <!-- Run Game Info/Commentators/Reader -->
     <div
       class="Fixed FlexColumn"
       :style="{
-        left: '676px',
-        top: '365px',
-        width: '568px',
+        left: '664px',
+        top: '375px',
+        width: '590px',
         height: '90px',
       }"
     >
@@ -120,13 +124,13 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
     </div>
 
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderTop BorderBottom"
       :style="{
-          left: '676px',
-          top: '502px',
-          width: '568px',
-          height: '101px',
-        }"
+        left: '664px',
+        top: '502px',
+        width: '590px',
+        height: '101px',
+      }"
     >
       <Timer line-left line-right />
     </div>
