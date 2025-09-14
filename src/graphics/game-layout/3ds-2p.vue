@@ -9,145 +9,136 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
 </script>
 
 <template>
-  <div class="bsglayout _3ds_2p">
+  <div class="bsglayout">
     <!-- Game Captures -->
     <GameCapture
       id="GameCapture1"
       :slot-no="0"
       :style="{
         left: '0px',
-        top: '180px',
-        width: '660px',
-        height: '394px'
+        top: '118px',
+        width: '738px',
+        height: '415px',
       }"
     />
     <GameCapture
       id="GameCapture3"
+      class="BorderLeft BorderRight"
       :slot-no="0"
       :style="{
         left: '66px',
-        top: '602px',
-        width: '530px',
-        height: '396px'
+        top: '587px',
+        width: '548px',
+        height: '411px',
       }"
     />
+
+    <!-- Game feed 2 border top -->
+    <div
+      class="Fixed FlexColumn BorderBottom"
+      :style="{
+        left: '1182px',
+        top: '15px',
+        width: '738px',
+        height: '98px'
+      }"
+    />
+
     <GameCapture
       id="GameCapture2"
       finish-time-pos="bottomright"
       :slot-no="1"
       :style="{
-        left: '1261px',
-        top: '178px',
-        width: '660px',
-        height: '398px'
+        left: '1182px',
+        top: '118px',
+        width: '738px',
+        height: '415px',
       }"
     />
     <GameCapture
       id="GameCapture4"
+      class="BorderLeft BorderRight"
       :slot-no="1"
       finish-time-pos="bottomright"
       :style="{
-        left: '1326px',
-        top: '601px',
-        width: '530px',
-        height: '397px'
+        left: '1290px',
+        top: '587px',
+        width: '548px',
+        height: '411px',
       }"
     />
 
     <!-- Camera Captures -->
     <div
       id="CameraCapture1"
-      class="Capture Relative"
+      class="Capture Relative BorderLeft BorderRight"
       :style="{
-        left: '686px',
-        top: '600px',
-        width: '547px',
-        height: '398px'
+        left: '738px',
+        top: '585px',
+        width: '434px',
+        height: '413px',
       }"
     />
 
     <!-- Reader -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderBottom"
       :style="{
         left: '0px',
-        top: '20px',
-        width: '671px',
-        height: '94px'
+        top: '15px',
+        width: '738px',
+        height: '98px'
       }"
     >
-      <CommentatorsReader line-top show-reader/>
-      <CommentatorsReader line-top/>
+      <CommentatorsReader class="BorderTop" show-reader />
+      <CommentatorsReader class="BorderTop" />
     </div>
 
     <!-- Player 1 -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderTop BorderBottom"
       :style="{
         left: '0px',
-        top: '118px',
-        width: '671px',
-        height: '44px'
+        top: '533px',
+        width: '738px',
+        height: '44px',
       }"
     >
       <Player :slot-no="0"/>
     </div>
 
-    <!-- Commentators -->
-    <div
-      class="Fixed FlexColumn"
-      :style="{
-        left: '1249px',
-        top: '69px',
-        width: '671px',
-        height: '44px'
-      }"
-    />
-
     <!-- Player 2 -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderTop BorderBottom"
       :style="{
-        left: '1249px',
-        top: '118px',
-        width: '671px',
+        left: '1182px',
+        top: '533px',
+        width: '738px',
         height: '44px'
       }"
     >
       <Player :slot-no="1"/>
     </div>
 
-    <!-- Run Game Info TODO: cleanup -->
-<!--    <div
-      class="Fixed FlexColumn"
-      :style="{
-          left: '678px',
-          top: '18px',
-          width: '528px',
-          height: '285px',
-        }"
-    >
-      <run-info line-right line-left />
-    </div>-->
-
     <!-- Run Game Info / Reader / Commentators / Timer / Media Box -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderLeft BorderRight BorderBottom"
       :style="{
-          left: '676px',
-          top: '0px',
-          width: '568px',
-          height: '587px',
-        }"
+        left: '738px',
+        top: '0px',
+        width: '434px',
+        height: '582px',
+      }"
     >
       <RunInfo line-right line-left />
       <FlashingLightsWarning />
-      <Timer border-top line-left line-right />
+      <Timer class="BorderTop" line-left line-right />
       <MediaBoxBox
         line-right
         line-left
+        class="BorderTop"
         :style="{
-          width: '568px',
+          width: '434px',
           height: '80%',
         }"
       />

@@ -39,7 +39,6 @@ withDefaults(defineProps<{
   position: relative;
   width: 100%;
   justify-content: center;
-  //background: orange;
 }
 
 .right-line {

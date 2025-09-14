@@ -10,7 +10,7 @@ import Timer from './components/Timer.vue';
 
 <template>
   <div class="bsglayout">
-    <!-- Game Captures -->
+    <!-- Game Captures, 3ds is actually 15:9 or 5:3. 16:9 is close enough -->
     <GameCapture
       id="GameCapture1"
       class="BorderBottom"
