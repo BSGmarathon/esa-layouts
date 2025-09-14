@@ -8,7 +8,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
 </script>
 
 <template>
-  <div class="bsglayout _ds_2p">
+  <div class="bsglayout">
     <!-- Game Captures -->
     <GameCapture
       id="GameCapture1"
