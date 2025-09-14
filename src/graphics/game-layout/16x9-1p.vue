@@ -6,7 +6,6 @@ import RunInfo from './components/RunInfo.vue';
 import Timer from './components/Timer.vue';
 import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
 import MediaBoxBox from './components/MediaBoxBox.vue';
-import CommentatorsList from './components/CommentatorsList.vue';
 </script>
 
 <template>
@@ -14,7 +13,6 @@ import CommentatorsList from './components/CommentatorsList.vue';
     <!-- Game Captures -->
     <GameCapture
       id="GameCapture1"
-      class="BorderNone"
       :style="{
         left: '483px',
         top: '0px',
@@ -26,20 +24,20 @@ import CommentatorsList from './components/CommentatorsList.vue';
     <div
       class="Flex Fixed BorderTop"
       :style="{
-        left: '474px',
-        top: '822px',
-        width: '1445px',
-        height: '176px',
+        left: '483px',
+        top: '811px',
+        width: '1437px',
+        height: '185px',
       }"
     >
       <!-- Timer -->
       <div
         class="Fixed FlexColumn BorderRight"
         :style="{
-          left: '474px',
-          top: '827px',
+          left: '483px',
+          top: '816px',
           width: '731px',
-          height: '171px',
+          height: '181px',
         }"
       >
         <Timer
@@ -47,7 +45,6 @@ import CommentatorsList from './components/CommentatorsList.vue';
           top-margin="15px"
           line-right
           line-left
-          :line-bottom="false"
         />
       </div>
 
@@ -55,30 +52,33 @@ import CommentatorsList from './components/CommentatorsList.vue';
       <div
         class="Fixed FlexColumn"
         :style="{
-        left: '1210px',
-        top: '822px',
-        width: '710px',
-        height: '176px',
+          left: '1219px',
+          top: '816px',
+          width: '701px',
+          height: '181px',
       }"
       >
         <RunInfo text-align="left" info-is-row/>
       </div>
     </div>
 
-    <div class="Flex BorderRight" :style="{
-      height: '100%',
-      width: '469px',
-    }">
+    <div
+      class="Flex BorderRight"
+      :style="{
+        height: '100%',
+        width: '478px',
+      }"
+    >
       <!-- Camera Captures -->
       <div
         id="CameraCapture1"
         class="Capture Relative"
         :style="{
-        left: '0px',
-        top: '0px',
-        width: '462px',
-        height: '349px',
-      }"
+          left: '0px',
+          top: '0px',
+          width: '478px',
+          height: '361px',
+        }"
       />
 
       <div
@@ -86,7 +86,7 @@ import CommentatorsList from './components/CommentatorsList.vue';
         :style="{
           left: '0px',
           top: '361px',
-          width: '469px',
+          width: '478px',
           height: '44px',
         }">
         <Player/>
@@ -98,7 +98,7 @@ import CommentatorsList from './components/CommentatorsList.vue';
         :style="{
         left: '0px',
         top: '410px',
-        width: '469px',
+        width: '478px',
         height: '588px',
       }"
       >
@@ -111,9 +111,9 @@ import CommentatorsList from './components/CommentatorsList.vue';
           line-right
           class="BorderTop1"
           :style="{
-          width: '469px',
-          height: '100%',
-        }"
+            width: '478px',
+            height: '100%',
+          }"
         />
       </div>
     </div>

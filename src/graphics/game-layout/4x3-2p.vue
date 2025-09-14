@@ -93,11 +93,12 @@ function flashingLightsUpdated(newVal: boolean): void {
     <div
       class="Fixed FlexColumn BorderLeft BorderRight BorderBottom"
       :style="{
-          left: '705px',
-          top: '720px',
-          width: '495px',
-          height: '94px',
-        }"
+        flex: 1,
+        left: '705px',
+        top: '720px',
+        width: '495px',
+        height: '94px',
+      }"
     >
       <Timer line-right line-left :style="{
         height: '100%',
