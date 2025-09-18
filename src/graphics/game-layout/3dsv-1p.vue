@@ -31,7 +31,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
         left: '790px',
         top: '0px',
         width: '907px',
-        height: '510px',
+        height: '544px',
       }"
     />
 
@@ -41,7 +41,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
         left: '574px',
         top: '0px',
         width: '100%',
-        height: '510px',
+        height: '544px',
       }"
     />
 
@@ -49,10 +49,10 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       id="GameCapture3"
       class="BorderLeft BorderRight"
       :style="{
-        left: '925px',
-        top: '515px',
-        width: '644px',
-        height: '483px',
+        left: '950px',
+        top: '549px',
+        width: '599px',
+        height: '449px',
       }"
     />
 
@@ -81,43 +81,19 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       <Player/>
     </div>
 
-    <!-- Host/comms -->
+    <!-- Comms / Host / timer / Media Box -->
     <div
-      class="Fixed FlexColumn BorderRight"
+      class="Fixed FlexColumn BorderTop BorderRight"
       :style="{
-        left: '0x',
+        left: '0px',
         top: '609px',
         width: '574px',
-        height: '97px',
+        height: '384px',
       }"
     >
-      <CommentatorsReader class="BorderTop" />
-      <CommentatorsReader class="BorderTop" show-reader />
-    </div>
-
-    <!--TIMER-->
-    <div
-      class="Fixed FlexColumn BorderTop BorderRight"
-      :style="{
-        left: '0px',
-        top: '706px',
-        width: '574px',
-        height: '106px',
-      }"
-    >
-      <Timer line-right line-bottom/>
-    </div>
-
-    <!-- Media Box -->
-    <div
-      class="Fixed FlexColumn BorderTop BorderRight"
-      :style="{
-        left: '0px',
-        top: '811px',
-        width: '574px',
-        height: '182px',
-      }"
-    >
+      <CommentatorsReader class="BorderBottom" />
+      <CommentatorsReader class="BorderBottom" show-reader />
+      <Timer class="BorderBottom" line-right line-bottom/>
       <FlashingLightsWarning class="Flex" style="align-self: flex-end" />
       <MediaBoxBox
         line-right

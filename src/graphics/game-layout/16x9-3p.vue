@@ -132,8 +132,8 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       }"
     >
       <RunInfo class="BorderBottom" line-left />
-      <CommentatorsReader class="BorderBottom" line-top />
-      <CommentatorsReader line-top show-reader />
+      <CommentatorsReader class="BorderBottom" />
+      <CommentatorsReader show-reader />
     </div>
   </div>
 </template>

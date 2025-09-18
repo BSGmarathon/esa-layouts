@@ -14,8 +14,8 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Fixed BorderBottom BorderTop"
       :style="{
         left: '0px',
-        top: '72px',
-        height: '536px',
+        top: '70px',
+        height: '538px',
         width: '100%',
       }"
     >
@@ -26,9 +26,9 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         :slot-no="0"
         :style="{
           left: '0px',
-          top: '77px',
+          top: '75px',
           width: '958px',
-          height: '536px',
+          height: '538px',
         }"
       />
       <GameCapture
@@ -37,9 +37,9 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         finish-time-pos="bottomright"
         :style="{
           left: '963px',
-          top: '77px',
+          top: '75px',
           width: '958px',
-          height: '536px',
+          height: '538px',
         }"
       />
     </div>
@@ -49,10 +49,10 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       id="CameraCapture1"
       class="Capture Relative"
       :style="{
-        left: '692px',
-        top: '730px',
-        width: '540px',
-        height: '269px',
+        left: '687px',
+        top: '724px',
+        width: '551px',
+        height: '274px',
       }"
     />
 

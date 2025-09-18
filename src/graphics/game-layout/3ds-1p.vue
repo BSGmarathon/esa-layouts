@@ -18,9 +18,7 @@ import Timer from './components/Timer.vue';
         left: '574px',
         top: '0px',
         width: '1346px',
-        height: '808px',
-        background: 'red',
-        opacity: '0.5',
+        height: '807px',
       }"
     />
     <GameCapture
@@ -89,9 +87,9 @@ import Timer from './components/Timer.vue';
       class="Fixed FlexColumn BorderRight BorderLeft"
       :style="{
         left: '569px',
-        top: '813px',
+        top: '812px',
         width: '641px',
-        height: '185px',
+        height: '186px',
       }"
     >
       <MediaBoxBox
@@ -110,9 +108,9 @@ import Timer from './components/Timer.vue';
       class="Fixed FlexColumn"
       :style="{
         left: '1220px',
-        top: '813px',
+        top: '812px',
         width: '700px',
-        height: '185px',
+        height: '186px',
       }"
     >
       <RunInfo line-left info-is-row text-align="left"/>

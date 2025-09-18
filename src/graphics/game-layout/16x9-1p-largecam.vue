@@ -15,10 +15,10 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       id="GameCapture1"
       class="BorderNone"
       :style="{
-      left: '483px',
-      top: '0px',
-      width: '1437px',
-      height: '811px',
+        left: '474px',
+        top: '0px',
+        width: '1446px',
+        height: '813px',
       }"
     />
 
@@ -27,9 +27,9 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Fixed FlexColumn"
       :style="{
         left: '1210px',
-        top: '827px',
+        top: '818px',
         width: '710px',
-        height: '171px',
+        height: '180px',
       }"
     >
       <RunInfo text-align="left" line-left info-is-row />
@@ -39,8 +39,8 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Flex Fixed BorderTop"
       :style="{
         left: '474px',
-        top: '822px',
-        width: '1445px',
+        top: '813px',
+        width: '1446px',
         height: '176px',
       }"
     >
@@ -48,9 +48,9 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         class="Fixed FlexColumn BorderRight"
         :style="{
           left: '474px',
-          top: '827px',
+          top: '818px',
           width: '731px',
-          height: '171px',
+          height: '180px',
         }"
       >
         <MediaBoxBox
@@ -75,8 +75,8 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         :style="{
           left: '0px',
           top: '0px',
-          width: '462px',
-          height: '676px',
+          width: '469px',
+          height: '685px',
         }"
       />
 

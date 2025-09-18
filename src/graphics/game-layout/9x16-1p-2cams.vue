@@ -71,20 +71,20 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         id="CameraCapture1"
         class="Capture Relative"
         :style="{
-          left: '586px',
+          left: '579px',
           top: '0px',
-          width: '662px',
-          height: '540px',
+          width: '677px',
+          height: '548px',
         }"
       />
       <div
         id="CameraCapture2"
         class="Capture Relative"
         :style="{
-          left: '586px',
-          top: '610px',
-          width: '662px',
-          height: '389px',
+          left: '579px',
+          top: '602px',
+          width: '677px',
+          height: '396px',
         }"
       />
 

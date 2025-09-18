@@ -21,10 +21,10 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
     />
     <GameCapture
       id="GameCapture3"
-      class="BorderLeft BorderRight"
+      class="BorderLeft BorderRight BorderTop"
       :style="{
         left: '83px',
-        top: '689px',
+        top: '684px',
         width: '412px',
         height: '309px',
       }"
