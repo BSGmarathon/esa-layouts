@@ -23,7 +23,7 @@ watch(() => hasFlashingLights.value, (newVal) => {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .flashingLightsWarning {
   background-color: red;
   box-sizing: border-box;

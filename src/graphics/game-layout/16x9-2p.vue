@@ -9,51 +9,61 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
 </script>
 
 <template>
-  <div class="bsglayout _16x9_2p">
-    <!-- Game Captures -->
-    <GameCapture
-      id="GameCapture1"
-      class=""
-      :slot-no="0"
+  <div class="bsglayout">
+    <div
+      class="Fixed BorderBottom BorderTop"
       :style="{
-      left: '0px',
-      top: '77px',
-      width: '958px',
-      height: '536px',
+        left: '0px',
+        top: '70px',
+        height: '538px',
+        width: '100%',
       }"
-    />
-    <GameCapture
-      id="GameCapture2"
-      :slot-no="1"
-      finish-time-pos="bottomright"
-      :style="{
-      left: '963px',
-      top: '77px',
-      width: '958px',
-      height: '536px',
-      }"
-    />
+    >
+      <!-- Game Captures -->
+      <GameCapture
+        id="GameCapture1"
+        class="BorderRight"
+        :slot-no="0"
+        :style="{
+          left: '0px',
+          top: '75px',
+          width: '958px',
+          height: '538px',
+        }"
+      />
+      <GameCapture
+        id="GameCapture2"
+        :slot-no="1"
+        finish-time-pos="bottomright"
+        :style="{
+          left: '963px',
+          top: '75px',
+          width: '958px',
+          height: '538px',
+        }"
+      />
+    </div>
 
     <!-- Camera Captures -->
     <div
       id="CameraCapture1"
       class="Capture Relative"
       :style="{
-      left: '696px',
-      top: '742px',
-      width: '529px',
-      height: '256px',
+        left: '687px',
+        top: '724px',
+        width: '551px',
+        height: '274px',
       }"
     />
 
     <!-- Player 1 -->
     <div
-      class="Fixed"
+      class="Fixed BorderRight BorderBottom"
       :style="{
-      left: '0px',
-      top: '627px',
-      width: '682px',
-      height: '44px'
+        left: '0px',
+        top: '618px',
+        width: '682px',
+        height: '44px'
       }"
     >
       <Player :slot-no="0" />
@@ -61,62 +71,63 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
 
     <!-- Player 2 -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderBottom BorderLeft"
       :style="{
-      left: '1238px',
-      top: '627px',
-      width: '682px',
-      height: '44px'
+        left: '1238px',
+        top: '618px',
+        width: '677px',
+        height: '44px'
       }"
     >
       <Player :slot-no="1" />
     </div>
 
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderBottom"
       :style="{
-          left: '687px',
-          top: '627px',
-          width: '546px',
-          height: '101px',
-        }"
+        left: '687px',
+        top: '618px',
+        width: '551px',
+        height: '101px',
+      }"
     >
       <Timer line-left line-right />
     </div>
 
     <!-- Run Game Info -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderLeft"
       :style="{
         left: '1238px',
-        top: '676px',
+        top: '667px',
         width: '682px',
-        height: '322px',
+        height: '331px',
         }"
     >
       <FlashingLightsWarning class="Flex" style="align-self: flex-end" />
-      <RunInfo line-right />
+      <RunInfo line-left />
     </div>
 
     <!-- Media Box / Reader / Commentators -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderRight"
       :style="{
-          left: '0px',
-          top: '676px',
-          width: '682px',
-          height: '322px',
-        }"
+        left: '0px',
+        top: '667px',
+        width: '682px',
+        height: '331px',
+      }"
     >
       <MediaBoxBox
         line-right
+        class="BorderBottom"
         :style="{
           width: '682px',
           height: '100%',
         }"
       />
+      <CommentatorsReader class="BorderBottom" line-top />
       <CommentatorsReader line-top show-reader />
-      <CommentatorsReader line-top />
     </div>
 
   </div>

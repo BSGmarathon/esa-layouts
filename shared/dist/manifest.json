@@ -50,7 +50,7 @@
     "name": "_plugin-vue_export-helper"
   },
   "_bsg.theme-!~{00y}~.js": {
-    "file": "assets/bsg-DqrMTUaR.css",
+    "file": "assets/bsg-DY22oWUA.css",
     "src": "_bsg.theme-!~{00y}~.js"
   },
   "_en-gb-Bshs-i9q.js": {
@@ -897,93 +897,9 @@
     "file": "assets/countdown-CygI80lz.png",
     "src": "src/graphics/_misc/themes/bsg/countdown.png"
   },
-  "src/graphics/_misc/themes/bsg/gamelayout/16x9-1p-largecam.png": {
-    "file": "assets/16x9-1p-largecam-C1wB1DsD.png",
-    "src": "src/graphics/_misc/themes/bsg/gamelayout/16x9-1p-largecam.png"
-  },
-  "src/graphics/_misc/themes/bsg/gamelayout/16x9-1p.png": {
-    "file": "assets/16x9-1p-CUW7NGC3.png",
-    "src": "src/graphics/_misc/themes/bsg/gamelayout/16x9-1p.png"
-  },
-  "src/graphics/_misc/themes/bsg/gamelayout/16x9-2p-connected.png": {
-    "file": "assets/16x9-2p-connected--MJrtCwt.png",
-    "src": "src/graphics/_misc/themes/bsg/gamelayout/16x9-2p-connected.png"
-  },
-  "src/graphics/_misc/themes/bsg/gamelayout/16x9-2p.png": {
-    "file": "assets/16x9-2p-Cysj2zGY.png",
-    "src": "src/graphics/_misc/themes/bsg/gamelayout/16x9-2p.png"
-  },
-  "src/graphics/_misc/themes/bsg/gamelayout/16x9-3p.png": {
-    "file": "assets/16x9-3p-Bdo7uzhb.png",
-    "src": "src/graphics/_misc/themes/bsg/gamelayout/16x9-3p.png"
-  },
-  "src/graphics/_misc/themes/bsg/gamelayout/3ds-1p-vertical.png": {
-    "file": "assets/3ds-1p-vertical-CcliKyqT.png",
-    "src": "src/graphics/_misc/themes/bsg/gamelayout/3ds-1p-vertical.png"
-  },
-  "src/graphics/_misc/themes/bsg/gamelayout/3ds-1p.png": {
-    "file": "assets/3ds-1p-C1ewbtHP.png",
-    "src": "src/graphics/_misc/themes/bsg/gamelayout/3ds-1p.png"
-  },
-  "src/graphics/_misc/themes/bsg/gamelayout/3ds-2p.png": {
-    "file": "assets/3ds-2p-C81Pucvy.png",
-    "src": "src/graphics/_misc/themes/bsg/gamelayout/3ds-2p.png"
-  },
-  "src/graphics/_misc/themes/bsg/gamelayout/4x3-1p-largecam.png": {
-    "file": "assets/4x3-1p-largecam-9zG9qwlf.png",
-    "src": "src/graphics/_misc/themes/bsg/gamelayout/4x3-1p-largecam.png"
-  },
-  "src/graphics/_misc/themes/bsg/gamelayout/4x3-1p.png": {
-    "file": "assets/4x3-1p-CzgIIMv2.png",
-    "src": "src/graphics/_misc/themes/bsg/gamelayout/4x3-1p.png"
-  },
-  "src/graphics/_misc/themes/bsg/gamelayout/4x3-2p.png": {
-    "file": "assets/4x3-2p-DaLS1J_p.png",
-    "src": "src/graphics/_misc/themes/bsg/gamelayout/4x3-2p.png"
-  },
-  "src/graphics/_misc/themes/bsg/gamelayout/4x3-3p.png": {
-    "file": "assets/4x3-3p-CuqysWmu.png",
-    "src": "src/graphics/_misc/themes/bsg/gamelayout/4x3-3p.png"
-  },
-  "src/graphics/_misc/themes/bsg/gamelayout/9x16_1p_doublecam.png": {
-    "file": "assets/9x16_1p_doublecam-B8ANb4_j.png",
-    "src": "src/graphics/_misc/themes/bsg/gamelayout/9x16_1p_doublecam.png"
-  },
-  "src/graphics/_misc/themes/bsg/gamelayout/ds-1p-vertical.png": {
-    "file": "assets/ds-1p-vertical-DmBJR8nk.png",
-    "src": "src/graphics/_misc/themes/bsg/gamelayout/ds-1p-vertical.png"
-  },
-  "src/graphics/_misc/themes/bsg/gamelayout/ds-1p.png": {
-    "file": "assets/ds-1p-CKUTglEr.png",
-    "src": "src/graphics/_misc/themes/bsg/gamelayout/ds-1p.png"
-  },
-  "src/graphics/_misc/themes/bsg/gamelayout/ds-2p.png": {
-    "file": "assets/ds-2p-Csl64Iit.png",
-    "src": "src/graphics/_misc/themes/bsg/gamelayout/ds-2p.png"
-  },
-  "src/graphics/_misc/themes/bsg/gamelayout/gb-1p.png": {
-    "file": "assets/gb-1p-BjWcok8h.png",
-    "src": "src/graphics/_misc/themes/bsg/gamelayout/gb-1p.png"
-  },
-  "src/graphics/_misc/themes/bsg/gamelayout/gb-2p.png": {
-    "file": "assets/gb-2p-sGcRYVWC.png",
-    "src": "src/graphics/_misc/themes/bsg/gamelayout/gb-2p.png"
-  },
-  "src/graphics/_misc/themes/bsg/gamelayout/gba-1p.png": {
-    "file": "assets/gba-1p-BkJyCtXW.png",
-    "src": "src/graphics/_misc/themes/bsg/gamelayout/gba-1p.png"
-  },
-  "src/graphics/_misc/themes/bsg/gamelayout/gba-2p.png": {
-    "file": "assets/gba-2p-CMg_2CHT.png",
-    "src": "src/graphics/_misc/themes/bsg/gamelayout/gba-2p.png"
-  },
   "src/graphics/_misc/themes/bsg/intermission.png": {
     "file": "assets/intermission-C4P5kkGi.png",
     "src": "src/graphics/_misc/themes/bsg/intermission.png"
-  },
-  "src/graphics/_misc/themes/bsg/timer_grid.png": {
-    "file": "assets/timer_grid-DDGqPk4l.png",
-    "src": "src/graphics/_misc/themes/bsg/timer_grid.png"
   },
   "src/graphics/_misc/themes/default/IntermissionLogo.png": {
     "file": "assets/IntermissionLogo-DxXVPqk1.png",
@@ -1046,7 +962,7 @@
     "src": "src/graphics/countdown/game/img/turtle6.png"
   },
   "src/graphics/countdown/main.ts": {
-    "file": "assets/main-D9fpql06.js",
+    "file": "assets/main-p__8hQqj.js",
     "name": "main",
     "src": "src/graphics/countdown/main.ts",
     "isEntry": true,
@@ -1062,7 +978,7 @@
     ],
     "css": [
       "assets/main-DXQcoP9E.css",
-      "assets/bsg-DqrMTUaR.css"
+      "assets/bsg-DY22oWUA.css"
     ],
     "assets": [
       "assets/turtle1-CUvMq5wn.png",
@@ -1174,33 +1090,12 @@
       "assets/montserrat-latin-900-normal-Bw_EvlHV.woff2",
       "assets/IntermissionLogo-DxXVPqk1.png",
       "assets/OmnibarLogo-A9DPXuOm.png",
-      "assets/timer_grid-DDGqPk4l.png",
       "assets/intermission-C4P5kkGi.png",
-      "assets/countdown-CygI80lz.png",
-      "assets/3ds-1p-C1ewbtHP.png",
-      "assets/3ds-1p-vertical-CcliKyqT.png",
-      "assets/3ds-2p-C81Pucvy.png",
-      "assets/4x3-1p-CzgIIMv2.png",
-      "assets/4x3-1p-largecam-9zG9qwlf.png",
-      "assets/4x3-2p-DaLS1J_p.png",
-      "assets/4x3-3p-CuqysWmu.png",
-      "assets/16x9-1p-CUW7NGC3.png",
-      "assets/16x9-1p-largecam-C1wB1DsD.png",
-      "assets/16x9-2p-Cysj2zGY.png",
-      "assets/16x9-2p-connected--MJrtCwt.png",
-      "assets/16x9-3p-Bdo7uzhb.png",
-      "assets/9x16_1p_doublecam-B8ANb4_j.png",
-      "assets/ds-1p-CKUTglEr.png",
-      "assets/ds-1p-vertical-DmBJR8nk.png",
-      "assets/ds-2p-Csl64Iit.png",
-      "assets/gb-1p-BjWcok8h.png",
-      "assets/gb-2p-sGcRYVWC.png",
-      "assets/gba-1p-BkJyCtXW.png",
-      "assets/gba-2p-CMg_2CHT.png"
+      "assets/countdown-CygI80lz.png"
     ]
   },
   "src/graphics/game-layout/main.ts": {
-    "file": "assets/main-B5hFaLt4.js",
+    "file": "assets/main-BH-WRvUe.js",
     "name": "main",
     "src": "src/graphics/game-layout/main.ts",
     "isEntry": true,
@@ -1214,8 +1109,8 @@
       "__commonjsHelpers-BosuxZz1.js"
     ],
     "css": [
-      "assets/main-Ce_HNnc3.css",
-      "assets/bsg-DqrMTUaR.css"
+      "assets/main-DTQ2GvdA.css",
+      "assets/bsg-DY22oWUA.css"
     ],
     "assets": [
       "assets/background-DI1F5fgb.png",
@@ -1319,29 +1214,8 @@
       "assets/montserrat-latin-900-normal-Bw_EvlHV.woff2",
       "assets/IntermissionLogo-DxXVPqk1.png",
       "assets/OmnibarLogo-A9DPXuOm.png",
-      "assets/timer_grid-DDGqPk4l.png",
       "assets/intermission-C4P5kkGi.png",
-      "assets/countdown-CygI80lz.png",
-      "assets/3ds-1p-C1ewbtHP.png",
-      "assets/3ds-1p-vertical-CcliKyqT.png",
-      "assets/3ds-2p-C81Pucvy.png",
-      "assets/4x3-1p-CzgIIMv2.png",
-      "assets/4x3-1p-largecam-9zG9qwlf.png",
-      "assets/4x3-2p-DaLS1J_p.png",
-      "assets/4x3-3p-CuqysWmu.png",
-      "assets/16x9-1p-CUW7NGC3.png",
-      "assets/16x9-1p-largecam-C1wB1DsD.png",
-      "assets/16x9-2p-Cysj2zGY.png",
-      "assets/16x9-2p-connected--MJrtCwt.png",
-      "assets/16x9-3p-Bdo7uzhb.png",
-      "assets/9x16_1p_doublecam-B8ANb4_j.png",
-      "assets/ds-1p-CKUTglEr.png",
-      "assets/ds-1p-vertical-DmBJR8nk.png",
-      "assets/ds-2p-Csl64Iit.png",
-      "assets/gb-1p-BjWcok8h.png",
-      "assets/gb-2p-sGcRYVWC.png",
-      "assets/gba-1p-BkJyCtXW.png",
-      "assets/gba-2p-CMg_2CHT.png"
+      "assets/countdown-CygI80lz.png"
     ]
   },
   "src/graphics/intermission-hosts/esaOhNo.png": {
@@ -1349,7 +1223,7 @@
     "src": "src/graphics/intermission-hosts/esaOhNo.png"
   },
   "src/graphics/intermission-hosts/main.ts": {
-    "file": "assets/main-CjVRmYZK.js",
+    "file": "assets/main-CB-AGR-j.js",
     "name": "main",
     "src": "src/graphics/intermission-hosts/main.ts",
     "isEntry": true,
@@ -1362,7 +1236,7 @@
     ],
     "css": [
       "assets/main-Dnpj77xm.css",
-      "assets/bsg-DqrMTUaR.css"
+      "assets/bsg-DY22oWUA.css"
     ],
     "assets": [
       "assets/esaOhNo-lUXxZw7H.png",
@@ -1470,29 +1344,8 @@
       "assets/montserrat-latin-900-normal-Bw_EvlHV.woff2",
       "assets/IntermissionLogo-DxXVPqk1.png",
       "assets/OmnibarLogo-A9DPXuOm.png",
-      "assets/timer_grid-DDGqPk4l.png",
       "assets/intermission-C4P5kkGi.png",
-      "assets/countdown-CygI80lz.png",
-      "assets/3ds-1p-C1ewbtHP.png",
-      "assets/3ds-1p-vertical-CcliKyqT.png",
-      "assets/3ds-2p-C81Pucvy.png",
-      "assets/4x3-1p-CzgIIMv2.png",
-      "assets/4x3-1p-largecam-9zG9qwlf.png",
-      "assets/4x3-2p-DaLS1J_p.png",
-      "assets/4x3-3p-CuqysWmu.png",
-      "assets/16x9-1p-CUW7NGC3.png",
-      "assets/16x9-1p-largecam-C1wB1DsD.png",
-      "assets/16x9-2p-Cysj2zGY.png",
-      "assets/16x9-2p-connected--MJrtCwt.png",
-      "assets/16x9-3p-Bdo7uzhb.png",
-      "assets/9x16_1p_doublecam-B8ANb4_j.png",
-      "assets/ds-1p-CKUTglEr.png",
-      "assets/ds-1p-vertical-DmBJR8nk.png",
-      "assets/ds-2p-Csl64Iit.png",
-      "assets/gb-1p-BjWcok8h.png",
-      "assets/gb-2p-sGcRYVWC.png",
-      "assets/gba-1p-BkJyCtXW.png",
-      "assets/gba-2p-CMg_2CHT.png"
+      "assets/countdown-CygI80lz.png"
     ]
   },
   "src/graphics/intermission-player/esaOhNo.png": {
@@ -1500,7 +1353,7 @@
     "src": "src/graphics/intermission-hosts/esaOhNo.png"
   },
   "src/graphics/intermission-player/main.ts": {
-    "file": "assets/main-C3rqCKa6.js",
+    "file": "assets/main-D1hW0foZ.js",
     "name": "main",
     "src": "src/graphics/intermission-player/main.ts",
     "isEntry": true,
@@ -1515,7 +1368,7 @@
     ],
     "css": [
       "assets/main-BIUGEa9j.css",
-      "assets/bsg-DqrMTUaR.css"
+      "assets/bsg-DY22oWUA.css"
     ],
     "assets": [
       "assets/esaOhNo-lUXxZw7H.png",
@@ -1619,29 +1472,8 @@
       "assets/montserrat-latin-900-normal-Bw_EvlHV.woff2",
       "assets/IntermissionLogo-DxXVPqk1.png",
       "assets/OmnibarLogo-A9DPXuOm.png",
-      "assets/timer_grid-DDGqPk4l.png",
       "assets/intermission-C4P5kkGi.png",
-      "assets/countdown-CygI80lz.png",
-      "assets/3ds-1p-C1ewbtHP.png",
-      "assets/3ds-1p-vertical-CcliKyqT.png",
-      "assets/3ds-2p-C81Pucvy.png",
-      "assets/4x3-1p-CzgIIMv2.png",
-      "assets/4x3-1p-largecam-9zG9qwlf.png",
-      "assets/4x3-2p-DaLS1J_p.png",
-      "assets/4x3-3p-CuqysWmu.png",
-      "assets/16x9-1p-CUW7NGC3.png",
-      "assets/16x9-1p-largecam-C1wB1DsD.png",
-      "assets/16x9-2p-Cysj2zGY.png",
-      "assets/16x9-2p-connected--MJrtCwt.png",
-      "assets/16x9-3p-Bdo7uzhb.png",
-      "assets/9x16_1p_doublecam-B8ANb4_j.png",
-      "assets/ds-1p-CKUTglEr.png",
-      "assets/ds-1p-vertical-DmBJR8nk.png",
-      "assets/ds-2p-Csl64Iit.png",
-      "assets/gb-1p-BjWcok8h.png",
-      "assets/gb-2p-sGcRYVWC.png",
-      "assets/gba-1p-BkJyCtXW.png",
-      "assets/gba-2p-CMg_2CHT.png"
+      "assets/countdown-CygI80lz.png"
     ]
   },
   "src/graphics/intermission/components/Music.png": {
@@ -1653,7 +1485,7 @@
     "src": "src/graphics/intermission/components/Rotation/notlikethis_112.png"
   },
   "src/graphics/intermission/main.ts": {
-    "file": "assets/main-D1FqUrs0.js",
+    "file": "assets/main-BlW3jJ-F.js",
     "name": "main",
     "src": "src/graphics/intermission/main.ts",
     "isEntry": true,
@@ -1672,7 +1504,7 @@
     ],
     "css": [
       "assets/main-DHIj0TkC.css",
-      "assets/bsg-DqrMTUaR.css"
+      "assets/bsg-DY22oWUA.css"
     ],
     "assets": [
       "assets/notlikethis_112-af0kBz2a.png",
@@ -1776,29 +1608,8 @@
       "assets/montserrat-latin-900-normal-Bw_EvlHV.woff2",
       "assets/IntermissionLogo-DxXVPqk1.png",
       "assets/OmnibarLogo-A9DPXuOm.png",
-      "assets/timer_grid-DDGqPk4l.png",
       "assets/intermission-C4P5kkGi.png",
-      "assets/countdown-CygI80lz.png",
-      "assets/3ds-1p-C1ewbtHP.png",
-      "assets/3ds-1p-vertical-CcliKyqT.png",
-      "assets/3ds-2p-C81Pucvy.png",
-      "assets/4x3-1p-CzgIIMv2.png",
-      "assets/4x3-1p-largecam-9zG9qwlf.png",
-      "assets/4x3-2p-DaLS1J_p.png",
-      "assets/4x3-3p-CuqysWmu.png",
-      "assets/16x9-1p-CUW7NGC3.png",
-      "assets/16x9-1p-largecam-C1wB1DsD.png",
-      "assets/16x9-2p-Cysj2zGY.png",
-      "assets/16x9-2p-connected--MJrtCwt.png",
-      "assets/16x9-3p-Bdo7uzhb.png",
-      "assets/9x16_1p_doublecam-B8ANb4_j.png",
-      "assets/ds-1p-CKUTglEr.png",
-      "assets/ds-1p-vertical-DmBJR8nk.png",
-      "assets/ds-2p-Csl64Iit.png",
-      "assets/gb-1p-BjWcok8h.png",
-      "assets/gb-2p-sGcRYVWC.png",
-      "assets/gba-1p-BkJyCtXW.png",
-      "assets/gba-2p-CMg_2CHT.png"
+      "assets/countdown-CygI80lz.png"
     ]
   },
   "src/graphics/lower-third/assets/left_dash_crop.png": {
@@ -1806,7 +1617,7 @@
     "src": "src/graphics/lower-third/assets/left_dash_crop.png"
   },
   "src/graphics/lower-third/main.ts": {
-    "file": "assets/main-D2y125Bg.js",
+    "file": "assets/main-DzxaRmXr.js",
     "name": "main",
     "src": "src/graphics/lower-third/main.ts",
     "isEntry": true,
@@ -1819,7 +1630,7 @@
     ],
     "css": [
       "assets/main-D5qPe5Kz.css",
-      "assets/bsg-DqrMTUaR.css"
+      "assets/bsg-DY22oWUA.css"
     ],
     "assets": [
       "assets/left_dash_crop-vSYN45Os.png",
@@ -1923,33 +1734,12 @@
       "assets/montserrat-latin-900-normal-Bw_EvlHV.woff2",
       "assets/IntermissionLogo-DxXVPqk1.png",
       "assets/OmnibarLogo-A9DPXuOm.png",
-      "assets/timer_grid-DDGqPk4l.png",
       "assets/intermission-C4P5kkGi.png",
-      "assets/countdown-CygI80lz.png",
-      "assets/3ds-1p-C1ewbtHP.png",
-      "assets/3ds-1p-vertical-CcliKyqT.png",
-      "assets/3ds-2p-C81Pucvy.png",
-      "assets/4x3-1p-CzgIIMv2.png",
-      "assets/4x3-1p-largecam-9zG9qwlf.png",
-      "assets/4x3-2p-DaLS1J_p.png",
-      "assets/4x3-3p-CuqysWmu.png",
-      "assets/16x9-1p-CUW7NGC3.png",
-      "assets/16x9-1p-largecam-C1wB1DsD.png",
-      "assets/16x9-2p-Cysj2zGY.png",
-      "assets/16x9-2p-connected--MJrtCwt.png",
-      "assets/16x9-3p-Bdo7uzhb.png",
-      "assets/9x16_1p_doublecam-B8ANb4_j.png",
-      "assets/ds-1p-CKUTglEr.png",
-      "assets/ds-1p-vertical-DmBJR8nk.png",
-      "assets/ds-2p-Csl64Iit.png",
-      "assets/gb-1p-BjWcok8h.png",
-      "assets/gb-2p-sGcRYVWC.png",
-      "assets/gba-1p-BkJyCtXW.png",
-      "assets/gba-2p-CMg_2CHT.png"
+      "assets/countdown-CygI80lz.png"
     ]
   },
   "src/graphics/media-box-only/main.ts": {
-    "file": "assets/main-CpxmL_HQ.js",
+    "file": "assets/main-D3_CqKbe.js",
     "name": "main",
     "src": "src/graphics/media-box-only/main.ts",
     "isEntry": true,
@@ -1962,7 +1752,7 @@
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
     "css": [
-      "assets/bsg-DqrMTUaR.css"
+      "assets/bsg-DY22oWUA.css"
     ],
     "assets": [
       "assets/GoodlightRegular-DnuPNkOW.woff2",
@@ -2065,29 +1855,8 @@
       "assets/montserrat-latin-900-normal-Bw_EvlHV.woff2",
       "assets/IntermissionLogo-DxXVPqk1.png",
       "assets/OmnibarLogo-A9DPXuOm.png",
-      "assets/timer_grid-DDGqPk4l.png",
       "assets/intermission-C4P5kkGi.png",
-      "assets/countdown-CygI80lz.png",
-      "assets/3ds-1p-C1ewbtHP.png",
-      "assets/3ds-1p-vertical-CcliKyqT.png",
-      "assets/3ds-2p-C81Pucvy.png",
-      "assets/4x3-1p-CzgIIMv2.png",
-      "assets/4x3-1p-largecam-9zG9qwlf.png",
-      "assets/4x3-2p-DaLS1J_p.png",
-      "assets/4x3-3p-CuqysWmu.png",
-      "assets/16x9-1p-CUW7NGC3.png",
-      "assets/16x9-1p-largecam-C1wB1DsD.png",
-      "assets/16x9-2p-Cysj2zGY.png",
-      "assets/16x9-2p-connected--MJrtCwt.png",
-      "assets/16x9-3p-Bdo7uzhb.png",
-      "assets/9x16_1p_doublecam-B8ANb4_j.png",
-      "assets/ds-1p-CKUTglEr.png",
-      "assets/ds-1p-vertical-DmBJR8nk.png",
-      "assets/ds-2p-Csl64Iit.png",
-      "assets/gb-1p-BjWcok8h.png",
-      "assets/gb-2p-sGcRYVWC.png",
-      "assets/gba-1p-BkJyCtXW.png",
-      "assets/gba-2p-CMg_2CHT.png"
+      "assets/countdown-CygI80lz.png"
     ]
   },
   "src/graphics/omnibar/components/img/CrowdControl.png": {
@@ -2095,7 +1864,7 @@
     "src": "src/graphics/omnibar/components/img/CrowdControl.png"
   },
   "src/graphics/omnibar/main.ts": {
-    "file": "assets/main-BfDHoxQc.js",
+    "file": "assets/main-DRPK-sgX.js",
     "name": "main",
     "src": "src/graphics/omnibar/main.ts",
     "isEntry": true,
@@ -2111,8 +1880,8 @@
       "__commonjsHelpers-BosuxZz1.js"
     ],
     "css": [
-      "assets/main-1tdz75Nj.css",
-      "assets/bsg-DqrMTUaR.css"
+      "assets/main-Dio1sf1-.css",
+      "assets/bsg-DY22oWUA.css"
     ],
     "assets": [
       "assets/mind_logo_tag-jpeemcPp.png",
@@ -2218,29 +1987,8 @@
       "assets/montserrat-latin-900-normal-Bw_EvlHV.woff2",
       "assets/IntermissionLogo-DxXVPqk1.png",
       "assets/OmnibarLogo-A9DPXuOm.png",
-      "assets/timer_grid-DDGqPk4l.png",
       "assets/intermission-C4P5kkGi.png",
-      "assets/countdown-CygI80lz.png",
-      "assets/3ds-1p-C1ewbtHP.png",
-      "assets/3ds-1p-vertical-CcliKyqT.png",
-      "assets/3ds-2p-C81Pucvy.png",
-      "assets/4x3-1p-CzgIIMv2.png",
-      "assets/4x3-1p-largecam-9zG9qwlf.png",
-      "assets/4x3-2p-DaLS1J_p.png",
-      "assets/4x3-3p-CuqysWmu.png",
-      "assets/16x9-1p-CUW7NGC3.png",
-      "assets/16x9-1p-largecam-C1wB1DsD.png",
-      "assets/16x9-2p-Cysj2zGY.png",
-      "assets/16x9-2p-connected--MJrtCwt.png",
-      "assets/16x9-3p-Bdo7uzhb.png",
-      "assets/9x16_1p_doublecam-B8ANb4_j.png",
-      "assets/ds-1p-CKUTglEr.png",
-      "assets/ds-1p-vertical-DmBJR8nk.png",
-      "assets/ds-2p-Csl64Iit.png",
-      "assets/gb-1p-BjWcok8h.png",
-      "assets/gb-2p-sGcRYVWC.png",
-      "assets/gba-1p-BkJyCtXW.png",
-      "assets/gba-2p-CMg_2CHT.png"
+      "assets/countdown-CygI80lz.png"
     ]
   },
   "src/graphics/omnibar/omniing/background.png": {
@@ -2252,7 +2000,7 @@
     "src": "src/graphics/omnibar/omniing/mind_logo_tag.png"
   },
   "src/graphics/player-hud/main.ts": {
-    "file": "assets/main-BOqikYfG.js",
+    "file": "assets/main-B4OJO8wj.js",
     "name": "main",
     "src": "src/graphics/player-hud/main.ts",
     "isEntry": true,
@@ -2264,7 +2012,7 @@
     ],
     "css": [
       "assets/main-Cv5IRxDL.css",
-      "assets/bsg-DqrMTUaR.css"
+      "assets/bsg-DY22oWUA.css"
     ],
     "assets": [
       "assets/GoodlightRegular-DnuPNkOW.woff2",
@@ -2367,33 +2115,12 @@
       "assets/montserrat-latin-900-normal-Bw_EvlHV.woff2",
       "assets/IntermissionLogo-DxXVPqk1.png",
       "assets/OmnibarLogo-A9DPXuOm.png",
-      "assets/timer_grid-DDGqPk4l.png",
       "assets/intermission-C4P5kkGi.png",
-      "assets/countdown-CygI80lz.png",
-      "assets/3ds-1p-C1ewbtHP.png",
-      "assets/3ds-1p-vertical-CcliKyqT.png",
-      "assets/3ds-2p-C81Pucvy.png",
-      "assets/4x3-1p-CzgIIMv2.png",
-      "assets/4x3-1p-largecam-9zG9qwlf.png",
-      "assets/4x3-2p-DaLS1J_p.png",
-      "assets/4x3-3p-CuqysWmu.png",
-      "assets/16x9-1p-CUW7NGC3.png",
-      "assets/16x9-1p-largecam-C1wB1DsD.png",
-      "assets/16x9-2p-Cysj2zGY.png",
-      "assets/16x9-2p-connected--MJrtCwt.png",
-      "assets/16x9-3p-Bdo7uzhb.png",
-      "assets/9x16_1p_doublecam-B8ANb4_j.png",
-      "assets/ds-1p-CKUTglEr.png",
-      "assets/ds-1p-vertical-DmBJR8nk.png",
-      "assets/ds-2p-Csl64Iit.png",
-      "assets/gb-1p-BjWcok8h.png",
-      "assets/gb-2p-sGcRYVWC.png",
-      "assets/gba-1p-BkJyCtXW.png",
-      "assets/gba-2p-CMg_2CHT.png"
+      "assets/countdown-CygI80lz.png"
     ]
   },
   "src/graphics/tts-player/main.ts": {
-    "file": "assets/main-BswkB0_4.js",
+    "file": "assets/main-BEXhfzuo.js",
     "name": "main",
     "src": "src/graphics/tts-player/main.ts",
     "isEntry": true,
@@ -2401,7 +2128,7 @@
       "_index-Ce_smM0X.js"
     ],
     "css": [
-      "assets/bsg-DqrMTUaR.css"
+      "assets/bsg-DY22oWUA.css"
     ],
     "assets": [
       "assets/GoodlightRegular-DnuPNkOW.woff2",
@@ -2504,33 +2231,12 @@
       "assets/montserrat-latin-900-normal-Bw_EvlHV.woff2",
       "assets/IntermissionLogo-DxXVPqk1.png",
       "assets/OmnibarLogo-A9DPXuOm.png",
-      "assets/timer_grid-DDGqPk4l.png",
       "assets/intermission-C4P5kkGi.png",
-      "assets/countdown-CygI80lz.png",
-      "assets/3ds-1p-C1ewbtHP.png",
-      "assets/3ds-1p-vertical-CcliKyqT.png",
-      "assets/3ds-2p-C81Pucvy.png",
-      "assets/4x3-1p-CzgIIMv2.png",
-      "assets/4x3-1p-largecam-9zG9qwlf.png",
-      "assets/4x3-2p-DaLS1J_p.png",
-      "assets/4x3-3p-CuqysWmu.png",
-      "assets/16x9-1p-CUW7NGC3.png",
-      "assets/16x9-1p-largecam-C1wB1DsD.png",
-      "assets/16x9-2p-Cysj2zGY.png",
-      "assets/16x9-2p-connected--MJrtCwt.png",
-      "assets/16x9-3p-Bdo7uzhb.png",
-      "assets/9x16_1p_doublecam-B8ANb4_j.png",
-      "assets/ds-1p-CKUTglEr.png",
-      "assets/ds-1p-vertical-DmBJR8nk.png",
-      "assets/ds-2p-Csl64Iit.png",
-      "assets/gb-1p-BjWcok8h.png",
-      "assets/gb-2p-sGcRYVWC.png",
-      "assets/gba-1p-BkJyCtXW.png",
-      "assets/gba-2p-CMg_2CHT.png"
+      "assets/countdown-CygI80lz.png"
     ]
   },
   "src/graphics/unread-donations/main.ts": {
-    "file": "assets/main-BuSrk_JK.js",
+    "file": "assets/main-Di7p3Qyq.js",
     "name": "main",
     "src": "src/graphics/unread-donations/main.ts",
     "isEntry": true,
@@ -2541,7 +2247,7 @@
     ],
     "css": [
       "assets/main-nb66U90t.css",
-      "assets/bsg-DqrMTUaR.css"
+      "assets/bsg-DY22oWUA.css"
     ],
     "assets": [
       "assets/GoodlightRegular-DnuPNkOW.woff2",
@@ -2644,29 +2350,8 @@
       "assets/montserrat-latin-900-normal-Bw_EvlHV.woff2",
       "assets/IntermissionLogo-DxXVPqk1.png",
       "assets/OmnibarLogo-A9DPXuOm.png",
-      "assets/timer_grid-DDGqPk4l.png",
       "assets/intermission-C4P5kkGi.png",
-      "assets/countdown-CygI80lz.png",
-      "assets/3ds-1p-C1ewbtHP.png",
-      "assets/3ds-1p-vertical-CcliKyqT.png",
-      "assets/3ds-2p-C81Pucvy.png",
-      "assets/4x3-1p-CzgIIMv2.png",
-      "assets/4x3-1p-largecam-9zG9qwlf.png",
-      "assets/4x3-2p-DaLS1J_p.png",
-      "assets/4x3-3p-CuqysWmu.png",
-      "assets/16x9-1p-CUW7NGC3.png",
-      "assets/16x9-1p-largecam-C1wB1DsD.png",
-      "assets/16x9-2p-Cysj2zGY.png",
-      "assets/16x9-2p-connected--MJrtCwt.png",
-      "assets/16x9-3p-Bdo7uzhb.png",
-      "assets/9x16_1p_doublecam-B8ANb4_j.png",
-      "assets/ds-1p-CKUTglEr.png",
-      "assets/ds-1p-vertical-DmBJR8nk.png",
-      "assets/ds-2p-Csl64Iit.png",
-      "assets/gb-1p-BjWcok8h.png",
-      "assets/gb-2p-sGcRYVWC.png",
-      "assets/gba-1p-BkJyCtXW.png",
-      "assets/gba-2p-CMg_2CHT.png"
+      "assets/countdown-CygI80lz.png"
     ]
   }
 }

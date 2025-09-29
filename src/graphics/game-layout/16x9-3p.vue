@@ -9,10 +9,11 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
 </script>
 
 <template>
-  <div class="bsglayout _16x9_3p">
+  <div class="bsglayout">
     <!-- Game Captures -->
     <GameCapture
       id="GameCapture1"
+      class="BorderBottom BorderRight"
       :slot-no="0"
       finish-time-pos="bottomleft"
       :style="{
@@ -25,6 +26,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     <GameCapture
       id="GameCapture2"
       :slot-no="1"
+      class="BorderTop BorderLeft BorderRight"
       finish-time-pos="topright"
       :style="{
         left: '602px',
@@ -36,112 +38,102 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     <GameCapture
       id="GameCapture3"
       :slot-no="2"
+      class="BorderBottom BorderLeft"
       finish-time-pos="bottomright"
       :style="{
-        left: '1205px',
+        left: '1200px',
         top: '0px',
         width: '715px',
         height: '405px',
       }"
     />
 
-    <!-- Camera Captures -->
-    <div
-      id="CameraCapture1"
-      class="Capture Flex Relative"
-      :style="{
-        left: '736px',
-        top: '0px',
-        width: '446px',
-        height: '323px',
-      }"
-    />
-
+    <!-- Media Box -->
     <!-- Timer -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderBottom"
       :style="{
-        left: '726px',
-        top: '337px',
-        width: '465px',
-        height: '130px',
+        left: '717px',
+        top: '0px',
+        width: '483px',
+        height: '405px',
       }"
     >
-      <Timer line-right line-left />
+      <MediaBoxBox
+        vertical
+        line-left
+        line-right
+        :style="{
+          width: '483px',
+          height: '100%',
+        }"
+      />
+      <FlashingLightsWarning />
+      <Timer class="BorderTop" line-right line-left />
     </div>
 
     <!-- Players -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderBottom BorderRight"
       :style="{
-      left: '0px',
-      top: '418px',
-      width: '721px',
-      height: '44px',
-    }"
+        left: '0px',
+        top: '410px',
+        width: '712px',
+        height: '44px',
+      }"
     >
       <Player :slot-no="0"/>
     </div>
 
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderTop BorderLeft BorderRight"
       :style="{
-      left: '594px',
-      top: '542px',
-      width: '730px',
-      height: '44px',
+        left: '602px',
+        top: '551px',
+        width: '713px',
+        height: '44px',
       }"
     >
       <Player :slot-no="1"/>
     </div>
 
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderLeft BorderBottom"
       :style="{
-        left: '1196px',
-        top: '418px',
-        width: '724px',
+        left: '1200px',
+        top: '410px',
+        width: '715px',
         height: '44px',
       }"
     >
       <Player :slot-no="2"/>
     </div>
 
-    <!-- Run Game Info / Reader / Commentators -->
+    <!-- Camera Captures -->
     <div
-      class="Fixed FlexColumn"
+      id="CameraCapture1"
+      class="Capture Flex Relative BorderTop"
       :style="{
         left: '0px',
-        top: '592px',
-        width: '589px',
-        height: '406px',
+        top: '600px',
+        width: '602px',
+        height: '393px',
       }"
-    >
-      <RunInfo line-right />
-      <CommentatorsReader line-top show-reader />
-      <CommentatorsReader line-top />
-    </div>
+    />
 
-    <!-- Media Box -->
+    <!-- Run Game Info / Reader / Commentators -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderTop"
       :style="{
-        left: '1329px',
-        top: '592px',
-        width: '591px',
-        height: '406px',
+        left: '1325px',
+        top: '600px',
+        width: '595px',
+        height: '393px',
       }"
     >
-      <FlashingLightsWarning />
-      <MediaBoxBox
-        vertical
-        line-right
-        line-left
-        :style="{
-          width: '591px',
-          height: '100%',
-        }"
-      />
+      <RunInfo class="BorderBottom" line-left />
+      <CommentatorsReader class="BorderBottom" />
+      <CommentatorsReader show-reader />
     </div>
   </div>
 </template>

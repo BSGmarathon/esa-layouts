@@ -102,6 +102,8 @@ onMounted(async () => {
 html, body {
   padding: 0;
   margin: 0;
+  width: 1920px;
+  height: 82px;
 }
 
 #omnibar {
@@ -212,6 +214,7 @@ html, body {
     //box-sizing: border-box;
     //border: 1px green solid;
     animation-duration: 500ms;
+    //height: 82px;
     height: 82px;
 
     &.no-dash {
@@ -221,7 +224,8 @@ html, body {
 
       /* HACK: normal text is different */
       transform: unset;
-      top: 5px;
+      top: 0px;
+      //height: 77px;
     }
   }
 

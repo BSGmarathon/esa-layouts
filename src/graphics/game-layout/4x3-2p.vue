@@ -16,49 +16,60 @@ function flashingLightsUpdated(newVal: boolean): void {
 </script>
 
 <template>
-  <div class="bsglayout _4x3_2p">
+  <div class="bsglayout">
     <!-- Game Captures -->
-    <GameCapture
-      id="GameCapture1"
-      :slot-no="0"
+    <div
+      class="Fixed BorderBottom"
       :style="{
+        left: '0px',
+        top: '0px',
+        width: '100%',
+        height: '715px',
+      }"
+    >
+      <GameCapture
+        id="GameCapture1"
+        class="BorderRight"
+        :slot-no="0"
+        :style="{
         left: '0px',
         top: '0px',
         width: '958px',
         height: '715px',
       }"
-    />
-    <GameCapture
-      id="GameCapture2"
-      :slot-no="1"
-      finish-time-pos="bottomright"
-      :style="{
-      left: '963px',
-      top: '0px',
-      width: '958px',
-      height: '715px',
-      }"
-    />
+      />
+      <GameCapture
+        id="GameCapture2"
+        :slot-no="1"
+        finish-time-pos="bottomright"
+        :style="{
+          left: '963px',
+          top: '0px',
+          width: '958px',
+          height: '715px',
+        }"
+      />
+    </div>
 
     <!-- Camera Capture -->
     <div
       id="CameraCapture1"
       class="Capture Relative"
       :style="{
-      left: '720px',
-      top: '828px',
-      width: '480px',
-      height: '170px',
+      left: '710px',
+      top: '815px',
+      width: '495px',
+      height: '183px',
       }"
     />
 
     <!-- Player 1 -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderBottom BorderRight"
       :style="{
       left: '0px',
-      top: '728px',
-      width: '710px',
+      top: '720px',
+      width: '705px',
       height: '45px'
       }"
     >
@@ -67,10 +78,10 @@ function flashingLightsUpdated(newVal: boolean): void {
 
     <!-- Player 2 -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderLeft BorderBottom"
       :style="{
-        left: '1210px',
-        top: '728px',
+        left: '1205px',
+        top: '720px',
         width: '710px',
         height: '45px'
       }"
@@ -80,28 +91,31 @@ function flashingLightsUpdated(newVal: boolean): void {
 
     <!-- Timer -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderLeft BorderRight BorderBottom"
       :style="{
-          left: '715px',
-          top: '728px',
-          width: '490px',
-          height: '94px',
-        }"
+        flex: 1,
+        left: '705px',
+        top: '720px',
+        width: '495px',
+        height: '94px',
+      }"
     >
-      <Timer line-right line-left />
+      <Timer line-right line-left :style="{
+        height: '100%',
+      }" />
     </div>
 
     <!-- Run Game Info -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderLeft"
       :style="{
-        left: '1210px',
-        top: '778px',
+        left: '1205px',
+        top: '770px',
         width: '710px',
-        height: '220px',
+        height: '228px',
       }"
     >
-      <RunInfo text-align="left" :info-is-row="infoIsRow" line-right/>
+      <RunInfo text-align="left" :info-is-row="infoIsRow" line-left/>
       <FlashingLightsWarning
         class="Flex"
         @flashing-lights-updated="flashingLightsUpdated"
@@ -109,23 +123,23 @@ function flashingLightsUpdated(newVal: boolean): void {
     </div>
 
     <!-- Media box / commentator / donation reader -->
-    <div class="Fixed FlexColumn"
+    <div class="Fixed FlexColumn BorderRight"
          :style="{
           left: '0px',
-          top: '778px',
-          width: '710px',
-          height: '221px',
+          top: '770px',
+          width: '705px',
+          height: '228px',
         }"
     >
       <MediaBoxBox
-        line-left
+        line-right
         :style="{
-          width: '710px',
+          width: '705px',
           height: '100%',
         }"
       />
-      <CommentatorsReader line-top />
-      <CommentatorsReader line-top show-reader/>
+      <CommentatorsReader line-top class="BorderTop" />
+      <CommentatorsReader line-top show-reader class="BorderTop" />
     </div>
   </div>
 </template>
