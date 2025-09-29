@@ -36,15 +36,24 @@ function tweenValues(): void {
 watch(() => allBids.data, (newVal) => {
   if (!newVal) return;
 
-  bid.value = getBid(newVal, bidId);
-  tweenValues();
+  try {
+    bid.value = getBid(newVal, bidId);
+    tweenValues();
+  } catch (e) {
+    emit('end');
+  }
 }, { deep: true, immediate: true });
 
 onMounted(async () => {
   await waitForReplicant(allBids);
 
-  bid.value = getBid(allBids.data!, bidId);
-  tweenValues();
+  try {
+    bid.value = getBid(allBids.data!, bidId);
+    tweenValues();
+  } catch (e) {
+    emit('end');
+    return;
+  }
 
   if (seconds >= 0) {
     await wait(seconds * 1000); // Wait the specified length.

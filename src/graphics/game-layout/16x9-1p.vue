@@ -9,7 +9,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
 </script>
 
 <template>
-  <div class="bsglayout _16x9_1p">
+  <div class="bsglayout">
     <!-- Game Captures -->
     <GameCapture
       id="GameCapture1"
@@ -21,82 +21,101 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       }"
     />
 
-    <!-- Camera Captures -->
     <div
-      id="CameraCapture1"
-      class="Capture Relative"
+      class="Flex Fixed BorderTop"
       :style="{
-        left: '0px',
-        top: '0px',
-        width: '462px',
-        height: '349px',
-      }"
-    />
-
-    <div
-      class="Fixed FlexColumn"
-      :style="{
-      left: '0px',
-      top: '361px',
-      width: '469px',
-      height: '44px',
+        left: '483px',
+        top: '811px',
+        width: '1437px',
+        height: '185px',
       }"
     >
-      <Player/>
-    </div>
-
-    <!-- Run Game Info -->
-    <div
-      class="Fixed FlexColumn"
-      :style="{
-          left: '474px',
-          top: '822px',
+      <!-- Timer -->
+      <div
+        class="Fixed FlexColumn BorderRight"
+        :style="{
+          left: '483px',
+          top: '816px',
           width: '731px',
-          height: '176px',
+          height: '181px',
         }"
-    >
-      <Timer
-        class="TimerFH"
-        line-right
-        line-left
-        :line-bottom="false"
-      />
+      >
+        <Timer
+          class="TimerFH"
+          top-margin="15px"
+          line-right
+          line-left
+        />
+      </div>
+
+      <!-- Run Game Info -->
+      <div
+        class="Fixed FlexColumn"
+        :style="{
+          left: '1219px',
+          top: '816px',
+          width: '701px',
+          height: '181px',
+      }"
+      >
+        <RunInfo text-align="left" info-is-row/>
+      </div>
     </div>
 
-    <!-- Run Game Info -->
     <div
-      class="Fixed FlexColumn"
+      class="Flex BorderRight"
       :style="{
-        left: '1210px',
-        top: '822px',
-        width: '710px',
-        height: '176px',
+        height: '100%',
+        width: '478px',
       }"
     >
-      <RunInfo text-align="left" info-is-row />
-    </div>
+      <!-- Camera Captures -->
+      <div
+        id="CameraCapture1"
+        class="Capture Relative"
+        :style="{
+          left: '0px',
+          top: '0px',
+          width: '478px',
+          height: '361px',
+        }"
+      />
 
-    <!-- Media Box / Reader / Comms -->
-    <div
-      class="Fixed FlexColumn"
-      :style="{
+      <div
+        class="Fixed FlexColumn BorderTop BorderBottom"
+        :style="{
+          left: '0px',
+          top: '361px',
+          width: '478px',
+          height: '44px',
+        }">
+        <Player/>
+      </div>
+
+      <!-- Media Box / Reader / Comms -->
+      <div
+        class="Fixed FlexColumn"
+        :style="{
         left: '0px',
         top: '410px',
-        width: '469px',
+        width: '478px',
         height: '588px',
       }"
-    >
-      <FlashingLightsWarning />
-      <MediaBoxBox
-        vertical
-        line-right
-        :style="{
-          width: '469px',
-          height: '100%',
-        }"
-      />
-      <CommentatorsReader line-top show-reader />
-      <CommentatorsReader line-top />
+      >
+<!--        <CommentatorsList class="BorderTop BorderBottom" />-->
+        <CommentatorsReader class="BorderTop BorderBottom"/>
+        <CommentatorsReader class="BorderBottom" show-reader/>
+        <FlashingLightsWarning/>
+        <MediaBoxBox
+          vertical
+          line-right
+          class="BorderTop1"
+          :style="{
+            width: '478px',
+            height: '100%',
+          }"
+        />
+      </div>
     </div>
   </div>
 </template>

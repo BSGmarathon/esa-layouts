@@ -9,103 +9,91 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
 </script>
 
 <template>
-  <div class="bsglayout _3ds_1p_vertical">
+  <div class="bsglayout">
     <!-- Run Game Info -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderBottom BorderRight"
       :style="{
-      left: '0x',
-      top: '0px',
-      width: '574px',
-      height: '252px',
+        left: '0x',
+        top: '0px',
+        width: '574px',
+        height: '252px',
       }"
     >
-      <RunInfo />
-    </div>
-
-    <!-- Host/comms -->
-    <div
-      class="Fixed FlexColumn"
-      :style="{
-      left: '0x',
-      top: '257px',
-      width: '574px',
-      height: '97px',
-      }"
-    >
-      <CommentatorsReader show-reader />
-      <CommentatorsReader />
+      <RunInfo line-right />
     </div>
 
     <!-- Game Captures -->
     <GameCapture
       id="GameCapture1"
+      class="BorderBottom BorderLeft BorderRight"
       :style="{
-      left: '846px',
-      top: '0px',
-      width: '808px',
-      height: '486px',
+        left: '790px',
+        top: '0px',
+        width: '907px',
+        height: '544px',
+      }"
+    />
+
+    <div
+      class="Fixed BorderBottom"
+      :style="{
+        left: '574px',
+        top: '0px',
+        width: '100%',
+        height: '544px',
       }"
     />
 
     <GameCapture
       id="GameCapture3"
+      class="BorderLeft BorderRight"
       :style="{
-      left: '928px',
-      top: '513px',
-      width: '646px',
-      height: '485px',
+        left: '950px',
+        top: '549px',
+        width: '599px',
+        height: '449px',
       }"
     />
 
     <!-- Camera Captures -->
     <div
       id="CameraCapture1"
-      class="Capture Relative"
+      class="Capture Relative BorderRight"
       :style="{
-      left: '0px',
-      top: '363px',
-      width: '566px',
-      height: '307px',
+        left: '0px',
+        top: '257px',
+        width: '574px',
+        height: '307px',
       }"
     />
 
     <!-- Player -->
     <div
-      class="Fixed"
+      class="Fixed BorderRight BorderTop"
       :style="{
-      left: '0px',
-      top: '683px',
-      width: '574px',
-      height: '44px',
+        left: '0px',
+        top: '560px',
+        width: '574px',
+        height: '44px',
       }"
     >
       <Player/>
     </div>
 
-    <!--TIMER-->
+    <!-- Comms / Host / timer / Media Box -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderTop BorderRight"
       :style="{
         left: '0px',
-        top: '732px',
+        top: '609px',
         width: '574px',
-        height: '106px',
+        height: '384px',
       }"
     >
-      <Timer line-right line-bottom/>
-    </div>
-
-    <!-- Media Box -->
-    <div
-      class="Fixed FlexColumn"
-      :style="{
-        left: '0px',
-        top: '838px',
-        width: '574px',
-        height: '160px',
-      }"
-    >
+      <CommentatorsReader class="BorderBottom" />
+      <CommentatorsReader class="BorderBottom" show-reader />
+      <Timer class="BorderBottom" line-right line-bottom/>
       <FlashingLightsWarning class="Flex" style="align-self: flex-end" />
       <MediaBoxBox
         line-right

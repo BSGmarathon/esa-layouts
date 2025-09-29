@@ -13,11 +13,6 @@ const routes = [
     component: List.L_4x3_1p,
   },
   {
-    name: '4x3 1 Player (Large Camera)',
-    path: '/4x3-1p-largecam',
-    component: List.L_4x3_1p_LargeCam,
-  },
-  {
     name: '4:3 2 Player',
     path: '/4x3-2p',
     component: List.L_4x3_2p,

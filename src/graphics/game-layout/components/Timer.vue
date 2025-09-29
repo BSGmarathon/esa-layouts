@@ -61,7 +61,7 @@ watch(() => timer.data!, (newTimer?: Timer) => {
   if (newTimer) {
     timeStr.value = newTimer.time;
   }
-}, { immediate: true });
+}, { immediate: true, deep: true });
 </script>
 
 <template>
@@ -70,22 +70,24 @@ watch(() => timer.data!, (newTimer?: Timer) => {
     :style="{
       'box-sizing': 'border-box',
       'justify-content': 'center',
-      'border-top': borderTop ? '5px solid var(--bsg-color)' : 'unset',
+      // 'border-top': borderTop ? '5px solid var(--bsg-color)' : 'unset',
       // [borderLocation]: lineBottom ? '5px solid var(--bsg-color)' : 'unset',
-      'border-bottom': lineBottom ? '5px solid var(--bsg-color)' : 'unset',
+      // 'border-bottom': lineBottom ? '5px solid var(--bsg-color)' : 'unset',
       // 'height': '100%',
     }"
   >
-    <div class="TimerContainer Flex"
-         :style="{
-            'align-self': 'center',
-            'box-sizing': 'border-box',
-            'border-right': lineRight ? '5px solid var(--slide-color)' : '5px solid rgba(0,0,0,0)',
-            'border-left': lineLeft ? '5px solid var(--slide-color)' : '5px solid rgba(0,0,0,0)',
-            'justify-content': 'center',
-            width: 'calc(100% - 14px)',
-            height: 'calc(100% - 12px)',
-         }">
+    <div
+      class="TimerContainer Flex"
+      :style="{
+        'align-self': 'center',
+        'box-sizing': 'border-box',
+        'border-right': lineRight ? '5px solid var(--slide-color)' : '5px solid rgba(0,0,0,0)',
+        'border-left': lineLeft ? '5px solid var(--slide-color)' : '5px solid rgba(0,0,0,0)',
+        'justify-content': 'center',
+        width: 'calc(100% - 14px)',
+        height: 'calc(100% - 23px)',
+     }"
+    >
       <div
         :class="`Flex Timer${timerState}`"
         :style="{
@@ -96,8 +98,6 @@ watch(() => timer.data!, (newTimer?: Timer) => {
         'font-family': 'LiquidCrystal',
         'font-weight': 300,
         'font-size': '65pt',
-        // 'font-size': fontSize,
-        // 'align-items': 'center',
         'align-content': 'center',
         'justify-content': 'center',
       }"
@@ -111,6 +111,7 @@ watch(() => timer.data!, (newTimer?: Timer) => {
           // width: ([2, 5].includes(i)) ? undefined : '0.75em',
           // 'text-align': 'center',
           // Make the colon appear more towards the centre.
+          // width: '50px',
           'margin-top': ([2, 5].includes(i)) ? '-0.2em' : undefined,
         }"
       >

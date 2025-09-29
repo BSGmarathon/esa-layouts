@@ -39,7 +39,6 @@ withDefaults(defineProps<{
   position: relative;
   width: 100%;
   justify-content: center;
-  //background: orange;
 }
 
 .right-line {
@@ -51,6 +50,10 @@ withDefaults(defineProps<{
 }
 
 .MBNoPadding {
+  box-sizing: border-box;
   position: relative !important;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
 }
 </style>

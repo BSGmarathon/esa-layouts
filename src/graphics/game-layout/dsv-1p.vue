@@ -9,36 +9,50 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
 </script>
 
 <template>
-  <div class="bsglayout _ds_1p_vertical">
+  <div class="bsglayout">
     <!-- Game Captures -->
     <GameCapture
       id="GameCapture1"
+      class="BorderLeft BorderRight BorderBottom"
       :style="{
-      left: '932px',
-      top: '0px',
-      width: '647px',
-      height: '487px'
+        left: '916px',
+        top: '0px',
+        width: '667px',
+        height: '500px',
       }"
     />
+
+    <!-- Line middle -->
+    <div
+      class="Fixed BorderBottom"
+      :style="{
+        left: '575px',
+        top: '0px',
+        width: '100%',
+        height: '500px',
+      }"
+    />
+
     <GameCapture
       id="GameCapture3"
+      class="BorderLeft BorderRight"
       :style="{
-      left: '932px',
-      top: '513px',
-      width: '647px',
-      height: '485px'
+        left: '916px',
+        top: '505px',
+        width: '667px',
+        height: '495px',
       }"
     />
 
     <!-- Camera Captures -->
     <div
       id="CameraCapture1"
-      class="Capture Relative"
+      class="Capture Relative BorderRight"
       :style="{
-      left: '0px',
-      top: '363px',
-      width: '566px',
-      height: '307px',
+        left: '0px',
+        top: '263px',
+        width: '574px',
+        height: '307px',
       }"
     >
       <FlashingLightsWarning />
@@ -46,27 +60,25 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
 
     <!-- Run Game Info -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderRight"
       :style="{
-      left: '0px',
-      top: '0px',
-      width: '574px',
-      height: '349px'
+        left: '0px',
+        top: '0px',
+        width: '574px',
+        height: '263px'
       }"
     >
-      <RunInfo line-right />
-      <CommentatorsReader line-top show-reader />
-      <CommentatorsReader line-top />
+      <RunInfo class="BorderBottom" line-right />
     </div>
 
     <!-- Player -->
     <div
-      class="Fixed"
+      class="Fixed BorderTop BorderRight"
       :style="{
-      left: '0px',
-      top: '683px',
-      width: '574px',
-      height: '44px'
+        left: '0px',
+        top: '570px',
+        width: '574px',
+        height: '44px'
       }"
     >
       <Player />
@@ -74,15 +86,17 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
 
     <!-- Media Box / Timer -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderTop BorderRight"
       :style="{
         left: '0px',
-        top: '732px',
+        top: '619px',
         width: '574px',
-        height: '266px',
+        height: '374px',
       }"
     >
-      <Timer line-right />
+      <CommentatorsReader class="BorderBottom" />
+      <CommentatorsReader class="BorderBottom" show-reader />
+      <Timer class="BorderBottom" line-right />
       <MediaBoxBox
         line-right
         :style="{
@@ -91,6 +105,5 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         }"
       />
     </div>
-
   </div>
 </template>

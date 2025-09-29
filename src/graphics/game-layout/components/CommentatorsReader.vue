@@ -14,7 +14,6 @@ const props = withDefaults(defineProps<{
 });
 const toFit = useTemplateRef<HTMLElement>('Fit');
 const show = computed(() => !!(props.showReader ? donationReaderNew.data : commentatorsNew.data?.length));
-const borderLocation = computed(() => (props.lineTop ? 'border-top' : 'border-bottom'));
 
 let fittyInstance: FittyInstance;
 
@@ -46,8 +45,8 @@ onUnmounted(() => {
       'font-size': '1.5em',
       // Order of operations is important here
       // TODO: fix this jank and allow for both borders at the same time if set
-      'border-bottom': lineBottom ? '5px solid var(--bsg-color)' : 'unset',
-      [borderLocation]: '5px solid var(--bsg-color)',
+      // 'border-bottom': lineBottom ? '5px solid var(--bsg-color)' : 'unset',
+      // [borderLocation]: '5px solid var(--bsg-color)',
     }"
   >
     <div
@@ -75,6 +74,7 @@ onUnmounted(() => {
         height: '43px',
         'justify-content': 'center',
         'align-items': 'center',
+        overflow: 'hidden',
       }"
     >
       <div
