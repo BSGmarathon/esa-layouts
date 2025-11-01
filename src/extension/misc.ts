@@ -270,7 +270,6 @@ async function searchNameOld(val: string, currentVal: string[]): Promise<void> {
 nodecg().listenFor('commentatorAdd', async (val: string | null | undefined, ack) => {
   if (val) {
     await searchName(val, commentatorsNew.value);
-    await searchNameOld(val, commentators.value);
   }
 
   if (ack && !ack.handled) {
@@ -290,7 +289,6 @@ nodecg().listenFor('lower-third:add-name', (val: string | null | undefined, ack)
 
 nodecg().listenFor('commentatorRemove', (val: number, ack) => {
   commentatorsNew.value.splice(val, 1);
-  commentators.value.splice(val, 1);
   if (ack && !ack.handled) {
     ack(null);
   }
@@ -300,15 +298,10 @@ nodecg().listenFor('commentatorRemove', (val: number, ack) => {
 nodecg().listenFor('readerModify', async (val: string | null | undefined, ack) => {
   if (!val) {
     donationReaderNew.value = null;
-    donationReader.value = null;
   } else if (config.useOengusInsteadOfSrdc) {
     donationReaderNew.value = await searchOengusPronouns(val);
   } else {
     donationReaderNew.value = await searchSrcomPronouns(val);
-  }
-
-  if (donationReaderNew.value) {
-    donationReader.value = objToSimpleDisplay(donationReaderNew.value);
   }
 
   if (ack && !ack.handled) {
