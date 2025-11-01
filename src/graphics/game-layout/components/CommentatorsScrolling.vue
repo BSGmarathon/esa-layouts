@@ -1,30 +1,79 @@
 <script setup lang="ts">
 import { computed, ref, watch, nextTick, useTemplateRef, onMounted } from 'vue';
 import { commentatorsNew } from '@esa-layouts/browser_shared/replicant_store';
+import gsap from 'gsap';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+import { wait } from '@esa-layouts/graphics/_misc/helpers';
+import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
 
-const rerenderTrigger = ref(true);
+gsap.registerPlugin(ScrollToPlugin);
+
+const nameContainer = useTemplateRef<HTMLSpanElement>('NameFit');
 const show = computed(() => commentatorsNew.data?.length);
-const scroller = useTemplateRef<HTMLMarqueeElement>('scroller');
+let timeline: gsap.core.Timeline | null = null;
+const hasTimeline = ref(false);
 
-watch(() => commentatorsNew?.data, async () => {
-  rerenderTrigger.value = false;
+function killTimeline() {
+  if (timeline) {
+    timeline.kill();
+    timeline = null;
+    hasTimeline.value = false;
+  }
+}
+
+async function initTimeline() {
+  const container = nameContainer.value;
+
+  if (!container) {
+    return;
+  }
+
+  timeline = gsap.timeline({
+    paused: true,
+    yoyo: true,
+    repeat: -1,
+    repeatDelay: 4,
+    delay: 0,
+  });
+
+  hasTimeline.value = true;
+
+  timeline.to(container, {
+    scrollTo: { x: container.scrollWidth },
+    duration: 4,
+    delay: -10,
+    ease: 'none',
+  });
+
+  timeline.resume();
+}
+
+function createTimelineIfNeeded() {
+  if (nameContainer.value!.scrollWidth <= nameContainer.value!.clientWidth) {
+    console.log('Timeline is not needed');
+    hasTimeline.value = false;
+    return;
+  }
+
+  initTimeline();
+}
+
+watch(() => commentatorsNew.data, async () => {
+  killTimeline();
 
   await nextTick();
 
-  rerenderTrigger.value = true;
-}, { deep: true, immediate: true });
+  createTimelineIfNeeded();
+}, { deep: true });
 
 onMounted(async () => {
-  while (!scroller.value) {
+  await waitForReplicant(commentatorsNew);
+
+  while (!nameContainer.value) {
     await nextTick();
   }
 
-  console.log(scroller.value);
-
-  scroller.value!.addEventListener('bounce', () => {
-    console.log('boink');
-    scroller.value!.stop();
-  });
+  createTimelineIfNeeded();
 });
 </script>
 
@@ -46,7 +95,7 @@ onMounted(async () => {
     <div
       class="Flex"
       :style="{
-        width: '89px',
+        width: '90px',
         height: '100%',
         background: 'var(--bsg-color)',
         'justify-content': 'center',
@@ -59,50 +108,29 @@ onMounted(async () => {
     >
       Comm
     </div>
+
     <div
-      class="Flex"
+      ref="NameFit"
+      class="Flex namesParent"
       :style="{
-        // width: '486px',
-        width: '100%',
-        height: '43px',
-        'justify-content': 'center',
-        'align-items': 'center',
-        overflow: 'hidden',
-      }"
+          position: 'relative',
+          width: '100%',
+          height: '43px',
+          'white-space': 'nowrap',
+          display: 'flex !important',
+          'align-items': 'center',
+          'justify-content': hasTimeline ? undefined : 'center',
+          overflow: 'hidden',
+        }"
     >
-      <div
-        class="Flex"
-        :style="{
-        'text-align': 'center',
-        'align-self': 'center',
-      }">
+      <!-- weird html? I know -->
+      <!-- new lines are taken as extra spacing here -->
+      <div v-for="({ name, pronouns }, i) in commentatorsNew.data" :id="`name_${i}`" :key="i">
+        {{ name }}
         <span
-          ref="Fit"
-          :style="{
-            'white-space': 'nowrap',
-            display: 'flex !important',
-          }"
-        >
-          <marquee
-            v-if="rerenderTrigger"
-            ref="scroller"
-            behavior="alternate"
-            direction="left"
-            width="100%"
-            scrolldelay="500"
-            scrollamount="20"
-          >
-            <!-- weird html? I know -->
-            <!-- new lines are taken as extra spacing here -->
-            <span v-for="({ name, pronouns }, i) in commentatorsNew.data" :key="i">
-              {{ name }}
-              <span
-                v-if="pronouns"
-                class="Pronouns">{{ pronouns }}</span><template
-              v-if="i < commentatorsNew.data!.length - 1">,</template>
-            </span>
-          </marquee>
-        </span>
+          v-if="pronouns"
+          class="Pronouns">{{ pronouns }}</span><template
+        v-if="i < commentatorsNew.data!.length - 1">,</template>
       </div>
     </div>
   </div>
@@ -126,8 +154,8 @@ onMounted(async () => {
     font-family: pixelmix;
   }
 
-  marquee {
-    padding-left: 10px;
-    padding-right: 10px;
+  .namesParent {
+    padding-left: 5px;
+    padding-right: 5px;
   }
 </style>
