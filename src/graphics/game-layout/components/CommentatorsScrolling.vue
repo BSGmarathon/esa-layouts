@@ -3,7 +3,6 @@ import { computed, ref, watch, nextTick, useTemplateRef, onMounted } from 'vue';
 import { commentatorsNew } from '@esa-layouts/browser_shared/replicant_store';
 import gsap from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
-import { wait } from '@esa-layouts/graphics/_misc/helpers';
 import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
 
 gsap.registerPlugin(ScrollToPlugin);
