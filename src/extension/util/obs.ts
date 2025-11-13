@@ -1,3 +1,4 @@
+import { OBS as OBSTypes } from '@esa-layouts/types';
 import OBS from './obs-class';
 import { logError } from './helpers';
 import { get as nodecg } from './nodecg';
@@ -6,6 +7,27 @@ import { currentRunDelay, obsData } from './replicants';
 const config = nodecg().bundleConfig.obs;
 const obs = new OBS(nodecg(), config);
 let sceneChangeCodeTriggered = 0;
+
+obs.conn.on('SceneTransitionStarted', (data) => {
+  console.log('SceneTransitionStarted', data);
+});
+
+obs.conn.on('SceneTransitionEnded', (data) => {
+  console.log('SceneTransitionEnded', data);
+});
+
+obs.conn.on('SceneTransitionVideoEnded', (data) => {
+  console.log('SceneTransitionVideoEnded', data);
+});
+
+export function getCropFromData(data: OBSTypes.Transform) {
+  return {
+    top: data.cropTop,
+    right: data.cropRight,
+    bottom: data.cropBottom,
+    left: data.cropLeft,
+  };
+}
 
 export function canChangeScene(
   { scene, force = false }: { scene: string, force?: boolean },
