@@ -31,6 +31,8 @@ class OBS extends EventEmitter {
     if (config.enabled) {
       nodecg.log.info('[OBS] Setting up connection');
 
+      this.connect();
+
       this.conn.on('ConnectionClosed', () => {
         this.connected = false;
         this.emit('connectionStatusChanged', this.connected);
@@ -75,8 +77,6 @@ class OBS extends EventEmitter {
           this.emit('ready');
         }, 5 * 1000);
       });
-
-      this.connect();
     }
   }
 

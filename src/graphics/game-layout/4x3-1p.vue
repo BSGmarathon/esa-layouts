@@ -36,7 +36,7 @@ import Timer from './components/Timer.vue';
         :style="{
           left: '0px',
           top: '0px',
-          width: '584px',
+          width: '579px',
           height: '251px',
         }"
       >
@@ -50,8 +50,8 @@ import Timer from './components/Timer.vue';
         class="Capture Relative"
         :style="{
           left: '0px',
-          top: '256px',
-          width: '584px',
+          top: '251px',
+          width: '579px',
           height: '349px',
         }"
       />
@@ -61,8 +61,8 @@ import Timer from './components/Timer.vue';
         class="Fixed FlexColumn BorderTop BorderBottom"
         :style="{
           left: '0px',
-          top: '605px',
-          width: '584px',
+          top: '600px',
+          width: '579px',
           height: '44px',
         }"
       >
@@ -75,9 +75,9 @@ import Timer from './components/Timer.vue';
         :style="{
           flex: '1',
           left: '0px',
-          top: '659px',
-          width: '584px',
-          height: '340px',
+          top: '644px',
+          width: '579px',
+          height: '355px',
         }"
       >
         <CommentatorsReader class="BorderBottom"/>
@@ -86,7 +86,7 @@ import Timer from './components/Timer.vue';
         <MediaBoxBox
           line-right
           :style="{
-            width: '584px',
+            width: '579px',
             height: '100%',
           }"
         />

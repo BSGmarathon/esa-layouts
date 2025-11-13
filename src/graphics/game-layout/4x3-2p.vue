@@ -32,10 +32,10 @@ function flashingLightsUpdated(newVal: boolean): void {
         class="BorderRight"
         :slot-no="0"
         :style="{
-        left: '0px',
-        top: '0px',
-        width: '958px',
-        height: '715px',
+          left: '0px',
+          top: '0px',
+          width: '958px',
+          height: '710px',
       }"
       />
       <GameCapture
@@ -43,10 +43,10 @@ function flashingLightsUpdated(newVal: boolean): void {
         :slot-no="1"
         finish-time-pos="bottomright"
         :style="{
-          left: '963px',
+          left: '958px',
           top: '0px',
-          width: '958px',
-          height: '715px',
+          width: '961px',
+          height: '710px',
         }"
       />
     </div>
@@ -56,10 +56,10 @@ function flashingLightsUpdated(newVal: boolean): void {
       id="CameraCapture1"
       class="Capture Relative"
       :style="{
-      left: '710px',
-      top: '815px',
-      width: '495px',
-      height: '183px',
+        left: '710px',
+        top: '815px',
+        width: '495px',
+        height: '183px',
       }"
     />
 
@@ -67,10 +67,10 @@ function flashingLightsUpdated(newVal: boolean): void {
     <div
       class="Fixed FlexColumn BorderBottom BorderRight"
       :style="{
-      left: '0px',
-      top: '720px',
-      width: '705px',
-      height: '45px'
+        left: '0px',
+        top: '715px',
+        width: '710px',
+        height: '45px'
       }"
     >
       <Player :slot-no="0"/>
@@ -81,8 +81,8 @@ function flashingLightsUpdated(newVal: boolean): void {
       class="Fixed FlexColumn BorderLeft BorderBottom"
       :style="{
         left: '1205px',
-        top: '720px',
-        width: '710px',
+        top: '715px',
+        width: '715px',
         height: '45px'
       }"
     >
@@ -95,9 +95,9 @@ function flashingLightsUpdated(newVal: boolean): void {
       :style="{
         flex: 1,
         left: '705px',
-        top: '720px',
-        width: '495px',
-        height: '94px',
+        top: '715px',
+        width: '505px',
+        height: '100px',
       }"
     >
       <Timer line-right line-left :style="{
@@ -110,9 +110,9 @@ function flashingLightsUpdated(newVal: boolean): void {
       class="Fixed FlexColumn BorderLeft"
       :style="{
         left: '1205px',
-        top: '770px',
-        width: '710px',
-        height: '228px',
+        top: '760px',
+        width: '715px',
+        height: '239px',
       }"
     >
       <RunInfo text-align="left" :info-is-row="infoIsRow" line-left/>
@@ -126,9 +126,9 @@ function flashingLightsUpdated(newVal: boolean): void {
     <div class="Fixed FlexColumn BorderRight"
          :style="{
           left: '0px',
-          top: '770px',
-          width: '705px',
-          height: '228px',
+          top: '760px',
+          width: '710px',
+          height: '239px',
         }"
     >
       <MediaBoxBox
