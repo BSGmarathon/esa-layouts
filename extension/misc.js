@@ -252,7 +252,6 @@ async function searchNameOld(val, currentVal) {
 (0, nodecg_1.get)().listenFor('commentatorAdd', async (val, ack) => {
     if (val) {
         await searchName(val, replicants_1.commentatorsNew.value);
-        await searchNameOld(val, replicants_1.commentators.value);
     }
     if (ack && !ack.handled) {
         ack(null);
@@ -268,7 +267,6 @@ async function searchNameOld(val, currentVal) {
 });
 (0, nodecg_1.get)().listenFor('commentatorRemove', (val, ack) => {
     replicants_1.commentatorsNew.value.splice(val, 1);
-    replicants_1.commentators.value.splice(val, 1);
     if (ack && !ack.handled) {
         ack(null);
     }
@@ -277,16 +275,12 @@ async function searchNameOld(val, currentVal) {
 (0, nodecg_1.get)().listenFor('readerModify', async (val, ack) => {
     if (!val) {
         replicants_1.donationReaderNew.value = null;
-        replicants_1.donationReader.value = null;
     }
     else if (config.useOengusInsteadOfSrdc) {
         replicants_1.donationReaderNew.value = await searchOengusPronouns(val);
     }
     else {
         replicants_1.donationReaderNew.value = await searchSrcomPronouns(val);
-    }
-    if (replicants_1.donationReaderNew.value) {
-        replicants_1.donationReader.value = objToSimpleDisplay(replicants_1.donationReaderNew.value);
     }
     if (ack && !ack.handled) {
         ack(null);
