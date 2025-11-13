@@ -102,7 +102,8 @@ watch(() => omnibar.data, (newVal, oldVal) => onOmnibarChange(newVal, oldVal));
 
 <style lang="scss" scoped>
 #Ticker {
-  height: 100%;
+  //height: 100%;
+  height: 82px;
   min-width: 0;
   flex: 1;
   padding-top: 2px;
