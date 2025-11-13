@@ -6,7 +6,7 @@ import RunInfo from './components/RunInfo.vue';
 import Timer from './components/Timer.vue';
 import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
 import MediaBoxBox from './components/MediaBoxBox.vue';
-import CommentatorsScrolling from './components/CommentatorsScrolling.vue';
+// import CommentatorsScrolling from './components/CommentatorsScrolling.vue';
 </script>
 
 <template>
@@ -128,7 +128,7 @@ import CommentatorsScrolling from './components/CommentatorsScrolling.vue';
         }"
       />
       <CommentatorsReader class="BorderBottom" line-top />
-      <CommentatorsScrolling class="BorderBottom" />
+<!--      <CommentatorsScrolling class="BorderBottom" />-->
       <CommentatorsReader line-top show-reader />
     </div>
 
