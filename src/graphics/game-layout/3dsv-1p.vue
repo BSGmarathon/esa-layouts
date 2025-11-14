@@ -62,7 +62,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       class="Capture Relative BorderRight"
       :style="{
         left: '0px',
-        top: '257px',
+        top: '252px',
         width: '574px',
         height: '307px',
       }"
@@ -73,7 +73,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       class="Fixed BorderRight BorderTop"
       :style="{
         left: '0px',
-        top: '560px',
+        top: '559px',
         width: '574px',
         height: '44px',
       }"
@@ -86,9 +86,9 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       class="Fixed FlexColumn BorderTop BorderRight"
       :style="{
         left: '0px',
-        top: '609px',
+        top: '603px',
         width: '574px',
-        height: '384px',
+        height: '394px',
       }"
     >
       <CommentatorsReader class="BorderBottom" />
@@ -98,7 +98,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       <MediaBoxBox
         line-right
         :style="{
-          width: '574px',
+          width: '569px',
           height: '100%',
         }"
       />
