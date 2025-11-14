@@ -27,7 +27,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       :style="{
         top: '0px',
         left: '0px',
-        width: '576px',
+        width: '581px',
         height: '100%',
       }"
     />
@@ -64,7 +64,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       :style="{
         left: '0px',
         top: '595px',
-        width: '580px',
+        width: '576px',
         height: '44px',
       }"
       >
@@ -73,12 +73,12 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
 
     <!--host, comms, timer, and mediabox-->
     <div
-      class="Fixed FlexColumn BorderRight"
+      class="Fixed FlexColumn"
       :style="{
         flex: '1',
         left: '0px',
         top: '649px',
-        width: '575px',
+        width: '576px',
         height: '350px',
       }"
     >
@@ -88,7 +88,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       <MediaBoxBox
         line-right
         :style="{
-          width: '575px',
+          width: '576px',
           height: '100%',
         }"
       />

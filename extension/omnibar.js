@@ -289,37 +289,32 @@ replicants_1.omnibar.on('change', (newVal, oldVal) => {
             const asset = replicants_1.assetsDonationAlertAssets.value.find((a) => alert && a.name === (alert === null || alert === void 0 ? void 0 : alert.sound));
             (0, nodecg_1.get)().log.debug('[Omnibar] omnibarPlaySound called, alert %s, asset %s', (alert === null || alert === void 0 ? void 0 : alert.sound) || 'not found', (asset === null || asset === void 0 ? void 0 : asset.name) || 'not found');
             if (alert && asset) {
-                const source = await obs_1.default.conn.send('GetSourceSettings', {
-                    sourceName: config.obs.names.sources.donationSound,
-                });
+                const source = await obs_1.default.getSourceSettings(config.obs.names.sources.donationSound);
                 (0, nodecg_1.get)().log.debug('[Omnibar] omnibarPlaySound OBS source found');
                 const location = (0, path_1.join)((0, process_1.cwd)(), `assets/${asset.namespace}/${asset.category}/${asset.base}`);
                 (0, nodecg_1.get)().log.debug('[Omnibar] omnibarPlaySound location of sound:', location);
                 // Set volume of source.
-                await obs_1.default.conn.send('SetVolume', {
-                    source: config.obs.names.sources.donationSound,
-                    volume: Math.min(alert.volume, 0),
-                    useDecibel: true,
+                await obs_1.default.conn.call('SetInputVolume', {
+                    inputName: config.obs.names.sources.donationSound,
+                    inputVolumeDb: Math.min(alert.volume, 0),
                 });
                 (0, nodecg_1.get)().log.debug('[Omnibar] omnibarPlaySound volume set to %s', Math.min(alert.volume, 0));
                 // File is the same as before, just restart it.
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 if (source.sourceSettings.local_file === location) {
-                    await obs_1.default.conn.send('RestartMedia', {
-                        sourceName: config.obs.names.sources.donationSound,
+                    await obs_1.default.conn.call('TriggerMediaInputAction', {
+                        inputName: config.obs.names.sources.donationSound,
+                        mediaAction: 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_RESTART',
                     });
                     (0, nodecg_1.get)().log.debug('[Omnibar] omnibarPlaySound media restarted');
                     // If different, explicitily set it. This also starts the playback.
                 }
                 else {
-                    await obs_1.default.conn.send('SetSourceSettings', {
-                        sourceName: config.obs.names.sources.donationSound,
-                        sourceSettings: {
-                            is_local_file: true,
-                            local_file: location,
-                            looping: false,
-                            restart_on_active: false,
-                        },
+                    await obs_1.default.setSourceSettings(config.obs.names.sources.donationSound, {
+                        is_local_file: true,
+                        local_file: location,
+                        looping: false,
+                        restart_on_active: false,
                     });
                     (0, nodecg_1.get)().log.debug('[Omnibar] omnibarPlaySound source settings set');
                 }

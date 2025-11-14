@@ -27,7 +27,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       :slot-no="0"
       :style="{
         left: '0px',
-        top: '502px',
+        top: '492px',
         width: '659px',
         height: '496px',
       }"
@@ -51,7 +51,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       finish-time-pos="bottomright"
       :style="{
         left: '1254px',
-        top: '502px',
+        top: '492px',
         width: '661px',
         height: '496px',
       }"
@@ -62,10 +62,10 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       id="CameraCapture1"
       class="Capture Relative"
       :style="{
-        left: '664px',
-        top: '613px',
-        width: '590px',
-        height: '385px',
+        left: '659px',
+        top: '602px',
+        width: '595px',
+        height: '395px',
       }"
     />
 
@@ -73,10 +73,10 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
     <div
       class="Fixed BorderBottom BorderRight"
       :style="{
-        left: '664px',
-        top: '314px',
+        left: '659px',
+        top: '309px',
         width: '504px',
-        height: '44px',
+        height: '50px',
       }"
     >
       <Player :slot-no="0" />
@@ -87,9 +87,9 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       class="Fixed FlexColumn BorderTop BorderLeft"
       :style="{
         left: '745px',
-        top: '453px',
-        width: '507px',
-        height: '44px'
+        top: '444px',
+        width: '509px',
+        height: '50px'
       }"
     >
       <Player :slot-no="1" />
@@ -99,9 +99,9 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
     <div
       class="Fixed FlexColumn BorderBottom"
       :style="{
-        left: '664px',
+        left: '659px',
         top: '0px',
-        width: '590px',
+        width: '595px',
         height: '309px',
       }"
     >
@@ -114,9 +114,9 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
     <div
       class="Fixed FlexColumn"
       :style="{
-        left: '664px',
+        left: '659px',
         top: '375px',
-        width: '590px',
+        width: '595px',
         height: '90px',
       }"
     >
@@ -126,10 +126,10 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
     <div
       class="Fixed FlexColumn BorderTop BorderBottom"
       :style="{
-        left: '664px',
-        top: '502px',
-        width: '590px',
-        height: '101px',
+        left: '659px',
+        top: '492px',
+        width: '595px',
+        height: '110px',
       }"
     >
       <Timer line-left line-right />

@@ -74,9 +74,9 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Capture Relative BorderLeft BorderRight"
       :style="{
         left: '738px',
-        top: '585px',
-        width: '434px',
-        height: '413px',
+        top: '580px',
+        width: '445px',
+        height: '418px',
       }"
     />
 
@@ -85,9 +85,10 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Fixed FlexColumn BorderBottom"
       :style="{
         left: '0px',
-        top: '15px',
+        top: '25px',
         width: '738px',
-        height: '98px'
+        height: '93px',
+        'align-content': 'flex-end'
       }"
     >
       <CommentatorsReader class="BorderTop" show-reader />
@@ -99,7 +100,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Fixed FlexColumn BorderTop BorderBottom"
       :style="{
         left: '0px',
-        top: '533px',
+        top: '538px',
         width: '738px',
         height: '44px',
       }"
@@ -112,7 +113,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Fixed FlexColumn BorderTop BorderBottom"
       :style="{
         left: '1182px',
-        top: '533px',
+        top: '538px',
         width: '738px',
         height: '44px'
       }"
@@ -126,7 +127,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       :style="{
         left: '738px',
         top: '0px',
-        width: '434px',
+        width: '445px',
         height: '582px',
       }"
     >
@@ -138,7 +139,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         line-left
         class="BorderTop"
         :style="{
-          width: '434px',
+          width: '435px',
           height: '80%',
         }"
       />

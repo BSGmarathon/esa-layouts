@@ -25,9 +25,9 @@ import Timer from './components/Timer.vue';
       id="GameCapture3"
       :style="{
         left: '0px',
-        top: '573px',
+        top: '560px',
         width: '569px',
-        height: '426px', // 15 px missing
+        height: '438px', // 15 px missing
       }"
     />
 
@@ -37,7 +37,7 @@ import Timer from './components/Timer.vue';
       :style="{
         left: '16px',
         top: '0px',
-        width: '553px',
+        width: '558px',
         height: '100%',
       }"
     />
@@ -87,9 +87,9 @@ import Timer from './components/Timer.vue';
       class="Fixed FlexColumn BorderRight BorderLeft"
       :style="{
         left: '569px',
-        top: '812px',
-        width: '641px',
-        height: '186px',
+        top: '807px',
+        width: '650px',
+        height: '190px',
       }"
     >
       <MediaBoxBox
@@ -107,10 +107,10 @@ import Timer from './components/Timer.vue';
     <div
       class="Fixed FlexColumn"
       :style="{
-        left: '1220px',
-        top: '812px',
+        left: '1218px',
+        top: '807px',
         width: '700px',
-        height: '186px',
+        height: '190px',
       }"
     >
       <RunInfo line-left info-is-row text-align="left"/>

@@ -15,8 +15,8 @@ class VideoPlayer extends tiny_typed_emitter_1.TypedEmitter {
         this.obsConfig = obsConfig;
         this.obs = obs;
         // Listens for when videos finish playing in OBS.
-        obs.conn.on('MediaEnded', (data) => {
-            if (data.sourceName === videoPlayerSource && this.playing && this.index >= 0) {
+        obs.conn.on('MediaInputPlaybackEnded', (data) => {
+            if (data.inputName === videoPlayerSource && this.playing && this.index >= 0) {
                 this.emit('videoEnded', this.playlist[this.index]);
             }
         });
@@ -99,7 +99,11 @@ class VideoPlayer extends tiny_typed_emitter_1.TypedEmitter {
             this.playlist.length = 0;
             (_a = this.delayAC) === null || _a === void 0 ? void 0 : _a.abort();
             try {
-                await this.obs.conn.send('StopMedia', { sourceName: this.videoPlayerSource });
+                await this.obs.conn.call('TriggerMediaInputAction', {
+                    inputName: this.videoPlayerSource,
+                    // This action is incorrectly marked as deprecated in the generated docs, but isn't.
+                    mediaAction: 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_STOP',
+                });
             }
             catch (err) { /* do nothing */ }
             this.emit('playlistEnded', true);
@@ -113,45 +117,41 @@ class VideoPlayer extends tiny_typed_emitter_1.TypedEmitter {
         if (!this.obs.connected || !this.obsConfig.enabled) {
             throw new Error('no OBS connection available');
         }
-        const source = await this.obs.conn.send('GetSourceSettings', {
-            sourceName: this.videoPlayerSource,
+        const source = await this.obs.conn.call('GetInputSettings', {
+            inputName: this.videoPlayerSource,
         });
         const location = (0, path_1.join)((0, process_1.cwd)(), `assets/${video.namespace}/${video.category}/${video.base}`);
         // File is the same as before, just restart it.
         // ONLY WORKS FOR ffmpeg_source, but might not even be needed for VLC source!
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        if (source.sourceSettings.local_file === location) {
-            await this.obs.conn.send('RestartMedia', {
-                sourceName: this.videoPlayerSource,
+        if (source.inputSettings.local_file === location) {
+            await this.obs.conn.call('TriggerMediaInputAction', {
+                inputName: this.videoPlayerSource,
+                // This action is incorrectly marked as deprecated in the generated docs, but isn't.
+                mediaAction: 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_RESTART',
             });
             // If different, explicitily set it. This also starts the playback.
         }
-        else if (source.sourceType === 'ffmpeg_source') {
-            await this.obs.conn.send('SetSourceSettings', {
-                sourceName: this.videoPlayerSource,
-                sourceSettings: {
-                    is_local_file: true,
-                    local_file: location,
-                    looping: false,
-                    restart_on_activate: false,
-                },
+        else if (source.inputKind === 'ffmpeg_source') {
+            await this.obs.setSourceSettings(this.videoPlayerSource, {
+                is_local_file: true,
+                local_file: location,
+                looping: false,
+                restart_on_activate: false,
             });
         }
-        else if (source.sourceType === 'vlc_source') {
-            await this.obs.conn.send('SetSourceSettings', {
-                sourceName: this.videoPlayerSource,
-                sourceSettings: {
-                    loop: false,
-                    shuffle: false,
-                    playback_behavior: 'always_play',
-                    playlist: [
-                        {
-                            hidden: false,
-                            selected: false,
-                            value: location,
-                        },
-                    ],
-                },
+        else if (source.inputKind === 'vlc_source') {
+            await this.obs.setSourceSettings(this.videoPlayerSource, {
+                loop: false,
+                shuffle: false,
+                playback_behavior: 'always_play',
+                playlist: [
+                    {
+                        hidden: false,
+                        selected: false,
+                        value: location,
+                    },
+                ],
             });
         }
         else {

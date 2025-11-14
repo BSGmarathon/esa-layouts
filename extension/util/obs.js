@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.changeScene = exports.canChangeScene = void 0;
+exports.changeScene = exports.canChangeScene = exports.getCropFromData = void 0;
 const obs_class_1 = __importDefault(require("./obs-class"));
 const helpers_1 = require("./helpers");
 const nodecg_1 = require("./nodecg");
@@ -11,6 +11,24 @@ const replicants_1 = require("./replicants");
 const config = (0, nodecg_1.get)().bundleConfig.obs;
 const obs = new obs_class_1.default((0, nodecg_1.get)(), config);
 let sceneChangeCodeTriggered = 0;
+obs.conn.on('SceneTransitionStarted', (data) => {
+    console.log('SceneTransitionStarted', data);
+});
+obs.conn.on('SceneTransitionEnded', (data) => {
+    console.log('SceneTransitionEnded', data);
+});
+obs.conn.on('SceneTransitionVideoEnded', (data) => {
+    console.log('SceneTransitionVideoEnded', data);
+});
+function getCropFromData(data) {
+    return {
+        top: data.cropTop,
+        right: data.cropRight,
+        bottom: data.cropBottom,
+        left: data.cropLeft,
+    };
+}
+exports.getCropFromData = getCropFromData;
 function canChangeScene({ scene, force = false }) {
     // Don't change scene if identical, we're currently transitioning, transitioning is disabled,
     // or if we triggered a scene change here in the last 2 seconds.

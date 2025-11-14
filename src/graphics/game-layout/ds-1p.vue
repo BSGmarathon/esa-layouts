@@ -59,15 +59,15 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
 
     <!-- Player / Reader / Commentators -->
     <div
-      class="Fixed BorderTop BorderRight"
+      class="Fixed BorderTop BorderBottom BorderRight"
       :style="{
         left: '0px',
         top: '436px',
         width: '584px',
-        height: '45px',
+        height: '50px',
       }"
     >
-      <Player class="BorderBottom" />
+      <Player />
     </div>
 
     <!--TIMER-->

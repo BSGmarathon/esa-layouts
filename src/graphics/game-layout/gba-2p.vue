@@ -9,7 +9,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
 </script>
 
 <template>
-  <div class="bsglayout _gba_2p">
+  <div class="bsglayout">
     <div
       class="Fixed BorderBottom"
       :style="{
@@ -27,8 +27,8 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
         :style="{
           left: '0px',
           top: '0px',
-          width: '958px',
-          height: '637px',
+          width: '960px',
+          height: '632px',
         }"
       />
 
@@ -37,10 +37,10 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
         :slot-no="1"
         finish-time-pos="bottomright"
         :style="{
-          left: '963px',
+          left: '961px',
           top: '0px',
           width: '958px',
-          height: '637px',
+          height: '632px',
         }"
       />
     </div>
@@ -62,8 +62,8 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       class="Fixed FlexColumn BorderBottom BorderRight"
       :style="{
         left: '0px',
-        top: '642px',
-        width: '710px',
+        top: '637px',
+        width: '715px',
         height: '45px'
       }"
     >
@@ -75,12 +75,12 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       :style="{
         flex: '1',
         left: '715px',
-        top: '642px',
+        top: '637px',
         width: '490px',
         height: '100px',
     }"
     >
-      <Timer line-left line-right/>
+      <Timer top-margin="-3px" line-left line-right />
     </div>
 
     <!-- Player 2 -->
@@ -88,8 +88,8 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       class="Fixed FlexColumn BorderLeft BorderBottom"
       :style="{
         left: '1205px',
-        top: '642px',
-        width: '710px',
+        top: '637px',
+        width: '715px',
         height: '45px'
       }"
     >
@@ -101,9 +101,9 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       class="Fixed FlexColumn BorderLeft"
       :style="{
         left: '1205px',
-        top: '692px',
-        width: '710px',
-        height: '306px',
+        top: '681px',
+        width: '715px',
+        height: '317px',
       }"
     >
       <RunInfo line-left />
@@ -117,9 +117,9 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       class="Fixed FlexColumn BorderRight"
       :style="{
         left: '0px',
-        top: '692px',
-        width: '710px',
-        height: '306px',
+        top: '681px',
+        width: '715px',
+        height: '317px',
       }"
     >
       <MediaBoxBox

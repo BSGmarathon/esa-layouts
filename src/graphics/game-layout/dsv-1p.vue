@@ -78,7 +78,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         left: '0px',
         top: '570px',
         width: '574px',
-        height: '44px'
+        height: '50px'
       }"
     >
       <Player />
@@ -89,7 +89,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Fixed FlexColumn BorderTop BorderRight"
       :style="{
         left: '0px',
-        top: '619px',
+        top: '620px',
         width: '574px',
         height: '374px',
       }"
@@ -100,7 +100,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       <MediaBoxBox
         line-right
         :style="{
-          width: '574px',
+          width: '570px',
           height: '100%',
         }"
       />

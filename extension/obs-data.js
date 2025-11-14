@@ -101,13 +101,12 @@ async function startIntermission() {
 let gameLayoutScreenshotInterval;
 async function takeGameLayoutScreenshot() {
     try {
-        const gameLayoutScreenshot = await obs_1.default.conn.send('TakeSourceScreenshot', {
+        const gameLayoutScreenshot = await obs_1.default.conn.call('GetSourceScreenshot', {
             sourceName: config.names.scenes.gameLayout,
-            embedPictureFormat: 'png',
-            height: 360,
+            imageFormat: 'png',
+            imageHeight: 360,
         });
-        const compressed = await (0, sharp_1.default)(Buffer.from(gameLayoutScreenshot.img.split(',')[1], 'base64'))
-            .jpeg({ mozjpeg: true }).toBuffer();
+        const compressed = await (0, sharp_1.default)(Buffer.from(gameLayoutScreenshot.imageData.split(',')[1], 'base64')).jpeg({ mozjpeg: true }).toBuffer();
         replicants_1.obsData.value.gameLayoutScreenshot = `data:image/jpeg;base64,${compressed.toString('base64')}`;
     }
     catch (err) {
@@ -154,12 +153,14 @@ obs_1.default.on('sceneListChanged', (list) => {
     const stopIndex = list.findIndex((s) => s.startsWith('---'));
     replicants_1.obsData.value.sceneList = (0, clone_1.default)(list).slice(0, stopIndex >= 0 ? stopIndex : undefined);
 });
-obs_1.default.conn.on('TransitionBegin', (data) => {
+obs_1.default.conn.on('SceneTransitionStarted', (data) => {
     replicants_1.obsData.value.transitioning = true;
-    if (data.name === 'Stinger')
+    if (data.transitionName === 'Stinger')
         (0, nodecg_1.get)().sendMessage('showTransition');
 });
-obs_1.default.conn.on('TransitionEnd', () => {
+// NOTE: This is apparently called even if the transition is not a video,
+// which is very useful in case it's not, but could be sometimes.
+obs_1.default.conn.on('SceneTransitionVideoEnded', () => {
     replicants_1.obsData.value.transitioning = false;
 });
 // Disable transitioning when commercials are running and no videos are playing.

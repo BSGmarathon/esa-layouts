@@ -16,7 +16,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       :style="{
         left: '0px',
         top: '0px',
-        width: '574px',
+        width: '579px',
         height: '999px',
       }"
     >

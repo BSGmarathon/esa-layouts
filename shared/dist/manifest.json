@@ -1095,7 +1095,7 @@
     ]
   },
   "src/graphics/game-layout/main.ts": {
-    "file": "assets/main-4PKWxMvr.js",
+    "file": "assets/main-DgCM-RJz.js",
     "name": "main",
     "src": "src/graphics/game-layout/main.ts",
     "isEntry": true,
@@ -1864,7 +1864,7 @@
     "src": "src/graphics/omnibar/components/img/CrowdControl.png"
   },
   "src/graphics/omnibar/main.ts": {
-    "file": "assets/main-BTZyMfEG.js",
+    "file": "assets/main-hRgbjc0d.js",
     "name": "main",
     "src": "src/graphics/omnibar/main.ts",
     "isEntry": true,
@@ -1880,7 +1880,7 @@
       "__commonjsHelpers-BosuxZz1.js"
     ],
     "css": [
-      "assets/main-B6BWYFVa.css",
+      "assets/main-CuzJcB5R.css",
       "assets/bsg-DY22oWUA.css"
     ],
     "assets": [

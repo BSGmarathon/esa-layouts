@@ -80,12 +80,12 @@ async function startPlaylist() {
 }
 exports.startPlaylist = startPlaylist;
 // Used if a user manually switches to the intermission player scene in OBS.
-obs_1.default.conn.on('TransitionBegin', async (data) => {
-    if (obs_1.default.findScene(config.obs.names.scenes.fullScreenVideoPlayer) === data['to-scene']
+obs_1.default.on('transitionStarted', async (current, last) => {
+    if (obs_1.default.findScene(config.obs.names.scenes.fullScreenVideoPlayer) === current
         && !replicants_1.fullScreenVideoPlayer.value.playing) {
         await startPlaylist();
     }
-    if (obs_1.default.findScene(config.obs.names.scenes.fullScreenVideoPlayer) === data['from-scene']) {
+    if (obs_1.default.findScene(config.obs.names.scenes.fullScreenVideoPlayer) === last) {
         await exports.player.endPlaylistEarly();
     }
 });

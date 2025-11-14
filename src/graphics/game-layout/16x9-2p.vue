@@ -16,7 +16,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       :style="{
         left: '0px',
         top: '70px',
-        height: '538px',
+        height: '548px',
         width: '100%',
       }"
     >
@@ -28,7 +28,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         :style="{
           left: '0px',
           top: '75px',
-          width: '958px',
+          width: '962px',
           height: '538px',
         }"
       />
@@ -51,9 +51,9 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Capture Relative"
       :style="{
         left: '687px',
-        top: '724px',
+        top: '719px',
         width: '551px',
-        height: '274px',
+        height: '279px',
       }"
     />
 
@@ -63,7 +63,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       :style="{
         left: '0px',
         top: '618px',
-        width: '682px',
+        width: '687px',
         height: '44px'
       }"
     >
@@ -76,7 +76,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       :style="{
         left: '1238px',
         top: '618px',
-        width: '677px',
+        width: '682px',
         height: '44px'
       }"
     >
@@ -100,9 +100,9 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Fixed FlexColumn BorderLeft"
       :style="{
         left: '1238px',
-        top: '667px',
+        top: '662px',
         width: '682px',
-        height: '331px',
+        height: '336px',
         }"
     >
       <FlashingLightsWarning class="Flex" style="align-self: flex-end" />
@@ -114,9 +114,9 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Fixed FlexColumn BorderRight"
       :style="{
         left: '0px',
-        top: '667px',
-        width: '682px',
-        height: '331px',
+        top: '662px',
+        width: '687px',
+        height: '336px',
       }"
     >
       <MediaBoxBox

@@ -4,7 +4,7 @@ import type { DeepWritable } from 'ts-essentials';
 import Countdown from './countdown';
 import { logError } from './util/helpers';
 import { get as nodecg } from './util/nodecg';
-import obs from './util/obs';
+import obs, { getCropFromData } from './util/obs';
 import {
   capturePositions,
   gameLayouts,
@@ -33,7 +33,7 @@ const cameraSources = Array.isArray(obsNamesCfg.sources.cameraSources)
   : [obsNamesCfg.sources.cameraSources];
 // For ease of use, we attach the type of the source to each name as well.
 const allSources = (gameSources.map((v) => ({ name: v, type: 'game' }))
-  .concat(cameraSources.map((v) => ({ name: v, type: 'camera' })))
+    .concat(cameraSources.map((v) => ({ name: v, type: 'camera' })))
 ) as { name: string, type: 'game' | 'camera' }[];
 
 // CSS ID -> OBS source name mapping
@@ -96,6 +96,7 @@ function cycleNames(reset = false): void {
   }
   nameCycle.value = cycle;
 }
+
 cycleNames(true);
 
 // Change the game layout based on information supplied via the run data.
@@ -164,10 +165,10 @@ async function getStoredCropAndAreaVals(
         // Cameras need cropping if not exactly 16:9.
         // Wider need top/bottom cropping.
         // Thinner need left/right cropping.
-        const sceneItemProperties = await obs.conn.send('GetSceneItemProperties', {
-          'scene-name': config.obs.names.scenes.gameLayout,
-          item: { name: groupSourceName },
-        });
+        const { sceneItemTransform: sceneItemProperties } = await obs.getSceneItemSettings(
+          config.obs.names.scenes.gameLayout,
+          groupSourceName,
+        );
         const cameraAR = sceneItemProperties.sourceWidth / sceneItemProperties.sourceHeight;
         const areaAR = area.width / area.height;
         if (areaAR > cameraAR) {
@@ -317,7 +318,7 @@ capturePositions.on('change', async (val) => {
 // TODO: Any checks needed for "online" marathons? Some were removed; we don't care about
 // them anymore anyway so not too much of an issue, not sure why the check was there
 // in the first place.
-obs.conn.on('AuthenticationSuccess', async () => {
+obs.on('ready', async () => {
   // TODO: disable all game can camera captures with online events.
   //  Enable RTMP sources?
 
@@ -331,13 +332,11 @@ obs.conn.on('AuthenticationSuccess', async () => {
     // Loop through all sources inside of this capture scene, and get properties from OBS.
     for (const [sourceIndex, { name: sourceName }] of allSources.entries()) {
       try {
-        const itemProperties = await obs.conn.send('GetSceneItemProperties', {
-          'scene-name': captureName,
-          item: { name: sourceName },
-        });
+        const itemProperties = await obs.getSceneItemSettings(captureName, sourceName);
+
         // If this source in the capture scene is toggled as being visible, assume this is the
         // one that should be marked on the xkeys.
-        if (itemProperties.visible) {
+        if (itemProperties.sceneItemEnabled) {
           selected.sourceIndex[captureIndex] = sourceIndex;
           // We check here if the current source selected is game or camera so we can fill in the
           // current cropping information in the correct spot.
@@ -356,15 +355,15 @@ obs.conn.on('AuthenticationSuccess', async () => {
     }
     try {
       // Get properties of capture source in game layout scene.
-      const itemProperties = await obs.conn.send('GetSceneItemProperties', {
-        'scene-name': config.obs.names.scenes.gameLayout,
-        item: { name: captureName },
-      });
+      const { sceneItemTransform } = await obs.getSceneItemSettings(
+        config.obs.names.scenes.gameLayout,
+        captureName,
+      );
       // Fill in cropping information based on the type of source selected in the capture scene.
       if (mode === 'game') {
-        gameCropValues[captureIndex] = itemProperties.crop;
+        gameCropValues[captureIndex] = getCropFromData(sceneItemTransform);
       } else if (mode === 'camera') {
-        cameraCropValues[captureIndex] = itemProperties.crop;
+        cameraCropValues[captureIndex] = getCropFromData(sceneItemTransform);
       }
     } catch (err) {
       logError('[Layouts] Could not get initial capture cropping values [%s]', err, captureName);
@@ -408,107 +407,108 @@ function rtmpFromIndex(index: number) {
   };
 }
 
-nodecg().listenFor('refreshRtmpSources', async (val: number[], ack) => {
-  for (const index of val) {
-    const { sourceName } = rtmpFromIndex(index);
+// TODO: fix when we do online events again
+// nodecg().listenFor('refreshRtmpSources', async (val: number[], ack) => {
+//   for (const index of val) {
+//     const { sourceName } = rtmpFromIndex(index);
+//
+//     await obs.conn.send('RestartMedia', {
+//       sourceName,
+//     });
+//   }
+//
+//   if (ack && !ack.handled) {
+//     ack(null);
+//   }
+// });
 
-    await obs.conn.send('RestartMedia', {
-      sourceName,
-    });
-  }
+// nodecg().listenFor('geRtmpSettings', async (val: string | null | undefined, ack) => {
+//   const indexes = [1, 2];
+//   const rtmpRegex = /rtmp:\/\/([^.]+)\.bsgmarathon\.com\/live\/(.*)/;
+//   const feeds: RtmpFeed[] = [];
+//
+//   // send empty feeds in case of error
+//   if (!obs.connected) {
+//     if (ack && !ack.handled) {
+//       ack(null, []);
+//     }
+//     return;
+//   }
+//
+//   for (const index of indexes) {
+//     const { sceneName, sourceName } = rtmpFromIndex(index);
+//
+//     const { sourceSettings } = await obs.conn.send('GetSourceSettings', {
+//       sourceName,
+//     });
+//
+//     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//     // @ts-ignore
+//     const rtmpUrl = sourceSettings.playlist[0].value as string;
+//     const { visible } = await obs.conn.send('GetSceneItemProperties', {
+//       'scene-name': config.obs.names.scenes.gameLayout,
+//       item: { name: sceneName },
+//     });
+//
+//     const feed: RtmpFeed = {
+//       streamKey: 'DEFAULT',
+//       server: 'eu',
+//       enabled: visible,
+//       feedIndex: index,
+//       editAllowed: true,
+//     };
+//
+//     const match = rtmpRegex.exec(rtmpUrl);
+//
+//     if (match !== null) {
+//       feed.server = match[1] as RtmpFeed['server'];
+//       // eslint-disable-next-line prefer-destructuring
+//       feed.streamKey = match[2];
+//     }
+//
+//     feeds.push(feed);
+//   }
+//
+//   if (ack && !ack.handled) {
+//     ack(null, feeds);
+//   }
+// });
 
-  if (ack && !ack.handled) {
-    ack(null);
-  }
-});
-
-nodecg().listenFor('geRtmpSettings', async (val: string | null | undefined, ack) => {
-  const indexes = [1, 2];
-  const rtmpRegex = /rtmp:\/\/([^.]+)\.bsgmarathon\.com\/live\/(.*)/;
-  const feeds: RtmpFeed[] = [];
-
-  // send empty feeds in case of error
-  if (!obs.connected) {
-    if (ack && !ack.handled) {
-      ack(null, []);
-    }
-    return;
-  }
-
-  for (const index of indexes) {
-    const { sceneName, sourceName } = rtmpFromIndex(index);
-
-    const { sourceSettings } = await obs.conn.send('GetSourceSettings', {
-      sourceName,
-    });
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const rtmpUrl = sourceSettings.playlist[0].value as string;
-    const { visible } = await obs.conn.send('GetSceneItemProperties', {
-      'scene-name': config.obs.names.scenes.gameLayout,
-      item: { name: sceneName },
-    });
-
-    const feed: RtmpFeed = {
-      streamKey: 'DEFAULT',
-      server: 'eu',
-      enabled: visible,
-      feedIndex: index,
-      editAllowed: true,
-    };
-
-    const match = rtmpRegex.exec(rtmpUrl);
-
-    if (match !== null) {
-      feed.server = match[1] as RtmpFeed['server'];
-      // eslint-disable-next-line prefer-destructuring
-      feed.streamKey = match[2];
-    }
-
-    feeds.push(feed);
-  }
-
-  if (ack && !ack.handled) {
-    ack(null, feeds);
-  }
-});
-
-nodecg().listenFor('setRtmpSettings', async (data: RtmpFeed[], ack) => {
-  for (const settings of data) {
-    const rtmpUrl = `rtmp://${settings.server}.bsgmarathon.com/live/${settings.streamKey}`;
-    // TODO: unhardcode
-    const { sceneName, sourceName } = rtmpFromIndex(settings.feedIndex);
-
-    await obs.conn.send('SetSourceSettings', {
-      sourceName,
-      sourceSettings: {
-        loop: false,
-        shuffle: false,
-        playback_behavior: 'always_play',
-        playlist: [
-          {
-            hidden: false,
-            selected: false,
-            value: rtmpUrl,
-          },
-        ],
-      },
-    });
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore: Typings say we need to specify more than we actually do.
-    await obs.conn.send('SetSceneItemProperties', {
-      'scene-name': config.obs.names.scenes.gameLayout,
-      item: { name: sceneName },
-      visible: settings.enabled,
-    });
-  }
-
-  if (ack && !ack.handled) {
-    ack(null);
-  }
-});
+// nodecg().listenFor('setRtmpSettings', async (data: RtmpFeed[], ack) => {
+//   for (const settings of data) {
+//     const rtmpUrl = `rtmp://${settings.server}.bsgmarathon.com/live/${settings.streamKey}`;
+//     // TODO: unhardcode
+//     const { sceneName, sourceName } = rtmpFromIndex(settings.feedIndex);
+//
+//     await obs.conn.send('SetSourceSettings', {
+//       sourceName,
+//       sourceSettings: {
+//         loop: false,
+//         shuffle: false,
+//         playback_behavior: 'always_play',
+//         playlist: [
+//           {
+//             hidden: false,
+//             selected: false,
+//             value: rtmpUrl,
+//           },
+//         ],
+//       },
+//     });
+//
+//     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//     // @ts-ignore: Typings say we need to specify more than we actually do.
+//     await obs.conn.send('SetSceneItemProperties', {
+//       'scene-name': config.obs.names.scenes.gameLayout,
+//       item: { name: sceneName },
+//       visible: settings.enabled,
+//     });
+//   }
+//
+//   if (ack && !ack.handled) {
+//     ack(null);
+//   }
+// });
 
 nodecg().listenFor('setSelectedCaptures', async (data: { [key: string]: string }, ack) => {
   const { sceneName, sourceName } = data;
@@ -518,11 +518,13 @@ nodecg().listenFor('setSelectedCaptures', async (data: { [key: string]: string }
   await Promise.all(
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore: Typings say we need to specify more than we actually do.
-    allSources.map(({ name, type }) => obs.conn.send('SetSceneItemProperties', {
-      'scene-name': sceneName,
-      item: { name },
-      visible: name === sourceName,
-    })
+    allSources.map(({ name, type }) => obs.configureSceneItem(
+      sceneName,
+      name,
+      undefined,
+      undefined,
+      name === sourceName,
+    )
       .catch((err: unknown) => logError(
         '[Layouts] Could not change source visibility [%s: %s]',
         err,
@@ -557,10 +559,13 @@ function clearAllKeys(): void {
  * if no other keys are pressed.
  */
 let captureTO: NodeJS.Timeout | undefined;
+
 function setupIdleTimeout(): void {
   if (captureTO) clearTimeout(captureTO);
   if (idleTimeout) {
-    captureTO = setTimeout(() => { clearAllKeys(); }, 30 * 1000);
+    captureTO = setTimeout(() => {
+      clearAllKeys();
+    }, 30 * 1000);
   }
 }
 
@@ -632,9 +637,9 @@ async function changeCrop(
           gameCropValues[capI].left = calculateGameCrop(gameCropValues[capI].left, value);
           break;
         default:
-          // nothing
+        // nothing
       }
-    // If no value is supplied, reset the cropping instead.
+      // If no value is supplied, reset the cropping instead.
     } else {
       gameCropValues[capI] = { top: 0, right: 0, bottom: 0, left: 0 };
     }
@@ -668,13 +673,17 @@ async function changeCrop(
     typeof allSources[0]['type'] | undefined;
   if (currentCaptureMode === mode) {
     try {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore: Typings say we need to specify more than we actually do.
-      await obs.conn.send('SetSceneItemProperties', {
-        'scene-name': config.obs.names.scenes.gameLayout,
-        item: { name: allCaptures[capI] },
-        crop: cropValues[capI],
-      });
+      await obs.configureSceneItem(
+        config.obs.names.scenes.gameLayout,
+        allCaptures[capI],
+        undefined,
+        cropValues[capI],
+      );
+      // await obs.conn.send('SetSceneItemProperties', {
+      //   'scene-name': config.obs.names.scenes.gameLayout,
+      //   item: { name: allCaptures[capI] },
+      //   crop: cropValues[capI],
+      // });
     } catch (err) {
       logError(
         '[Layouts] Could not change capture crop values [%s]',
@@ -769,7 +778,7 @@ xkeys.on('down', async (keyIndex) => {
       selected.captureIndex = -1;
       if (mode === 'game') selected.gameCrop = -1;
     }
-  // A Source key was pressed and a Capture is selected.
+    // A Source key was pressed and a Capture is selected.
   } else if (allSourceKeys.includes(keyIndex) && selected.captureIndex >= 0) {
     const sourceIndex = allSourceKeys.indexOf(keyIndex);
     // Check for mode of what source button was pressed.
@@ -805,7 +814,7 @@ xkeys.on('down', async (keyIndex) => {
       const groupSourceName = allCaptures[selected.captureIndex] as
         typeof allCaptures[0] | undefined;
       const areaName = Object.entries(obsSourceKeys)
-        .find(([,v]) => groupSourceName && v === groupSourceName)?.[0];
+        .find(([, v]) => groupSourceName && v === groupSourceName)?.[0];
       if (areaName && groupSourceName) {
         const { crop, area } = await getStoredCropAndAreaVals(
           mode,
@@ -825,13 +834,13 @@ xkeys.on('down', async (keyIndex) => {
       // Loops through the sources and toggles their visibility for the selected source.
       for (const [index, { name }] of allSources.entries()) {
         try {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore: Typings say we need to specify more than we actually do.
-          await obs.conn.send('SetSceneItemProperties', {
-            'scene-name': allCaptures[selected.captureIndex],
-            item: { name },
-            visible: index === sourceIndex,
-          });
+          await obs.configureSceneItem(
+            allCaptures[selected.captureIndex],
+            name,
+            undefined,
+            undefined,
+            index === sourceIndex,
+          );
         } catch (err) {
           logError(
             '[Layouts] Could not change source visibility [%s: %s]',
@@ -847,7 +856,7 @@ xkeys.on('down', async (keyIndex) => {
 
       setupIdleTimeout();
     }
-  // A Game Cropping key was pressed and a Capture is selected.
+    // A Game Cropping key was pressed and a Capture is selected.
   } else if (gameCropKeys.includes(keyIndex) && selected.captureIndex >= 0) {
     // Check for mode of currently selected source for currently selected capture.
     const mode = allSources[selected.sourceIndex[selected.captureIndex]]?.type;
@@ -879,7 +888,7 @@ xkeys.on('down', async (keyIndex) => {
 
       setupIdleTimeout();
     }
-  // The button to reset cropping on selected game capture was pressed and a Capture is selected.
+    // The button to reset cropping on selected game capture was pressed and a Capture is selected.
   } else if (gameCropResetKeys.selected === keyIndex && selected.captureIndex >= 0) {
     // Check for mode of currently selected source for currently selected capture.
     const mode = allSources[selected.sourceIndex[selected.captureIndex]]?.type;
@@ -905,8 +914,8 @@ xkeys.on('down', async (keyIndex) => {
         resetOneGameCropConfirm = false;
       }
     }
-  // The "reset all game cropping" key was pressed.
-  // This has a double check so you can't accidentally press it.
+    // The "reset all game cropping" key was pressed.
+    // This has a double check so you can't accidentally press it.
   } else if (gameCropResetKeys.all === keyIndex) {
     // Check for mode of currently selected source for currently selected capture.
     const mode = allSources[selected.sourceIndex[selected.captureIndex]]?.type;
@@ -934,7 +943,7 @@ xkeys.on('down', async (keyIndex) => {
         resetAllGameCropConfirm = false;
       }
     }
-  // The button to reset camera "crop" if we have a camera capture selected.
+    // The button to reset camera "crop" if we have a camera capture selected.
   } else if (cameraPositionResetKey === keyIndex && selected.captureIndex >= 0) {
     // Check for mode of currently selected source for currently selected capture.
     const mode = allSources[selected.sourceIndex[selected.captureIndex]]?.type;
@@ -960,7 +969,7 @@ xkeys.on('down', async (keyIndex) => {
         const groupSourceName = allCaptures[selected.captureIndex] as
           typeof allCaptures[0] | undefined;
         const areaName = Object.entries(obsSourceKeys)
-          .find(([,v]) => groupSourceName && v === groupSourceName)?.[0];
+          .find(([, v]) => groupSourceName && v === groupSourceName)?.[0];
         if (areaName && groupSourceName) {
           // Updates the stored value for the camera, no need to use returned values.
           await getStoredCropAndAreaVals('camera', areaName, groupSourceName);
@@ -969,7 +978,7 @@ xkeys.on('down', async (keyIndex) => {
         resetCameraPositionConfirm = false;
       }
     }
-  // The button to toggle the idle timeout functionality.
+    // The button to toggle the idle timeout functionality.
   } else if (noIdleTimeoutKey === keyIndex) {
     if (idleTimeout) {
       idleTimeout = false;
@@ -987,7 +996,7 @@ xkeys.on('jog', async (index, position) => {
   // Check for mode of currently selected source for currently selected capture.
   const mode = allSources[selected.sourceIndex[selected.captureIndex]]?.type;
   if ((mode === 'game' && selected.gameCrop >= 0)
-  || (mode === 'camera' && selected.captureIndex >= 0)) {
+    || (mode === 'camera' && selected.captureIndex >= 0)) {
     setupIdleTimeout();
     await changeCrop(position, undefined, mode);
   }
@@ -999,15 +1008,15 @@ xkeys.on('shuttle', (index, position) => {
   // If returned to 0, clear interval.
   if (position === 0 && shuttleInterval) {
     clearInterval(shuttleInterval);
-  // If was at one and has now turned, start the 100ms interval.
-  // This then runs the crop function every 100ms with the current position
-  // at that time until the shuttle is returned to 0.
+    // If was at one and has now turned, start the 100ms interval.
+    // This then runs the crop function every 100ms with the current position
+    // at that time until the shuttle is returned to 0.
   } else if (currShuttlePos === 0 && position !== 0) {
     shuttleInterval = setInterval(async () => {
       // Check for mode of currently selected source for currently selected capture.
       const mode = allSources[selected.sourceIndex[selected.captureIndex]]?.type;
       if ((mode === 'game' && selected.gameCrop >= 0)
-      || (mode === 'camera' && selected.captureIndex >= 0)) {
+        || (mode === 'camera' && selected.captureIndex >= 0)) {
         setupIdleTimeout();
         await changeCrop(currShuttlePos, undefined, mode);
       }

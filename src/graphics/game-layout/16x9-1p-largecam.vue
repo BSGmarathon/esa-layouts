@@ -26,7 +26,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     <div
       class="Fixed FlexColumn"
       :style="{
-        left: '1210px',
+        left: '1209px',
         top: '818px',
         width: '710px',
         height: '180px',
@@ -41,7 +41,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         left: '474px',
         top: '813px',
         width: '1446px',
-        height: '176px',
+        height: '185px',
       }"
     >
       <div
@@ -49,7 +49,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         :style="{
           left: '474px',
           top: '818px',
-          width: '731px',
+          width: '735px',
           height: '180px',
         }"
       >
@@ -57,7 +57,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
           line-left
           line-right
           :style="{
-            width: '731px',
+            width: '730px',
             height: '100%',
           }"
         />
@@ -66,7 +66,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
 
     <div class="Flex BorderRight" :style="{
       height: '100%',
-      width: '469px',
+      width: '474px',
     }">
       <!-- Camera Capture -->
       <div
@@ -98,9 +98,9 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         class="Fixed FlexColumn"
         :style="{
           left: '0px',
-          top: '738px',
+          top: '729px',
           width: '469px',
-          height: '255px',
+          height: '270px',
         }"
       >
         <CommentatorsReader class="BorderBottom" />

@@ -24,66 +24,77 @@ class OBS extends events_1.EventEmitter {
                 nodecg.log.warn('[OBS] Connection lost, retrying in 5 seconds');
                 setTimeout(() => this.connect(), 5000);
             });
-            this.conn.on('SwitchScenes', (data) => {
+            this.conn.on('CurrentProgramSceneChanged', (data) => {
                 const lastScene = this.currentScene;
-                if (lastScene !== data['scene-name']) {
-                    this.currentScene = data['scene-name'];
+                if (lastScene !== data.sceneName) {
+                    this.currentScene = data.sceneName;
                     this.emit('currentSceneChanged', this.currentScene, lastScene);
                 }
             });
-            this.conn.on('ScenesChanged', async () => {
-                const scenes = await this.conn.send('GetSceneList');
-                this.sceneList = scenes.scenes.map((s) => s.name);
+            this.conn.on('SceneListChanged', async ({ scenes }) => {
+                this.sceneList = scenes
+                    .sort((s, b) => b.sceneIndex - s.sceneIndex)
+                    .map((s) => s.sceneName);
                 this.emit('sceneListChanged', this.sceneList);
             });
-            this.conn.on('StreamStarted', () => {
-                this.streaming = true;
+            this.conn.on('StreamStateChanged', ({ outputActive }) => {
+                this.streaming = outputActive;
                 this.emit('streamingStatusChanged', this.streaming, !this.streaming);
             });
-            this.conn.on('StreamStopped', () => {
-                this.streaming = false;
-                this.emit('streamingStatusChanged', this.streaming, !this.streaming);
-            });
-            this.conn.on('error', (err) => {
+            this.conn.on('ConnectionError', (err) => {
                 nodecg.log.warn('[OBS] Connection error');
                 nodecg.log.debug('[OBS] Connection error:', err);
+            });
+            // @ts-expect-error better types are needed.
+            this.conn.on('SceneTransitionStarted', (data) => {
+                this.emit('transitionStarted', data.toScene, data.fromScene);
+            });
+            this.conn.on('Identified', () => {
+                // wait a few seconds to make sure OBS is properly loaded.
+                // Otherwise, we'll get "OBS is not ready to perform the request"
+                setTimeout(() => {
+                    this.emit('ready');
+                }, 5 * 1000);
             });
         }
     }
     async connect() {
         try {
-            await this.conn.connect({
-                address: this.config.address,
-                password: this.config.password,
-            });
+            let addr = this.config.address;
+            if (!addr.startsWith('ws://')) {
+                addr = `ws://${addr}`;
+            }
+            await this.conn.connect(addr, this.config.password);
             this.connected = true;
-            const scenes = await this.conn.send('GetSceneList');
+            const scenes = await this.conn.call('GetSceneList');
             // Get current scene on connection.
             const lastScene = this.currentScene;
-            if (lastScene !== scenes['current-scene']) {
-                this.currentScene = scenes['current-scene'];
+            if (lastScene !== scenes.currentProgramSceneName) {
+                this.currentScene = scenes.currentProgramSceneName;
             }
             // Get scene list on connection.
             const oldList = (0, clone_1.default)(this.sceneList);
-            const newList = scenes.scenes.map((s) => s.name);
+            const newList = scenes.scenes
+                .sort((s, b) => b.sceneIndex - s.sceneIndex)
+                .map((s) => s.sceneName);
             if (JSON.stringify(newList) !== JSON.stringify(oldList)) {
                 this.sceneList = newList;
             }
             // Get streaming status on connection.
-            const streamingStatus = await this.conn.send('GetStreamingStatus');
+            const streamingStatus = await this.conn.call('GetStreamStatus');
             const lastStatus = this.streaming;
-            if (streamingStatus.streaming !== lastStatus) {
-                this.streaming = streamingStatus.streaming;
+            if (streamingStatus.outputActive !== lastStatus) {
+                this.streaming = streamingStatus.outputActive;
             }
             // Emit changes after everything start up related has finished.
             this.emit('connectionStatusChanged', this.connected);
-            if (lastScene !== scenes['current-scene']) {
+            if (lastScene !== scenes.currentProgramSceneName) {
                 this.emit('currentSceneChanged', this.currentScene, lastScene);
             }
             if (JSON.stringify(newList) !== JSON.stringify(oldList)) {
                 this.emit('sceneListChanged', this.sceneList);
             }
-            if (streamingStatus.streaming !== lastStatus) {
+            if (streamingStatus.outputActive !== lastStatus) {
                 this.emit('streamingStatusChanged', this.streaming, lastStatus);
             }
             this.nodecg.log.info('[OBS] Connection successful');
@@ -129,7 +140,9 @@ class OBS extends events_1.EventEmitter {
         try {
             const scene = this.findScene(name);
             if (scene) {
-                await this.conn.send('SetCurrentScene', { 'scene-name': scene });
+                await this.conn.call('SetCurrentProgramScene', {
+                    sceneName: scene,
+                });
             }
             else {
                 throw new Error('Scene could not be found');
@@ -151,8 +164,13 @@ class OBS extends events_1.EventEmitter {
             throw new Error('No connection available');
         }
         try {
-            const resp = await this.conn.send('GetSourceSettings', { sourceName });
-            return resp;
+            const resp = await this.conn.call('GetInputSettings', {
+                inputName: sourceName,
+            });
+            return {
+                inputKind: resp.inputKind,
+                sourceSettings: resp.inputSettings,
+            };
         }
         catch (err) {
             this.nodecg.log.warn(`[OBS] Cannot get source settings [${sourceName}]`);
@@ -168,16 +186,15 @@ class OBS extends events_1.EventEmitter {
      * @param sourceSettings Settings you wish to pass to OBS to change.
      */
     // eslint-disable-next-line max-len
-    async setSourceSettings(sourceName, sourceType, sourceSettings) {
+    async setSourceSettings(sourceName, sourceSettings) {
         if (!this.config.enabled || !this.connected) {
             // OBS not enabled, don't even try to set.
             throw new Error('No connection available');
         }
         try {
-            await this.conn.send('SetSourceSettings', {
-                sourceName,
-                sourceType,
-                sourceSettings,
+            await this.conn.call('SetInputSettings', {
+                inputName: sourceName,
+                inputSettings: sourceSettings,
             });
         }
         catch (err) {
@@ -186,6 +203,49 @@ class OBS extends events_1.EventEmitter {
                 + `${err.error || err}`);
             throw err;
         }
+    }
+    async getSceneItemSettings(scene, item) {
+        // None of this is properly documented btw.
+        // I had to search their discord for this information.
+        const response = await this.conn.callBatch([
+            {
+                requestType: 'GetSceneItemId',
+                requestData: {
+                    sceneName: scene,
+                    sourceName: item,
+                },
+                // @ts-expect-error This is valid, just undocumented and not typed in obs-ws-js.
+                outputVariables: {
+                    sceneItemIdVariable: 'sceneItemId',
+                },
+            },
+            {
+                requestType: 'GetSceneItemTransform',
+                // @ts-expect-error the sceneItemId var is optional cuz of the input vars
+                requestData: {
+                    sceneName: scene,
+                },
+                inputVariables: {
+                    sceneItemId: 'sceneItemIdVariable',
+                },
+            },
+            {
+                requestType: 'GetSceneItemEnabled',
+                // @ts-expect-error the sceneItemId var is optional cuz of the input vars
+                requestData: {
+                    sceneName: scene,
+                },
+                inputVariables: {
+                    sceneItemId: 'sceneItemIdVariable',
+                },
+            },
+        ]);
+        const transformRes = response[1].responseData;
+        const enabledRes = response[2].responseData;
+        return {
+            sceneItemTransform: transformRes.sceneItemTransform,
+            sceneItemEnabled: enabledRes.sceneItemEnabled,
+        };
     }
     /**
      * Resets the scene item, then sets some properties if possible.
@@ -202,28 +262,53 @@ class OBS extends events_1.EventEmitter {
                 // OBS not enabled, don't even try to set.
                 throw new Error('No connection available');
             }
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore: Typings say we need to specify more than we actually do.
-            await this.conn.send('SetSceneItemProperties', {
-                'scene-name': scene,
-                item: { name: item },
-                visible: visible !== null && visible !== void 0 ? visible : true,
-                position: {
-                    x: (_a = area === null || area === void 0 ? void 0 : area.x) !== null && _a !== void 0 ? _a : 0,
-                    y: (_b = area === null || area === void 0 ? void 0 : area.y) !== null && _b !== void 0 ? _b : 0,
+            // None of this is properly documented btw.
+            // I had to search their discord for this information.
+            await this.conn.callBatch([
+                {
+                    requestType: 'GetSceneItemId',
+                    requestData: {
+                        sceneName: scene,
+                        sourceName: item,
+                    },
+                    // @ts-expect-error This is valid, just undocumented and not typed in obs-ws-js.
+                    outputVariables: {
+                        sceneItemIdVariable: 'sceneItemId',
+                    },
                 },
-                bounds: {
-                    type: 'OBS_BOUNDS_STRETCH',
-                    x: (_c = area === null || area === void 0 ? void 0 : area.width) !== null && _c !== void 0 ? _c : 1920,
-                    y: (_d = area === null || area === void 0 ? void 0 : area.height) !== null && _d !== void 0 ? _d : 1080,
+                {
+                    requestType: 'SetSceneItemTransform',
+                    // @ts-expect-error the sceneItemId var is optional cuz of the input vars
+                    requestData: {
+                        sceneName: scene,
+                        sceneItemTransform: {
+                            boundsHeight: (_a = area === null || area === void 0 ? void 0 : area.height) !== null && _a !== void 0 ? _a : 1080,
+                            boundsType: 'OBS_BOUNDS_STRETCH',
+                            boundsWidth: (_b = area === null || area === void 0 ? void 0 : area.width) !== null && _b !== void 0 ? _b : 1920,
+                            positionX: (_c = area === null || area === void 0 ? void 0 : area.x) !== null && _c !== void 0 ? _c : 0,
+                            positionY: (_d = area === null || area === void 0 ? void 0 : area.y) !== null && _d !== void 0 ? _d : 0,
+                            cropBottom: (_e = crop === null || crop === void 0 ? void 0 : crop.bottom) !== null && _e !== void 0 ? _e : 0,
+                            cropLeft: (_f = crop === null || crop === void 0 ? void 0 : crop.left) !== null && _f !== void 0 ? _f : 0,
+                            cropRight: (_g = crop === null || crop === void 0 ? void 0 : crop.right) !== null && _g !== void 0 ? _g : 0,
+                            cropTop: (_h = crop === null || crop === void 0 ? void 0 : crop.top) !== null && _h !== void 0 ? _h : 0,
+                        },
+                    },
+                    inputVariables: {
+                        sceneItemId: 'sceneItemIdVariable',
+                    },
                 },
-                crop: {
-                    top: (_e = crop === null || crop === void 0 ? void 0 : crop.top) !== null && _e !== void 0 ? _e : 0,
-                    bottom: (_f = crop === null || crop === void 0 ? void 0 : crop.bottom) !== null && _f !== void 0 ? _f : 0,
-                    left: (_g = crop === null || crop === void 0 ? void 0 : crop.left) !== null && _g !== void 0 ? _g : 0,
-                    right: (_h = crop === null || crop === void 0 ? void 0 : crop.right) !== null && _h !== void 0 ? _h : 0,
+                {
+                    requestType: 'SetSceneItemEnabled',
+                    // @ts-expect-error the sceneItemId var is optional cuz of the input vars
+                    requestData: {
+                        sceneName: scene,
+                        sceneItemEnabled: visible !== null && visible !== void 0 ? visible : true,
+                    },
+                    inputVariables: {
+                        sceneItemId: 'sceneItemIdVariable',
+                    },
                 },
-            });
+            ]);
         }
         catch (err) {
             this.nodecg.log.warn(`[OBS] Cannot configure scene item [${scene}: ${item}]`);

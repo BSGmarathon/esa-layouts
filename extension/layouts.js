@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -8,7 +31,7 @@ const clone_1 = __importDefault(require("clone"));
 const countdown_1 = __importDefault(require("./countdown"));
 const helpers_1 = require("./util/helpers");
 const nodecg_1 = require("./util/nodecg");
-const obs_1 = __importDefault(require("./util/obs"));
+const obs_1 = __importStar(require("./util/obs"));
 const replicants_1 = require("./util/replicants");
 const speedcontrol_1 = require("./util/speedcontrol");
 const xkeys_1 = __importDefault(require("./util/xkeys"));
@@ -149,10 +172,7 @@ async function getStoredCropAndAreaVals(mode, areaName, groupSourceName, recall 
                 // Cameras need cropping if not exactly 16:9.
                 // Wider need top/bottom cropping.
                 // Thinner need left/right cropping.
-                const sceneItemProperties = await obs_1.default.conn.send('GetSceneItemProperties', {
-                    'scene-name': config.obs.names.scenes.gameLayout,
-                    item: { name: groupSourceName },
-                });
+                const { sceneItemTransform: sceneItemProperties } = await obs_1.default.getSceneItemSettings(config.obs.names.scenes.gameLayout, groupSourceName);
                 const cameraAR = sceneItemProperties.sourceWidth / sceneItemProperties.sourceHeight;
                 const areaAR = area.width / area.height;
                 if (areaAR > cameraAR) {
@@ -295,7 +315,7 @@ replicants_1.capturePositions.on('change', async (val) => {
 // TODO: Any checks needed for "online" marathons? Some were removed; we don't care about
 // them anymore anyway so not too much of an issue, not sure why the check was there
 // in the first place.
-obs_1.default.conn.on('AuthenticationSuccess', async () => {
+obs_1.default.on('ready', async () => {
     // TODO: disable all game can camera captures with online events.
     //  Enable RTMP sources?
     // [BSG] We don't use this for online events
@@ -308,13 +328,10 @@ obs_1.default.conn.on('AuthenticationSuccess', async () => {
         // Loop through all sources inside of this capture scene, and get properties from OBS.
         for (const [sourceIndex, { name: sourceName }] of allSources.entries()) {
             try {
-                const itemProperties = await obs_1.default.conn.send('GetSceneItemProperties', {
-                    'scene-name': captureName,
-                    item: { name: sourceName },
-                });
+                const itemProperties = await obs_1.default.getSceneItemSettings(captureName, sourceName);
                 // If this source in the capture scene is toggled as being visible, assume this is the
                 // one that should be marked on the xkeys.
-                if (itemProperties.visible) {
+                if (itemProperties.sceneItemEnabled) {
                     selected.sourceIndex[captureIndex] = sourceIndex;
                     // We check here if the current source selected is game or camera so we can fill in the
                     // current cropping information in the correct spot.
@@ -331,16 +348,13 @@ obs_1.default.conn.on('AuthenticationSuccess', async () => {
         }
         try {
             // Get properties of capture source in game layout scene.
-            const itemProperties = await obs_1.default.conn.send('GetSceneItemProperties', {
-                'scene-name': config.obs.names.scenes.gameLayout,
-                item: { name: captureName },
-            });
+            const { sceneItemTransform } = await obs_1.default.getSceneItemSettings(config.obs.names.scenes.gameLayout, captureName);
             // Fill in cropping information based on the type of source selected in the capture scene.
             if (mode === 'game') {
-                gameCropValues[captureIndex] = itemProperties.crop;
+                gameCropValues[captureIndex] = (0, obs_1.getCropFromData)(sceneItemTransform);
             }
             else if (mode === 'camera') {
-                cameraCropValues[captureIndex] = itemProperties.crop;
+                cameraCropValues[captureIndex] = (0, obs_1.getCropFromData)(sceneItemTransform);
             }
         }
         catch (err) {
@@ -372,91 +386,106 @@ function rtmpFromIndex(index) {
         sourceName: `[RTMP] feed ${index}`,
     };
 }
-(0, nodecg_1.get)().listenFor('refreshRtmpSources', async (val, ack) => {
-    for (const index of val) {
-        const { sourceName } = rtmpFromIndex(index);
-        await obs_1.default.conn.send('RestartMedia', {
-            sourceName,
-        });
-    }
-    if (ack && !ack.handled) {
-        ack(null);
-    }
-});
-(0, nodecg_1.get)().listenFor('geRtmpSettings', async (val, ack) => {
-    const indexes = [1, 2];
-    const rtmpRegex = /rtmp:\/\/([^.]+)\.bsgmarathon\.com\/live\/(.*)/;
-    const feeds = [];
-    // send empty feeds in case of error
-    if (!obs_1.default.connected) {
-        if (ack && !ack.handled) {
-            ack(null, []);
-        }
-        return;
-    }
-    for (const index of indexes) {
-        const { sceneName, sourceName } = rtmpFromIndex(index);
-        const { sourceSettings } = await obs_1.default.conn.send('GetSourceSettings', {
-            sourceName,
-        });
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const rtmpUrl = sourceSettings.playlist[0].value;
-        const { visible } = await obs_1.default.conn.send('GetSceneItemProperties', {
-            'scene-name': config.obs.names.scenes.gameLayout,
-            item: { name: sceneName },
-        });
-        const feed = {
-            streamKey: 'DEFAULT',
-            server: 'eu',
-            enabled: visible,
-            feedIndex: index,
-            editAllowed: true,
-        };
-        const match = rtmpRegex.exec(rtmpUrl);
-        if (match !== null) {
-            feed.server = match[1];
-            // eslint-disable-next-line prefer-destructuring
-            feed.streamKey = match[2];
-        }
-        feeds.push(feed);
-    }
-    if (ack && !ack.handled) {
-        ack(null, feeds);
-    }
-});
-(0, nodecg_1.get)().listenFor('setRtmpSettings', async (data, ack) => {
-    for (const settings of data) {
-        const rtmpUrl = `rtmp://${settings.server}.bsgmarathon.com/live/${settings.streamKey}`;
-        // TODO: unhardcode
-        const { sceneName, sourceName } = rtmpFromIndex(settings.feedIndex);
-        await obs_1.default.conn.send('SetSourceSettings', {
-            sourceName,
-            sourceSettings: {
-                loop: false,
-                shuffle: false,
-                playback_behavior: 'always_play',
-                playlist: [
-                    {
-                        hidden: false,
-                        selected: false,
-                        value: rtmpUrl,
-                    },
-                ],
-            },
-        });
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore: Typings say we need to specify more than we actually do.
-        await obs_1.default.conn.send('SetSceneItemProperties', {
-            'scene-name': config.obs.names.scenes.gameLayout,
-            item: { name: sceneName },
-            visible: settings.enabled,
-        });
-    }
-    if (ack && !ack.handled) {
-        ack(null);
-    }
-});
+// TODO: fix when we do online events again
+// nodecg().listenFor('refreshRtmpSources', async (val: number[], ack) => {
+//   for (const index of val) {
+//     const { sourceName } = rtmpFromIndex(index);
+//
+//     await obs.conn.send('RestartMedia', {
+//       sourceName,
+//     });
+//   }
+//
+//   if (ack && !ack.handled) {
+//     ack(null);
+//   }
+// });
+// nodecg().listenFor('geRtmpSettings', async (val: string | null | undefined, ack) => {
+//   const indexes = [1, 2];
+//   const rtmpRegex = /rtmp:\/\/([^.]+)\.bsgmarathon\.com\/live\/(.*)/;
+//   const feeds: RtmpFeed[] = [];
+//
+//   // send empty feeds in case of error
+//   if (!obs.connected) {
+//     if (ack && !ack.handled) {
+//       ack(null, []);
+//     }
+//     return;
+//   }
+//
+//   for (const index of indexes) {
+//     const { sceneName, sourceName } = rtmpFromIndex(index);
+//
+//     const { sourceSettings } = await obs.conn.send('GetSourceSettings', {
+//       sourceName,
+//     });
+//
+//     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//     // @ts-ignore
+//     const rtmpUrl = sourceSettings.playlist[0].value as string;
+//     const { visible } = await obs.conn.send('GetSceneItemProperties', {
+//       'scene-name': config.obs.names.scenes.gameLayout,
+//       item: { name: sceneName },
+//     });
+//
+//     const feed: RtmpFeed = {
+//       streamKey: 'DEFAULT',
+//       server: 'eu',
+//       enabled: visible,
+//       feedIndex: index,
+//       editAllowed: true,
+//     };
+//
+//     const match = rtmpRegex.exec(rtmpUrl);
+//
+//     if (match !== null) {
+//       feed.server = match[1] as RtmpFeed['server'];
+//       // eslint-disable-next-line prefer-destructuring
+//       feed.streamKey = match[2];
+//     }
+//
+//     feeds.push(feed);
+//   }
+//
+//   if (ack && !ack.handled) {
+//     ack(null, feeds);
+//   }
+// });
+// nodecg().listenFor('setRtmpSettings', async (data: RtmpFeed[], ack) => {
+//   for (const settings of data) {
+//     const rtmpUrl = `rtmp://${settings.server}.bsgmarathon.com/live/${settings.streamKey}`;
+//     // TODO: unhardcode
+//     const { sceneName, sourceName } = rtmpFromIndex(settings.feedIndex);
+//
+//     await obs.conn.send('SetSourceSettings', {
+//       sourceName,
+//       sourceSettings: {
+//         loop: false,
+//         shuffle: false,
+//         playback_behavior: 'always_play',
+//         playlist: [
+//           {
+//             hidden: false,
+//             selected: false,
+//             value: rtmpUrl,
+//           },
+//         ],
+//       },
+//     });
+//
+//     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//     // @ts-ignore: Typings say we need to specify more than we actually do.
+//     await obs.conn.send('SetSceneItemProperties', {
+//       'scene-name': config.obs.names.scenes.gameLayout,
+//       item: { name: sceneName },
+//       visible: settings.enabled,
+//     });
+//   }
+//
+//   if (ack && !ack.handled) {
+//     ack(null);
+//   }
+// });
 (0, nodecg_1.get)().listenFor('setSelectedCaptures', async (data, ack) => {
     const { sceneName, sourceName } = data;
     // Using "Promise.all" prevents flickering
@@ -464,11 +493,7 @@ function rtmpFromIndex(index) {
     await Promise.all(
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore: Typings say we need to specify more than we actually do.
-    allSources.map(({ name, type }) => obs_1.default.conn.send('SetSceneItemProperties', {
-        'scene-name': sceneName,
-        item: { name },
-        visible: name === sourceName,
-    })
+    allSources.map(({ name, type }) => obs_1.default.configureSceneItem(sceneName, name, undefined, undefined, name === sourceName)
         .catch((err) => (0, helpers_1.logError)('[Layouts] Could not change source visibility [%s: %s]', err, sceneName, sourceName))));
     if (ack && !ack.handled) {
         ack(null);
@@ -496,7 +521,9 @@ function setupIdleTimeout() {
     if (captureTO)
         clearTimeout(captureTO);
     if (idleTimeout) {
-        captureTO = setTimeout(() => { clearAllKeys(); }, 30 * 1000);
+        captureTO = setTimeout(() => {
+            clearAllKeys();
+        }, 30 * 1000);
     }
 }
 /**
@@ -595,13 +622,12 @@ async function changeCrop(value, cap, mode, gameCropSide = selected.gameCrop) {
     const currentCaptureMode = (_a = allSources[selected.sourceIndex[capI]]) === null || _a === void 0 ? void 0 : _a.type;
     if (currentCaptureMode === mode) {
         try {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore: Typings say we need to specify more than we actually do.
-            await obs_1.default.conn.send('SetSceneItemProperties', {
-                'scene-name': config.obs.names.scenes.gameLayout,
-                item: { name: allCaptures[capI] },
-                crop: cropValues[capI],
-            });
+            await obs_1.default.configureSceneItem(config.obs.names.scenes.gameLayout, allCaptures[capI], undefined, cropValues[capI]);
+            // await obs.conn.send('SetSceneItemProperties', {
+            //   'scene-name': config.obs.names.scenes.gameLayout,
+            //   item: { name: allCaptures[capI] },
+            //   crop: cropValues[capI],
+            // });
         }
         catch (err) {
             (0, helpers_1.logError)('[Layouts] Could not change capture crop values [%s]', err, allCaptures[capI]);
@@ -733,13 +759,7 @@ xkeys_1.default.on('down', async (keyIndex) => {
             // Loops through the sources and toggles their visibility for the selected source.
             for (const [index, { name }] of allSources.entries()) {
                 try {
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore: Typings say we need to specify more than we actually do.
-                    await obs_1.default.conn.send('SetSceneItemProperties', {
-                        'scene-name': allCaptures[selected.captureIndex],
-                        item: { name },
-                        visible: index === sourceIndex,
-                    });
+                    await obs_1.default.configureSceneItem(allCaptures[selected.captureIndex], name, undefined, undefined, index === sourceIndex);
                 }
                 catch (err) {
                     (0, helpers_1.logError)('[Layouts] Could not change source visibility [%s: %s]', err, allCaptures[selected.captureIndex], name);

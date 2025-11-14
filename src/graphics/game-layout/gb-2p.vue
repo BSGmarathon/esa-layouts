@@ -23,7 +23,7 @@ function flashingLightsUpdated(newVal: boolean): void {
         left: '0px',
         top: '0px',
         width: '100%',
-        height: '714px',
+        height: '719px',
       }"
     >
       <!-- Game Captures -->
@@ -80,7 +80,7 @@ function flashingLightsUpdated(newVal: boolean): void {
       :style="{
         left: '0px',
         top: '719px',
-        width: '710px',
+        width: '715px',
         height: '45px'
       }"
     >
@@ -90,14 +90,12 @@ function flashingLightsUpdated(newVal: boolean): void {
     <div
       class="Fixed FlexColumn BorderBottom"
       :style="{
-        flex: '1',
         left: '715px',
         top: '719px',
         width: '490px',
-        height: '96px',
-      }"
-    >
-      <Timer line-left line-right/>
+        height: '100px',
+      }">
+      <Timer top-margin="-3px" line-left line-right />
     </div>
 
     <!-- Player 2 -->
@@ -106,7 +104,7 @@ function flashingLightsUpdated(newVal: boolean): void {
       :style="{
         left: '1205px',
         top: '719px',
-        width: '710px',
+        width: '715px',
         height: '45px'
       }"
     >
@@ -118,11 +116,10 @@ function flashingLightsUpdated(newVal: boolean): void {
       class="Fixed FlexColumn BorderLeft"
       :style="{
         left: '1205px',
-        top: '769px',
-        width: '710px',
-        height: '229px',
-        }"
-    >
+        top: '764px',
+        width: '715px',
+        height: '233px',
+      }">
       <RunInfo line-left text-align="flex-start" :info-is-row="infoIsRow" />
       <FlashingLightsWarning
         class="Flex"
@@ -131,14 +128,14 @@ function flashingLightsUpdated(newVal: boolean): void {
     </div>
 
     <!-- Media box / commentator / donation reader -->
-    <div class="Fixed FlexColumn BorderRight"
-         :style="{
+    <div
+      class="Fixed FlexColumn BorderRight"
+      :style="{
         left: '0px',
-        top: '769px',
-        width: '710px',
-        height: '229px',
-        }"
-    >
+        top: '764px',
+        width: '715px',
+        height: '234px',
+      }">
       <MediaBoxBox
         line-Right
         :style="{

@@ -44,9 +44,9 @@ class Music {
       this.setup();
 
       // Listen to OBS transitions to play/pause correctly.
-      this.obs.conn.on('TransitionBegin', (data) => {
-        if (data['to-scene']) {
-          if (data['to-scene'].includes('[M]')) {
+      this.obs.on('transitionStarted', (current) => {
+        if (current) {
+          if (current.includes('[M]')) {
             this.play();
           } else {
             this.pause();
