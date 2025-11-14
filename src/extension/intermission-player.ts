@@ -144,12 +144,13 @@ videoPlayer.on('change', (newVal, oldVal) => {
 });
 
 // Used if a user manually switches to the intermission player scene in OBS.
-obs.conn.on('TransitionBegin', async (data) => {
-  if (obs.findScene(config.obs.names.scenes.intermissionPlayer) === data['to-scene']
+obs.on('transitionStarted', async (current, last) => {
+  if (obs.findScene(config.obs.names.scenes.intermissionPlayer) === current
   && !videoPlayer.value.playing) {
     await startPlaylist();
   }
-  if (obs.findScene(config.obs.names.scenes.intermissionPlayer) === data['from-scene']) {
+
+  if (obs.findScene(config.obs.names.scenes.intermissionPlayer) === last) {
     await player.endPlaylistEarly();
   }
 });

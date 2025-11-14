@@ -82,7 +82,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     <div
       class="Fixed FlexColumn BorderBottom BorderRight"
       :style="{
-      left: '665px',
+      left: '660px',
       top: '333px',
       width: '512px',
       height: '44px',
@@ -94,7 +94,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     <div
       class="Fixed FlexColumn BorderBottom BorderLeft BorderTop"
       :style="{
-      left: '738px',
+      left: '743px',
       top: '448px',
       width: '517px',
       height: '44px',
@@ -107,8 +107,8 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Fixed"
       :style="{
         top: '506px',
-        left: '665px',
-        width: '595px',
+        left: '660px',
+        width: '600px',
       }"
     >
       <FlashingLightsWarning />
@@ -117,7 +117,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     <div
       class="Fixed FlexColumn BorderBottom BorderTop BorderRight"
       :style="{
-      left: '665px',
+      left: '660px',
       top: '574px',
       width: '512px',
       height: '44px',
@@ -130,9 +130,9 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     <div
       class="Fixed FlexColumn"
       :style="{
-        left: '665px',
+        left: '660px',
         top: '0px',
-        width: '595px',
+        width: '600px',
         height: '333px',
       }"
     >
@@ -145,9 +145,9 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     <div
       class="Fixed FlexColumn"
       :style="{
-        left: '665px',
+        left: '660px',
         top: '681px',
-        width: '595px',
+        width: '600px',
         height: '317px',
       }"
     >
@@ -156,7 +156,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         line-left
         line-right
         :style="{
-          width: '595px',
+          width: '600px',
           height: '100%',
         }"
       />

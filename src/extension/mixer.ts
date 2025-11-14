@@ -263,12 +263,17 @@ x32.on('ready', async () => {
   // fetch initial statues for faders and mutes
   fetchInitialFaderMuteStatus();
 });
-obs.conn.on('AuthenticationSuccess', async () => {
+obs.on('ready', async () => {
   await setInitialFaders();
 });
 
-obs.conn.on('TransitionBegin', async (data) => {
+obs.on('transitionStarted', async (current, last) => {
   if (config.x32.enabled) {
+    const data = {
+      'to-scene': current,
+      'from-scene': last,
+    };
+
     // On-Site
     if (!config.event.online) {
       const { readerScenes, gameScenes, interviewScenes } = getSceneConfig();

@@ -12,6 +12,8 @@ This is a [NodeCG](https://nodecg.dev) v2.0 bundle. You will need to have NodeCG
 
 You will need [Node.js](https://nodejs.org) (20.x LTS tested) and [git](https://git-scm.com/) installed to install NodeCG, then see the [NodeCG documentation](https://www.nodecg.dev/docs/installing) on how to install that. I also suggest installing `nodecg-cli`; information on that is also on the documentation just linked (**the guide below will assume you have done this!**). You may also need to install the appropriate build tools for whichever platform you are running on; for example if you are on Windows you can either install it while installing Node.js, or using [windows-build-tools](https://github.com/felixrieseberg/windows-build-tools).
 
+You will also need [this fork](https://github.com/duncte123/obs-websocket/tree/feat/transition-data) of the obs websocket plugin because otherwise data is missing and this bundle will break.
+
 Next, clone the `build` branch of this repository into the NodeCG `bundles` folder and install the dependencies:
 > ```
 > cd bundles

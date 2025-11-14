@@ -43,7 +43,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       :style="{
         left: '1200px',
         top: '0px',
-        width: '715px',
+        width: '720px',
         height: '405px',
       }"
     />
@@ -53,9 +53,9 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     <div
       class="Fixed FlexColumn BorderBottom"
       :style="{
-        left: '717px',
+        left: '712px',
         top: '0px',
-        width: '483px',
+        width: '488px',
         height: '405px',
       }"
     >
@@ -64,7 +64,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         line-left
         line-right
         :style="{
-          width: '483px',
+          width: '488px',
           height: '100%',
         }"
       />
@@ -77,7 +77,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Fixed FlexColumn BorderBottom BorderRight"
       :style="{
         left: '0px',
-        top: '410px',
+        top: '405px',
         width: '712px',
         height: '44px',
       }"
@@ -89,7 +89,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Fixed FlexColumn BorderTop BorderLeft BorderRight"
       :style="{
         left: '602px',
-        top: '551px',
+        top: '556px',
         width: '713px',
         height: '44px',
       }"
@@ -101,8 +101,8 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Fixed FlexColumn BorderLeft BorderBottom"
       :style="{
         left: '1200px',
-        top: '410px',
-        width: '715px',
+        top: '405px',
+        width: '720px',
         height: '44px',
       }"
     >
@@ -125,10 +125,10 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     <div
       class="Fixed FlexColumn BorderTop"
       :style="{
-        left: '1325px',
+        left: '1315px',
         top: '600px',
-        width: '595px',
-        height: '393px',
+        width: '605px',
+        height: '398px',
       }"
     >
       <RunInfo class="BorderBottom" line-left />

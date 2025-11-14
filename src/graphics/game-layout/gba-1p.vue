@@ -9,7 +9,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
 </script>
 
 <template>
-  <div class="bsglayout _gba_1p">
+  <div class="bsglayout">
     <!-- Game Capture -->
     <GameCapture
       id="GameCapture1"
@@ -38,7 +38,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       :style="{
         top: '0px',
         left: '0px',
-        width: '585px',
+        width: '590px',
         height: '650px',
       }"
     />
@@ -63,7 +63,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       :style="{
       left: '0px',
       top: '630px',
-      width: '585px',
+      width: '590px',
       height: '44px',
       }"
     >
@@ -74,11 +74,10 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     <div
       class="Fixed FlexColumn BorderRight"
       :style="{
-        flex: '1',
         left: '0px',
-        top: '679px',
-        width: '585px',
-        height: '320px',
+        top: '674px',
+        width: '590px',
+        height: '325px',
       }"
     >
       <CommentatorsReader class="BorderTop" />
