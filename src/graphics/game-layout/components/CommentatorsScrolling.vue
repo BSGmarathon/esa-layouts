@@ -1,78 +1,52 @@
 <script setup lang="ts">
-import { computed, ref, watch, nextTick, useTemplateRef, onMounted } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { commentatorsNew } from '@esa-layouts/browser_shared/replicant_store';
-import gsap from 'gsap';
-import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
-import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
 
-gsap.registerPlugin(ScrollToPlugin);
-
-const nameContainer = useTemplateRef<HTMLSpanElement>('NameFit');
 const show = computed(() => commentatorsNew.data?.length);
-let timeline: gsap.core.Timeline | null = null;
-const hasTimeline = ref(false);
 
-function killTimeline() {
-  if (timeline) {
-    timeline.kill();
-    timeline = null;
-    hasTimeline.value = false;
+const namesParentRef = ref();
+const namesContentRef = ref();
+
+const timeBeforeBeginOfScrolling = 5000;
+const timeToWaitAtEndOfScrolling = 2500;
+const currentLoop = ref(0);
+const scrollToPosition = ref(0);
+
+function scrollLoop() {
+  setTimeout(() => {
+    namesParentRef.value.scroll({ top: 0, left: currentLoop.value, behavior: 'smooth' });
+    currentLoop.value += 1;
+    if (currentLoop.value < scrollToPosition.value) {
+      scrollLoop();
+    } else {
+      // after we're done scrolling the entire length we dawdle on the end a bit before scrolling back
+      setTimeout(() => {
+        namesParentRef.value.scroll({ top: 0, left: 0, behavior: 'smooth' });
+        currentLoop.value = 0;
+      }, timeToWaitAtEndOfScrolling);
+      setTimeout(() => {
+        scrollLoop();
+      }, timeBeforeBeginOfScrolling);
+    }
+  }, 50);
+}
+
+// This checks if we need to scroll at all
+// this does rely on the parent container having the overflow: hidden; property set
+// as that impacts the rendered width
+function namesOverflow() {
+  if (namesContentRef.value.clientWidth > namesParentRef.value.clientWidth) {
+    // the difference in parent container and all the names content is the width we need to scroll
+    // we do add 20 to account for margins and fancy lines in the actual border
+    scrollToPosition.value = (namesContentRef.value.clientWidth - namesParentRef.value.clientWidth) + 20;
+    scrollLoop();
   }
 }
 
-async function initTimeline() {
-  const container = nameContainer.value;
-
-  if (!container) {
-    return;
-  }
-
-  timeline = gsap.timeline({
-    paused: true,
-    yoyo: true,
-    repeat: -1,
-    repeatDelay: 4,
-    delay: 0,
-  });
-
-  hasTimeline.value = true;
-
-  timeline.to(container, {
-    scrollTo: { x: container.scrollWidth },
-    duration: 4,
-    delay: -10,
-    ease: 'none',
-  });
-
-  timeline.resume();
-}
-
-function createTimelineIfNeeded() {
-  if (nameContainer.value!.scrollWidth <= nameContainer.value!.clientWidth) {
-    console.log('Timeline is not needed');
-    hasTimeline.value = false;
-    return;
-  }
-
-  initTimeline();
-}
-
-watch(() => commentatorsNew.data, async () => {
-  killTimeline();
-
-  await nextTick();
-
-  createTimelineIfNeeded();
-}, { deep: true });
-
-onMounted(async () => {
-  await waitForReplicant(commentatorsNew);
-
-  while (!nameContainer.value) {
-    await nextTick();
-  }
-
-  createTimelineIfNeeded();
+onMounted(() => {
+  setTimeout(() => {
+    namesOverflow();
+  }, timeBeforeBeginOfScrolling);
 });
 </script>
 
@@ -107,29 +81,15 @@ onMounted(async () => {
     >
       Comm
     </div>
-
-    <div
-      ref="NameFit"
-      class="Flex namesParent"
-      :style="{
-          position: 'relative',
-          width: '100%',
-          height: '43px',
-          'white-space': 'nowrap',
-          display: 'flex !important',
-          'align-items': 'center',
-          'justify-content': hasTimeline ? undefined : 'center',
-          overflow: 'hidden',
-        }"
-    >
-      <!-- weird html? I know -->
-      <!-- new lines are taken as extra spacing here -->
-      <div v-for="({ name, pronouns }, i) in commentatorsNew.data" :id="`name_${i}`" :key="i">
-        {{ name }}
-        <span
-          v-if="pronouns"
-          class="Pronouns">{{ pronouns }}</span><template
-        v-if="i < commentatorsNew.data!.length - 1">,</template>
+    <div class="namesParent" ref="namesParentRef">
+      <div class="namesContent" ref="namesContentRef">
+        <span v-for="({ name, pronouns }, i) in commentatorsNew.data" :id="`name_${i}`" :key="i" class="">
+          {{ name }}
+          <span
+            v-if="pronouns"
+            class="Pronouns">{{ pronouns }}</span><template
+          v-if="i < commentatorsNew.data!.length - 1">,</template>
+        </span>
       </div>
     </div>
   </div>
@@ -156,5 +116,9 @@ onMounted(async () => {
   .namesParent {
     padding-left: 5px;
     padding-right: 5px;
+    white-space: nowrap;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
   }
 </style>
