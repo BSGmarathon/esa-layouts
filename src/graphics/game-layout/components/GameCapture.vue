@@ -83,7 +83,7 @@ onMounted(async () => {
           key="end-time"
           class="TeamFinishTime"
           :style="{
-          padding: '5px 10px',
+          padding: '3px 10px',
           'font-size': '25pt',
           'font-family': 'Bahnschrift',
         }"
