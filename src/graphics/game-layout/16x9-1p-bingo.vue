@@ -78,7 +78,6 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
           top: '0px',
           width: '478px',
           height: '240px',
-          background: 'green',
         }"
       />
 
@@ -86,24 +85,34 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         class="Fixed FlexColumn BorderTop BorderBottom"
         :style="{
           left: '0px',
-          top: '361px',
+          top: '240px',
           width: '478px',
-          height: '44px',
+          height: '45px',
         }">
         <Player/>
       </div>
+
+      <GameCapture
+        id="GameCapture3"
+        class="BorderBottom"
+        :style="{
+          left: '0px',
+          top: '285px',
+          width: '478px',
+          height: '478px',
+        }"
+      />
 
       <!-- Media Box / Reader / Comms -->
       <div
         class="Fixed FlexColumn"
         :style="{
         left: '0px',
-        top: '405px',
+        top: '763px',
         width: '478px',
-        height: '588px',
+        height: '235px',
       }"
       >
-<!--        <CommentatorsList class="BorderTop BorderBottom" />-->
         <CommentatorsReader class="BorderBottom"/>
         <CommentatorsReader class="BorderBottom" show-reader/>
         <FlashingLightsWarning/>
