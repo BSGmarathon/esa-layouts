@@ -51,9 +51,9 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
     <div
       class="Fixed FlexColumn BorderTop"
       :style="{
-        left: '1490px',
+        left: '1480px',
         top: '540px',
-        width: '430px',
+        width: '440px',
         height: '45px',
       }"
     >
@@ -67,7 +67,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       :style="{
         left: '430px',
         top: '540px',
-        width: '540px',
+        width: '530px',
         height: '460px',
       }"
     />
@@ -79,7 +79,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       class="BorderTop BorderRight"
       finish-time-pos="bottomright"
       :style="{
-        left: '970px',
+        left: '960px',
         top: '540px',
         width: '520px',
         height: '460px',
@@ -90,9 +90,9 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
     <div
       class="Fixed FlexColumn BorderTop BorderLeft"
       :style="{
-        left: '1485px',
+        left: '1475px',
         top: '585px',
-        width: '435px',
+        width: '445px',
         height: '413px',
       }"
     >
