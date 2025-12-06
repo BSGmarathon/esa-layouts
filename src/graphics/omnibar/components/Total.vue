@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { additionalDonations, donationTotal } from '@esa-layouts/browser_shared/replicant_store';
-import { formatUSD, wait } from '@esa-layouts/graphics/_misc/helpers';
+import { formatUSD } from '@esa-layouts/graphics/_misc/helpers';
 import gsap from 'gsap';
 import { round } from 'lodash';
 import { computed, onMounted, ref } from 'vue';
+import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
 
 const emit = defineEmits<{
   totalUpdate: [newTotal: number],
@@ -85,7 +86,6 @@ async function playNextAlert(start = false): Promise<void> {
   emit('totalUpdate', totalToAnimateTo);
 }
 
-total.value = rawTotal.value;
 nodecg.listenFor('donationTotalUpdated', (data: { total: number }) => {
   const completeTotal = round(data.total + additionalDonationsAmount.value, 2);
   if (!playingAlerts.value && completeTotal !== total.value) {
@@ -101,6 +101,7 @@ nodecg.listenFor('donationTotalUpdated', (data: { total: number }) => {
     if (!playingAlerts.value) playNextAlert(true);
   }
 });
+
 nodecg.listenFor('newDonation', (data: { amount: number }) => {
   clearTimeout(donationTotalTimeout);
   alertList.push({
@@ -109,6 +110,7 @@ nodecg.listenFor('newDonation', (data: { amount: number }) => {
   });
   if (!playingAlerts.value) playNextAlert(true);
 });
+
 nodecg.listenFor('additionalDonationToggle', (data: { key: string, active: boolean }) => {
   const donation = additionalDonationsMapped.value.find((d) => d.key === data.key);
   if (donation) {
@@ -119,10 +121,11 @@ nodecg.listenFor('additionalDonationToggle', (data: { key: string, active: boole
     if (!playingAlerts.value) playNextAlert(true);
   }
 });
+
 onMounted(async () => {
-  while (typeof total.value !== 'undefined') {
-    await wait(100);
-  }
+  await waitForReplicant(donationTotal);
+
+  total.value = rawTotal.value;
 
   emit('totalUpdate', total.value);
 });
@@ -192,8 +195,8 @@ onMounted(async () => {
   text-align: center;
   //height: 82px;
 
-  padding-left: 45px;
-  padding-right: 45px;
+  padding-left: 50px;
+  padding-right: 50px;
 
   background: var(--bsg-color);
 
@@ -206,6 +209,10 @@ onMounted(async () => {
       20px 50%,
       var(--arrow-setting) 0%
   );
+
+  // Move the little shit over 1 px to fix a gap
+  left: 1px;
+  position: relative;
 }
 
 .dash_seg_1 {
@@ -215,7 +222,7 @@ onMounted(async () => {
 
 .dash_seg_2 {
   --color: var(--bsg-color);
-  right: -143px;
+  right: -144px;
 }
 
 /* Each character in the total is in a span; setting width so the numbers appear monospaced. */
