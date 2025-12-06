@@ -1,29 +1,15 @@
 <script setup lang="ts">
-import MediaBox from '@esa-layouts/graphics/_misc/components/mediabox';
-import { gameLayouts, runDataActiveRun } from '@esa-layouts/browser_shared/replicant_store';
-import { computed } from 'vue';
+import MediaBoxBox from './components/MediaBoxBox.vue';
 import CommentatorsReader from './components/CommentatorsReader.vue';
-import DonationBar from './components/DonationBar.vue';
 import GameCapture from './components/GameCapture.vue';
 import Player from './components/Player.vue';
 import RunInfo from './components/RunInfo.vue';
 import Timer from './components/Timer.vue';
-
-const { online } = nodecg.bundleConfig.event;
-const crowdCam = computed(() => gameLayouts.data?.crowdCamera ?? false);
-
-const extraPlayers = computed<{ name: string, pronouns?: string }[]>(() => {
-  if (!runDataActiveRun.data?.relay) return [];
-
-  return (runDataActiveRun.data?.teams[0]?.players || []).slice(2).map((p) => ({
-    name: p.name,
-    pronouns: p.pronouns,
-  }));
-});
+import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
 </script>
 
 <template>
-  <div>
+  <div class="bsglayout">
     <!-- Game Captures -->
     <GameCapture
       id="GameCapture1"
@@ -48,6 +34,32 @@ const extraPlayers = computed<{ name: string, pronouns?: string }[]>(() => {
       }"
     />
 
+    <!-- Player 1 -->
+    <div
+      class="Fixed FlexColumn BorderTop"
+      :style="{
+        left: '0px',
+        top: '540px',
+        width: '430px',
+        height: '45px',
+      }"
+    >
+      <Player :slot-no="0" />
+    </div>
+
+    <!-- Player 2 -->
+    <div
+      class="Fixed FlexColumn BorderTop"
+      :style="{
+        left: '1480px',
+        top: '540px',
+        width: '440px',
+        height: '45px',
+      }"
+    >
+      <Player :slot-no="1" />
+    </div>
+
     <!-- Camera Capture -->
     <div
       id="CameraCapture1"
@@ -55,117 +67,59 @@ const extraPlayers = computed<{ name: string, pronouns?: string }[]>(() => {
       :style="{
         left: '430px',
         top: '540px',
-        width: '600px',
-        height: '400px',
+        width: '530px',
+        height: '460px',
       }"
     />
-
-    <!-- Player 1/Commentator -->
-    <div
-      class="Fixed"
-      :style="{
-        left: '0px',
-        top: '540px',
-        width: '430px',
-      }"
-    >
-      <Player :slot-no="0" />
-      <CommentatorsReader />
-      <CommentatorsReader show-reader />
-    </div>
 
     <!-- Bingo Card Slot -->
-    <div
-      class="Fixed BorderTop BorderRight Capture"
+    <GameCapture
+      id="GameCapture3"
+      :slot-no="2"
+      class="BorderTop BorderRight"
+      finish-time-pos="bottomright"
       :style="{
-        left: '1030px',
+        left: '960px',
         top: '540px',
-        width: '460px',
-        height: '400px',
+        width: '520px',
+        height: '460px',
       }"
     />
 
-    <!-- Player 2/General Run Info -->
+    <!-- Run Game Info/Timer -->
     <div
-      class="Fixed FlexColumn"
+      class="Fixed FlexColumn BorderTop BorderLeft"
       :style="{
-        left: '1490px',
-        top: '540px',
-        width: '430px',
-        height: '400px',
+        left: '1475px',
+        top: '585px',
+        width: '445px',
+        height: '413px',
       }"
     >
-      <Player :slot-no="1" />
-
-      <!--<div
-        v-if="extraPlayers.length"
-        class="Flex CommAndReader"
-        :style="{
-          width: '100%',
-          height: '40px',
-          'font-size': '25px',
-          'font-weight': 400,
-          'white-space': 'nowrap',
-        }"
-      >
-        <span :style="{ 'font-weight': 600, 'padding-right': '5px' }">
-          Off Screen:
-        </span>
-        <template v-for="({ name, pronouns }, i) in extraPlayers">
-          <span :key="name">{{ name }}</span>
-          <span
-            v-if="pronouns"
-            :key="`${name}_pronouns`"
-            class="Pronouns"
-            :style="{
-              padding: '1px 3px',
-              'margin-left': '4px',
-            }"
-          >
-            {{ pronouns }}
-          </span><span
-            v-if="i < extraPlayers.length - 1"
-            :key="name"
-          >,&nbsp;</span>
-        </template>
-      </div>-->
-
-      <!-- Run Game Info/Timer -->
-      <div
-        class="FlexColumn"
-        :style="{
-          flex: '1',
-          width: '100%',
-          overflow: 'hidden',
-        }"
-      >
-        <RunInfo
-          :style="{ 'font-size': '45px' }"
-          no-wrap
-        />
-        <Timer font-size="120px" />
-      </div>
+      <FlashingLightsWarning class="Flex" style="font-size: 15pt" />
+      <RunInfo class="BorderBottom" line-left />
+      <Timer line-left />
     </div>
 
-    <!-- Media Box -->
-    <MediaBox
-      :font-size="36"
+    <div
+      class="Fixed FlexColumn BorderRight"
       :style="{
         left: '0px',
-        top: '674px',
-        width: '430px',
-        height: '266px',
+        top: '585px',
+        width: '435px',
+        height: '415px',
       }"
-    />
-
-    <!-- Donation Bar -->
-    <DonationBar
-      :style="{
-        left: '0px',
-        top: '940px',
-        width: '1920px',
-        height: '60px',
-      }"
-    />
+    >
+      <CommentatorsReader class="BorderTop" />
+      <CommentatorsReader class="BorderTop" show-reader />
+      <MediaBoxBox
+        line-right
+        class="BorderTop"
+        :style="{
+          width: '430px',
+          height: '100%',
+        }"
+      />
+    </div>
   </div>
 </template>
