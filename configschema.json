@@ -136,6 +136,54 @@
         "miniCredits"
       ]
     },
+    "epaper": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "access_point_ip": {
+          "type": "string",
+          "default": "http://epaper.space.hackalot.nl"
+        },
+        "displays": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "mac": {
+                "type": "string"
+              },
+              "info_type": {
+                "type": "string",
+                "enum": [
+                  "large_display",
+                  "small_donation_total"
+                ]
+              }
+            },
+            "required": [
+              "mac",
+              "info_type"
+            ]
+          },
+          "default": []
+        },
+        "debug": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "enabled",
+        "access_point_ip",
+        "displays",
+        "debug"
+      ]
+    },
     "streamdeck": {
       "type": "object",
       "additionalProperties": false,
@@ -845,6 +893,7 @@
     "useOengusInsteadOfSrdc",
     "therungg",
     "tiltify",
-    "additionalDonations"
+    "additionalDonations",
+    "epaper"
   ]
 }
