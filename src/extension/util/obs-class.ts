@@ -1,7 +1,7 @@
 import type NodeCGTypes from '@nodecg/types';
 import clone from 'clone';
 import { EventEmitter } from 'events';
-import OBSWebSocket, { type OBSResponseTypes } from 'obs-websocket-js';
+import OBSWebSocket, { type OBSResponseTypes, RequestBatchRequest } from 'obs-websocket-js';
 import { findBestMatch } from 'string-similarity';
 import { OBS as OBSTypes } from '@esa-layouts/types';
 
@@ -317,9 +317,7 @@ class OBS extends EventEmitter {
         throw new Error('No connection available');
       }
 
-      // None of this is properly documented btw.
-      // I had to search their discord for this information.
-      await this.conn.callBatch([
+      const batchData: RequestBatchRequest[] = [
         {
           requestType: 'GetSceneItemId',
           requestData: {
@@ -354,18 +352,27 @@ class OBS extends EventEmitter {
             sceneItemId: 'sceneItemIdVariable',
           },
         },
-        {
-          requestType: 'SetSceneItemEnabled',
-          // @ts-expect-error the sceneItemId var is optional cuz of the input vars
-          requestData: {
-            sceneName: scene,
-            sceneItemEnabled: visible ?? false,
+      ];
+
+      if (typeof visible !== 'undefined') {
+        batchData.push(
+          {
+            requestType: 'SetSceneItemEnabled',
+            // @ts-expect-error the sceneItemId var is optional cuz of the input vars
+            requestData: {
+              sceneName: scene,
+              sceneItemEnabled: visible,
+            },
+            inputVariables: {
+              sceneItemId: 'sceneItemIdVariable',
+            },
           },
-          inputVariables: {
-            sceneItemId: 'sceneItemIdVariable',
-          },
-        },
-      ]);
+        );
+      }
+
+      // None of this is properly documented btw.
+      // I had to search their discord for this information.
+      await this.conn.callBatch(batchData);
     } catch (err) {
       this.nodecg.log.warn(`[OBS] Cannot configure scene item [${scene}: ${item}]`);
       this.nodecg.log.debug(`[OBS] Cannot configure scene item [${scene}: ${item}]: `
