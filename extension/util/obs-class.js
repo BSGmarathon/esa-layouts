@@ -262,9 +262,7 @@ class OBS extends events_1.EventEmitter {
                 // OBS not enabled, don't even try to set.
                 throw new Error('No connection available');
             }
-            // None of this is properly documented btw.
-            // I had to search their discord for this information.
-            await this.conn.callBatch([
+            const batchData = [
                 {
                     requestType: 'GetSceneItemId',
                     requestData: {
@@ -297,18 +295,23 @@ class OBS extends events_1.EventEmitter {
                         sceneItemId: 'sceneItemIdVariable',
                     },
                 },
-                {
+            ];
+            if (typeof visible !== 'undefined') {
+                batchData.push({
                     requestType: 'SetSceneItemEnabled',
                     // @ts-expect-error the sceneItemId var is optional cuz of the input vars
                     requestData: {
                         sceneName: scene,
-                        sceneItemEnabled: visible !== null && visible !== void 0 ? visible : false,
+                        sceneItemEnabled: visible,
                     },
                     inputVariables: {
                         sceneItemId: 'sceneItemIdVariable',
                     },
-                },
-            ]);
+                });
+            }
+            // None of this is properly documented btw.
+            // I had to search their discord for this information.
+            await this.conn.callBatch(batchData);
         }
         catch (err) {
             this.nodecg.log.warn(`[OBS] Cannot configure scene item [${scene}: ${item}]`);

@@ -1220,7 +1220,7 @@
   },
   "src/graphics/intermission-hosts/esaOhNo.png": {
     "file": "assets/esaOhNo-lUXxZw7H.png",
-    "src": "src/graphics/intermission-hosts/esaOhNo.png"
+    "src": "src/graphics/intermission-player/esaOhNo.png"
   },
   "src/graphics/intermission-hosts/main.ts": {
     "file": "assets/main-1HupjZrV.js",
@@ -1350,7 +1350,7 @@
   },
   "src/graphics/intermission-player/esaOhNo.png": {
     "file": "assets/esaOhNo-lUXxZw7H.png",
-    "src": "src/graphics/intermission-hosts/esaOhNo.png"
+    "src": "src/graphics/intermission-player/esaOhNo.png"
   },
   "src/graphics/intermission-player/main.ts": {
     "file": "assets/main-uyuq_8K_.js",
