@@ -701,6 +701,10 @@ export async function changeCropFromFromStreamDeck(
   const captureIndex = companionSelectedCropItem.value;
   const mode = allSources[selected.sourceIndex[captureIndex]]?.type;
 
+  if (!mode) {
+    return;
+  }
+
   await changeCrop(value, captureIndex, mode, side);
 }
 

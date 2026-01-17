@@ -638,6 +638,9 @@ async function changeCropFromFromStreamDeck(side, value) {
     var _a;
     const captureIndex = replicants_1.selectedCropItem.value;
     const mode = (_a = allSources[selected.sourceIndex[captureIndex]]) === null || _a === void 0 ? void 0 : _a.type;
+    if (!mode) {
+        return;
+    }
     await changeCrop(value, captureIndex, mode, side);
 }
 exports.changeCropFromFromStreamDeck = changeCropFromFromStreamDeck;

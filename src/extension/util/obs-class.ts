@@ -337,9 +337,9 @@ class OBS extends EventEmitter {
           requestData: {
             sceneName: scene,
             sceneItemTransform: {
-              boundsHeight: area?.height ?? 1080,
+              boundsHeight: area?.height ?? null,
               boundsType: 'OBS_BOUNDS_STRETCH',
-              boundsWidth: area?.width ?? 1920,
+              boundsWidth: area?.width ?? null,
 
               positionX: area?.x ?? 0,
               positionY: area?.y ?? 0,

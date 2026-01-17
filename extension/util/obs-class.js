@@ -282,9 +282,9 @@ class OBS extends events_1.EventEmitter {
                     requestData: {
                         sceneName: scene,
                         sceneItemTransform: {
-                            boundsHeight: (_a = area === null || area === void 0 ? void 0 : area.height) !== null && _a !== void 0 ? _a : 1080,
+                            boundsHeight: (_a = area === null || area === void 0 ? void 0 : area.height) !== null && _a !== void 0 ? _a : null,
                             boundsType: 'OBS_BOUNDS_STRETCH',
-                            boundsWidth: (_b = area === null || area === void 0 ? void 0 : area.width) !== null && _b !== void 0 ? _b : 1920,
+                            boundsWidth: (_b = area === null || area === void 0 ? void 0 : area.width) !== null && _b !== void 0 ? _b : null,
                             positionX: (_c = area === null || area === void 0 ? void 0 : area.x) !== null && _c !== void 0 ? _c : 0,
                             positionY: (_d = area === null || area === void 0 ? void 0 : area.y) !== null && _d !== void 0 ? _d : 0,
                             cropBottom: (_e = crop === null || crop === void 0 ? void 0 : crop.bottom) !== null && _e !== void 0 ? _e : 0,
