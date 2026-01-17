@@ -286,10 +286,15 @@ class OBS extends EventEmitter {
     };
   }
 
+  private modeToObsCrop(mode: 'camera' | 'game'): string {
+    return mode === 'game' ? 'OBS_BOUNDS_STRETCH' : 'OBS_BOUNDS_SCALE_OUTER';
+  }
+
   /**
    * Resets the scene item, then sets some properties if possible.
    * @param scene Name of scene that item is in
    * @param item Name of item
+   * @param mode the mode of crop to do
    * @param area Area object (as used in capturePositions): x, y, width, height
    * @param crop Crop object: top, bottom, left, right
    * @param visible If the source should be visible or not
@@ -297,6 +302,7 @@ class OBS extends EventEmitter {
   async configureSceneItem(
     scene: string,
     item: string,
+    mode: 'game' | 'camera',
     area?: {
       x?: number;
       y?: number;
@@ -336,7 +342,7 @@ class OBS extends EventEmitter {
             sceneName: scene,
             sceneItemTransform: {
               boundsHeight: area?.height ?? null,
-              boundsType: 'OBS_BOUNDS_STRETCH',
+              boundsType: this.modeToObsCrop(mode),
               boundsWidth: area?.width ?? null,
 
               positionX: area?.x ?? null,

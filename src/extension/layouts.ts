@@ -33,7 +33,7 @@ const cameraSources = Array.isArray(obsNamesCfg.sources.cameraSources)
   : [obsNamesCfg.sources.cameraSources];
 // For ease of use, we attach the type of the source to each name as well.
 const allSources = (gameSources.map((v) => ({ name: v, type: 'game' }))
-    .concat(cameraSources.map((v) => ({ name: v, type: 'camera' })))
+  .concat(cameraSources.map((v) => ({ name: v, type: 'camera' })))
 ) as { name: string, type: 'game' | 'camera' }[];
 
 // CSS ID -> OBS source name mapping
@@ -245,6 +245,7 @@ capturePositions.on('change', async (val) => {
         await obs.configureSceneItem(
           config.obs.names.scenes.gameLayout, // Scene
           groupSourceName, // Item
+          mode,
           // eslint-disable-next-line arrow-body-style
           (() => { // Area
             // Special game capture settings for DS-1p, 3DS-1p and sm64-psp-2p when online.
@@ -521,6 +522,7 @@ nodecg().listenFor('setSelectedCaptures', async (data: { [key: string]: string }
     allSources.map(({ name, type }) => obs.configureSceneItem(
       sceneName,
       name,
+      type,
       undefined,
       undefined,
       name === sourceName,
@@ -676,6 +678,7 @@ async function changeCrop(
       await obs.configureSceneItem(
         config.obs.names.scenes.gameLayout,
         allCaptures[capI],
+        mode,
         undefined,
         cropValues[capI],
       );
@@ -829,6 +832,7 @@ xkeys.on('down', async (keyIndex) => {
         await obs.configureSceneItem(
           config.obs.names.scenes.gameLayout, // Scene
           groupSourceName, // Item
+          mode,
           area, // Area
           crop, // Crop
           !!area, // Visible
@@ -841,6 +845,7 @@ xkeys.on('down', async (keyIndex) => {
           await obs.configureSceneItem(
             allCaptures[selected.captureIndex],
             name,
+            mode,
             undefined,
             undefined,
             index === sourceIndex,
