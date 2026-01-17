@@ -359,7 +359,7 @@ class OBS extends EventEmitter {
           // @ts-expect-error the sceneItemId var is optional cuz of the input vars
           requestData: {
             sceneName: scene,
-            sceneItemEnabled: visible ?? null,
+            sceneItemEnabled: visible ?? false,
           },
           inputVariables: {
             sceneItemId: 'sceneItemIdVariable',
