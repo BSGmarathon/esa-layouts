@@ -326,12 +326,14 @@ class OBS extends EventEmitter {
             sceneName: scene,
             sourceName: item,
           },
+          // @ts-expect-error This is valid, just undocumented and not typed in obs-ws-js.
           outputVariables: {
             sceneItemIdVariable: 'sceneItemId',
           },
         },
         {
           requestType: 'SetSceneItemTransform',
+          // @ts-expect-error the sceneItemId var is optional cuz of the input vars
           requestData: {
             sceneName: scene,
             sceneItemTransform: {
@@ -354,6 +356,7 @@ class OBS extends EventEmitter {
         },
         {
           requestType: 'SetSceneItemEnabled',
+          // @ts-expect-error the sceneItemId var is optional cuz of the input vars
           requestData: {
             sceneName: scene,
             sceneItemEnabled: visible ?? true,
