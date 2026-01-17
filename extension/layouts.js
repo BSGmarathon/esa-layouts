@@ -245,6 +245,7 @@ replicants_1.capturePositions.on('change', async (val) => {
                 } */
                 await obs_1.default.configureSceneItem(config.obs.names.scenes.gameLayout, // Scene
                 groupSourceName, // Item
+                mode, 
                 // eslint-disable-next-line arrow-body-style
                 (() => {
                     // Special game capture settings for DS-1p, 3DS-1p and sm64-psp-2p when online.
@@ -493,7 +494,7 @@ function rtmpFromIndex(index) {
     await Promise.all(
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore: Typings say we need to specify more than we actually do.
-    allSources.map(({ name, type }) => obs_1.default.configureSceneItem(sceneName, name, undefined, undefined, name === sourceName)
+    allSources.map(({ name, type }) => obs_1.default.configureSceneItem(sceneName, name, type, undefined, undefined, name === sourceName)
         .catch((err) => (0, helpers_1.logError)('[Layouts] Could not change source visibility [%s: %s]', err, sceneName, sourceName))));
     if (ack && !ack.handled) {
         ack(null);
@@ -622,7 +623,7 @@ async function changeCrop(value, cap, mode, gameCropSide = selected.gameCrop) {
     const currentCaptureMode = (_a = allSources[selected.sourceIndex[capI]]) === null || _a === void 0 ? void 0 : _a.type;
     if (currentCaptureMode === mode) {
         try {
-            await obs_1.default.configureSceneItem(config.obs.names.scenes.gameLayout, allCaptures[capI], undefined, cropValues[capI]);
+            await obs_1.default.configureSceneItem(config.obs.names.scenes.gameLayout, allCaptures[capI], mode, undefined, cropValues[capI]);
             // await obs.conn.send('SetSceneItemProperties', {
             //   'scene-name': config.obs.names.scenes.gameLayout,
             //   item: { name: allCaptures[capI] },
@@ -755,14 +756,14 @@ xkeys_1.default.on('down', async (keyIndex) => {
                 const { crop, area } = await getStoredCropAndAreaVals(mode, areaName, groupSourceName, true);
                 await obs_1.default.configureSceneItem(config.obs.names.scenes.gameLayout, // Scene
                 groupSourceName, // Item
-                area, // Area
+                mode, area, // Area
                 crop, // Crop
                 !!area);
             }
             // Loops through the sources and toggles their visibility for the selected source.
             for (const [index, { name }] of allSources.entries()) {
                 try {
-                    await obs_1.default.configureSceneItem(allCaptures[selected.captureIndex], name, undefined, undefined, index === sourceIndex);
+                    await obs_1.default.configureSceneItem(allCaptures[selected.captureIndex], name, mode, undefined, undefined, index === sourceIndex);
                 }
                 catch (err) {
                     (0, helpers_1.logError)('[Layouts] Could not change source visibility [%s: %s]', err, allCaptures[selected.captureIndex], name);

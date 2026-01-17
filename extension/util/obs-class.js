@@ -247,15 +247,19 @@ class OBS extends events_1.EventEmitter {
             sceneItemEnabled: enabledRes.sceneItemEnabled,
         };
     }
+    modeToObsCrop(mode) {
+        return mode === 'game' ? 'OBS_BOUNDS_STRETCH' : 'OBS_BOUNDS_SCALE_OUTER';
+    }
     /**
      * Resets the scene item, then sets some properties if possible.
      * @param scene Name of scene that item is in
      * @param item Name of item
+     * @param mode the mode of crop to do
      * @param area Area object (as used in capturePositions): x, y, width, height
      * @param crop Crop object: top, bottom, left, right
      * @param visible If the source should be visible or not
      */
-    async configureSceneItem(scene, item, area, crop, visible) {
+    async configureSceneItem(scene, item, mode, area, crop, visible) {
         var _a, _b, _c, _d, _e, _f, _g, _h;
         try {
             if (!this.config.enabled || !this.connected) {
@@ -281,7 +285,7 @@ class OBS extends events_1.EventEmitter {
                         sceneName: scene,
                         sceneItemTransform: {
                             boundsHeight: (_a = area === null || area === void 0 ? void 0 : area.height) !== null && _a !== void 0 ? _a : null,
-                            boundsType: 'OBS_BOUNDS_STRETCH',
+                            boundsType: this.modeToObsCrop(mode),
                             boundsWidth: (_b = area === null || area === void 0 ? void 0 : area.width) !== null && _b !== void 0 ? _b : null,
                             positionX: (_c = area === null || area === void 0 ? void 0 : area.x) !== null && _c !== void 0 ? _c : null,
                             positionY: (_d = area === null || area === void 0 ? void 0 : area.y) !== null && _d !== void 0 ? _d : null,
