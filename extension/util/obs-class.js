@@ -285,12 +285,12 @@ class OBS extends events_1.EventEmitter {
                             boundsHeight: (_a = area === null || area === void 0 ? void 0 : area.height) !== null && _a !== void 0 ? _a : null,
                             boundsType: 'OBS_BOUNDS_STRETCH',
                             boundsWidth: (_b = area === null || area === void 0 ? void 0 : area.width) !== null && _b !== void 0 ? _b : null,
-                            positionX: (_c = area === null || area === void 0 ? void 0 : area.x) !== null && _c !== void 0 ? _c : 0,
-                            positionY: (_d = area === null || area === void 0 ? void 0 : area.y) !== null && _d !== void 0 ? _d : 0,
-                            cropBottom: (_e = crop === null || crop === void 0 ? void 0 : crop.bottom) !== null && _e !== void 0 ? _e : 0,
-                            cropLeft: (_f = crop === null || crop === void 0 ? void 0 : crop.left) !== null && _f !== void 0 ? _f : 0,
-                            cropRight: (_g = crop === null || crop === void 0 ? void 0 : crop.right) !== null && _g !== void 0 ? _g : 0,
-                            cropTop: (_h = crop === null || crop === void 0 ? void 0 : crop.top) !== null && _h !== void 0 ? _h : 0,
+                            positionX: (_c = area === null || area === void 0 ? void 0 : area.x) !== null && _c !== void 0 ? _c : null,
+                            positionY: (_d = area === null || area === void 0 ? void 0 : area.y) !== null && _d !== void 0 ? _d : null,
+                            cropBottom: (_e = crop === null || crop === void 0 ? void 0 : crop.bottom) !== null && _e !== void 0 ? _e : null,
+                            cropLeft: (_f = crop === null || crop === void 0 ? void 0 : crop.left) !== null && _f !== void 0 ? _f : null,
+                            cropRight: (_g = crop === null || crop === void 0 ? void 0 : crop.right) !== null && _g !== void 0 ? _g : null,
+                            cropTop: (_h = crop === null || crop === void 0 ? void 0 : crop.top) !== null && _h !== void 0 ? _h : null,
                         },
                     },
                     inputVariables: {
@@ -302,7 +302,7 @@ class OBS extends events_1.EventEmitter {
                     // @ts-expect-error the sceneItemId var is optional cuz of the input vars
                     requestData: {
                         sceneName: scene,
-                        sceneItemEnabled: visible !== null && visible !== void 0 ? visible : true,
+                        sceneItemEnabled: visible !== null && visible !== void 0 ? visible : false,
                     },
                     inputVariables: {
                         sceneItemId: 'sceneItemIdVariable',
