@@ -341,13 +341,13 @@ class OBS extends EventEmitter {
               boundsType: 'OBS_BOUNDS_STRETCH',
               boundsWidth: area?.width ?? null,
 
-              positionX: area?.x ?? 0,
-              positionY: area?.y ?? 0,
+              positionX: area?.x ?? null,
+              positionY: area?.y ?? null,
 
-              cropBottom: crop?.bottom ?? 0,
-              cropLeft: crop?.left ?? 0,
-              cropRight: crop?.right ?? 0,
-              cropTop: crop?.top ?? 0,
+              cropBottom: crop?.bottom ?? null,
+              cropLeft: crop?.left ?? null,
+              cropRight: crop?.right ?? null,
+              cropTop: crop?.top ?? null,
             },
           },
           inputVariables: {
@@ -359,7 +359,7 @@ class OBS extends EventEmitter {
           // @ts-expect-error the sceneItemId var is optional cuz of the input vars
           requestData: {
             sceneName: scene,
-            sceneItemEnabled: visible ?? true,
+            sceneItemEnabled: visible ?? null,
           },
           inputVariables: {
             sceneItemId: 'sceneItemIdVariable',
