@@ -112,7 +112,8 @@ watch(() => timer.data!, (newTimer?: Timer) => {
           // 'text-align': 'center',
           // Make the colon appear more towards the centre.
           // width: '50px',
-          'margin-top': ([2, 5].includes(i)) ? '-0.2em' : undefined,
+          'margin-top': ([2, 5].includes(i)) ? '-1.8rem' : '-12px',
+          'margin-bottom': '22px',
         }"
       >
         {{ char }}
