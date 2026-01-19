@@ -58,7 +58,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
           height: '181px',
       }"
       >
-        <RunInfo text-align="left" info-is-row/>
+        <RunInfo text-align="left" line-left info-is-row />
       </div>
     </div>
 
