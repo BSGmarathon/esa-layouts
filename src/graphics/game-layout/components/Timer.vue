@@ -70,9 +70,8 @@ watch(() => timer.data!, (newTimer?: Timer) => {
       <div class="Flex TimerLines" :class="{ 'line-right': lineRight, 'line-left': lineLeft }" />
 
       <div :class="`Flex TimerDigits Timer${timerState}`">
-        <!-- TODO: probably don't have to do the splitting anymore -->
-        <span v-for="(char, i) in timeStr" :key="i">
-          {{ char }}
+        <span>
+          {{ timeStr }}
         </span>
       </div>
     </div>
