@@ -16,7 +16,7 @@ interface TimerProps {
 }
 
 withDefaults(defineProps<TimerProps>(), {
-  topMargin: '0em',
+  topMargin: '0em', // TODO: remove
   fontSize: '65pt',
   lineLeft: false,
   lineRight: false,
@@ -65,66 +65,142 @@ watch(() => timer.data!, (newTimer?: Timer) => {
 </script>
 
 <template>
-  <div
-    class="TimerParent Flex"
-    :style="{
-      'box-sizing': 'border-box',
-      'justify-content': 'center',
-      // 'border-top': borderTop ? '5px solid var(--bsg-color)' : 'unset',
-      // [borderLocation]: lineBottom ? '5px solid var(--bsg-color)' : 'unset',
-      // 'border-bottom': lineBottom ? '5px solid var(--bsg-color)' : 'unset',
-      // 'height': '100%',
-    }"
-  >
-    <div
-      class="TimerContainer Flex"
-      :style="{
-        'align-self': 'center',
-        'box-sizing': 'border-box',
-        'border-right': lineRight ? '5px solid var(--slide-color)' : '5px solid rgba(0,0,0,0)',
-        'border-left': lineLeft ? '5px solid var(--slide-color)' : '5px solid rgba(0,0,0,0)',
-        'justify-content': 'center',
-        width: 'calc(100% - 14px)',
-        height: 'calc(100% - 23px)',
-     }"
-    >
-      <div
-        :class="`Flex Timer${timerState}`"
-        :style="{
-        'text-align': 'center',
-        'margin-top': topMargin,
-        transition: '500ms',
-        height: '100%',
-        'font-family': 'LiquidCrystal',
-        'font-weight': 300,
-        'font-size': '65pt',
-        'align-content': 'center',
-        'justify-content': 'center',
-      }"
-      >
-      <span
-        v-for="(char, i) in timeStr"
-        :key="i"
-        :style="{
-          // display: 'inline-block',
-          // replace 0.22em with undefined for better styling
-          // width: ([2, 5].includes(i)) ? undefined : '0.75em',
-          // 'text-align': 'center',
-          // Make the colon appear more towards the centre.
-          // width: '50px',
-          'margin-top': ([2, 5].includes(i)) ? '-1.8rem' : '-12px',
-          'margin-bottom': '22px',
-        }"
-      >
-        {{ char }}
-      </span>
+  <div class="TimerParent Flex">
+    <div class="TimerContainer Flex">
+      <div class="Flex TimerLines" :class="{ 'line-right': lineRight, 'line-left': lineLeft }" />
+
+      <div :class="`Flex TimerDigits Timer${timerState}`">
+        <span>
+          {{ timeStr }}
+        </span>
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.TimerParent {
+  // Zelda wanted the grid removed
+  //--bg-colour: rgba(0, 0, 0, 0.3);
+  //--size: 10px;
+  //background-size: var(--size) var(--size);
+  //background-image:
+  //  linear-gradient(to right, var(--bg-colour) 1px, transparent 1px),
+  //  linear-gradient(to bottom, var(--bg-colour) 1px, transparent 1px);
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  //height: 100%;
+}
+
+.TimerContainer {
+  align-self: center;
+  box-sizing: border-box;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.TimerLines {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  width: calc(100% - 14px);
+  height: calc(100% - 12px);
+  border-left: 5px solid rgba(0,0,0,0);
+  border-right: 5px solid rgba(0,0,0,0);
+
+  //background: rgba(0, 128, 0, 0.44);
+
+  &.line-left {
+    border-left-color: var(--slide-color);
+  }
+
+  &.line-right {
+    border-right-color: var(--slide-color);
+  }
+}
+
+.TimerDigits {
+  --timer-glow: 10px;
+  //--timer-glow: 0px;
+
+  transition: 500ms;
+  font-family: DS_DIGITAL, sans-serif;
+  font-weight: 300;
+  //font-size: 65pt;
+  font-size: v-bind(fontSize);
+  align-items: center;
+  justify-content: center;
+  //text-align: center;
+
+  //background: red;
+
+  //width: 100%;
+  height: 100%;
+  //position: absolute;
+  //left: 50%;
+  //top: 50%;
+  //transform: translate(-50%,-50%);
+}
+
+.TimerStopped, .TimerPaused {
+  --timer-color: #BCBCBC;
+}
+
+.TimerRunning {
+  /*--timer-color: #d7d7d7;*/
+  --timer-color: #FFFFFF;
+}
+
+.TimerFinished {
+  /*--timer-color: #AAFAC8;*/
+  --timer-color: #fffacc;
+
+  animation-name: timer-blink;
+  animation-duration: 500ms;
+  animation-iteration-count: 3;
+}
+
+.TimerForfeit {
+  --timer-color: #ff6767;
+}
+
 span {
+  color: var(--timer-color);
+  text-shadow: 0 0 var(--timer-glow) var(--timer-color);
+  /*box-shadow: 0 0 10px var(--timer-color);*/
+
   font-variant-numeric: tabular-nums;
+}
+
+@keyframes timer-blink {
+  0% {
+    /*opacity: 0.5;*/
+    /*--timer-color: #dad8c3;*/
+  }
+  25% {
+    /*opacity: 0;*/
+    --timer-color: #BCBCBC;
+    --timer-glow: 0;
+  }
+  50% {
+    /*opacity: 0;*/
+    --timer-color: #BCBCBC;
+    --timer-glow: 0;
+  }
+
+  75% {
+    /*opacity: 1;*/
+    --timer-color: #fffacc;
+  }
+
+  100% {
+    /*opacity: 1;*/
+    --timer-color: #fffacc;
+  }
+
 }
 </style>

@@ -42,7 +42,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       >
         <Timer
           class="TimerFH"
-          top-margin="15px"
+          font-size="100pt"
           line-right
           line-left
         />
@@ -58,7 +58,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
           height: '181px',
       }"
       >
-        <RunInfo text-align="left" info-is-row/>
+        <RunInfo text-align="left" line-left info-is-row />
       </div>
     </div>
 
