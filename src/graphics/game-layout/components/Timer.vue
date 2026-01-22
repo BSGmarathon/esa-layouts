@@ -16,7 +16,7 @@ interface TimerProps {
 }
 
 withDefaults(defineProps<TimerProps>(), {
-  topMargin: '0em',
+  topMargin: '0em', // TODO: remove
   fontSize: '65pt',
   lineLeft: false,
   lineRight: false,
@@ -80,12 +80,13 @@ watch(() => timer.data!, (newTimer?: Timer) => {
 
 <style lang="scss" scoped>
 .TimerParent {
-  --bg-colour: rgba(0, 0, 0, 0.3);
-  --size: 10px;
-  background-size: var(--size) var(--size);
-  background-image:
-    linear-gradient(to right, var(--bg-colour) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--bg-colour) 1px, transparent 1px);
+  // Zelda wanted the grid removed
+  //--bg-colour: rgba(0, 0, 0, 0.3);
+  //--size: 10px;
+  //background-size: var(--size) var(--size);
+  //background-image:
+  //  linear-gradient(to right, var(--bg-colour) 1px, transparent 1px),
+  //  linear-gradient(to bottom, var(--bg-colour) 1px, transparent 1px);
   box-sizing: border-box;
   justify-content: center;
   align-items: center;
@@ -129,7 +130,8 @@ watch(() => timer.data!, (newTimer?: Timer) => {
   transition: 500ms;
   font-family: DS_DIGITAL, sans-serif;
   font-weight: 300;
-  font-size: 65pt;
+  //font-size: 65pt;
+  font-size: v-bind(fontSize);
   align-items: center;
   justify-content: center;
   //text-align: center;
