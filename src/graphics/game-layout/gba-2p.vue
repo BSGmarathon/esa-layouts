@@ -51,9 +51,9 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       class="Capture Relative"
       :style="{
         left: '715px',
-        top: '747px',
+        top: '729px',
         width: '490px',
-        height: '251px',
+        height: '270px',
       }"
     />
 
@@ -77,10 +77,10 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
         left: '715px',
         top: '637px',
         width: '490px',
-        height: '100px',
+        height: '92px',
     }"
     >
-      <Timer top-margin="-3px" line-left line-right />
+      <Timer line-left line-right />
     </div>
 
     <!-- Player 2 -->

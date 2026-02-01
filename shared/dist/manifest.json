@@ -50,7 +50,7 @@
     "name": "_plugin-vue_export-helper"
   },
   "_bsg.theme-!~{00y}~.js": {
-    "file": "assets/bsg-DY22oWUA.css",
+    "file": "assets/bsg-C6GhLuDY.css",
     "src": "_bsg.theme-!~{00y}~.js"
   },
   "_en-gb-Bshs-i9q.js": {
@@ -865,6 +865,10 @@
     "file": "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
     "src": "src/graphics/_misc/fonts/BAHNSCHRIFT.ttf"
   },
+  "src/graphics/_misc/fonts/DS-DIGI.TTF": {
+    "file": "assets/DS-DIGI-dG6DdXEc.TTF",
+    "src": "src/graphics/_misc/fonts/DS-DIGI.TTF"
+  },
   "src/graphics/_misc/fonts/GoodlightLight.woff": {
     "file": "assets/GoodlightLight-w__8_CJX.woff",
     "src": "src/graphics/_misc/fonts/GoodlightLight.woff"
@@ -880,10 +884,6 @@
   "src/graphics/_misc/fonts/GoodlightRegular.woff2": {
     "file": "assets/GoodlightRegular-DnuPNkOW.woff2",
     "src": "src/graphics/_misc/fonts/GoodlightRegular.woff2"
-  },
-  "src/graphics/_misc/fonts/LiquidCrystal-Normal.ttf": {
-    "file": "assets/LiquidCrystal-Normal-CadJYKfB.ttf",
-    "src": "src/graphics/_misc/fonts/LiquidCrystal-Normal.ttf"
   },
   "src/graphics/_misc/fonts/corbel-bold.ttf": {
     "file": "assets/corbel-bold-CKnkyJBi.ttf",
@@ -962,7 +962,7 @@
     "src": "src/graphics/countdown/game/img/turtle6.png"
   },
   "src/graphics/countdown/main.ts": {
-    "file": "assets/main-q4e2cQE0.js",
+    "file": "assets/main-CvQ9CqHV.js",
     "name": "main",
     "src": "src/graphics/countdown/main.ts",
     "isEntry": true,
@@ -978,7 +978,7 @@
     ],
     "css": [
       "assets/main-DXQcoP9E.css",
-      "assets/bsg-DY22oWUA.css"
+      "assets/bsg-C6GhLuDY.css"
     ],
     "assets": [
       "assets/turtle1-CUvMq5wn.png",
@@ -996,7 +996,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/LiquidCrystal-Normal-CadJYKfB.ttf",
+      "assets/DS-DIGI-dG6DdXEc.TTF",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
@@ -1095,7 +1095,7 @@
     ]
   },
   "src/graphics/game-layout/main.ts": {
-    "file": "assets/main-DHiOUqw8.js",
+    "file": "assets/main-DGZI3-OY.js",
     "name": "main",
     "src": "src/graphics/game-layout/main.ts",
     "isEntry": true,
@@ -1109,8 +1109,8 @@
       "__commonjsHelpers-BosuxZz1.js"
     ],
     "css": [
-      "assets/main-uF7M7LpB.css",
-      "assets/bsg-DY22oWUA.css"
+      "assets/main-DfxPw3jB.css",
+      "assets/bsg-C6GhLuDY.css"
     ],
     "assets": [
       "assets/background-DI1F5fgb.png",
@@ -1120,7 +1120,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/LiquidCrystal-Normal-CadJYKfB.ttf",
+      "assets/DS-DIGI-dG6DdXEc.TTF",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
@@ -1223,7 +1223,7 @@
     "src": "src/graphics/intermission-hosts/esaOhNo.png"
   },
   "src/graphics/intermission-hosts/main.ts": {
-    "file": "assets/main-1HupjZrV.js",
+    "file": "assets/main-P8sPBr-E.js",
     "name": "main",
     "src": "src/graphics/intermission-hosts/main.ts",
     "isEntry": true,
@@ -1235,8 +1235,8 @@
       "__commonjsHelpers-BosuxZz1.js"
     ],
     "css": [
-      "assets/main-Dnpj77xm.css",
-      "assets/bsg-DY22oWUA.css"
+      "assets/main-BlhtK9y2.css",
+      "assets/bsg-C6GhLuDY.css"
     ],
     "assets": [
       "assets/esaOhNo-lUXxZw7H.png",
@@ -1250,7 +1250,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/LiquidCrystal-Normal-CadJYKfB.ttf",
+      "assets/DS-DIGI-dG6DdXEc.TTF",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
@@ -1353,7 +1353,7 @@
     "src": "src/graphics/intermission-hosts/esaOhNo.png"
   },
   "src/graphics/intermission-player/main.ts": {
-    "file": "assets/main-uyuq_8K_.js",
+    "file": "assets/main-CCiqQx-H.js",
     "name": "main",
     "src": "src/graphics/intermission-player/main.ts",
     "isEntry": true,
@@ -1367,8 +1367,8 @@
       "__commonjsHelpers-BosuxZz1.js"
     ],
     "css": [
-      "assets/main-BIUGEa9j.css",
-      "assets/bsg-DY22oWUA.css"
+      "assets/main-DDObrAbN.css",
+      "assets/bsg-C6GhLuDY.css"
     ],
     "assets": [
       "assets/esaOhNo-lUXxZw7H.png",
@@ -1378,7 +1378,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/LiquidCrystal-Normal-CadJYKfB.ttf",
+      "assets/DS-DIGI-dG6DdXEc.TTF",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
@@ -1485,7 +1485,7 @@
     "src": "src/graphics/intermission/components/Rotation/notlikethis_112.png"
   },
   "src/graphics/intermission/main.ts": {
-    "file": "assets/main-SiDH5-KP.js",
+    "file": "assets/main-BuoDhOBP.js",
     "name": "main",
     "src": "src/graphics/intermission/main.ts",
     "isEntry": true,
@@ -1503,8 +1503,8 @@
       "__commonjsHelpers-BosuxZz1.js"
     ],
     "css": [
-      "assets/main-DHIj0TkC.css",
-      "assets/bsg-DY22oWUA.css"
+      "assets/main-cuOy3FcK.css",
+      "assets/bsg-C6GhLuDY.css"
     ],
     "assets": [
       "assets/notlikethis_112-af0kBz2a.png",
@@ -1514,7 +1514,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/LiquidCrystal-Normal-CadJYKfB.ttf",
+      "assets/DS-DIGI-dG6DdXEc.TTF",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
@@ -1617,7 +1617,7 @@
     "src": "src/graphics/lower-third/assets/left_dash_crop.png"
   },
   "src/graphics/lower-third/main.ts": {
-    "file": "assets/main-CPllhct1.js",
+    "file": "assets/main-Bxr4Ob1w.js",
     "name": "main",
     "src": "src/graphics/lower-third/main.ts",
     "isEntry": true,
@@ -1630,7 +1630,7 @@
     ],
     "css": [
       "assets/main-D5qPe5Kz.css",
-      "assets/bsg-DY22oWUA.css"
+      "assets/bsg-C6GhLuDY.css"
     ],
     "assets": [
       "assets/left_dash_crop-vSYN45Os.png",
@@ -1640,7 +1640,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/LiquidCrystal-Normal-CadJYKfB.ttf",
+      "assets/DS-DIGI-dG6DdXEc.TTF",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
@@ -1739,7 +1739,7 @@
     ]
   },
   "src/graphics/media-box-only/main.ts": {
-    "file": "assets/main-DKuzE2lH.js",
+    "file": "assets/main-vLgvM3At.js",
     "name": "main",
     "src": "src/graphics/media-box-only/main.ts",
     "isEntry": true,
@@ -1752,7 +1752,7 @@
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
     "css": [
-      "assets/bsg-DY22oWUA.css"
+      "assets/bsg-C6GhLuDY.css"
     ],
     "assets": [
       "assets/GoodlightRegular-DnuPNkOW.woff2",
@@ -1761,7 +1761,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/LiquidCrystal-Normal-CadJYKfB.ttf",
+      "assets/DS-DIGI-dG6DdXEc.TTF",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
@@ -1864,7 +1864,7 @@
     "src": "src/graphics/omnibar/components/img/CrowdControl.png"
   },
   "src/graphics/omnibar/main.ts": {
-    "file": "assets/main-D5hFI6j2.js",
+    "file": "assets/main-CskBH2GJ.js",
     "name": "main",
     "src": "src/graphics/omnibar/main.ts",
     "isEntry": true,
@@ -1881,7 +1881,7 @@
     ],
     "css": [
       "assets/main-2XILiB31.css",
-      "assets/bsg-DY22oWUA.css"
+      "assets/bsg-C6GhLuDY.css"
     ],
     "assets": [
       "assets/mind_logo_tag-jpeemcPp.png",
@@ -1893,7 +1893,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/LiquidCrystal-Normal-CadJYKfB.ttf",
+      "assets/DS-DIGI-dG6DdXEc.TTF",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
@@ -2000,7 +2000,7 @@
     "src": "src/graphics/omnibar/omniing/mind_logo_tag.png"
   },
   "src/graphics/player-hud/main.ts": {
-    "file": "assets/main-CjZ-OYld.js",
+    "file": "assets/main-Ce_DU5Ed.js",
     "name": "main",
     "src": "src/graphics/player-hud/main.ts",
     "isEntry": true,
@@ -2012,7 +2012,7 @@
     ],
     "css": [
       "assets/main-Cv5IRxDL.css",
-      "assets/bsg-DY22oWUA.css"
+      "assets/bsg-C6GhLuDY.css"
     ],
     "assets": [
       "assets/GoodlightRegular-DnuPNkOW.woff2",
@@ -2021,7 +2021,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/LiquidCrystal-Normal-CadJYKfB.ttf",
+      "assets/DS-DIGI-dG6DdXEc.TTF",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
@@ -2120,7 +2120,7 @@
     ]
   },
   "src/graphics/tts-player/main.ts": {
-    "file": "assets/main-BEXhfzuo.js",
+    "file": "assets/main-DdG51siK.js",
     "name": "main",
     "src": "src/graphics/tts-player/main.ts",
     "isEntry": true,
@@ -2128,7 +2128,7 @@
       "_index-Ce_smM0X.js"
     ],
     "css": [
-      "assets/bsg-DY22oWUA.css"
+      "assets/bsg-C6GhLuDY.css"
     ],
     "assets": [
       "assets/GoodlightRegular-DnuPNkOW.woff2",
@@ -2137,7 +2137,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/LiquidCrystal-Normal-CadJYKfB.ttf",
+      "assets/DS-DIGI-dG6DdXEc.TTF",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
@@ -2236,7 +2236,7 @@
     ]
   },
   "src/graphics/unread-donations/main.ts": {
-    "file": "assets/main-CqyBVPmt.js",
+    "file": "assets/main-DP3iIHqF.js",
     "name": "main",
     "src": "src/graphics/unread-donations/main.ts",
     "isEntry": true,
@@ -2247,7 +2247,7 @@
     ],
     "css": [
       "assets/main-nb66U90t.css",
-      "assets/bsg-DY22oWUA.css"
+      "assets/bsg-C6GhLuDY.css"
     ],
     "assets": [
       "assets/GoodlightRegular-DnuPNkOW.woff2",
@@ -2256,7 +2256,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/LiquidCrystal-Normal-CadJYKfB.ttf",
+      "assets/DS-DIGI-dG6DdXEc.TTF",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",

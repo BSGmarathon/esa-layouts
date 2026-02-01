@@ -12,68 +12,6 @@ body {
   border-color: #41245b;
 }
 
-*[class*='Timer'] {
-  --timer-glow: 10px;
-}
-
-*[class*='Timer'] span {
-  /* FUCK WINDOWS */
-  margin-bottom: 10px;
-  color: var(--timer-color);
-  text-shadow: 0 0 var(--timer-glow) var(--timer-color);
-  /*box-shadow: 0 0 10px var(--timer-color);*/
-}
-
-.TimerStopped, .TimerPaused {
-  --timer-color: #BCBCBC;
-}
-
-.TimerRunning {
-  /*--timer-color: #d7d7d7;*/
-  --timer-color: #FFFFFF;
-}
-
-.TimerFinished {
-  /*--timer-color: #AAFAC8;*/
-  --timer-color: #fffacc;
-
-  animation-name: timer-blink;
-  animation-duration: 500ms;
-  animation-iteration-count: 3;
-}
-
-@keyframes timer-blink {
-  0% {
-    /*opacity: 0.5;*/
-    /*--timer-color: #dad8c3;*/
-  }
-  25% {
-    /*opacity: 0;*/
-    --timer-color: #BCBCBC;
-    --timer-glow: 0;
-  }
-  50% {
-    /*opacity: 0;*/
-    --timer-color: #BCBCBC;
-    --timer-glow: 0;
-  }
-
-  75% {
-    /*opacity: 1;*/
-    --timer-color: #fffacc;
-  }
-
-  100% {
-    /*opacity: 1;*/
-    --timer-color: #fffacc;
-  }
-
-}
-
-.TimerForfeit {
-  --timer-color: #ff6767;
-}
-
 #GameLayout .RunInfoExtra {
   color: #d7d7d7;
 }

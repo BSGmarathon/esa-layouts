@@ -110,6 +110,6 @@ function formPlayerNamesStr(runData: RunData): string {
 
 <style scoped>
   .RunInfoExtra > span:not(:last-child)::after {
-    content: ' /';
+    content: ' / ';
   }
 </style>

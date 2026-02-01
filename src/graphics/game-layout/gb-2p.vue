@@ -68,9 +68,9 @@ function flashingLightsUpdated(newVal: boolean): void {
       class="Capture Relative"
       :style="{
       left: '715px',
-      top: '820px',
+      top: '811px',
       width: '490px',
-      height: '177px',
+      height: '187px',
       }"
     />
 
@@ -93,9 +93,9 @@ function flashingLightsUpdated(newVal: boolean): void {
         left: '715px',
         top: '719px',
         width: '490px',
-        height: '100px',
+        height: '92px',
       }">
-      <Timer top-margin="-3px" line-left line-right />
+      <Timer line-left line-right />
     </div>
 
     <!-- Player 2 -->
@@ -118,7 +118,7 @@ function flashingLightsUpdated(newVal: boolean): void {
         left: '1205px',
         top: '764px',
         width: '715px',
-        height: '233px',
+        height: '234px',
       }">
       <RunInfo line-left text-align="flex-start" :info-is-row="infoIsRow" />
       <FlashingLightsWarning

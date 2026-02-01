@@ -104,7 +104,7 @@ onUnmounted(() => {
               <span
                 v-if="pronouns"
                 class="Pronouns">{{ pronouns }}</span><template
-              v-if="i < commentatorsNew.data!.length - 1">,</template>
+              v-if="i < commentatorsNew.data!.length - 1">, </template>
             </span>
           </template>
         </span>

@@ -58,6 +58,7 @@ function onX32GameAudioChange(newVal: ChanData[]) {
 }
 
 watch(() => x32GameAudio.data!, (newVal: ChanData[]) => onX32GameAudioChange(newVal));
+watch(() => gameLayouts.data?.selected, () => onX32GameAudioChange(x32GameAudio.data!));
 
 onMounted(async () => {
   await waitForReplicant(x32GameAudio, delayedTimer, runDataActiveRun);
