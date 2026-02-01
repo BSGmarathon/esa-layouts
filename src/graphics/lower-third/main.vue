@@ -3,6 +3,7 @@ import { lowerThird } from '@esa-layouts/browser_shared/replicant_store';
 import gsap from 'gsap';
 import { onMounted, ref } from 'vue';
 import { useHead } from '@vueuse/head';
+import { waitForReplicant } from '@esa-layouts/browser_shared/helpers';
 import { wait } from '../_misc/helpers';
 
 useHead({ title: 'Lower third' });
@@ -24,6 +25,10 @@ function setVisible(state: boolean): void {
 }
 
 async function show(): Promise<void> {
+  if (!lowerThird.data!.names.length) {
+    return;
+  }
+
   setTransitioning(true);
   barVisible.value = true;
   await wait(500); // --lt-up-down-anim-dur
@@ -66,11 +71,9 @@ function toggle(): void {
 }
 
 onMounted(async () => {
-  while (!lowerThird?.data) {
-    await wait(100);
-  }
+  await waitForReplicant(lowerThird);
 
-  if (lowerThird.data.visible) {
+  if (lowerThird.data!.visible) {
     barVisible.value = true;
     showNames.value = true;
     barWidth.value = barOpenState;

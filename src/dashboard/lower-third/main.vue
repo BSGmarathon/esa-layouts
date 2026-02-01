@@ -9,10 +9,15 @@ const nameEntry = ref('');
 const updatingName = ref(false);
 const autoHide = ref(true);
 const autoHideSeconds = ref('10');
+const hasNames = computed(() => (lowerThird.data?.names?.length ?? 0) > 0);
 const toggleButtonsDisabled = computed(() => lowerThird.data?.transitioning || updatingName.value);
 const inputsDisabled = computed(() => toggleButtonsDisabled.value || lowerThird.data?.visible);
 
 function showLowerThird(): void {
+  if (!lowerThird.data!.names.length) {
+    return;
+  }
+
   let finalAutoHide = autoHide.value;
   const afterSecs = parseInt(autoHideSeconds.value, 10);
 
@@ -99,7 +104,7 @@ async function add(): Promise<void> {
         height="56px"
         :style="{ 'margin-left': '5px' }"
         @click="showLowerThird"
-        :disabled="toggleButtonsDisabled || lowerThird.data.visible">
+        :disabled="toggleButtonsDisabled || lowerThird.data.visible || !hasNames">
         Show
       </v-btn>
       <v-btn

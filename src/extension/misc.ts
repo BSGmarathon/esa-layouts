@@ -14,7 +14,6 @@ import {
   commentators,
   commentatorsNew,
   lowerThird,
-  donationReader,
   donationReaderNew,
   donationTotal,
   horaroImportStatus,
