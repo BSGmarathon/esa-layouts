@@ -1,28 +1,28 @@
 @font-face {
-	font-family: 'Bahnschrift';
+  font-family: 'Bahnschrift';
   src: url('BAHNSCHRIFT.ttf') format('truetype');
-	font-weight: 300;
-	font-style: normal;
+  font-weight: 300;
+  font-style: normal;
 }
 
 @font-face {
-	font-family: 'pixelmix';
+  font-family: 'pixelmix';
   src: url('pixelmix.ttf') format('truetype');
-	font-weight: 300;
-	font-style: normal;
+  font-weight: 300;
+  font-style: normal;
 }
 
 /* https://www.dafont.com/ds-digital.font */
 @font-face {
-	font-family: 'DS_DIGITAL';
+  font-family: 'DS_DIGITAL';
   src: url('DS-DIGI.TTF') format('truetype');
-	font-weight: 300;
-	font-style: normal;
+  font-weight: 300;
+  font-style: normal;
 }
 
 @font-face {
-	font-family: 'Corbel-Bold';
+  font-family: 'Corbel-Bold';
   src: url('corbel-bold.ttf') format('truetype');
-	font-weight: 300;
-	font-style: normal;
+  font-weight: 300;
+  font-style: normal;
 }
