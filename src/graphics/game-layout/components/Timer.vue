@@ -7,7 +7,6 @@ import { useReplicant } from 'nodecg-vue-composable';
 import { msToTimeStr } from '../../_misc/helpers';
 
 interface TimerProps {
-  topMargin: string;
   fontSize: string;
   lineLeft: boolean;
   lineRight: boolean;
@@ -16,7 +15,6 @@ interface TimerProps {
 }
 
 withDefaults(defineProps<TimerProps>(), {
-  topMargin: '0em', // TODO: remove
   fontSize: '65pt',
   lineLeft: false,
   lineRight: false,

@@ -50,9 +50,9 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       class="BorderLeft BorderRight"
       :style="{
         left: '950px',
-        top: '549px',
+        top: '544px',
         width: '599px',
-        height: '449px',
+        height: '454px',
       }"
     />
 

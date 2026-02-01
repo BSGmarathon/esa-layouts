@@ -79,7 +79,7 @@ import Timer from './components/Timer.vue';
     >
       <CommentatorsReader class="BorderBottom"/>
       <CommentatorsReader class="BorderBottom" show-reader/>
-      <Timer line-right class="BorderBottom"/>
+      <Timer font-size="72pt" line-right class="BorderBottom"/>
     </div>
 
     <!-- Media Box -->

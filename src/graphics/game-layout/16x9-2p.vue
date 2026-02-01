@@ -51,9 +51,9 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Capture Relative"
       :style="{
         left: '687px',
-        top: '719px',
+        top: '710px',
         width: '551px',
-        height: '279px',
+        height: '288px',
       }"
     />
 
@@ -89,7 +89,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         left: '687px',
         top: '618px',
         width: '551px',
-        height: '101px',
+        height: '92px',
       }"
     >
       <Timer line-left line-right />

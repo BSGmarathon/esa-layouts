@@ -27,9 +27,9 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       :slot-no="0"
       :style="{
         left: '66px',
-        top: '587px',
+        top: '582px',
         width: '548px',
-        height: '411px',
+        height: '416px',
       }"
     />
 
@@ -62,9 +62,9 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       finish-time-pos="bottomright"
       :style="{
         left: '1290px',
-        top: '587px',
+        top: '582px',
         width: '548px',
-        height: '411px',
+        height: '416px',
       }"
     />
 
