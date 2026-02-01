@@ -72,6 +72,6 @@ const etaUntil = computed(() => {
 
 <style scoped>
   .RunInfoExtra > span:not(:last-child)::after {
-    content: ' /';
+    content: ' / ';
   }
 </style>

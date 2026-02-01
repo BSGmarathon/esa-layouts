@@ -24,7 +24,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       class="BorderLeft BorderRight BorderTop"
       :style="{
         left: '83px',
-        top: '684px',
+        top: '688px',
         width: '412px',
         height: '309px',
       }"

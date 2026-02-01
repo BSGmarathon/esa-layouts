@@ -42,7 +42,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       >
         <Timer
           class="TimerFH"
-          top-margin="15px"
+          font-size="100pt"
           line-right
           line-left
         />

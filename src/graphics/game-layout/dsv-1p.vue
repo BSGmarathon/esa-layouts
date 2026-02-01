@@ -38,9 +38,9 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="BorderLeft BorderRight"
       :style="{
         left: '916px',
-        top: '505px',
+        top: '500px',
         width: '667px',
-        height: '495px',
+        height: '500px',
       }"
     />
 
@@ -91,7 +91,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         left: '0px',
         top: '620px',
         width: '574px',
-        height: '374px',
+        height: '377px',
       }"
     >
       <CommentatorsReader class="BorderBottom" />

@@ -29,7 +29,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
         left: '0px',
         top: '492px',
         width: '659px',
-        height: '496px',
+        height: '505px',
       }"
     />
     <GameCapture
@@ -53,7 +53,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
         left: '1254px',
         top: '492px',
         width: '661px',
-        height: '496px',
+        height: '505px',
       }"
     />
 
@@ -132,7 +132,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
         height: '110px',
       }"
     >
-      <Timer line-left line-right />
+      <Timer line-left line-right font-size="100px" />
     </div>
   </div>
 </template>
