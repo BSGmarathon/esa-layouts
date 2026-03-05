@@ -47,7 +47,7 @@ class OBS extends events_1.EventEmitter {
             });
             // @ts-expect-error better types are needed.
             this.conn.on('SceneTransitionStarted', (data) => {
-                this.emit('transitionStarted', data.toScene, data.fromScene);
+                this.emit('transitionStarted', data.toSceneName, data.fromSceneName);
             });
             this.conn.on('Identified', () => {
                 // wait a few seconds to make sure OBS is properly loaded.

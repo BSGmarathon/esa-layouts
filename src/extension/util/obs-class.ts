@@ -67,7 +67,7 @@ class OBS extends EventEmitter {
 
       // @ts-expect-error better types are needed.
       this.conn.on('SceneTransitionStarted', (data: OBSTypes.SexyTransitionData) => {
-        this.emit('transitionStarted', data.toScene, data.fromScene);
+        this.emit('transitionStarted', data.toSceneName, data.fromSceneName);
       });
 
       this.conn.on('Identified', () => {

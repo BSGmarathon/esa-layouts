@@ -117,7 +117,6 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         <CommentatorsReader class="BorderBottom" show-reader/>
         <FlashingLightsWarning/>
         <MediaBoxBox
-          vertical
           line-right
           class="BorderTop1"
           :style="{
