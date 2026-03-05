@@ -113,6 +113,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       <CommentatorsReader class="BorderTop" />
       <CommentatorsReader class="BorderTop" show-reader />
       <MediaBoxBox
+        vertical
         line-right
         class="BorderTop"
         :style="{

@@ -137,6 +137,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       <MediaBoxBox
         line-right
         line-left
+        vertical
         class="BorderTop"
         :style="{
           width: '435px',

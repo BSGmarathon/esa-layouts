@@ -15,8 +15,15 @@ export namespace OBS {
   }
 
   interface SexyTransitionData {
+    /** @deprecated */
     fromScene: string;
+    /** @deprecated */
     toScene: string;
+
+    fromSceneUuid: string;
+    toSceneUuid: string;
+    toSceneName: string;
+    fromSceneName: string
     transitionName: string;
     transitionUuid: string;
   }

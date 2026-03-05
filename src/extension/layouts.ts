@@ -360,6 +360,9 @@ obs.on('ready', async () => {
         config.obs.names.scenes.gameLayout,
         captureName,
       );
+
+      console.log({ sceneItemTransform });
+
       // Fill in cropping information based on the type of source selected in the capture scene.
       if (mode === 'game') {
         gameCropValues[captureIndex] = getCropFromData(sceneItemTransform);
