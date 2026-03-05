@@ -73,6 +73,7 @@ export namespace Tracker {
     minimumbid: number;
     image: string; // Can be empty
     altimage: string; // Can be empty
+    imagefile: string; // Can be empty
     startrun: number | null;
     endrun: number | null;
     starttime: string | null;

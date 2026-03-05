@@ -10,7 +10,7 @@ const refreshTime = 60 * 1000; // Get prizes every 60s.
 
 // Processes the response from the API above.
 function processRawPrizes(rawPrizes: Tracker.Prize[]): Tracker.FormattedPrize[] {
-  // Somehow the the state is gone LMAO
+  // Somehow the state is gone LMAO
   return rawPrizes/* .filter((prize) => prize.fields.state === 'ACCEPTED') */.map((prize) => {
     const startTime = prize.starttime;
     const endTime = prize.endtime;
@@ -19,7 +19,7 @@ function processRawPrizes(rawPrizes: Tracker.Prize[]): Tracker.FormattedPrize[] 
       name: prize.name,
       provided: prize.provider || undefined,
       minimumBid: prize.minimumbid,
-      image: prize.altimage || prize.image || undefined,
+      image: prize.imagefile || prize.altimage || prize.image || undefined,
       startTime: startTime ? Date.parse(startTime) : undefined,
       endTime: endTime ? Date.parse(endTime) : undefined,
     };
