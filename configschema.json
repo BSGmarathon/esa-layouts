@@ -271,12 +271,17 @@
             "recordStopDelaySec": {
               "type": "number",
               "default": 20
+            },
+            "recordStartDelaySec": {
+              "type": "number",
+              "default": 1
             }
           },
           "required": [
             "recordStartSceneNames",
             "recordStopSceneNames",
-            "recordStopDelaySec"
+            "recordStopDelaySec",
+            "recordStartDelaySec"
           ]
         },
         "canvasResolution": {

@@ -22,6 +22,7 @@ class OBS extends EventEmitter {
   sceneList: string [] = [];
   connected = false;
   streaming: boolean | undefined;
+  recording = false;
 
   constructor(nodecg: NodeCGTypes.ServerAPI, config: OBSTypes.Config) {
     super();
@@ -58,6 +59,10 @@ class OBS extends EventEmitter {
       this.conn.on('StreamStateChanged', ({ outputActive }) => {
         this.streaming = outputActive;
         this.emit('streamingStatusChanged', this.streaming, !this.streaming);
+      });
+
+      this.conn.on('RecordStateChanged', ({ outputActive }) => {
+        this.recording = outputActive;
       });
 
       this.conn.on('ConnectionError', (err) => {
@@ -385,6 +390,24 @@ class OBS extends EventEmitter {
         + `${err.error || err}`);
       throw err;
     }
+  }
+
+  async startRecording() {
+    // if already recording ignore
+    if (this.recording) {
+      return;
+    }
+
+    await this.conn.call('StartRecord');
+  }
+
+  async stopRecording() {
+    // if not recording ignore
+    if (!this.recording) {
+      return;
+    }
+
+    await this.conn.call('StopRecord');
   }
 }
 

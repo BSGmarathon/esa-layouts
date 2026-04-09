@@ -49,6 +49,7 @@ export interface Configschema {
 			recordStartSceneNames: string[];
 			recordStopSceneNames: string[];
 			recordStopDelaySec: number;
+			recordStartDelaySec: number;
 		};
 		canvasResolution: {
 			width: number;
