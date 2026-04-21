@@ -7,6 +7,7 @@ import { OBS as OBSTypes } from '@esa-layouts/types';
 
 interface OBS {
   on(event: 'streamingStatusChanged', listener: (streaming: boolean, old?: boolean) => void): this;
+  on(event: 'recordingStatusChanged', listener: (streaming: boolean, old?: boolean) => void): this;
   on(event: 'connectionStatusChanged', listener: (connected: boolean) => void): this;
   on(event: 'currentSceneChanged', listener: (current?: string, last?: string) => void): this;
   on(event: 'transitionStarted', listener: (current: string, previous?: string) => void): this;
@@ -63,6 +64,7 @@ class OBS extends EventEmitter {
 
       this.conn.on('RecordStateChanged', ({ outputActive }) => {
         this.recording = outputActive;
+        this.emit('recordingStatusChanged', this.recording, !this.recording);
       });
 
       this.conn.on('ConnectionError', (err) => {

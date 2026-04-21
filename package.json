@@ -211,6 +211,13 @@
         "headerColor": "#c49215"
       },
       {
+        "name": "autorecord-settings",
+        "title": "OBS Autorecord",
+        "width": 2,
+        "file": "autorecord/main.html",
+        "headerColor": "#c49215"
+      },
+      {
         "name": "donation-reader-control",
         "title": "Donation Reader Control",
         "width": 2,

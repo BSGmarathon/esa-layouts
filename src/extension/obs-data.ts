@@ -101,6 +101,10 @@ obs.on('streamingStatusChanged', (streaming) => {
   mqLogging.logStreamingStatusChange(streaming);
 });
 
+obs.on('recordingStatusChanged', (recording) => {
+  obsData.value.recording = recording;
+});
+
 obs.on('currentSceneChanged', (current, last) => {
   obsData.value.scene = current;
   // Slightly hacky way of not sending ".gamescene" at the end of a RabbitMQ routing key
@@ -130,7 +134,7 @@ obs.on('sceneListChanged', (list) => {
 function shouldStartRecording(toScene: string): boolean {
   return autorecordConfig.recordStartSceneNames.some(
     (scene) => toScene.startsWith(scene),
-  );
+  ) && autorecord.value.enabled;
 }
 
 function shouldStopRecording(toScene: string): boolean {
@@ -139,10 +143,14 @@ function shouldStopRecording(toScene: string): boolean {
   );
 }
 
-obs.on('transitionStarted', async (toScene) => {
-  obsData.value.transitioning = true;
+let stopTimeout: NodeJS.Timeout | undefined;
 
+async function transitionLogic(toScene: string) {
   if (shouldStartRecording(toScene)) {
+    if (stopTimeout) {
+      clearTimeout(stopTimeout);
+    }
+
     // delay and start
     await wait(autorecordConfig.recordStartDelaySec * 1000);
     await obs.startRecording();
@@ -153,8 +161,21 @@ obs.on('transitionStarted', async (toScene) => {
     }
 
     // delay and stop
-    await wait(autorecordConfig.recordStopDelaySec * 1000);
-    await obs.stopRecording();
+    stopTimeout = setTimeout(() => {
+      obs.stopRecording().catch((e) => {
+        nodecg().log.error('Record stop failed', e);
+      });
+    }, autorecordConfig.recordStopDelaySec * 1000);
+  }
+}
+
+obs.on('transitionStarted', async (toScene) => {
+  obsData.value.transitioning = true;
+
+  try {
+    await transitionLogic(toScene);
+  } catch (e: unknown) {
+    nodecg().log.error('transition logic failed', e);
   }
 });
 
