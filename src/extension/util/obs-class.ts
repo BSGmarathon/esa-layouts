@@ -121,16 +121,29 @@ class OBS extends EventEmitter {
         this.streaming = streamingStatus.outputActive;
       }
 
+      // Get recording status on connection.
+      const recordingStatus = await this.conn.call('GetRecordStatus');
+      const lastRecordStatus = this.recording;
+      if (recordingStatus.outputActive !== lastRecordStatus) {
+        this.recording = recordingStatus.outputActive;
+      }
+
       // Emit changes after everything start up related has finished.
       this.emit('connectionStatusChanged', this.connected);
       if (lastScene !== scenes.currentProgramSceneName) {
         this.emit('currentSceneChanged', this.currentScene, lastScene);
       }
+
       if (JSON.stringify(newList) !== JSON.stringify(oldList)) {
         this.emit('sceneListChanged', this.sceneList);
       }
+
       if (streamingStatus.outputActive !== lastStatus) {
         this.emit('streamingStatusChanged', this.streaming, lastStatus);
+      }
+
+      if (recordingStatus.outputActive !== lastRecordStatus) {
+        this.emit('recordingStatusChanged', this.recording, lastStatus);
       }
 
       this.nodecg.log.info('[OBS] Connection successful');
