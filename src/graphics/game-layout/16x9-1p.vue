@@ -56,7 +56,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
           top: '816px',
           width: '705px',
           height: '181px',
-      }"
+        }"
       >
         <RunInfo text-align="left" line-left info-is-row />
       </div>
@@ -87,33 +87,29 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
           left: '0px',
           top: '361px',
           width: '478px',
-          height: '44px',
-        }">
-        <Player/>
+          height: '50px',
+        }"
+      >
+        <Player />
       </div>
 
       <!-- Media Box / Reader / Comms -->
       <div
         class="Fixed FlexColumn"
         :style="{
-        left: '0px',
-        top: '405px',
-        width: '478px',
-        height: '588px',
-      }"
+          left: '0px',
+          top: '411px',
+          width: '478px',
+          height: '582px',
+        }"
       >
-<!--        <CommentatorsList class="BorderTop BorderBottom" />-->
-        <CommentatorsReader class="BorderBottom"/>
-        <CommentatorsReader class="BorderBottom" show-reader/>
-        <FlashingLightsWarning/>
+        <CommentatorsReader class="BorderBottom" />
+        <CommentatorsReader class="BorderBottom" show-reader />
+        <FlashingLightsWarning />
         <MediaBoxBox
           vertical
           line-right
-          class="BorderTop1"
-          :style="{
-            width: '478px',
-            height: '100%',
-          }"
+          :style="{ height: '100%' }"
         />
       </div>
     </div>

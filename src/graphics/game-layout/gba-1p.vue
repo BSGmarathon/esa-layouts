@@ -30,7 +30,8 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         top: '286px',
         width: '585px',
         height: '347px',
-    }"/>
+      }"
+    />
 
     <!-- Right text border -->
     <div
@@ -52,7 +53,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         width: '585px',
         height: '281px',
         'justify-content': 'space-between',
-    }"
+      }"
     >
       <RunInfo line-right />
       <FlashingLightsWarning class="Flex" style="align-self: flex-end" />
@@ -61,10 +62,10 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     <div
       class="Fixed FlexColumn BorderTop BorderRight"
       :style="{
-      left: '0px',
-      top: '630px',
-      width: '590px',
-      height: '44px',
+        left: '0px',
+        top: '627px',
+        width: '590px',
+        height: '50px',
       }"
     >
       <Player />
@@ -75,9 +76,9 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Fixed FlexColumn BorderRight"
       :style="{
         left: '0px',
-        top: '674px',
+        top: '677px',
         width: '590px',
-        height: '325px',
+        height: '322px',
       }"
     >
       <CommentatorsReader class="BorderTop" />
@@ -86,10 +87,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       <MediaBoxBox
         line-right
         class="BorderTop"
-        :style="{
-          width: '585px',
-          height: '100%',
-        }"
+        :style="{ height: '100%' }"
       />
     </div>
   </div>

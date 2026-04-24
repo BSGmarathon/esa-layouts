@@ -9,17 +9,16 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
 </script>
 
 <template>
-  <div class="bsglayout _16x9_2p_connected">
+  <div class="bsglayout">
     <!-- Game Captures -->
     <GameCapture
       id="GameCapture1"
-      class=""
       :slot-no="0"
       :style="{
-      left: '0px',
-      top: '77px',
-      width: '715px',
-      height: '536px',
+        left: '0px',
+        top: '77px',
+        width: '715px',
+        height: '536px',
       }"
     />
 
@@ -28,10 +27,10 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       id="GameCapture3"
       :slot-no="2"
       :style="{
-      left: '715px',
-      top: '77px',
-      width: '491px',
-      height: '536px',
+        left: '715px',
+        top: '77px',
+        width: '491px',
+        height: '536px',
       }"
     />
 
@@ -40,10 +39,10 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       :slot-no="1"
       finish-time-pos="bottomright"
       :style="{
-      left: '1206px',
-      top: '77px',
-      width: '715px',
-      height: '536px',
+        left: '1206px',
+        top: '77px',
+        width: '715px',
+        height: '536px',
       }"
     />
 
@@ -52,10 +51,10 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       id="CameraCapture1"
       class="Capture Relative"
       :style="{
-      left: '696px',
-      top: '742px',
-      width: '529px',
-      height: '256px',
+        left: '696px',
+        top: '742px',
+        width: '529px',
+        height: '256px',
       }"
     />
 
@@ -63,10 +62,10 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     <div
       class="Fixed"
       :style="{
-      left: '0px',
-      top: '627px',
-      width: '682px',
-      height: '44px'
+        left: '0px',
+        top: '627px',
+        width: '682px',
+        height: '50px',
       }"
     >
       <Player :slot-no="0" />
@@ -76,23 +75,24 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     <div
       class="Fixed FlexColumn"
       :style="{
-      left: '1238px',
-      top: '627px',
-      width: '682px',
-      height: '44px'
+        left: '1238px',
+        top: '627px',
+        width: '682px',
+        height: '50px',
       }"
     >
       <Player :slot-no="1" />
     </div>
 
+    <!-- Timer -->
     <div
       class="Fixed FlexColumn"
       :style="{
-          left: '687px',
-          top: '627px',
-          width: '546px',
-          height: '101px',
-        }"
+        left: '687px',
+        top: '627px',
+        width: '546px',
+        height: '101px',
+      }"
     >
       <Timer line-left line-right />
     </div>
@@ -102,10 +102,10 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Fixed FlexColumn"
       :style="{
         left: '1238px',
-        top: '676px',
+        top: '682px',
         width: '682px',
-        height: '322px',
-        }"
+        height: '316px',
+      }"
     >
       <FlashingLightsWarning class="Flex" style="align-self: flex-end" />
       <RunInfo line-right />
@@ -115,22 +115,18 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     <div
       class="Fixed FlexColumn"
       :style="{
-          left: '0px',
-          top: '676px',
-          width: '682px',
-          height: '322px',
-        }"
+        left: '0px',
+        top: '682px',
+        width: '682px',
+        height: '316px',
+      }"
     >
       <MediaBoxBox
         line-right
-        :style="{
-          width: '682px',
-          height: '100%',
-        }"
+        :style="{ height: '100%' }"
       />
       <CommentatorsReader line-top show-reader />
       <CommentatorsReader line-top />
     </div>
-
   </div>
 </template>

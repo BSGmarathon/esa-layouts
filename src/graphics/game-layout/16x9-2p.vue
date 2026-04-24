@@ -64,7 +64,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         left: '0px',
         top: '618px',
         width: '687px',
-        height: '44px'
+        height: '50px',
       }"
     >
       <Player :slot-no="0" />
@@ -77,7 +77,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         left: '1238px',
         top: '618px',
         width: '682px',
-        height: '44px'
+        height: '50px',
       }"
     >
       <Player :slot-no="1" />
@@ -100,9 +100,9 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Fixed FlexColumn BorderLeft"
       :style="{
         left: '1238px',
-        top: '662px',
+        top: '668px',
         width: '682px',
-        height: '336px',
+        height: '330px',
         }"
     >
       <FlashingLightsWarning class="Flex" style="align-self: flex-end" />
@@ -114,18 +114,15 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Fixed FlexColumn BorderRight"
       :style="{
         left: '0px',
-        top: '662px',
+        top: '668px',
         width: '687px',
-        height: '336px',
+        height: '330px',
       }"
     >
       <MediaBoxBox
         line-right
         class="BorderBottom"
-        :style="{
-          width: '682px',
-          height: '100%',
-        }"
+        :style="{ height: '100%' }"
       />
       <CommentatorsReader class="BorderBottom" line-top />
 <!--      <CommentatorsScrolling class="BorderBottom" />-->

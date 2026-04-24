@@ -63,10 +63,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         vertical
         line-left
         line-right
-        :style="{
-          width: '488px',
-          height: '100%',
-        }"
+        :style="{ height: '100%' }"
       />
       <FlashingLightsWarning />
       <Timer class="BorderTop" line-right line-left />
@@ -79,22 +76,22 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         left: '0px',
         top: '405px',
         width: '712px',
-        height: '44px',
+        height: '50px',
       }"
     >
-      <Player :slot-no="0"/>
+      <Player :slot-no="0" />
     </div>
 
     <div
       class="Fixed FlexColumn BorderTop BorderLeft BorderRight"
       :style="{
         left: '602px',
-        top: '556px',
+        top: '550px',
         width: '713px',
-        height: '44px',
+        height: '50px',
       }"
     >
-      <Player :slot-no="1"/>
+      <Player :slot-no="1" />
     </div>
 
     <div
@@ -103,10 +100,10 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         left: '1200px',
         top: '405px',
         width: '720px',
-        height: '44px',
+        height: '50px',
       }"
     >
-      <Player :slot-no="2"/>
+      <Player :slot-no="2" />
     </div>
 
     <!-- Camera Captures -->

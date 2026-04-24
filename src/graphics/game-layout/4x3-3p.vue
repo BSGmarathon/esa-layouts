@@ -18,27 +18,28 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         top: '0px',
         width: '660px',
         height: '100%',
-    }">
+      }"
+    >
       <GameCapture
         id="GameCapture1"
         class="BorderBottom"
         :slot-no="0"
         :style="{
-        left: '0px',
-        top: '0px',
-        width: '660px',
-        height: '496px',
-      }"
+          left: '0px',
+          top: '0px',
+          width: '660px',
+          height: '496px',
+        }"
       />
       <GameCapture
         id="GameCapture3"
         :slot-no="2"
         :style="{
-        left: '0px',
-        top: '502px',
-        width: '660px',
-        height: '496px',
-      }"
+          left: '0px',
+          top: '502px',
+          width: '660px',
+          height: '496px',
+        }"
       />
     </div>
 
@@ -49,18 +50,19 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         top: '0px',
         width: '660px',
         height: '100%',
-    }">
+      }"
+    >
       <GameCapture
         id="GameCapture2"
         class="BorderBottom"
         finish-time-pos="bottomright"
         :slot-no="1"
         :style="{
-        left: '1260px',
-        top: '0px',
-        width: '660px',
-        height: '496px',
-      }"
+          left: '1260px',
+          top: '0px',
+          width: '660px',
+          height: '496px',
+        }"
       />
 
       <!-- Camera Captures -->
@@ -68,24 +70,22 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         id="CameraCapture1"
         class="Capture Relative"
         :style="{
-        left: '1260px',
-        top: '502px',
-        width: '660px',
-        height: '496px',
-      }"
+          left: '1260px',
+          top: '502px',
+          width: '660px',
+          height: '496px',
+        }"
       />
     </div>
-
-    <!-- General Run Info -->
 
     <!-- Players -->
     <div
       class="Fixed FlexColumn BorderBottom BorderRight"
       :style="{
-      left: '660px',
-      top: '333px',
-      width: '512px',
-      height: '44px',
+        left: '660px',
+        top: '333px',
+        width: '512px',
+        height: '50px',
       }"
     >
       <Player :slot-no="0" />
@@ -94,10 +94,10 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     <div
       class="Fixed FlexColumn BorderBottom BorderLeft BorderTop"
       :style="{
-      left: '743px',
-      top: '448px',
-      width: '517px',
-      height: '44px',
+        left: '743px',
+        top: '448px',
+        width: '517px',
+        height: '50px',
       }"
     >
       <Player :slot-no="1" />
@@ -117,10 +117,10 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     <div
       class="Fixed FlexColumn BorderBottom BorderTop BorderRight"
       :style="{
-      left: '660px',
-      top: '574px',
-      width: '512px',
-      height: '44px',
+        left: '660px',
+        top: '574px',
+        width: '512px',
+        height: '50px',
       }"
     >
       <Player :slot-no="2" />
@@ -155,10 +155,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       <MediaBoxBox
         line-left
         line-right
-        :style="{
-          width: '600px',
-          height: '100%',
-        }"
+        :style="{ height: '100%' }"
       />
     </div>
   </div>

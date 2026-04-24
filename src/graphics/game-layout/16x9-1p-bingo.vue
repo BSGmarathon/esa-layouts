@@ -56,9 +56,9 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
           top: '816px',
           width: '705px',
           height: '181px',
-      }"
+        }"
       >
-        <RunInfo text-align="left" info-is-row/>
+        <RunInfo text-align="left" info-is-row />
       </div>
     </div>
 
@@ -87,9 +87,10 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
           left: '0px',
           top: '240px',
           width: '478px',
-          height: '45px',
-        }">
-        <Player/>
+          height: '50px',
+        }"
+      >
+        <Player />
       </div>
 
       <GameCapture
@@ -97,7 +98,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         class="BorderBottom"
         :style="{
           left: '0px',
-          top: '285px',
+          top: '291px',
           width: '478px',
           height: '478px',
         }"
@@ -107,22 +108,18 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       <div
         class="Fixed FlexColumn"
         :style="{
-        left: '0px',
-        top: '763px',
-        width: '478px',
-        height: '235px',
-      }"
+          left: '0px',
+          top: '769px',
+          width: '478px',
+          height: '229px',
+        }"
       >
-        <CommentatorsReader class="BorderBottom"/>
-        <CommentatorsReader class="BorderBottom" show-reader/>
-        <FlashingLightsWarning/>
+        <CommentatorsReader class="BorderBottom" />
+        <CommentatorsReader class="BorderBottom" show-reader />
+        <FlashingLightsWarning />
         <MediaBoxBox
           line-right
-          class="BorderTop1"
-          :style="{
-            width: '478px',
-            height: '100%',
-          }"
+          :style="{ height: '100%' }"
         />
       </div>
     </div>

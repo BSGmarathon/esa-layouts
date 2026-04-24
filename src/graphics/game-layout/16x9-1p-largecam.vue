@@ -13,7 +13,6 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
     <!-- Game Capture -->
     <GameCapture
       id="GameCapture1"
-      class="BorderNone"
       :style="{
         left: '474px',
         top: '0px',
@@ -56,18 +55,18 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         <MediaBoxBox
           line-left
           line-right
-          :style="{
-            width: '730px',
-            height: '100%',
-          }"
+          :style="{ height: '100%' }"
         />
       </div>
     </div>
 
-    <div class="Flex BorderRight" :style="{
-      height: '100%',
-      width: '474px',
-    }">
+    <div
+      class="Flex BorderRight"
+      :style="{
+        height: '100%',
+        width: '474px',
+      }"
+    >
       <!-- Camera Capture -->
       <div
         id="CameraCapture1"
@@ -84,11 +83,11 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       <div
         class="Fixed FlexColumn BorderTop BorderBottom"
         :style="{
-        left: '0px',
-        top: '685px',
-        width: '469px',
-        height: '44px',
-      }"
+          left: '0px',
+          top: '685px',
+          width: '469px',
+          height: '50px',
+        }"
       >
         <Player />
       </div>
@@ -98,9 +97,9 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         class="Fixed FlexColumn"
         :style="{
           left: '0px',
-          top: '729px',
+          top: '735px',
           width: '469px',
-          height: '270px',
+          height: '264px',
         }"
       >
         <CommentatorsReader class="BorderBottom" />

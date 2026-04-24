@@ -9,7 +9,7 @@ import Timer from './components/Timer.vue';
 </script>
 
 <template>
-  <div>
+  <div class="bsglayout">
     <!-- Game Captures -->
     <GameCapture
       id="GameCapture1"

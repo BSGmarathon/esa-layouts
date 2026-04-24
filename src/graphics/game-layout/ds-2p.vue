@@ -74,7 +74,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       class="Fixed BorderBottom BorderRight"
       :style="{
         left: '659px',
-        top: '309px',
+        top: '315px',
         width: '504px',
         height: '50px',
       }"
@@ -87,9 +87,9 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       class="Fixed FlexColumn BorderTop BorderLeft"
       :style="{
         left: '745px',
-        top: '444px',
+        top: '450px',
         width: '509px',
-        height: '50px'
+        height: '50px',
       }"
     >
       <Player :slot-no="1" />

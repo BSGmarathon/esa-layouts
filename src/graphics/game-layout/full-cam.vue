@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div>
+  <div class="bsglayout">
     <!-- Crowd Camera Capture -->
     <div
       id="CameraCapture1"

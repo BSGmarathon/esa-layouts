@@ -128,96 +128,28 @@ onUnmounted(() => {
   <div
     v-if="player"
     ref="Player"
-    class="FlexPlayer Player FlexCenter"
-    :style="{
-      'justify-content': 'space-between',
-      'font-weight': 300,
-      width: '100%',
-      height: '45px',
-      padding: '0px',
-      'margin-top': 'auto',
-      'margin-bottom': 'auto',
-      'box-sizing': 'border-box',
-    }"
+    class="FlexPlayer Player FlexCenter PlayerRow"
   >
-
     <!-- Player/Twitch Icon -->
-    <div
-      :style="{
-        position: 'relative',
-        height: '100%',
-        display: 'flex',
-        'flex-direction': 'row',
-      }"
-    >
+    <div class="IconSlot">
       <transition name="fade">
         <img
           v-if="nameCycle === 1 && player.social.twitch"
           key="twitch"
           class="Icon NormalIcon"
-          :style="{
-            //
-          }"
           src="../../_misc/bsgIcons/twitch-icon.png"
         />
         <img
           v-else-if="nameCycle === 1 && player.social.youtube"
           key="youtube"
           class="Icon NormalIcon"
-          :style="{
-            //
-          }"
           src="../../_misc/bsgIcons/youtube-icon.png"
         />
-        <!--<template v-else-if="!coop && typeof slotNo === 'number'">
-          <img
-            v-if="slotNo === 0"
-            key="name"
-            class="Icon"
-            src="../../_misc/PlayerIcon1.png"
-          >
-          <img
-            v-else-if="slotNo === 1"
-            key="name"
-            class="Icon"
-            src="../../_misc/PlayerIcon2.png"
-          >
-          <img
-            v-else-if="slotNo === 2"
-            key="name"
-            class="Icon"
-            src="../../_misc/PlayerIcon3.png"
-          >
-          <img
-            v-else-if="slotNo === 3"
-            key="name"
-            class="Icon"
-            src="../../_misc/PlayerIcon4.png"
-          >
-        </template>
-        <img
-          v-else
-          key="name"
-          class="Icon"
-          src="../../_misc/PlayerIconSolo.png"
-        >-->
       </transition>
     </div>
 
     <!-- Player Name/Twitch -->
-    <div
-      class="FlexPlayer FlexCenter"
-      :style="{
-        width: 'calc(100% - 130px)',
-        height: '100%',
-        'align-items': 'center',
-        'align-content': 'center',
-        'justify-content': 'center',
-        'font-size': '20pt',
-        'font-weight': 600,
-        'font-family': 'Bahnschrift',
-      }"
-    >
+    <div class="FlexPlayer FlexCenter NameSlot">
       <transition name="fade">
         <div
           v-if="nameCycle === 1 && (player.social.twitch || player.social.youtube)"
@@ -225,25 +157,10 @@ onUnmounted(() => {
           class="FlexPlayer TextWrapper"
         >
           <div class="PlayerText">
-            <span
-              v-if="team && team.name"
-              :style="{ 'font-size': '1.15em', 'font-weight': 600 }"
-            >
+            <span v-if="team && team.name" class="TeamName">
               {{ team.name }}:
             </span>
             {{ player.social.twitch ?? player.social.youtube }}
-            <!-- Custom Title code repeated twice, needs cleaning up! -->
-            <!-- No need for pronouns during twitch -->
-            <!-- <span
-              v-if="pronouns"
-              class="Pronouns"
-              :style="{
-                padding: '4px',
-                'margin-left': '5px',
-              }"
-            >
-              {{ pronouns }}
-            </span> -->
           </div>
         </div>
         <div
@@ -252,22 +169,11 @@ onUnmounted(() => {
           class="FlexPlayer TextWrapper"
         >
           <div class="PlayerText">
-            <span
-              v-if="team?.name"
-              :style="{ 'font-size': '1.15em', 'font-weight': 600 }"
-            >
+            <span v-if="team?.name" class="TeamName">
               {{ team.name }}:
             </span>
             {{ player.name }}
-            <!-- Custom Title code repeated twice, needs cleaning up! -->
-            <span
-              v-if="pronouns"
-              class="Pronouns"
-              :style="{
-                padding: '4px',
-                'margin-left': '5px',
-              }"
-            >
+            <span v-if="pronouns" class="Pronouns">
               {{ pronouns }}
             </span>
           </div>
@@ -276,50 +182,55 @@ onUnmounted(() => {
     </div>
 
     <!-- Country Flag -->
-    <div
-      class="FlexColumn"
-      :style="{
-        'justify-content': 'center',
-        position: 'relative',
-        height: '100%',
-      }"
-    >
+    <div class="FlexColumn FlagSlot">
       <transition name="fade">
         <img
           v-if="player.country"
           :key="player.country"
           class="Flag"
-          :src="player.country ? `/bundles/esa-layouts/flags/${player.country}.png` : ''"
-          :style="{
-            position: 'relative',
-            right: '7px',
-            // width: '52px',
-            height: '28px',
-            'align-self': 'center',
-            'border-width': '2px',
-            'border-style': 'solid',
-            opacity: player.country ? 1 : 0,
-          }"
+          :src="`/bundles/esa-layouts/flags/${player.country}.png`"
         />
       </transition>
-      <!-- TODO: I could do this, but it causes a lot of style issues -->
-<!--      <transition name="fade">
-        <span
-          v-if="pronouns"
-          class="Pronouns"
-          :style="{
-            padding: '4px',
-            'margin-left': '5px',
-          }"
-        >
-          {{ pronouns }}
-        </span>
-      </transition>-->
     </div>
   </div>
 </template>
 
 <style scoped>
+.PlayerRow {
+  justify-content: space-between;
+  font-weight: 300;
+  width: 100%;
+  height: 50px;
+  padding: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+  box-sizing: border-box;
+}
+
+.IconSlot {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.NameSlot {
+  width: calc(100% - 130px);
+  height: 100%;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  font-size: 20pt;
+  font-weight: 600;
+  font-family: Bahnschrift;
+}
+
+.FlagSlot {
+  justify-content: center;
+  position: relative;
+  height: 100%;
+}
+
 .Icon {
   height: 100%;
   position: absolute;
@@ -335,17 +246,32 @@ onUnmounted(() => {
   height: 30px;
 }
 
+.TeamName {
+  font-size: 1.15em;
+  font-weight: 600;
+}
+
+.Flag {
+  position: relative;
+  right: 7px;
+  height: 28px;
+  align-self: center;
+  border-width: 2px;
+  border-style: solid;
+}
+
 .Player .Pronouns,
 .Pronouns {
   display: inline;
   font-size: 12pt;
   height: 19px;
+  padding: 4px;
+  margin-left: 5px;
 }
 
 .PlayerAudioLive {
   position: absolute;
   left: 460px;
-  /*margin-right: 10px;*/
 }
 
 .fade-enter-active, .fade-leave-active {

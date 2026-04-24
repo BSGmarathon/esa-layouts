@@ -61,10 +61,10 @@ import Timer from './components/Timer.vue';
         left: '0px',
         top: '316px',
         width: '569px',
-        height: '44px',
+        height: '50px',
       }"
     >
-      <Player/>
+      <Player />
     </div>
 
     <!--host, comms, timer-->
@@ -72,14 +72,14 @@ import Timer from './components/Timer.vue';
       class="Fixed FlexColumn BorderTop"
       :style="{
         left: '0px',
-        top: '365px',
+        top: '366px',
         width: '569px',
-        height: '203px',
+        height: '202px',
       }"
     >
-      <CommentatorsReader class="BorderBottom"/>
-      <CommentatorsReader class="BorderBottom" show-reader/>
-      <Timer font-size="72pt" line-right class="BorderBottom"/>
+      <CommentatorsReader class="BorderBottom" />
+      <CommentatorsReader class="BorderBottom" show-reader />
+      <Timer font-size="72pt" line-right class="BorderBottom" />
     </div>
 
     <!-- Media Box -->
@@ -95,12 +95,9 @@ import Timer from './components/Timer.vue';
       <MediaBoxBox
         line-right
         line-left
-        :style="{
-          width: '641px',
-          height: '100%',
-        }"
+        :style="{ height: '100%' }"
       />
-      <FlashingLightsWarning class="Flex" style="align-self: flex-end"/>
+      <FlashingLightsWarning class="Flex" style="align-self: flex-end" />
     </div>
 
     <!-- Run Game Info -->
@@ -113,7 +110,7 @@ import Timer from './components/Timer.vue';
         height: '190px',
       }"
     >
-      <RunInfo line-left info-is-row text-align="left"/>
+      <RunInfo line-left info-is-row text-align="left" />
     </div>
   </div>
 </template>

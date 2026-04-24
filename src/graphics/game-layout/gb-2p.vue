@@ -16,7 +16,7 @@ function flashingLightsUpdated(newVal: boolean): void {
 </script>
 
 <template>
-  <div class="bsglayout _gb_2p">
+  <div class="bsglayout">
     <div
       class="Fixed BorderBottom"
       :style="{
@@ -29,7 +29,6 @@ function flashingLightsUpdated(newVal: boolean): void {
       <!-- Game Captures -->
       <GameCapture
         id="GameCapture1"
-        class=""
         :slot-no="0"
         :style="{
           left: '88px',
@@ -67,10 +66,10 @@ function flashingLightsUpdated(newVal: boolean): void {
       id="CameraCapture1"
       class="Capture Relative"
       :style="{
-      left: '715px',
-      top: '811px',
-      width: '490px',
-      height: '187px',
+        left: '715px',
+        top: '811px',
+        width: '490px',
+        height: '187px',
       }"
     />
 
@@ -81,10 +80,10 @@ function flashingLightsUpdated(newVal: boolean): void {
         left: '0px',
         top: '719px',
         width: '715px',
-        height: '45px'
+        height: '50px',
       }"
     >
-      <Player :slot-no="0"/>
+      <Player :slot-no="0" />
     </div>
 
     <div
@@ -94,7 +93,8 @@ function flashingLightsUpdated(newVal: boolean): void {
         top: '719px',
         width: '490px',
         height: '92px',
-      }">
+      }"
+    >
       <Timer line-left line-right />
     </div>
 
@@ -105,10 +105,10 @@ function flashingLightsUpdated(newVal: boolean): void {
         left: '1205px',
         top: '719px',
         width: '715px',
-        height: '45px'
+        height: '50px',
       }"
     >
-      <Player :slot-no="1"/>
+      <Player :slot-no="1" />
     </div>
 
     <!-- Run Game Info/warning -->
@@ -116,15 +116,17 @@ function flashingLightsUpdated(newVal: boolean): void {
       class="Fixed FlexColumn BorderLeft"
       :style="{
         left: '1205px',
-        top: '764px',
+        top: '770px',
         width: '715px',
-        height: '234px',
-      }">
+        height: '228px',
+      }"
+    >
       <RunInfo line-left text-align="flex-start" :info-is-row="infoIsRow" />
       <FlashingLightsWarning
         class="Flex"
+        style="align-self: flex-end"
         @flashing-lights-updated="flashingLightsUpdated"
-        style="align-self: flex-end"/>
+      />
     </div>
 
     <!-- Media box / commentator / donation reader -->
@@ -132,16 +134,14 @@ function flashingLightsUpdated(newVal: boolean): void {
       class="Fixed FlexColumn BorderRight"
       :style="{
         left: '0px',
-        top: '764px',
+        top: '770px',
         width: '715px',
-        height: '234px',
-      }">
+        height: '228px',
+      }"
+    >
       <MediaBoxBox
-        line-Right
-        :style="{
-          width: '710px',
-          height: '100%',
-        }"
+        line-right
+        :style="{ height: '100%' }"
       />
       <CommentatorsReader class="BorderTop" />
       <CommentatorsReader class="BorderTop" show-reader />

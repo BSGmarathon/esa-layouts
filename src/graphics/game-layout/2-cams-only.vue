@@ -16,7 +16,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div>
+  <div class="bsglayout">
     <!-- Camera Captures -->
     <div
       id="CameraCapture1"

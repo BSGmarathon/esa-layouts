@@ -64,10 +64,10 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
         left: '0px',
         top: '637px',
         width: '715px',
-        height: '45px'
+        height: '50px',
       }"
     >
-      <Player :slot-no="0"/>
+      <Player :slot-no="0" />
     </div>
 
     <div
@@ -78,7 +78,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
         top: '637px',
         width: '490px',
         height: '92px',
-    }"
+      }"
     >
       <Timer line-left line-right />
     </div>
@@ -90,10 +90,10 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
         left: '1205px',
         top: '637px',
         width: '715px',
-        height: '45px'
+        height: '50px',
       }"
     >
-      <Player :slot-no="1"/>
+      <Player :slot-no="1" />
     </div>
 
     <!-- Run Game Info/warning -->
@@ -101,15 +101,13 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       class="Fixed FlexColumn BorderLeft"
       :style="{
         left: '1205px',
-        top: '681px',
+        top: '687px',
         width: '715px',
-        height: '317px',
+        height: '311px',
       }"
     >
       <RunInfo line-left />
-      <FlashingLightsWarning
-        class="Flex"
-        style="align-self: flex-end"/>
+      <FlashingLightsWarning class="Flex" style="align-self: flex-end" />
     </div>
 
     <!-- Media box / commentator / donation reader -->
@@ -117,20 +115,17 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       class="Fixed FlexColumn BorderRight"
       :style="{
         left: '0px',
-        top: '681px',
+        top: '687px',
         width: '715px',
-        height: '317px',
+        height: '311px',
       }"
     >
       <MediaBoxBox
         line-right
-        :style="{
-          width: '710px',
-          height: '100%',
-        }"
+        :style="{ height: '100%' }"
       />
       <CommentatorsReader class="BorderTop" />
-      <CommentatorsReader class="BorderTop" show-reader/>
+      <CommentatorsReader class="BorderTop" show-reader />
     </div>
   </div>
 </template>

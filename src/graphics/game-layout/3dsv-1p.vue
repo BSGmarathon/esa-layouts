@@ -14,7 +14,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
     <div
       class="Fixed FlexColumn BorderBottom BorderRight"
       :style="{
-        left: '0x',
+        left: '0px',
         top: '0px',
         width: '574px',
         height: '252px',
@@ -75,10 +75,10 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
         left: '0px',
         top: '559px',
         width: '574px',
-        height: '44px',
+        height: '50px',
       }"
     >
-      <Player/>
+      <Player />
     </div>
 
     <!-- Comms / Host / timer / Media Box -->
@@ -86,21 +86,18 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       class="Fixed FlexColumn BorderTop BorderRight"
       :style="{
         left: '0px',
-        top: '603px',
+        top: '609px',
         width: '574px',
-        height: '394px',
+        height: '388px',
       }"
     >
       <CommentatorsReader class="BorderBottom" />
       <CommentatorsReader class="BorderBottom" show-reader />
-      <Timer class="BorderBottom" line-right line-bottom/>
+      <Timer class="BorderBottom" line-right line-bottom />
       <FlashingLightsWarning class="Flex" style="align-self: flex-end" />
       <MediaBoxBox
         line-right
-        :style="{
-          width: '569px',
-          height: '100%',
-        }"
+        :style="{ height: '100%' }"
       />
     </div>
   </div>

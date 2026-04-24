@@ -9,7 +9,7 @@ import DonationBar from './components/DonationBar.vue';
 </script>
 
 <template>
-  <div>
+  <div class="bsglayout">
     <!-- Game Captures -->
     <GameCapture
       id="GameCapture1"

@@ -96,7 +96,7 @@ onMounted(async () => {
             🏁 {{ teamFinishTime.time }}
           </template>
         </div>
-        <div v-else key="empty-end-time"/>
+        <div v-else key="empty-end-time" />
       </transition-group>
       <transition-group name="fade" :style="{
         order: finishTimePos.includes('left') ? 0 : -1,
@@ -110,7 +110,7 @@ onMounted(async () => {
         >
           <div key="audioLive"
                class="PlayerAudioLive Icon NormalIcon"
-               style="width: 36px; height: 36px;"/>
+               style="width: 36px; height: 36px;" />
         </div>
         <div key="emptyspeaker" v-else />
       </transition-group>

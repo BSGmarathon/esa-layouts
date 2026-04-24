@@ -39,10 +39,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       <MediaBoxBox
         vertical
         line-right
-        :style="{
-          width: '574px',
-          height: '100%',
-        }"
+        :style="{ height: '100%' }"
       />
     </div>
 
@@ -94,10 +91,10 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
           left: '579px',
           top: '548px',
           width: '677px',
-          height: '44px',
+          height: '50px',
         }"
         >
-        <Player/>
+        <Player />
       </div>
     </div>
   </div>

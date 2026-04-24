@@ -36,7 +36,7 @@ function flashingLightsUpdated(newVal: boolean): void {
           top: '0px',
           width: '958px',
           height: '710px',
-      }"
+        }"
       />
       <GameCapture
         id="GameCapture2"
@@ -70,10 +70,10 @@ function flashingLightsUpdated(newVal: boolean): void {
         left: '0px',
         top: '715px',
         width: '710px',
-        height: '45px'
+        height: '50px',
       }"
     >
-      <Player :slot-no="0"/>
+      <Player :slot-no="0" />
     </div>
 
     <!-- Player 2 -->
@@ -83,10 +83,10 @@ function flashingLightsUpdated(newVal: boolean): void {
         left: '1205px',
         top: '715px',
         width: '715px',
-        height: '45px'
+        height: '50px',
       }"
     >
-      <Player :slot-no="1"/>
+      <Player :slot-no="1" />
     </div>
 
     <!-- Timer -->
@@ -100,9 +100,11 @@ function flashingLightsUpdated(newVal: boolean): void {
         height: '100px',
       }"
     >
-      <Timer line-right line-left :style="{
-        height: '100%',
-      }" />
+      <Timer
+        line-right
+        line-left
+        :style="{ height: '100%' }"
+      />
     </div>
 
     <!-- Run Game Info -->
@@ -110,33 +112,32 @@ function flashingLightsUpdated(newVal: boolean): void {
       class="Fixed FlexColumn BorderLeft"
       :style="{
         left: '1205px',
-        top: '760px',
+        top: '766px',
         width: '715px',
-        height: '239px',
+        height: '233px',
       }"
     >
-      <RunInfo text-align="left" :info-is-row="infoIsRow" line-left/>
+      <RunInfo text-align="left" :info-is-row="infoIsRow" line-left />
       <FlashingLightsWarning
         class="Flex"
+        style="align-self: flex-end"
         @flashing-lights-updated="flashingLightsUpdated"
-        style="align-self: flex-end"/>
+      />
     </div>
 
     <!-- Media box / commentator / donation reader -->
-    <div class="Fixed FlexColumn BorderRight"
-         :style="{
-          left: '0px',
-          top: '760px',
-          width: '710px',
-          height: '239px',
-        }"
+    <div
+      class="Fixed FlexColumn BorderRight"
+      :style="{
+        left: '0px',
+        top: '766px',
+        width: '710px',
+        height: '233px',
+      }"
     >
       <MediaBoxBox
         line-right
-        :style="{
-          width: '705px',
-          height: '100%',
-        }"
+        :style="{ height: '100%' }"
       />
       <CommentatorsReader line-top class="BorderTop" />
       <CommentatorsReader line-top show-reader class="BorderTop" />

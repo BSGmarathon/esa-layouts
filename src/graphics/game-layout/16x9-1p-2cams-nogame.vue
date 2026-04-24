@@ -13,7 +13,7 @@ const crowdCam = computed(() => gameLayouts.data?.crowdCamera ?? false);
 </script>
 
 <template>
-  <div>
+  <div class="bsglayout">
     <!-- Crowd Camera Capture -->
     <div
       v-if="!online && crowdCam"

@@ -9,7 +9,7 @@ import CommentatorsReader from './components/CommentatorsReader.vue';
 </script>
 
 <template>
-  <div>
+  <div class="bsglayout">
     <!-- Game Captures -->
     <GameCapture
       id="GameCapture1"

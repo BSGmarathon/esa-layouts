@@ -41,7 +41,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
         left: '0px',
         top: '540px',
         width: '430px',
-        height: '45px',
+        height: '50px',
       }"
     >
       <Player :slot-no="0" />
@@ -54,7 +54,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
         left: '1480px',
         top: '540px',
         width: '440px',
-        height: '45px',
+        height: '50px',
       }"
     >
       <Player :slot-no="1" />
@@ -91,9 +91,9 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       class="Fixed FlexColumn BorderTop BorderLeft"
       :style="{
         left: '1475px',
-        top: '585px',
+        top: '591px',
         width: '445px',
-        height: '413px',
+        height: '407px',
       }"
     >
       <FlashingLightsWarning class="Flex" style="font-size: 15pt" />
@@ -105,9 +105,9 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
       class="Fixed FlexColumn BorderRight"
       :style="{
         left: '0px',
-        top: '585px',
+        top: '591px',
         width: '435px',
-        height: '415px',
+        height: '409px',
       }"
     >
       <CommentatorsReader class="BorderTop" />
@@ -116,10 +116,7 @@ import FlashingLightsWarning from './components/FlashingLightsWarning.vue';
         vertical
         line-right
         class="BorderTop"
-        :style="{
-          width: '430px',
-          height: '100%',
-        }"
+        :style="{ height: '100%' }"
       />
     </div>
   </div>

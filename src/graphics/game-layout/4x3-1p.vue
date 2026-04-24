@@ -40,8 +40,8 @@ import Timer from './components/Timer.vue';
           height: '251px',
         }"
       >
-        <RunInfo line-right/>
-        <FlashingLightsWarning class="Flex" style="align-self: flex-end"/>
+        <RunInfo line-right />
+        <FlashingLightsWarning class="Flex" style="align-self: flex-end" />
       </div>
 
       <!-- Camera Captures -->
@@ -63,10 +63,10 @@ import Timer from './components/Timer.vue';
           left: '0px',
           top: '600px',
           width: '579px',
-          height: '44px',
+          height: '50px',
         }"
       >
-        <Player/>
+        <Player />
       </div>
 
       <!--host, comms, timer, and mediabox-->
@@ -75,20 +75,17 @@ import Timer from './components/Timer.vue';
         :style="{
           flex: '1',
           left: '0px',
-          top: '644px',
+          top: '650px',
           width: '579px',
-          height: '355px',
+          height: '349px',
         }"
       >
-        <CommentatorsReader class="BorderBottom"/>
-        <CommentatorsReader show-reader class="BorderBottom"/>
-        <Timer line-right class="BorderBottom"/>
+        <CommentatorsReader class="BorderBottom" />
+        <CommentatorsReader show-reader class="BorderBottom" />
+        <Timer line-right class="BorderBottom" />
         <MediaBoxBox
           line-right
-          :style="{
-            width: '579px',
-            height: '100%',
-          }"
+          :style="{ height: '100%' }"
         />
       </div>
     </div>

@@ -40,7 +40,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         left: '1182px',
         top: '15px',
         width: '738px',
-        height: '98px'
+        height: '98px',
       }"
     />
 
@@ -100,12 +100,12 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Fixed FlexColumn BorderTop BorderBottom"
       :style="{
         left: '0px',
-        top: '538px',
+        top: '532px',
         width: '738px',
-        height: '44px',
+        height: '50px',
       }"
     >
-      <Player :slot-no="0"/>
+      <Player :slot-no="0" />
     </div>
 
     <!-- Player 2 -->
@@ -113,12 +113,12 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       class="Fixed FlexColumn BorderTop BorderBottom"
       :style="{
         left: '1182px',
-        top: '538px',
+        top: '532px',
         width: '738px',
-        height: '44px'
+        height: '50px',
       }"
     >
-      <Player :slot-no="1"/>
+      <Player :slot-no="1" />
     </div>
 
     <!-- Run Game Info / Reader / Commentators / Timer / Media Box -->
@@ -139,10 +139,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         line-left
         vertical
         class="BorderTop"
-        :style="{
-          width: '435px',
-          height: '80%',
-        }"
+        :style="{ height: '80%' }"
       />
     </div>
   </div>

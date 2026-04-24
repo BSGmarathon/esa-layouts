@@ -65,7 +65,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         left: '0px',
         top: '0px',
         width: '574px',
-        height: '263px'
+        height: '263px',
       }"
     >
       <RunInfo class="BorderBottom" line-right />
@@ -78,7 +78,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         left: '0px',
         top: '570px',
         width: '574px',
-        height: '50px'
+        height: '50px',
       }"
     >
       <Player />
@@ -99,10 +99,7 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       <Timer class="BorderBottom" line-right />
       <MediaBoxBox
         line-right
-        :style="{
-          width: '570px',
-          height: '100%',
-        }"
+        :style="{ height: '100%' }"
       />
     </div>
   </div>

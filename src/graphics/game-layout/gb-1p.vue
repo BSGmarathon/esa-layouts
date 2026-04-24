@@ -43,8 +43,8 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         'justify-content': 'space-between',
       }"
     >
-      <RunInfo line-right/>
-      <FlashingLightsWarning class="Flex" style="align-self: flex-end"/>
+      <RunInfo line-right />
+      <FlashingLightsWarning class="Flex" style="align-self: flex-end" />
     </div>
 
     <!-- Camera Captures -->
@@ -56,8 +56,8 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         top: '250px',
         width: '576px',
         height: '347px',
-      }
-    "/>
+      }"
+    />
 
     <div
       class="Fixed FlexColumn BorderTop BorderBottom"
@@ -65,10 +65,10 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
         left: '0px',
         top: '595px',
         width: '576px',
-        height: '44px',
+        height: '50px',
       }"
-      >
-      <Player/>
+    >
+      <Player />
     </div>
 
     <!--host, comms, timer, and mediabox-->
@@ -83,14 +83,11 @@ import MediaBoxBox from './components/MediaBoxBox.vue';
       }"
     >
       <CommentatorsReader class="BorderBottom" />
-      <CommentatorsReader class="BorderBottom" show-reader/>
-      <Timer class="BorderBottom" line-right/>
+      <CommentatorsReader class="BorderBottom" show-reader />
+      <Timer class="BorderBottom" line-right />
       <MediaBoxBox
         line-right
-        :style="{
-          width: '576px',
-          height: '100%',
-        }"
+        :style="{ height: '100%' }"
       />
     </div>
   </div>
