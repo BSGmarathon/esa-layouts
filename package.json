@@ -27,7 +27,11 @@
     "start": "node ../..",
     "watch": "run-p watch:*",
     "watch:browser": "vite",
-    "watch:extension": "tsc -b tsconfig.extension.json -w"
+    "watch:extension": "tsc -b tsconfig.extension.json -w",
+    "test:visual": "playwright test",
+    "test:visual:update": "playwright test --update-snapshots",
+    "test:visual:ui": "playwright test --ui",
+    "test:visual:report": "playwright show-report"
   },
   "dependencies": {
     "@esamarathon/mq-events": "^1.0.1",
@@ -67,6 +71,7 @@
     "@fontsource/roboto": "^4.5.8",
     "@mdi/font": "^7.4.47",
     "@nodecg/types": "^2.1.12",
+    "@playwright/test": "^1.59.1",
     "@quasar/extras": "^1.15.11",
     "@quasar/vite-plugin": "^1.7.0",
     "@types/amqp-connection-manager": "^3.4.1",

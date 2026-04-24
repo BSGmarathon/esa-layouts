@@ -136,3 +136,9 @@ streamdeck-plugin/DistributionTool.exe
 *.psd
 /boxart/
 .idea/
+
+# Playwright visual regression tests
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
