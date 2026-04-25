@@ -25,6 +25,10 @@
       "type": "boolean",
       "default": false
     },
+    "recording": {
+      "type": "boolean",
+      "default": false
+    },
     "gameLayoutScreenshot": {
       "type": "string"
     },

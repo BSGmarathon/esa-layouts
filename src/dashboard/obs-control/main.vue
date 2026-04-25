@@ -90,6 +90,15 @@ function changeScene(scene: string): void {
           Disconnected
         </span>
       </div>
+      <div class="mb-1">
+        Recording Status:
+        <span v-if="obsData.data?.recording" :style="{ 'font-weight': 'bold' }">
+          🔴 Recording
+        </span>
+        <span v-else :style="{ 'font-weight': 'bold' }">
+          ⏹️ Stopped
+        </span>
+      </div>
       <v-btn
         @click="startIntermission"
         :disabled="disableIntermission"

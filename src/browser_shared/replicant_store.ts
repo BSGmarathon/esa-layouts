@@ -1,5 +1,6 @@
 import type {
   AdditionalDonations,
+  Autorecord,
   Bids,
   BigbuttonPlayerMap,
   CommentatorsNew,
@@ -7,7 +8,6 @@ import type {
   CurrentRunDelay,
   DelayedTimer,
   DonationAlerts,
-  DonationReader,
   DonationReaderNew,
   DonationsToRead,
   DonationTotal,
@@ -52,6 +52,7 @@ export const assetsIntermissionSlides = useAssetReplicant('intermission-slides',
 export const assetsMediaBoxImages = useAssetReplicant('media-box-images', bundleName)!;
 export const assetsReaderIntroductionImages = useAssetReplicant('reader-introduction-images', bundleName)!;
 export const assetsVideos = useAssetReplicant('videos', bundleName)!;
+export const autorecord = useReplicant<Autorecord>('autorecord', bundleName)!;
 export const bids = useReplicant<Bids>('bids', bundleName)!;
 export const bigbuttonPlayerMap = useReplicant<BigbuttonPlayerMap>('bigbuttonPlayerMap', bundleName)!;
 // export const commentators = useReplicant<Commentators>('commentators', bundleName)!;

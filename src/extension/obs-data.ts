@@ -1,16 +1,17 @@
 import clone from 'clone';
 import sharp from 'sharp';
+import { wait } from '@esa-layouts/util/helpers';
 import { startPlaylist } from './intermission-player';
 import * as mqLogging from './util/mq-logging';
 import { get as nodecg } from './util/nodecg';
 import obs, { changeScene } from './util/obs';
 import offsite from './util/offsite';
-import { obsData, readerIntroduction, videoPlayer } from './util/replicants';
+import { autorecord, obsData, readerIntroduction, videoPlayer } from './util/replicants';
 import { sc } from './util/speedcontrol';
-import sd from './util/streamdeck';
 
 const evtConfig = nodecg().bundleConfig.event;
 const config = nodecg().bundleConfig.obs;
+const autorecordConfig = config.autorecord;
 
 /**
  * Generate the text needed to be displayed on the "Scene Cycle" button.
@@ -43,14 +44,6 @@ function generateSceneCyclerTitle(linebreaks: boolean): string {
     text = text.replace('Inter- ', 'Inter');
   }
   return text;
-}
-
-/**
- * Correctly changes the title text on the Stream Deck "Scene Cycle" buttons.
- */
-function changeSceneCyclerSDTitle(): void {
-  const text = generateSceneCyclerTitle(true);
-  sd.setTextOnAllButtonsWithAction('com.esamarathon.streamdeck.scenecycler', text);
 }
 
 /**
@@ -108,6 +101,10 @@ obs.on('streamingStatusChanged', (streaming) => {
   mqLogging.logStreamingStatusChange(streaming);
 });
 
+obs.on('recordingStatusChanged', (recording) => {
+  obsData.value.recording = recording;
+});
+
 obs.on('currentSceneChanged', (current, last) => {
   obsData.value.scene = current;
   // Slightly hacky way of not sending ".gamescene" at the end of a RabbitMQ routing key
@@ -134,9 +131,52 @@ obs.on('sceneListChanged', (list) => {
   obsData.value.sceneList = clone(list).slice(0, stopIndex >= 0 ? stopIndex : undefined);
 });
 
-obs.conn.on('SceneTransitionStarted', (data) => {
+function shouldStartRecording(toScene: string): boolean {
+  return autorecordConfig.recordStartSceneNames.some(
+    (scene) => toScene.startsWith(scene),
+  ) && autorecord.value.enabled;
+}
+
+function shouldStopRecording(toScene: string): boolean {
+  return autorecordConfig.recordStopSceneNames.some(
+    (scene) => toScene.startsWith(scene),
+  );
+}
+
+let stopTimeout: NodeJS.Timeout | undefined;
+
+async function transitionLogic(toScene: string) {
+  if (shouldStartRecording(toScene)) {
+    if (stopTimeout) {
+      clearTimeout(stopTimeout);
+    }
+
+    // delay and start
+    await wait(autorecordConfig.recordStartDelaySec * 1000);
+    await obs.startRecording();
+  } else if (shouldStopRecording(toScene)) {
+    if (autorecord.value.ignoreNextStop) {
+      autorecord.value.ignoreNextStop = false;
+      return;
+    }
+
+    // delay and stop
+    stopTimeout = setTimeout(() => {
+      obs.stopRecording().catch((e) => {
+        nodecg().log.error('Record stop failed', e);
+      });
+    }, autorecordConfig.recordStopDelaySec * 1000);
+  }
+}
+
+obs.on('transitionStarted', async (toScene) => {
   obsData.value.transitioning = true;
-  if (data.transitionName === 'Stinger') nodecg().sendMessage('showTransition');
+
+  try {
+    await transitionLogic(toScene);
+  } catch (e: unknown) {
+    nodecg().log.error('transition logic failed', e);
+  }
 });
 
 // NOTE: This is apparently called even if the transition is not a video,
@@ -164,33 +204,17 @@ obsData.on('change', (newVal, oldVal) => {
   || newVal.transitioning !== oldVal.transitioning
   || newVal.scene !== oldVal.scene
   || newVal.connected !== oldVal.connected) {
-    changeSceneCyclerSDTitle();
     changeSceneCyclerOffsiteTitle();
   }
 });
 sc.timer.on('change', (newVal, oldVal) => {
   if (newVal.state !== oldVal?.state) {
-    changeSceneCyclerSDTitle();
     changeSceneCyclerOffsiteTitle();
   }
 });
 readerIntroduction.on('change', (newVal, oldVal) => {
   if (newVal.current !== oldVal?.current) {
-    changeSceneCyclerSDTitle();
     changeSceneCyclerOffsiteTitle();
-  }
-});
-
-// What to do once Stream Deck connection is initialised.
-sd.on('init', () => {
-  changeSceneCyclerSDTitle();
-});
-
-// What to do when a button "appears" in the Stream Deck software,
-// usually after dragging on a new instance.
-sd.on('willAppear', (socketId, data) => {
-  if ((data.action as string).endsWith('scenecycler')) {
-    changeSceneCyclerSDTitle();
   }
 });
 
@@ -220,14 +244,6 @@ async function cycleScene(): Promise<boolean> {
   }
   return false;
 }
-
-// What to do when any key is lifted on a connected Stream Deck.
-sd.on('keyUp', async (socketId, data) => {
-  if (data.action.endsWith('scenecycler')) {
-    const success = await cycleScene();
-    if (success) sd.send({ event: 'showOk', context: data.context });
-  }
-});
 
 offsite.on('authenticated', () => {
   changeSceneCyclerOffsiteTitle();

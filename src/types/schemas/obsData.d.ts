@@ -11,6 +11,7 @@ export interface ObsData {
 	sceneList: string[];
 	transitioning: boolean;
 	streaming: boolean;
+	recording?: boolean;
 	gameLayoutScreenshot?: string;
 	disableTransitioning: boolean;
 	transitionTimestamp: number;
