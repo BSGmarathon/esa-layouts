@@ -4,6 +4,8 @@ export * from './configschema';
 // @ts-ignore
 export * from './additionalDonations';
 // @ts-ignore
+export * from './autorecord';
+// @ts-ignore
 export * from './bids';
 // @ts-ignore
 export * from './bigbuttonPlayerMap';

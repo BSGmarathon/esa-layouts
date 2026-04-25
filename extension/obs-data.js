@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const clone_1 = __importDefault(require("clone"));
 const sharp_1 = __importDefault(require("sharp"));
+const helpers_1 = require("@esa-layouts/util/helpers");
 const intermission_player_1 = require("./intermission-player");
 const mqLogging = __importStar(require("./util/mq-logging"));
 const nodecg_1 = require("./util/nodecg");
@@ -35,9 +36,9 @@ const obs_1 = __importStar(require("./util/obs"));
 const offsite_1 = __importDefault(require("./util/offsite"));
 const replicants_1 = require("./util/replicants");
 const speedcontrol_1 = require("./util/speedcontrol");
-const streamdeck_1 = __importDefault(require("./util/streamdeck"));
 const evtConfig = (0, nodecg_1.get)().bundleConfig.event;
 const config = (0, nodecg_1.get)().bundleConfig.obs;
+const autorecordConfig = config.autorecord;
 /**
  * Generate the text needed to be displayed on the "Scene Cycle" button.
  * @param linebreaks If you wish to include linebreaks in the text for Stream Deck purposes.
@@ -69,13 +70,6 @@ function generateSceneCyclerTitle(linebreaks) {
         text = text.replace('Inter- ', 'Inter');
     }
     return text;
-}
-/**
- * Correctly changes the title text on the Stream Deck "Scene Cycle" buttons.
- */
-function changeSceneCyclerSDTitle() {
-    const text = generateSceneCyclerTitle(true);
-    streamdeck_1.default.setTextOnAllButtonsWithAction('com.esamarathon.streamdeck.scenecycler', text);
 }
 /**
  * Correctly changes the title text on the offsite "Scene Cycle" buttons.
@@ -129,6 +123,9 @@ obs_1.default.on('streamingStatusChanged', (streaming) => {
     replicants_1.obsData.value.streaming = streaming;
     mqLogging.logStreamingStatusChange(streaming);
 });
+obs_1.default.on('recordingStatusChanged', (recording) => {
+    replicants_1.obsData.value.recording = recording;
+});
 obs_1.default.on('currentSceneChanged', (current, last) => {
     replicants_1.obsData.value.scene = current;
     // Slightly hacky way of not sending ".gamescene" at the end of a RabbitMQ routing key
@@ -153,10 +150,43 @@ obs_1.default.on('sceneListChanged', (list) => {
     const stopIndex = list.findIndex((s) => s.startsWith('---'));
     replicants_1.obsData.value.sceneList = (0, clone_1.default)(list).slice(0, stopIndex >= 0 ? stopIndex : undefined);
 });
-obs_1.default.conn.on('SceneTransitionStarted', (data) => {
+function shouldStartRecording(toScene) {
+    return autorecordConfig.recordStartSceneNames.some((scene) => toScene.startsWith(scene)) && replicants_1.autorecord.value.enabled;
+}
+function shouldStopRecording(toScene) {
+    return autorecordConfig.recordStopSceneNames.some((scene) => toScene.startsWith(scene));
+}
+let stopTimeout;
+async function transitionLogic(toScene) {
+    if (shouldStartRecording(toScene)) {
+        if (stopTimeout) {
+            clearTimeout(stopTimeout);
+        }
+        // delay and start
+        await (0, helpers_1.wait)(autorecordConfig.recordStartDelaySec * 1000);
+        await obs_1.default.startRecording();
+    }
+    else if (shouldStopRecording(toScene)) {
+        if (replicants_1.autorecord.value.ignoreNextStop) {
+            replicants_1.autorecord.value.ignoreNextStop = false;
+            return;
+        }
+        // delay and stop
+        stopTimeout = setTimeout(() => {
+            obs_1.default.stopRecording().catch((e) => {
+                (0, nodecg_1.get)().log.error('Record stop failed', e);
+            });
+        }, autorecordConfig.recordStopDelaySec * 1000);
+    }
+}
+obs_1.default.on('transitionStarted', async (toScene) => {
     replicants_1.obsData.value.transitioning = true;
-    if (data.transitionName === 'Stinger')
-        (0, nodecg_1.get)().sendMessage('showTransition');
+    try {
+        await transitionLogic(toScene);
+    }
+    catch (e) {
+        (0, nodecg_1.get)().log.error('transition logic failed', e);
+    }
 });
 // NOTE: This is apparently called even if the transition is not a video,
 // which is very useful in case it's not, but could be sometimes.
@@ -180,31 +210,17 @@ replicants_1.obsData.on('change', (newVal, oldVal) => {
         || newVal.transitioning !== oldVal.transitioning
         || newVal.scene !== oldVal.scene
         || newVal.connected !== oldVal.connected) {
-        changeSceneCyclerSDTitle();
         changeSceneCyclerOffsiteTitle();
     }
 });
 speedcontrol_1.sc.timer.on('change', (newVal, oldVal) => {
     if (newVal.state !== (oldVal === null || oldVal === void 0 ? void 0 : oldVal.state)) {
-        changeSceneCyclerSDTitle();
         changeSceneCyclerOffsiteTitle();
     }
 });
 replicants_1.readerIntroduction.on('change', (newVal, oldVal) => {
     if (newVal.current !== (oldVal === null || oldVal === void 0 ? void 0 : oldVal.current)) {
-        changeSceneCyclerSDTitle();
         changeSceneCyclerOffsiteTitle();
-    }
-});
-// What to do once Stream Deck connection is initialised.
-streamdeck_1.default.on('init', () => {
-    changeSceneCyclerSDTitle();
-});
-// What to do when a button "appears" in the Stream Deck software,
-// usually after dragging on a new instance.
-streamdeck_1.default.on('willAppear', (socketId, data) => {
-    if (data.action.endsWith('scenecycler')) {
-        changeSceneCyclerSDTitle();
     }
 });
 /**
@@ -233,14 +249,6 @@ async function cycleScene() {
     }
     return false;
 }
-// What to do when any key is lifted on a connected Stream Deck.
-streamdeck_1.default.on('keyUp', async (socketId, data) => {
-    if (data.action.endsWith('scenecycler')) {
-        const success = await cycleScene();
-        if (success)
-            streamdeck_1.default.send({ event: 'showOk', context: data.context });
-    }
-});
 offsite_1.default.on('authenticated', () => {
     changeSceneCyclerOffsiteTitle();
 });

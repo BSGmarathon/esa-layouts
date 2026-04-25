@@ -7,6 +7,7 @@ import { OBS as OBSTypes } from '@esa-layouts/types';
 
 interface OBS {
   on(event: 'streamingStatusChanged', listener: (streaming: boolean, old?: boolean) => void): this;
+  on(event: 'recordingStatusChanged', listener: (streaming: boolean, old?: boolean) => void): this;
   on(event: 'connectionStatusChanged', listener: (connected: boolean) => void): this;
   on(event: 'currentSceneChanged', listener: (current?: string, last?: string) => void): this;
   on(event: 'transitionStarted', listener: (current: string, previous?: string) => void): this;
@@ -22,6 +23,7 @@ class OBS extends EventEmitter {
   sceneList: string [] = [];
   connected = false;
   streaming: boolean | undefined;
+  recording = false;
 
   constructor(nodecg: NodeCGTypes.ServerAPI, config: OBSTypes.Config) {
     super();
@@ -58,6 +60,11 @@ class OBS extends EventEmitter {
       this.conn.on('StreamStateChanged', ({ outputActive }) => {
         this.streaming = outputActive;
         this.emit('streamingStatusChanged', this.streaming, !this.streaming);
+      });
+
+      this.conn.on('RecordStateChanged', ({ outputActive }) => {
+        this.recording = outputActive;
+        this.emit('recordingStatusChanged', this.recording, !this.recording);
       });
 
       this.conn.on('ConnectionError', (err) => {
@@ -114,16 +121,29 @@ class OBS extends EventEmitter {
         this.streaming = streamingStatus.outputActive;
       }
 
+      // Get recording status on connection.
+      const recordingStatus = await this.conn.call('GetRecordStatus');
+      const lastRecordStatus = this.recording;
+      if (recordingStatus.outputActive !== lastRecordStatus) {
+        this.recording = recordingStatus.outputActive;
+      }
+
       // Emit changes after everything start up related has finished.
       this.emit('connectionStatusChanged', this.connected);
       if (lastScene !== scenes.currentProgramSceneName) {
         this.emit('currentSceneChanged', this.currentScene, lastScene);
       }
+
       if (JSON.stringify(newList) !== JSON.stringify(oldList)) {
         this.emit('sceneListChanged', this.sceneList);
       }
+
       if (streamingStatus.outputActive !== lastStatus) {
         this.emit('streamingStatusChanged', this.streaming, lastStatus);
+      }
+
+      if (recordingStatus.outputActive !== lastRecordStatus) {
+        this.emit('recordingStatusChanged', this.recording, lastStatus);
       }
 
       this.nodecg.log.info('[OBS] Connection successful');
@@ -385,6 +405,24 @@ class OBS extends EventEmitter {
         + `${err.error || err}`);
       throw err;
     }
+  }
+
+  async startRecording() {
+    // if already recording ignore
+    if (this.recording) {
+      return;
+    }
+
+    await this.conn.call('StartRecord');
+  }
+
+  async stopRecording() {
+    // if not recording ignore
+    if (!this.recording) {
+      return;
+    }
+
+    await this.conn.call('StopRecord');
   }
 }
 

@@ -45,6 +45,12 @@ export interface Configschema {
 		enabled: boolean;
 		address: string;
 		password: string;
+		autorecord: {
+			recordStartSceneNames: string[];
+			recordStopSceneNames: string[];
+			recordStopDelaySec: number;
+			recordStartDelaySec: number;
+		};
 		canvasResolution: {
 			width: number;
 			height: number;

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
 import {
-  AdditionalDonations, Bids,
+  AdditionalDonations, type Autorecord, Bids,
   BigbuttonPlayerMap,
   CapturePositions,
   Commentators,
@@ -49,6 +49,7 @@ export const assetsIntermissionSlides = nodecg().Replicant<NodeCGTypes.AssetFile
 export const assetsMediaBoxImages = nodecg().Replicant<NodeCGTypes.AssetFile[]>('assets:media-box-images') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<NodeCGTypes.AssetFile[]>;
 export const assetsReaderIntroductionImages = nodecg().Replicant<NodeCGTypes.AssetFile[]>('assets:reader-introduction-images') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<NodeCGTypes.AssetFile[]>;
 export const assetsVideos = nodecg().Replicant<NodeCGTypes.AssetFile[]>('assets:videos') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<NodeCGTypes.AssetFile[]>;
+export const autorecord = nodecg().Replicant<Autorecord>('autorecord') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<Autorecord>;
 export const bids = nodecg().Replicant<Bids>('bids', { persistent: false }) as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<Bids>;
 export const bigbuttonPlayerMap = nodecg().Replicant<BigbuttonPlayerMap>('bigbuttonPlayerMap') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<BigbuttonPlayerMap>;
 export const capturePositions = nodecg().Replicant<CapturePositions>('capturePositions') as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<CapturePositions>;

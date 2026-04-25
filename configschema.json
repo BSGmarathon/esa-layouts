@@ -244,6 +244,46 @@
           "type": "string",
           "default": ""
         },
+        "autorecord": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "recordStartSceneNames": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": [
+                "Game Layout",
+                "Interview"
+              ]
+            },
+            "recordStopSceneNames": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": [
+                "Intermission",
+                "Intermission (commercials)"
+              ]
+            },
+            "recordStopDelaySec": {
+              "type": "number",
+              "default": 20
+            },
+            "recordStartDelaySec": {
+              "type": "number",
+              "default": 1
+            }
+          },
+          "required": [
+            "recordStartSceneNames",
+            "recordStopSceneNames",
+            "recordStopDelaySec",
+            "recordStartDelaySec"
+          ]
+        },
         "canvasResolution": {
           "type": "object",
           "additionalProperties": false,
@@ -465,7 +505,8 @@
         "address",
         "password",
         "canvasResolution",
-        "names"
+        "names",
+        "autorecord"
       ]
     },
     "music": {

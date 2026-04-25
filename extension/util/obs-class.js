@@ -13,6 +13,7 @@ class OBS extends events_1.EventEmitter {
         this.conn = new obs_websocket_js_1.default();
         this.sceneList = [];
         this.connected = false;
+        this.recording = false;
         this.nodecg = nodecg;
         this.config = config;
         if (config.enabled) {
@@ -40,6 +41,10 @@ class OBS extends events_1.EventEmitter {
             this.conn.on('StreamStateChanged', ({ outputActive }) => {
                 this.streaming = outputActive;
                 this.emit('streamingStatusChanged', this.streaming, !this.streaming);
+            });
+            this.conn.on('RecordStateChanged', ({ outputActive }) => {
+                this.recording = outputActive;
+                this.emit('recordingStatusChanged', this.recording, !this.recording);
             });
             this.conn.on('ConnectionError', (err) => {
                 nodecg.log.warn('[OBS] Connection error');
@@ -86,6 +91,12 @@ class OBS extends events_1.EventEmitter {
             if (streamingStatus.outputActive !== lastStatus) {
                 this.streaming = streamingStatus.outputActive;
             }
+            // Get recording status on connection.
+            const recordingStatus = await this.conn.call('GetRecordStatus');
+            const lastRecordStatus = this.recording;
+            if (recordingStatus.outputActive !== lastRecordStatus) {
+                this.recording = recordingStatus.outputActive;
+            }
             // Emit changes after everything start up related has finished.
             this.emit('connectionStatusChanged', this.connected);
             if (lastScene !== scenes.currentProgramSceneName) {
@@ -96,6 +107,9 @@ class OBS extends events_1.EventEmitter {
             }
             if (streamingStatus.outputActive !== lastStatus) {
                 this.emit('streamingStatusChanged', this.streaming, lastStatus);
+            }
+            if (recordingStatus.outputActive !== lastRecordStatus) {
+                this.emit('recordingStatusChanged', this.recording, lastStatus);
             }
             this.nodecg.log.info('[OBS] Connection successful');
         }
@@ -323,6 +337,20 @@ class OBS extends events_1.EventEmitter {
                 + `${err.error || err}`);
             throw err;
         }
+    }
+    async startRecording() {
+        // if already recording ignore
+        if (this.recording) {
+            return;
+        }
+        await this.conn.call('StartRecord');
+    }
+    async stopRecording() {
+        // if not recording ignore
+        if (!this.recording) {
+            return;
+        }
+        await this.conn.call('StopRecord');
     }
 }
 exports.default = OBS;
