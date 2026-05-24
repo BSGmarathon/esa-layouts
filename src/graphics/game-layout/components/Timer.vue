@@ -68,8 +68,11 @@ watch(() => timer.data!, (newTimer?: Timer) => {
       <div class="Flex TimerLines" :class="{ 'line-right': lineRight, 'line-left': lineLeft }" />
 
       <div :class="`Flex TimerDigits Timer${timerState}`">
-        <span>
-          {{ timeStr }}
+        <span v-for="(char, i) in timeStr"
+              :key="i"
+              :class="{ colon: char === ':' }"
+        >
+          {{ char }}
         </span>
       </div>
     </div>
@@ -172,6 +175,11 @@ span {
   /*box-shadow: 0 0 10px var(--timer-color);*/
 
   font-variant-numeric: tabular-nums;
+  width: 0.5em;
+
+  &.colon {
+    width: 0.25em;
+  }
 }
 
 @keyframes timer-blink {

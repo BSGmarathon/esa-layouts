@@ -35,6 +35,9 @@ const channelDefaultValue = [
 const channelStatuses = (0, nodecg_1.get)().Replicant('x32-game-channel-status', {
     defaultValue: channelDefaultValue,
 });
+if (!config.x32.enabled) {
+    channelStatuses.value = channelDefaultValue;
+}
 const wantedFaders = Object.values(config.x32.channelMapping).map((v) => `/ch/${v}/mix/fader`);
 const wantedMutes = Object.values(config.x32.channelMapping).map((v) => `/ch/${v}/mix/on`);
 function fetchInitialFaderMuteStatus() {
