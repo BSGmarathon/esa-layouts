@@ -41,6 +41,7 @@ function updateSelected(code: string): void {
 
   if (gameData) {
     gameData.selected = code;
+    gameLayouts.save();
   }
 }
 
