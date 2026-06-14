@@ -27,6 +27,12 @@ class MediaBox {
             persistent: false,
         });
         this.assetsMediaBoxImages = nodecg.Replicant('assets:media-box-images');
+        if (!this.mediaBox.value.rotation) {
+            this.mediaBox.value.rotation = [];
+        }
+        if (!this.mediaBox.value.rotationApplicable) {
+            this.mediaBox.value.rotationApplicable = [];
+        }
         // ALL OF THESE DISABLED FOR NOW (ESAW24).
         // Manages received donations/subscriptions/cheers.
         /* evt.on('donationFullyProcessed', (data) => {
