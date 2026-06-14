@@ -27,11 +27,16 @@ class MediaBox {
             persistent: false,
         });
         this.assetsMediaBoxImages = nodecg.Replicant('assets:media-box-images');
-        if (!this.mediaBox.value.rotation) {
-            this.mediaBox.value.rotation = [];
-        }
-        if (!this.mediaBox.value.rotationApplicable) {
-            this.mediaBox.value.rotationApplicable = [];
+        // in case of empty media box state
+        if (!this.mediaBox.value) {
+            this.mediaBox.value = {
+                rotation: [],
+                rotationApplicable: [],
+                alertQueue: [],
+                paused: null,
+                current: null,
+                lastIndex: -1,
+            };
         }
         // ALL OF THESE DISABLED FOR NOW (ESAW24).
         // Manages received donations/subscriptions/cheers.
