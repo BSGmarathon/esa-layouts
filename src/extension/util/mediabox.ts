@@ -47,6 +47,14 @@ class MediaBox {
       'assets:media-box-images',
     ) as unknown as NodeCGTypes.ServerReplicantWithSchemaDefault<NodeCGTypes.AssetFile[]>;
 
+    if (!this.mediaBox.value.rotation) {
+      this.mediaBox.value.rotation = [];
+    }
+
+    if (!this.mediaBox.value.rotationApplicable) {
+      this.mediaBox.value.rotationApplicable = [];
+    }
+
     // ALL OF THESE DISABLED FOR NOW (ESAW24).
     // Manages received donations/subscriptions/cheers.
     /* evt.on('donationFullyProcessed', (data) => {
