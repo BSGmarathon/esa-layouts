@@ -20,7 +20,7 @@ function setup() {
                 (0, nodecg_1.get)().sendMessage('buttonPressed', buttonId);
                 break;
             case 'reset-timer':
-                (0, nodecg_1.get)().sendMessage('resetTimer');
+                // nodecg().sendMessage('resetTimer');
                 break;
             default:
                 return res.status(400).send('Invalid action.');
