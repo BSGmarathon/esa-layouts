@@ -98,7 +98,7 @@ function formPlayerNamesStr(runData: RunData): string {
           <div class="Flex">
             No More Runs
             <img
-              src="./esaOhNo.png"
+              src="./notlikethis_112.png"
               :style="{ height: '1.4em', 'margin-left': '10px' }"
             />
           </div>
