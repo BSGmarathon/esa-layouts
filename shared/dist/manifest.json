@@ -50,7 +50,7 @@
     "name": "_plugin-vue_export-helper"
   },
   "_bsg.theme-!~{00z}~.js": {
-    "file": "assets/bsg-D0Koni2g.css",
+    "file": "assets/bsg-ByATAb1A.css",
     "src": "_bsg.theme-!~{00z}~.js"
   },
   "_en-gb-Bshs-i9q.js": {
@@ -879,7 +879,7 @@
     "src": "src/graphics/_misc/fonts/BAHNSCHRIFT.ttf"
   },
   "src/graphics/_misc/fonts/DS-Digital_bsg.ttf": {
-    "file": "assets/DS-Digital_bsg-B12igPuI.ttf",
+    "file": "assets/DS-Digital_bsg-Cpw52llq.ttf",
     "src": "src/graphics/_misc/fonts/DS-Digital_bsg.ttf"
   },
   "src/graphics/_misc/fonts/GoodlightLight.woff": {
@@ -975,7 +975,7 @@
     "src": "src/graphics/countdown/game/img/turtle6.png"
   },
   "src/graphics/countdown/main.ts": {
-    "file": "assets/main-CH3QQ_De.js",
+    "file": "assets/main-D5obyfEy.js",
     "name": "main",
     "src": "src/graphics/countdown/main.ts",
     "isEntry": true,
@@ -991,7 +991,7 @@
     ],
     "css": [
       "assets/main-DXQcoP9E.css",
-      "assets/bsg-D0Koni2g.css"
+      "assets/bsg-ByATAb1A.css"
     ],
     "assets": [
       "assets/turtle1-CUvMq5wn.png",
@@ -1009,7 +1009,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/DS-Digital_bsg-B12igPuI.ttf",
+      "assets/DS-Digital_bsg-Cpw52llq.ttf",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
@@ -1108,7 +1108,7 @@
     ]
   },
   "src/graphics/game-layout/main.ts": {
-    "file": "assets/main-DIfVCFyq.js",
+    "file": "assets/main-CI7-OKex.js",
     "name": "main",
     "src": "src/graphics/game-layout/main.ts",
     "isEntry": true,
@@ -1123,7 +1123,7 @@
     ],
     "css": [
       "assets/main-P1zfEDOw.css",
-      "assets/bsg-D0Koni2g.css"
+      "assets/bsg-ByATAb1A.css"
     ],
     "assets": [
       "assets/background-DI1F5fgb.png",
@@ -1133,7 +1133,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/DS-Digital_bsg-B12igPuI.ttf",
+      "assets/DS-Digital_bsg-Cpw52llq.ttf",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
@@ -1236,7 +1236,7 @@
     "src": "src/graphics/intermission-hosts/esaOhNo.png"
   },
   "src/graphics/intermission-hosts/main.ts": {
-    "file": "assets/main-ChgavFhD.js",
+    "file": "assets/main-Cz5MjX3Y.js",
     "name": "main",
     "src": "src/graphics/intermission-hosts/main.ts",
     "isEntry": true,
@@ -1249,7 +1249,7 @@
     ],
     "css": [
       "assets/main-BlhtK9y2.css",
-      "assets/bsg-D0Koni2g.css"
+      "assets/bsg-ByATAb1A.css"
     ],
     "assets": [
       "assets/esaOhNo-lUXxZw7H.png",
@@ -1263,7 +1263,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/DS-Digital_bsg-B12igPuI.ttf",
+      "assets/DS-Digital_bsg-Cpw52llq.ttf",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
@@ -1362,7 +1362,7 @@
     ]
   },
   "src/graphics/intermission-player/main.ts": {
-    "file": "assets/main-Bp_AK-Yz.js",
+    "file": "assets/main-CpMDN08Y.js",
     "name": "main",
     "src": "src/graphics/intermission-player/main.ts",
     "isEntry": true,
@@ -1377,7 +1377,7 @@
     ],
     "css": [
       "assets/main-vDboUDqP.css",
-      "assets/bsg-D0Koni2g.css"
+      "assets/bsg-ByATAb1A.css"
     ],
     "assets": [
       "assets/notlikethis_112-af0kBz2a.png",
@@ -1387,7 +1387,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/DS-Digital_bsg-B12igPuI.ttf",
+      "assets/DS-Digital_bsg-Cpw52llq.ttf",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
@@ -1498,7 +1498,7 @@
     "src": "src/graphics/intermission-player/notlikethis_112.png"
   },
   "src/graphics/intermission/main.ts": {
-    "file": "assets/main-ChILFdB0.js",
+    "file": "assets/main-Cg1h7cLZ.js",
     "name": "main",
     "src": "src/graphics/intermission/main.ts",
     "isEntry": true,
@@ -1517,7 +1517,7 @@
     ],
     "css": [
       "assets/main-cuOy3FcK.css",
-      "assets/bsg-D0Koni2g.css"
+      "assets/bsg-ByATAb1A.css"
     ],
     "assets": [
       "assets/notlikethis_112-af0kBz2a.png",
@@ -1527,7 +1527,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/DS-Digital_bsg-B12igPuI.ttf",
+      "assets/DS-Digital_bsg-Cpw52llq.ttf",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
@@ -1630,7 +1630,7 @@
     "src": "src/graphics/lower-third/assets/left_dash_crop.png"
   },
   "src/graphics/lower-third/main.ts": {
-    "file": "assets/main-z3HPB4Pt.js",
+    "file": "assets/main-B6jHyFac.js",
     "name": "main",
     "src": "src/graphics/lower-third/main.ts",
     "isEntry": true,
@@ -1644,7 +1644,7 @@
     ],
     "css": [
       "assets/main-D5qPe5Kz.css",
-      "assets/bsg-D0Koni2g.css"
+      "assets/bsg-ByATAb1A.css"
     ],
     "assets": [
       "assets/left_dash_crop-vSYN45Os.png",
@@ -1654,7 +1654,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/DS-Digital_bsg-B12igPuI.ttf",
+      "assets/DS-Digital_bsg-Cpw52llq.ttf",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
@@ -1753,7 +1753,7 @@
     ]
   },
   "src/graphics/media-box-only/main.ts": {
-    "file": "assets/main-BH27BJCW.js",
+    "file": "assets/main-Bwz3c4JE.js",
     "name": "main",
     "src": "src/graphics/media-box-only/main.ts",
     "isEntry": true,
@@ -1766,7 +1766,7 @@
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
     "css": [
-      "assets/bsg-D0Koni2g.css"
+      "assets/bsg-ByATAb1A.css"
     ],
     "assets": [
       "assets/GoodlightRegular-DnuPNkOW.woff2",
@@ -1775,7 +1775,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/DS-Digital_bsg-B12igPuI.ttf",
+      "assets/DS-Digital_bsg-Cpw52llq.ttf",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
@@ -1878,7 +1878,7 @@
     "src": "src/graphics/omnibar/components/img/CrowdControl.png"
   },
   "src/graphics/omnibar/main.ts": {
-    "file": "assets/main-BRxN7ZKh.js",
+    "file": "assets/main-ByTxhyoR.js",
     "name": "main",
     "src": "src/graphics/omnibar/main.ts",
     "isEntry": true,
@@ -1895,7 +1895,7 @@
     ],
     "css": [
       "assets/main-2XILiB31.css",
-      "assets/bsg-D0Koni2g.css"
+      "assets/bsg-ByATAb1A.css"
     ],
     "assets": [
       "assets/mind_logo_tag-jpeemcPp.png",
@@ -1907,7 +1907,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/DS-Digital_bsg-B12igPuI.ttf",
+      "assets/DS-Digital_bsg-Cpw52llq.ttf",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
@@ -2014,7 +2014,7 @@
     "src": "src/graphics/omnibar/omniing/mind_logo_tag.png"
   },
   "src/graphics/player-hud/main.ts": {
-    "file": "assets/main-CtdgOVZ2.js",
+    "file": "assets/main-DXu0Db-E.js",
     "name": "main",
     "src": "src/graphics/player-hud/main.ts",
     "isEntry": true,
@@ -2026,7 +2026,7 @@
     ],
     "css": [
       "assets/main-Cv5IRxDL.css",
-      "assets/bsg-D0Koni2g.css"
+      "assets/bsg-ByATAb1A.css"
     ],
     "assets": [
       "assets/GoodlightRegular-DnuPNkOW.woff2",
@@ -2035,7 +2035,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/DS-Digital_bsg-B12igPuI.ttf",
+      "assets/DS-Digital_bsg-Cpw52llq.ttf",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
@@ -2134,7 +2134,7 @@
     ]
   },
   "src/graphics/tts-player/main.ts": {
-    "file": "assets/main-DjTuXFZ3.js",
+    "file": "assets/main-CLYHgvfv.js",
     "name": "main",
     "src": "src/graphics/tts-player/main.ts",
     "isEntry": true,
@@ -2142,7 +2142,7 @@
       "_index-Ce_smM0X.js"
     ],
     "css": [
-      "assets/bsg-D0Koni2g.css"
+      "assets/bsg-ByATAb1A.css"
     ],
     "assets": [
       "assets/GoodlightRegular-DnuPNkOW.woff2",
@@ -2151,7 +2151,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/DS-Digital_bsg-B12igPuI.ttf",
+      "assets/DS-Digital_bsg-Cpw52llq.ttf",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
@@ -2250,7 +2250,7 @@
     ]
   },
   "src/graphics/unread-donations/main.ts": {
-    "file": "assets/main-_sQRUhn7.js",
+    "file": "assets/main-ChBNZon7.js",
     "name": "main",
     "src": "src/graphics/unread-donations/main.ts",
     "isEntry": true,
@@ -2261,7 +2261,7 @@
     ],
     "css": [
       "assets/main-nb66U90t.css",
-      "assets/bsg-D0Koni2g.css"
+      "assets/bsg-ByATAb1A.css"
     ],
     "assets": [
       "assets/GoodlightRegular-DnuPNkOW.woff2",
@@ -2270,7 +2270,7 @@
       "assets/GoodlightLight-w__8_CJX.woff",
       "assets/BAHNSCHRIFT-CjJzUn5W.ttf",
       "assets/pixelmix-BP4z6dgy.ttf",
-      "assets/DS-Digital_bsg-B12igPuI.ttf",
+      "assets/DS-Digital_bsg-Cpw52llq.ttf",
       "assets/corbel-bold-CKnkyJBi.ttf",
       "assets/montserrat-cyrillic-ext-100-italic-DMwAy5Qv.woff2",
       "assets/montserrat-all-100-italic-br4qwrWN.woff",
