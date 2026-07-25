@@ -41,11 +41,11 @@ const alertClass = computed(() => {
     }
   }
 
-  if (streamDeckData.data!.playerHUDTriggerType === 'message') {
+  if (streamDeckData.data?.playerHUDTriggerType === 'message') {
     return 'MessageToRead';
   }
 
-  if (donationsToRead.data!.length) {
+  if (donationsToRead.data?.length) {
     return 'DonationsToRead';
   }
 
