@@ -58,6 +58,11 @@ const routes = [
     component: List.L_16x9_3p,
   },
   {
+    name: '16:9 3 Player Bingo',
+    path: '/16x9-3p-bingo',
+    component: List.L_16x9_3p_bingo,
+  },
+  {
     name: '9:16 1 Player (2 cams)',
     path: '/9x16-1p-2cams',
     component: List.L_9x16_1p_2cams,
@@ -117,7 +122,7 @@ const routes = [
     path: '/full-cam',
     component: List.L_FullCam,
   },
-  {
+  /* {
     name: 'UKSG - 16:9 1 Player ',
     path: '/16x9-1p-uksg',
     component: List.L_16x9_1p_uksg,
@@ -136,7 +141,7 @@ const routes = [
     name: 'UKSG - 4:3 2 Player',
     path: '/4x3-2p-uksg',
     component: List.L_4x3_2p_uksg,
-  },
+  }, */
   {
     path: '/:pathMatch(.*)*',
     redirect: '/4x3-1p',

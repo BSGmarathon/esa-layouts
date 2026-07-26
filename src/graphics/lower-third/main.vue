@@ -25,7 +25,7 @@ function setVisible(state: boolean): void {
 }
 
 async function show(): Promise<void> {
-  if (!lowerThird.data!.names.length) {
+  if (!lowerThird.data?.names.length) {
     return;
   }
 
@@ -73,7 +73,7 @@ function toggle(): void {
 onMounted(async () => {
   await waitForReplicant(lowerThird);
 
-  if (lowerThird.data!.visible) {
+  if (lowerThird.data?.visible) {
     barVisible.value = true;
     showNames.value = true;
     barWidth.value = barOpenState;
