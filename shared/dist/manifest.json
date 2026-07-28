@@ -571,7 +571,7 @@
     ]
   },
   "src/dashboard/checklist/main.ts": {
-    "file": "assets/main-BbV5oM7r.js",
+    "file": "assets/main-DVCp80Sw.js",
     "name": "main",
     "src": "src/dashboard/checklist/main.ts",
     "isEntry": true,
@@ -582,7 +582,7 @@
       "__plugin-vue_export-helper-DlAUqK2U.js"
     ],
     "css": [
-      "assets/main-BBd3YBQc.css"
+      "assets/main-DFsShUrZ.css"
     ]
   },
   "src/dashboard/commentators/main.ts": {

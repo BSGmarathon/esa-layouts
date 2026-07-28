@@ -32,6 +32,10 @@ const checks = ref<ChecklistItem[]>([
     title: 'Press Next Game in Run Player',
     checked: false,
   },
+    {
+    title: 'Check the timestamps document for tech notes (Column F)',
+    checked: false,
+  },
   {
     title: '(automated) Tweet about the run WITH a picture',
     checked: true,
